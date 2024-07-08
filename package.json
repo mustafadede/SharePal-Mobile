@@ -16,9 +16,11 @@
   },
   "dependencies": {
     "@expo/vector-icons": "^14.0.0",
+    "@gorhom/bottom-sheet": "^4.6.3",
     "@react-native-masked-view/masked-view": "^0.3.1",
     "@react-navigation/native": "^6.0.2",
     "expo": "~51.0.11",
+    "expo-blur": "~13.0.2",
     "expo-constants": "~16.0.2",
     "expo-font": "~12.0.7",
     "expo-linear-gradient": "^13.0.2",

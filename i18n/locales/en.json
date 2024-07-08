@@ -4,5 +4,14 @@
   "login.password": "Password",
   "login.forgotPassword": "Forgot Password?",
   "login.rememberMe": "Remember Me",
-  "signup.title": "Sign Up"
+  "signup.title": "Sign Up",
+  "signup.username": "Username",
+  "signup.email": "Email",
+  "signup.password": "Password",
+  "signup.confirmPassword": "Confirm Password",
+  "reset.title": "Reset Password",
+  "reset.email": "Email",
+  "reset.newPassword": "New Password",
+  "reset.confirmPassword": "Confirm Password",
+  "reset.submit": "Submit"
 }

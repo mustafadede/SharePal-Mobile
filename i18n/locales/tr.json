@@ -4,5 +4,14 @@
   "login.password": "Şifre",
   "login.forgotPassword": "Şifremi Unuttum?",
   "login.rememberMe": "Beni Hatırla",
-  "signup.title": "Kayıt Ol"
+  "signup.title": "Kayıt Ol",
+  "signup.username": "Kullanıcı Adı",
+  "signup.email": "E-posta",
+  "signup.password": "Şifre",
+  "signup.confirmPassword": "Şifreyi Onayla",
+  "reset.title": "Şifre Sıfırla",
+  "reset.email": "E-posta",
+  "reset.newPassword": "Yeni Şifre",
+  "reset.confirmPassword": "Şifreyi Onayla",
+  "reset.submit": "Gönder"
 }
