@@ -3,8 +3,8 @@ import React from "react";
 
 const Index = () => {
   return (
-    <View>
-      <Text>Feed</Text>
+    <View className="flex-1 bg-cGradient2">
+      <Text className="text-white">Feed</Text>
     </View>
   );
 };
