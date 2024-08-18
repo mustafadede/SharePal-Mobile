@@ -18,7 +18,7 @@ const signInWithEmailAction = async (email: string, password: string) => {
     return user;
   } catch (error: unknown) {
     if (error instanceof FirebaseError) {
-      console.error(error.code);
+      return error.code;
     }
   }
 };

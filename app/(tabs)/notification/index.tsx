@@ -3,7 +3,7 @@ import React from "react";
 
 const Notification = () => {
   return (
-    <View>
+    <View className="flex-1 pt-6 bg-cGradient2">
       <Text>Notification</Text>
     </View>
   );

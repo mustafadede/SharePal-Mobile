@@ -1,6 +1,5 @@
 import { Colors } from "@/constants/Colors";
 import { Tabs } from "expo-router";
-import { t } from "i18next";
 import Entypo from "@expo/vector-icons/Entypo";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import Feather from "@expo/vector-icons/Feather";
@@ -10,7 +9,12 @@ export default function TabLayout() {
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
+        tabBarHideOnKeyboard: true,
         tabBarActiveTintColor: Colors.dark.cFuc6,
+        tabBarStyle: {
+          borderColor: Colors.dark.cGradient1,
+          backgroundColor: Colors.dark.cGradient1,
+        },
       }}
     >
       <Tabs.Screen

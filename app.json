@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "SharePal",
-    "slug": "SharePal",
+    "name": "SP-Mobile",
+    "slug": "SP-Mobile",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -18,10 +18,8 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff",
-        "softwareKeyboardLayoutMode": "pan"
-      },
-      "package": "com.mustafadededev.SharePal"
+        "backgroundColor": "#ffffff"
+      }
     },
     "web": {
       "bundler": "metro",
@@ -29,8 +27,7 @@
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
-      "expo-router",
-      "expo-localization"
+      "expo-router"
     ],
     "experiments": {
       "typedRoutes": true

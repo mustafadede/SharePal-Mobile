@@ -3,8 +3,8 @@ import React from "react";
 
 const Settings = () => {
   return (
-    <View>
-      <Text>Settings</Text>
+    <View className="flex-1 bg-cGradient2">
+      <Text className="text-white">Settings</Text>
     </View>
   );
 };

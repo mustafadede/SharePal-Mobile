@@ -2,6 +2,7 @@
   "login.title": "Login",
   "login.email": "Email",
   "login.password": "Password",
+  "login.continue": "Log into different account",
   "login.forgotPassword": "Forgot Password?",
   "login.rememberMe": "Remember Me",
   "signup.title": "Sign Up",
