@@ -17,8 +17,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import StandartButton from "@/common/StandartButton";
 
 export default function Home() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState(process.env.EXPO_PUBLIC_EMAIL);
+  const [password, setPassword] = useState(process.env.EXPO_PUBLIC_PASSWORD);
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [photoURL, setPhotoURL] = useState("");

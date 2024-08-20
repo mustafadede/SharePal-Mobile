@@ -10,7 +10,16 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
    npm install
    ```
 
-2. Start the app
+2. Change the input sections
+
+   Delete app/index.tsx email and password default values.
+
+   ```bash
+   const [email, setEmail] = useState(process.env.EXPO_PUBLIC_EMAIL);
+   const [password, setPassword] = useState(process.env.EXPO_PUBLIC_PASSWORD);
+   ```
+
+3. Start the app
 
    ```bash
     npx expo start

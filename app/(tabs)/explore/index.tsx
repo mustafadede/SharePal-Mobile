@@ -1,19 +1,16 @@
-import { TextInput, FlatList, Text, View, Image, TouchableOpacity, ImageBackground, SafeAreaView } from "react-native";
-import React, { useEffect, useState } from "react";
+import { ScrollView, TextInput, View } from "react-native";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Colors } from "@/constants/Colors";
-import { GestureHandlerRootView, ScrollView } from "react-native-gesture-handler";
-import PrimaryTitle from "@/components/Registration/PrimaryTitle";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import useNowPlaying from "../../../hooks/useNowPlaying";
-import ExploreCard from "@/components/ExploreCard/ExploreCard";
 import useUpcoming from "@/hooks/useUpcoming";
-import { Movie } from "@/constants/Movie";
 import useNextYear from "@/hooks/useNextYear";
 import useTop10 from "@/hooks/useTop10";
 import BottomSheetSkeleton from "@/components/BottomSheetSkeleton/BotomSheetSkeleton";
 import ExploreBottomSheet from "@/components/ExploreBottomSheet/ExploreBottomSheet";
-import Collection from "@/utils/explore-collection.json";
-import ExploreCollection from "@/common/ExploreCollection";
+import ExploreCollections from "@/components/ExploreCollections/ExploreCollections";
 import ExploreListSection from "@/components/ExploreListSection/ExploreListSection";
+import { BottomSheetModal, BottomSheetModalProvider, BottomSheetView } from "@gorhom/bottom-sheet";
 
 const Explore = () => {
   const [nowPlaying, setNowPlaying] = useState<Object[]>();
@@ -21,8 +18,19 @@ const Explore = () => {
   const [nextYear, setNextYear] = useState<Object[]>();
   const [top10Movies, setTop10Movies] = useState<Object[]>();
   const [top10Series, setTop10Series] = useState<Object[]>();
-  const [bottomSheetVisible, setBottomSheetVisible] = useState<boolean>(false);
   const [bootomSheetValues, setBootomSheetValues] = useState<object>({});
+
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+  const snapPoints = useMemo(() => ["25%", "40%"], []);
+
+  const handlePresentModalPress = useCallback(() => {
+    bottomSheetModalRef.current?.present();
+  }, []);
+
+  const handleSheetChanges = useCallback((index: number) => {
+    console.log("handleSheetChanges", index);
+  }, []);
+
   useEffect(() => {
     useNowPlaying(setNowPlaying);
     useUpcoming(setUpcoming);
@@ -39,51 +47,69 @@ const Explore = () => {
           className="h-12 px-4 m-4 text-lg text-slate-200 rounded-2xl bg-cGradient1"
           placeholderTextColor={Colors.dark.tColor1}
         />
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} className="flex-row h-24 mb-3">
-          <FlatList
-            key={"Collection"}
-            data={Collection}
-            horizontal
-            renderItem={({ item }) => <ExploreCollection title={item.title} photo={item.uri} />}
-            keyExtractor={(item, index) => item.id.toString()}
-          />
-        </ScrollView>
+        <ExploreCollections />
         <ExploreListSection
           exploreTitle="Now Playing"
           data={nowPlaying}
-          setBottomSheetVisible={setBottomSheetVisible}
+          setBottomSheetVisible={handlePresentModalPress}
           setBootomSheetValues={setBootomSheetValues}
         />
         <ExploreListSection
           exploreTitle="Upcoming"
           data={upcoming}
-          setBottomSheetVisible={setBottomSheetVisible}
+          setBottomSheetVisible={handlePresentModalPress}
           setBootomSheetValues={setBootomSheetValues}
         />
         <ExploreListSection
           exploreTitle="Next Year"
           data={nextYear}
-          setBottomSheetVisible={setBottomSheetVisible}
+          setBottomSheetVisible={handlePresentModalPress}
           setBootomSheetValues={setBootomSheetValues}
         />
         <ExploreListSection
           exploreTitle="Top 10 Movies"
           data={top10Movies}
-          setBottomSheetVisible={setBottomSheetVisible}
+          setBottomSheetVisible={handlePresentModalPress}
           setBootomSheetValues={setBootomSheetValues}
         />
         <ExploreListSection
           exploreTitle="Top 10 Series"
           data={top10Series}
-          setBottomSheetVisible={setBottomSheetVisible}
+          setBottomSheetVisible={handlePresentModalPress}
           setBootomSheetValues={setBootomSheetValues}
         />
       </ScrollView>
-      {bottomSheetVisible && (
-        <BottomSheetSkeleton setBottomSheetVisible={setBottomSheetVisible}>
-          <ExploreBottomSheet bootomSheetValues={bootomSheetValues} />
-        </BottomSheetSkeleton>
-      )}
+      <BottomSheetModalProvider>
+        <BottomSheetModal
+          ref={bottomSheetModalRef}
+          index={1}
+          snapPoints={snapPoints}
+          onChange={handleSheetChanges}
+          keyboardBlurBehavior="none"
+          handleIndicatorStyle={{ backgroundColor: "rgb(100 116 139)" }}
+          keyboardBehavior="interactive"
+          android_keyboardInputMode="adjustPan"
+          backgroundComponent={({ style }) => (
+            <View
+              style={[
+                style,
+                {
+                  backgroundColor: "rgb(15 23 42)",
+                  borderTopLeftRadius: 20,
+                  borderTopRightRadius: 20,
+                  width: "100%",
+                  justifyContent: "center",
+                  alignItems: "center",
+                },
+              ]}
+            />
+          )}
+        >
+          <BottomSheetView style={{ flex: 1, marginTop: 10 }}>
+            <ExploreBottomSheet bootomSheetValues={bootomSheetValues} />
+          </BottomSheetView>
+        </BottomSheetModal>
+      </BottomSheetModalProvider>
     </GestureHandlerRootView>
   );
 };

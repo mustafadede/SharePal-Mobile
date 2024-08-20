@@ -16,7 +16,7 @@ const ExploreCard = ({
   release_date: string;
   poster_path: string;
   loading?: boolean;
-  setBottomSheetVisible: (value: boolean) => void;
+  setBottomSheetVisible: () => void;
   setBootomSheetValues?: (value: object) => void;
 }) => {
   const router = useRouter();
@@ -26,9 +26,9 @@ const ExploreCard = ({
       <TouchableOpacity
         className="relative w-48 h-full mr-4 rounded-2xl bg-cGradient1"
         onLongPress={() => {
+          setBootomSheetValues({ title, release_date, poster_path });
           Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
-          setBottomSheetVisible(true);
-          setBootomSheetValues({ title, releaseYear, poster_path });
+          setBottomSheetVisible();
         }}
         onPress={() => {}}
       >
