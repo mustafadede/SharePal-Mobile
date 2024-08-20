@@ -8,12 +8,14 @@ import { Movie } from "@/constants/Movie";
 const ExploreListSection = ({
   exploreTitle,
   data,
+  sliderType,
   setBottomSheetVisible,
   setBootomSheetValues,
 }: {
   exploreTitle: string;
   data: object[];
-  setBottomSheetVisible: (value: boolean) => void;
+  sliderType: string;
+  setBottomSheetVisible: () => void;
   setBootomSheetValues: (value: object) => void;
 }) => {
   return (
@@ -27,9 +29,8 @@ const ExploreListSection = ({
           horizontal
           renderItem={({ item }: { item: Movie }) => (
             <ExploreCard
-              title={item.title || item.name}
-              release_date={item.release_date}
-              poster_path={item.poster_path}
+              item={item}
+              sliderType={sliderType}
               setBottomSheetVisible={setBottomSheetVisible}
               setBootomSheetValues={setBootomSheetValues}
             />

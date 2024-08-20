@@ -3,37 +3,55 @@ import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import * as Haptics from "expo-haptics";
 import { useRouter } from "expo-router";
+import { Movie } from "@/constants/Movie";
 
 const ExploreCard = ({
-  title,
-  release_date,
-  poster_path,
+  item,
   loading = false,
+  sliderType,
   setBottomSheetVisible,
   setBootomSheetValues,
 }: {
-  title: string;
-  release_date: string;
-  poster_path: string;
+  item: Movie;
   loading?: boolean;
+  sliderType: string;
   setBottomSheetVisible: () => void;
   setBootomSheetValues?: (value: object) => void;
 }) => {
   const router = useRouter();
-  const releaseYear = release_date?.slice(0, 4);
+  const releaseYear = item?.release_date ? item?.release_date?.slice(0, 4) : item?.first_air_date?.slice(0, 4);
+
   return !loading ? (
     <>
       <TouchableOpacity
         className="relative w-48 h-full mr-4 rounded-2xl bg-cGradient1"
         onLongPress={() => {
-          setBootomSheetValues({ title, release_date, poster_path });
+          setBootomSheetValues({
+            title: item.title || item.name,
+            release_date: item.release_date || item.first_air_date,
+            poster_path: item.poster_path || item.backdrop_path,
+            mediaType: sliderType || item.media_type,
+            id: item.id,
+          });
           Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
           setBottomSheetVisible();
         }}
         onPress={() => {}}
       >
-        {poster_path ? (
-          <Image source={{ uri: `https://image.tmdb.org/t/p/w500${poster_path}` }} className="absolute w-full h-full rounded-2xl" />
+        {item?.poster_path ? (
+          <Image
+            source={{
+              uri: `https://image.tmdb.org/t/p/w500${item.poster_path}`,
+            }}
+            className="absolute w-full h-full rounded-2xl"
+          />
+        ) : item?.backdrop_path ? (
+          <Image
+            source={{
+              uri: `https://image.tmdb.org/t/p/w500${item.backdrop_path}`,
+            }}
+            className="absolute w-full h-full rounded-2xl"
+          />
         ) : (
           <View className="absolute w-full h-full bg-fuchsia-600 rounded-2xl" />
         )}
@@ -47,7 +65,7 @@ const ExploreCard = ({
           <Text className="text-3xl text-slate-100">+</Text>
         </TouchableOpacity>
         <View className="absolute bottom-0 flex flex-col justify-end w-full pb-2 pl-4 h-1/3">
-          <Text className="text-lg text-slate-200">{title?.length > 24 ? `${title.slice(0, 10)}...` : title}</Text>
+          <Text className="text-lg text-slate-200">{item.title?.length > 24 ? `${item.title.slice(0, 10)}...` : item.title}</Text>
           <Text className="text-md text-fuchsia-600">{releaseYear}</Text>
         </View>
       </TouchableOpacity>

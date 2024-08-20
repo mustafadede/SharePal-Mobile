@@ -14,5 +14,12 @@
   "reset.email": "E-posta",
   "reset.newPassword": "Yeni Şifre",
   "reset.confirmPassword": "Şifreyi Onayla",
-  "reset.submit": "Gönder"
+  "reset.submit": "Gönder",
+  "actions.title": "Eylemleri",
+  "actions.wanttowatch": "İzlemek İstiyorum",
+  "actions.watched": "İzledim",
+  "actions.currentlywatching": "Şu An İzliyorum",
+  "actions.unfinished": "İzlemeyi bıraktım",
+  "actions.bestseries": "Yılın En İyi Dizisi",
+  "actions.bestmovies": "Yılın En İyi Filmi"
 }

@@ -21,7 +21,7 @@ const Explore = () => {
   const [bootomSheetValues, setBootomSheetValues] = useState<object>({});
 
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-  const snapPoints = useMemo(() => ["25%", "40%"], []);
+  const snapPoints = useMemo(() => ["20%", "25%", "45%"], []);
 
   const handlePresentModalPress = useCallback(() => {
     bottomSheetModalRef.current?.present();
@@ -51,30 +51,35 @@ const Explore = () => {
         <ExploreListSection
           exploreTitle="Now Playing"
           data={nowPlaying}
+          sliderType="movie"
           setBottomSheetVisible={handlePresentModalPress}
           setBootomSheetValues={setBootomSheetValues}
         />
         <ExploreListSection
           exploreTitle="Upcoming"
           data={upcoming}
+          sliderType="movie"
           setBottomSheetVisible={handlePresentModalPress}
           setBootomSheetValues={setBootomSheetValues}
         />
         <ExploreListSection
           exploreTitle="Next Year"
           data={nextYear}
+          sliderType="movie"
           setBottomSheetVisible={handlePresentModalPress}
           setBootomSheetValues={setBootomSheetValues}
         />
         <ExploreListSection
           exploreTitle="Top 10 Movies"
           data={top10Movies}
+          sliderType="movie"
           setBottomSheetVisible={handlePresentModalPress}
           setBootomSheetValues={setBootomSheetValues}
         />
         <ExploreListSection
           exploreTitle="Top 10 Series"
           data={top10Series}
+          sliderType="tv"
           setBottomSheetVisible={handlePresentModalPress}
           setBootomSheetValues={setBootomSheetValues}
         />
@@ -94,7 +99,7 @@ const Explore = () => {
               style={[
                 style,
                 {
-                  backgroundColor: "rgb(15 23 42)",
+                  backgroundColor: Colors.dark.cGradient1,
                   borderTopLeftRadius: 20,
                   borderTopRightRadius: 20,
                   width: "100%",

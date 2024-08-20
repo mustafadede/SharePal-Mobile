@@ -14,5 +14,12 @@
   "reset.email": "Email",
   "reset.newPassword": "New Password",
   "reset.confirmPassword": "Confirm Password",
-  "reset.submit": "Submit"
+  "reset.submit": "Submit",
+  "actions.title": "Actions",
+  "actions.wanttowatch": "Want to Watch",
+  "actions.watched": "Watched",
+  "actions.currentlywatching": "Currently Watching",
+  "actions.unfinished": "Unfinished",
+  "actions.bestseries": "Best Series of the Year",
+  "actions.bestmovies": "Best Movies of the Year"
 }

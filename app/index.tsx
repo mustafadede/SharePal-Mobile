@@ -24,7 +24,7 @@ export default function Home() {
   const [photoURL, setPhotoURL] = useState("");
   const [displayName, setDisplayName] = useState("");
 
-  const snapPoints = useMemo(() => ["25%", "65%"], []);
+  const snapPoints = useMemo(() => ["15%", "25%", "55%"], []);
 
   const handlePresentModalPress = useCallback(() => {
     bottomSheetModalRef.current?.present();
