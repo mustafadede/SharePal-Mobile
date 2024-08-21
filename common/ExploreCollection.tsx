@@ -1,9 +1,21 @@
 import { Text, TouchableOpacity, ImageBackground } from "react-native";
 import React from "react";
+import { useRouter } from "expo-router";
 
 const ExploreCollection = ({ photo, title }: { photo: string; title: string }) => {
+  const router = useRouter();
   return (
-    <TouchableOpacity className="flex flex-col items-center justify-center w-64 h-24 px-2 mb-1 overflow-hidden">
+    <TouchableOpacity
+      className="flex flex-col items-center justify-center w-64 h-24 px-2 mb-1 overflow-hidden"
+      onPress={() => {
+        router.push({
+          pathname: "/collection",
+          params: {
+            dir: title,
+          },
+        });
+      }}
+    >
       <ImageBackground
         source={{
           uri: photo,

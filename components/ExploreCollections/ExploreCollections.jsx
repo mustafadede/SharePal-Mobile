@@ -1,7 +1,7 @@
 import { ScrollView, FlatList } from "react-native";
 import React from "react";
 import ExploreCollection from "@/common/ExploreCollection";
-import Collection from "@/utils/explore-collection.json";
+import Collection from "@/assets/Collections/explore-collection.json";
 const ExploreCollections = () => {
   return (
     <FlatList

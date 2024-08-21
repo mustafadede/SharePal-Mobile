@@ -6,7 +6,6 @@ import useNowPlaying from "../../../hooks/useNowPlaying";
 import useUpcoming from "@/hooks/useUpcoming";
 import useNextYear from "@/hooks/useNextYear";
 import useTop10 from "@/hooks/useTop10";
-import BottomSheetSkeleton from "@/components/BottomSheetSkeleton/BotomSheetSkeleton";
 import ExploreBottomSheet from "@/components/ExploreBottomSheet/ExploreBottomSheet";
 import ExploreCollections from "@/components/ExploreCollections/ExploreCollections";
 import ExploreListSection from "@/components/ExploreListSection/ExploreListSection";
