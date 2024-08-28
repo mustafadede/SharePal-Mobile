@@ -5,6 +5,7 @@ import Collection from "@/assets/Collections/explore-collection.json";
 const ExploreCollections = () => {
   return (
     <FlatList
+      className="my-4"
       key={"Collection"}
       data={Collection}
       horizontal

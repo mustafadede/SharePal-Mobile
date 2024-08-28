@@ -13,7 +13,9 @@ export default function TabLayout() {
         tabBarActiveTintColor: Colors.dark.cFuc6,
         tabBarStyle: {
           borderColor: Colors.dark.cGradient1,
-          backgroundColor: Colors.dark.cGradient1,
+          backgroundColor: Colors.dark.cGradient2,
+          borderTopWidth: 0.5,
+          height: 55,
         },
       }}
     >
