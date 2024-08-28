@@ -189,68 +189,92 @@
     ],
     "Multiverse Saga": [
       {
-        "id": 616037,
+        "id": 497698,
         "title": "Black Widow",
-        "poster_path": "/pZwS2vMUpbhygeGS9VxPYZOsn4.jpg",
-        "release_date": "2021-07-09",
+        "poster_path": "/kwB7d51AIcyzPOBOHLCEZJkmPhQ.jpg",
+        "release_date": "2021-01-01",
         "type": "movie",
-        "backdrop_path": "/g6eG6GzbImHg6u02h7pR6yLe1wo.jpg"
+        "backdrop_path": "/dq18nCTTLpy9PmtzZI6Y2yAgdw5.jpg"
       },
       {
-        "id": 627843,
+        "id": 566525,
         "title": "Shang-Chi and the Legend of the Ten Rings",
-        "poster_path": "/hHmjID6V0X2L5hFGrmbRSojA2Fg.jpg",
-        "release_date": "2021-09-03",
+        "poster_path": "/1BIoJGKbXjdFDAqUEiA2VHqkK1Z.jpg",
+        "release_date": "2021-09-01",
         "type": "movie",
-        "backdrop_path": "/n8hkHe9Hljj4qEtz2i4eLT2JK5z.jpg"
+        "backdrop_path": "/rAksPS6LjBONzY84szQBz5gGej6.jpg"
       },
       {
-        "id": 628679,
+        "id": 524434,
         "title": "Eternals",
-        "poster_path": "/t90dUIdWfPscRlgYfQ3cu4vgJ0k.jpg",
-        "release_date": "2021-11-05",
+        "poster_path": "/lFByFSLV5WDJEv3KabbdAF959F2.jpg",
+        "release_date": "2021-11-03",
         "type": "movie",
-        "backdrop_path": "/tRMs6M6gjy7mCw7DBrHtkwflVAt.jpg"
+        "backdrop_path": "/c6H7Z4u73ir3cIoCteuhJh7UCAR.jpg"
       },
       {
-        "id": 507086,
+        "id": 634649,
         "title": "Spider-Man: No Way Home",
-        "poster_path": "/1wDqzGih9NRSc1iJ6myXrr5fcKn.jpg",
-        "release_date": "2021-12-17",
+        "poster_path": "/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg",
+        "release_date": "2021-12-15",
         "type": "movie",
-        "backdrop_path": "/kAlTywRVK7V5LwEHErzQWvYOtdF.jpg"
+        "backdrop_path": "/zD5v1E4joAzFvmAEytt7fM3ivyT.jpg"
       },
       {
-        "id": 675353,
+        "id": 453395,
         "title": "Doctor Strange in the Multiverse of Madness",
-        "poster_path": "/9N1bAHp8N1d3NUZn9tRfQlDFPNU.jpg",
-        "release_date": "2022-05-06",
+        "poster_path": "/9Gtg2DzBhmYamXBS1hKAhiwbBKS.jpg",
+        "release_date": "2022-05-04",
         "type": "movie",
-        "backdrop_path": "/iGdFzKldHyC0Lo73OB48NoP0gaA.jpg"
+        "backdrop_path": "/gUNRlH66yNDH3NQblYMIwgZXJ2u.jpg"
       },
       {
-        "id": 508442,
+        "id": 616037,
         "title": "Thor: Love and Thunder",
-        "poster_path": "/mGe8iRaV3P1SwKzOjQtsFS98RT6.jpg",
-        "release_date": "2022-07-08",
+        "poster_path": "/pIkRyD18kl4FhoCNQuWxWu5cBLM.jpg",
+        "release_date": "2022-07-06",
         "type": "movie",
-        "backdrop_path": "/vjtE2VjY4sILn6Uqxf0E3eV6Gdo.jpg"
+        "backdrop_path": "/jsoz1HlxczSuTx0mDl2h0lxy36l.jpg"
       },
       {
-        "id": 804,
+        "id": 505642,
+        "title": "Black Panther: Wakanda Forever",
+        "poster_path": "/sv1xJUazXeYqALzczSZ3O6nkH75.jpg",
+        "release_date": "2022-11-09",
+        "type": "movie",
+        "backdrop_path": "/xDMIl84Qo5Tsu62c9DGWhmPI67A.jpg"
+      },
+      {
+        "id": 640146,
         "title": "Ant-Man and the Wasp: Quantumania",
-        "poster_path": "/kjd9jW3r2dbRAHxP8DTK5HshLw4.jpg",
-        "release_date": "2023-02-17",
+        "poster_path": "/qnqGbB22YJ7dSs4o6M7exTpNxPz.jpg",
+        "release_date": "2023-02-15",
         "type": "movie",
-        "backdrop_path": "/2i0DaR9BDZaGC8JrMu2KwE4JrnJ.jpg"
+        "backdrop_path": "/m8JTwHFwX7I7JY5fPe4SjqejWag.jpg"
       },
       {
-        "id": 804,
+        "id": 447365,
         "title": "Guardians of the Galaxy Vol. 3",
-        "poster_path": "/6yH3BwaXZgyshpDzwkXBk93v9KD.jpg",
-        "release_date": "2023-05-05",
+        "poster_path": "/r2J02Z2OpNTctfOSN1Ydgii51I3.jpg",
+        "release_date": "2023-05-03",
         "type": "movie",
-        "backdrop_path": "/yH9sE3Cs4Ge2hCjjeJt5NBddfJt.jpg"
+        "backdrop_path": "/5YZbUmjbMa3ClvSW1Wj3D6XGolb.jpg"
+      },
+      {
+        "id": 609681,
+        "title": "The Marvels",
+        "poster_path": "/9GBhzXMFjgcZ3FdR9w3bUMMTps5.jpg",
+        "release_date": "2023-11-08",
+        "type": "movie",
+        "backdrop_path": "/criPrxkTggCra1jch49jsiSeXo1.jpg"
+      },
+      {
+        "id": 533535,
+        "title": "Deadpool & Wolverine",
+        "poster_path": "/8cdWjvZQUExUUTzyp4t6EDMubfO.jpg",
+        "release_date": "2024-07-24",
+        "type": "movie",
+        "backdrop_path": "/yDHYTfA3R0jFYba16jBB1ef8oIt.jpg"
       }
     ]
   }

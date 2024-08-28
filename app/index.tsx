@@ -20,9 +20,6 @@ export default function Home() {
   const [email, setEmail] = useState(process.env.EXPO_PUBLIC_EMAIL);
   const [password, setPassword] = useState(process.env.EXPO_PUBLIC_PASSWORD);
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [photoURL, setPhotoURL] = useState("");
-  const [displayName, setDisplayName] = useState("");
 
   const snapPoints = useMemo(() => ["15%", "25%", "55%"], []);
 
@@ -32,10 +29,6 @@ export default function Home() {
   const handleSheetChanges = useCallback((index: number) => {
     console.log("handleSheetChanges", index);
   }, []);
-
-  const handleChange = () => {
-    setIsLoggedIn(false);
-  };
 
   const handleLogin = async () => {
     signInWithEmailAction(email.trim(), password).then((user) => {
@@ -57,28 +50,16 @@ export default function Home() {
         });
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
       } else {
-        console.log(user._tokenResponse.displayName, user._tokenResponse.profilePicture);
-
         AsyncStorage.setItem("email", email);
         AsyncStorage.setItem("photoURL", user._tokenResponse.profilePicture);
         AsyncStorage.setItem("displayName", user._tokenResponse.displayName);
         setEmail(email);
-        setPhotoURL(user._tokenResponse.profilePicture);
-        setDisplayName(user._tokenResponse.displayName);
         router.push("(tabs)");
       }
     });
   };
 
-  useEffect(() => {
-    AsyncStorage.getItem("email").then((value) => {
-      if (value) {
-        setIsLoggedIn(true);
-      } else {
-        setIsLoggedIn(false);
-      }
-    });
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <GestureHandlerRootView>

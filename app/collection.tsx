@@ -27,15 +27,26 @@ const collection = () => {
     <GestureHandlerRootView className="flex-1 pt-6 bg-cGradient2">
       <View className="flex-1 bg-cGradient2">
         {dir === Marvel.name && (
-          <View className="h-80">
-            <ExploreListSection
-              data={Marvel["MCU Sagas"]["Infinity Saga"]}
-              sliderType="movie"
-              exploreTitle="Infinity Saga"
-              setBottomSheetVisible={handlePresentModalPress}
-              setBootomSheetValues={setBootomSheetValues}
-            />
-          </View>
+          <>
+            <View className="h-80">
+              <ExploreListSection
+                data={Marvel["MCU Sagas"]["Infinity Saga"]}
+                sliderType="movie"
+                exploreTitle="Infinity Saga"
+                setBottomSheetVisible={handlePresentModalPress}
+                setBootomSheetValues={setBootomSheetValues}
+              />
+            </View>
+            <View className="h-80">
+              <ExploreListSection
+                data={Marvel["MCU Sagas"]["Multiverse Saga"]}
+                sliderType="movie"
+                exploreTitle="Multiverse Saga"
+                setBottomSheetVisible={handlePresentModalPress}
+                setBootomSheetValues={setBootomSheetValues}
+              />
+            </View>
+          </>
         )}
         <BottomSheetModalProvider>
           <BottomSheetModal

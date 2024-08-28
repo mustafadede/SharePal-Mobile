@@ -23,7 +23,7 @@ const ExploreBottomSheet = React.memo(({ bootomSheetValues }: { bootomSheetValue
   return (
     <>
       <View className="flex items-center justify-center">
-        <Text className="text-lg text-center text-fuchsia-400">
+        <Text className="text-lg text-center text-slate-100">
           {bootomSheetValues.title}
           <Text className="text-slate-100"> {t("actions.title")}</Text>
         </Text>

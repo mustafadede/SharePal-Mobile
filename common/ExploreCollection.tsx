@@ -6,7 +6,7 @@ const ExploreCollection = ({ photo, title }: { photo: string; title: string }) =
   const router = useRouter();
   return (
     <TouchableOpacity
-      className="flex flex-col items-center justify-center w-64 h-24 px-2 mb-1 overflow-hidden"
+      className="flex flex-col items-center justify-center w-64 h-24 px-2 my-1 overflow-hidden"
       onPress={() => {
         router.push({
           pathname: "/collection",
