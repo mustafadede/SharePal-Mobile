@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import ExploreBanner from "@/common/ExploreBanner";
 import ExploreCollections from "../ExploreCollections/ExploreCollections";
 import ExploreListSection from "../ExploreListSection/ExploreListSection";
-import { usePopular } from "@/hooks/usePopular";
 
 const Discover = ({
   nowPlaying,
@@ -21,14 +20,9 @@ const Discover = ({
   setBottomSheetVisible: () => void;
   setBootomSheetValues: (value: object) => void;
 }) => {
-  const [popular, setPopular] = useState<Object[]>();
-  useEffect(() => {
-    usePopular("movie").then((data) => setPopular(data));
-  }, []);
-
   return (
     <>
-      <ExploreBanner data={popular} />
+      <ExploreBanner />
       <ExploreCollections />
       <ExploreListSection
         exploreTitle="Now Playing"

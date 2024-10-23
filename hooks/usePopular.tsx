@@ -7,7 +7,7 @@ export const usePopular = async (mediaType: string) => {
       },
     });
     const data = await response.json();
-    const populerDatas = data.results.slice(0, 4);
+    const populerDatas = data.results.slice(0, 10);
     return populerDatas;
   } else {
     const response = await fetch(`https://api.themoviedb.org/3/trending/movie/day`, {
@@ -17,7 +17,7 @@ export const usePopular = async (mediaType: string) => {
       },
     });
     const data = await response.json();
-    const populerDatas = data.results.slice(0, 4);
+    const populerDatas = data.results.slice(0, 10);
     return populerDatas;
   }
 };

@@ -1,7 +1,23 @@
 export type ProfileHeader = {
-  banner: string;
+  uid: string;
+  nick: string;
+  email: string;
   photoURL: string;
-  photo: string;
   displayName: string;
   quote: string;
+  banner: string;
+  following: any;
+  followers: any;
+  topOne: any;
+  instagram: string;
+  linkedin: string;
+  github: string;
+  currentlyWatching: string;
+  bestMovieYear: string;
+  bestSeriesYear: string;
+  online: boolean;
+  splash: any;
+  accountPrivate: string;
+  taggingPrivacy: string;
+  listPrivacy: string;
 };

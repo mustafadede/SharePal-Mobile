@@ -14,6 +14,11 @@ export function DateFormatter(data, infoType = "cards") {
   }
 }
 
+export function JustYearFormatter(data) {
+  const year = new Date(data).getFullYear();
+  return year;
+}
+
 export function TextShorter(data, sliceData = 47) {
   return data.length > sliceData ? (data = data.slice(0, sliceData) + "...") : data;
 }

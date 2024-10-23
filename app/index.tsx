@@ -8,21 +8,21 @@ import { signInWithEmailAction } from "@/services/firebaseActions";
 import { BottomSheetModal, BottomSheetModalProvider, BottomSheetView } from "@gorhom/bottom-sheet";
 import { router } from "expo-router";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { View, Dimensions, TouchableOpacity, Text, Image } from "react-native";
+import { View, Dimensions } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Toast from "react-native-toast-message";
 import { ToastConfig } from "@/utils/ToastConfig";
 import * as Haptics from "expo-haptics";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import StandartButton from "@/common/StandartButton";
+import { useDispatch } from "react-redux";
+import { profileActions } from "@/store/profileSlice";
 
 export default function Home() {
   const [email, setEmail] = useState(process.env.EXPO_PUBLIC_EMAIL);
   const [password, setPassword] = useState(process.env.EXPO_PUBLIC_PASSWORD);
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-
   const snapPoints = useMemo(() => ["15%", "25%", "55%"], []);
-
+  const dispatch = useDispatch();
   const handlePresentModalPress = useCallback(() => {
     bottomSheetModalRef.current?.present();
   }, []);
@@ -50,10 +50,8 @@ export default function Home() {
         });
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
       } else {
-        AsyncStorage.setItem("email", email);
-        AsyncStorage.setItem("photoURL", user._tokenResponse.profilePicture);
-        AsyncStorage.setItem("displayName", user._tokenResponse.displayName);
         setEmail(email);
+        dispatch(profileActions.setUserId(user._tokenResponse.localId));
         router.push("(tabs)");
       }
     });

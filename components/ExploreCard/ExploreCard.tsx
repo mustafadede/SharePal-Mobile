@@ -77,7 +77,9 @@ const ExploreCard = ({
           <Text className="text-3xl text-slate-100">+</Text>
         </TouchableOpacity>
         <View className="absolute bottom-0 flex flex-col justify-end w-full pb-2 pl-4 h-1/3">
-          <Text className="text-lg text-slate-200">{item.title?.length > 24 ? `${item.title.slice(0, 10)}...` : item.title}</Text>
+          <Text className="text-lg text-slate-200">
+            {item.title?.length > 24 ? `${item.title.slice(0, 10)}...` : item.title || item.name}
+          </Text>
           <Text className="text-md text-fuchsia-600">{releaseYear}</Text>
         </View>
       </TouchableOpacity>

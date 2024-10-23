@@ -23,7 +23,7 @@ const ExploreSliderCard = ({ photo, title, index, backdrop, releaseDate, overvie
 
   return (
     <TouchableOpacity
-      activeOpacity={0.8}
+      activeOpacity={1}
       style={{ width: width, height: `auto` }}
       key={index}
       onPress={() => {
