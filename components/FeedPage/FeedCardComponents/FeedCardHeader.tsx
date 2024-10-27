@@ -1,16 +1,17 @@
 import { View, Text } from "react-native";
 import React from "react";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { useNavigation } from "@react-navigation/native";
 import ImageComponent from "@/common/ImageComponent";
 import DummyImage from "@/common/DummyImage";
 import { DateFormatter } from "@/utils/formatter";
 import { Post } from "@/constants/Post";
 import Feather from "@expo/vector-icons/Feather";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 
 const FeedCardHeader = ({ data }: { data: Post }) => {
-  const navigation = useNavigation();
   const newYear = DateFormatter(data.date);
+  const { userId } = useSelector((state: RootState) => state.profile);
   const handleClick = () => {
     // navigate to post detail
   };
@@ -28,16 +29,25 @@ const FeedCardHeader = ({ data }: { data: Post }) => {
           <Text className={"text-xs text-slate-400"}>{newYear}</Text>
         </View>
       </View>
-      <View className={"flex-row gap-2 items-center"}>
+      <View className="flex-row-reverse items-center gap-1">
+        {data.userId === userId && (
+          <TouchableOpacity
+            onPress={() => {
+              // open more options
+            }}
+          >
+            <Text className={"text-slate-400 text-xl mb-3 ml-1"}>...</Text>
+          </TouchableOpacity>
+        )}
         {data.spoiler && (
-          <View className={"gap-1 flex-row items-center"}>
+          <View className={"flex-row items-start"}>
             <Feather name="lock" size={16} color={"#6B7280"} />
-            <Text className={"text-xs text-slate-400"}>Spoiler</Text>
+            <Text className={"text-xs text-slate-400 ml-1"}>Spoiler</Text>
           </View>
         )}
         {data.edited && (
-          <View className={"gap-1 flex-row items-center"}>
-            <Text className={"text-xs text-slate-400"}>( Edited )</Text>
+          <View className={"flex-row items-start mr-1"}>
+            <Text className={"text-xs text-slate-400 ml-1"}>Edited</Text>
           </View>
         )}
       </View>

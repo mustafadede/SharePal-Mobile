@@ -5,12 +5,12 @@ import FeedCardContent from "./FeedCardComponents/FeedCardContent";
 import FeedCardActions from "./FeedCardComponents/FeedCardActions";
 import { Post } from "@/constants/Post";
 
-const FeedCommentCard = ({ data, index }: { data: Post; index: number }) => {
+const FeedCommentCard = ({ data, index, handleModal }: { data: Post; index: number; handleModal: () => void }) => {
   return (
     <View className={"bg-slate-900 rounded-2xl p-4 h-fit w-full mb-4"}>
       <FeedCardHeader data={data} />
       <FeedCardContent data={data} />
-      <FeedCardActions data={data} />
+      <FeedCardActions data={data} handleModal={handleModal} />
     </View>
   );
 };

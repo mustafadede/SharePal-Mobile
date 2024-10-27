@@ -7,7 +7,7 @@ import {
   signInWithEmailAndPassword,
   updateProfile,
 } from "firebase/auth";
-import { child, get, getDatabase, orderByChild, orderByValue, push, query, ref, set, update } from "firebase/database";
+import { child, get, getDatabase, limitToLast, orderByChild, orderByValue, push, query, ref, set, update } from "firebase/database";
 import { getDownloadURL, ref as sRef, uploadBytes } from "firebase/storage";
 import { FirebaseError } from "firebase/app";
 import { app, auth } from "@/firebaseConfig";
@@ -84,8 +84,7 @@ const getSelectedUserWatched = async (userId) => {
 
 const getAllPosts = async () => {
   const postsRef = ref(database, "posts");
-  const sortedPostsRef = query(postsRef, orderByChild("date"));
-
+  const sortedPostsRef = query(postsRef, orderByChild("date"), limitToLast(20));
   const snapshot = await get(sortedPostsRef);
 
   const allPosts = [];
@@ -116,4 +115,30 @@ const getAllPosts = async () => {
   return allPosts.sort((a, b) => b.date - a.date);
 };
 
-export { signInWithEmailAction, getSelectedUser, getSelectedUserWatched, getAllPosts };
+const getSelectedCommentsList = async (postId) => {
+  try {
+    const commentsRef = ref(database, `commentsList/${postId}`);
+    const res = await get(commentsRef);
+    const comments = [];
+    res.forEach((comment) => {
+      comments.push({
+        id: comment.key,
+        commentId: comment.val().commentId,
+        comment: comment.val().comment,
+        comments: comment.val().comments,
+        isEdited: comment.val().isEdited,
+        likes: comment.val().likes,
+        relatedPostId: comment.val().relatedPostId,
+        relatedUserId: comment.val().relatedUserId,
+        reposts: comment.val().reposts,
+        date: comment.val().date,
+        userId: comment.val().userId,
+      });
+    });
+    return comments;
+  } catch (error) {
+    return error;
+  }
+};
+
+export { signInWithEmailAction, getSelectedUser, getSelectedUserWatched, getAllPosts, getSelectedCommentsList };

@@ -1,4 +1,4 @@
-import { ScrollView, Text, TextInput, View } from "react-native";
+import { Platform, SafeAreaView, ScrollView, Text, TextInput, View, StatusBar as RNStatusBar } from "react-native";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Colors } from "@/constants/Colors";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -37,62 +37,70 @@ const Explore = () => {
   }, []);
 
   return (
-    <GestureHandlerRootView className="flex-1 pt-6 bg-cGradient2">
-      <ScrollView className="flex-1 bg-cGradient2">
-        <TextInput
-          placeholder="Search"
-          className="h-12 px-4 m-4 text-lg text-slate-200 rounded-2xl bg-cGradient1"
-          placeholderTextColor={Colors.dark.tColor1}
-          onChange={(e) => setSearch(e.nativeEvent.text)}
-        />
-        {search.length > 0 ? (
-          <View className="flex-1 pl-4">
-            <Text className="text-xl text-start text-slate-200">Search Results</Text>
-          </View>
-        ) : (
-          <Discover
-            nowPlaying={nowPlaying}
-            upcoming={upcoming}
-            nextYear={nextYear}
-            top10Movies={top10Movies}
-            top10Series={top10Series}
-            setBottomSheetVisible={handlePresentModalPress}
-            setBootomSheetValues={setBootomSheetValues}
+    <SafeAreaView
+      className="flex-1 w-full h-full"
+      style={{
+        backgroundColor: Colors.dark.cGradient2,
+        paddingTop: Platform.OS === "android" ? RNStatusBar.currentHeight : 0, // Sadece Android için padding ekler
+      }}
+    >
+      <GestureHandlerRootView className="flex-1 bg-cGradient2">
+        <ScrollView className="flex-1 bg-cGradient2">
+          <TextInput
+            placeholder="Search"
+            className="h-12 px-4 m-4 text-lg text-slate-200 rounded-2xl bg-cGradient1"
+            placeholderTextColor={Colors.dark.tColor1}
+            onChange={(e) => setSearch(e.nativeEvent.text)}
           />
-        )}
-      </ScrollView>
-      <BottomSheetModalProvider>
-        <BottomSheetModal
-          ref={bottomSheetModalRef}
-          index={1}
-          snapPoints={snapPoints}
-          onChange={handleSheetChanges}
-          keyboardBlurBehavior="none"
-          handleIndicatorStyle={{ backgroundColor: "rgb(100 116 139)" }}
-          keyboardBehavior="interactive"
-          android_keyboardInputMode="adjustPan"
-          backgroundComponent={({ style }) => (
-            <View
-              style={[
-                style,
-                {
-                  backgroundColor: Colors.dark.cGradient1,
-                  borderTopLeftRadius: 20,
-                  borderTopRightRadius: 20,
-                  width: "100%",
-                  justifyContent: "center",
-                  alignItems: "center",
-                },
-              ]}
+          {search.length > 0 ? (
+            <View className="flex-1 pl-4">
+              <Text className="text-xl text-start text-slate-200">Search Results</Text>
+            </View>
+          ) : (
+            <Discover
+              nowPlaying={nowPlaying}
+              upcoming={upcoming}
+              nextYear={nextYear}
+              top10Movies={top10Movies}
+              top10Series={top10Series}
+              setBottomSheetVisible={handlePresentModalPress}
+              setBootomSheetValues={setBootomSheetValues}
             />
           )}
-        >
-          <BottomSheetView style={{ flex: 1, marginTop: 10 }}>
-            <ExploreBottomSheet bootomSheetValues={bootomSheetValues} />
-          </BottomSheetView>
-        </BottomSheetModal>
-      </BottomSheetModalProvider>
-    </GestureHandlerRootView>
+        </ScrollView>
+        <BottomSheetModalProvider>
+          <BottomSheetModal
+            ref={bottomSheetModalRef}
+            index={1}
+            snapPoints={snapPoints}
+            onChange={handleSheetChanges}
+            keyboardBlurBehavior="none"
+            handleIndicatorStyle={{ backgroundColor: "rgb(100 116 139)" }}
+            keyboardBehavior="interactive"
+            android_keyboardInputMode="adjustPan"
+            backgroundComponent={({ style }) => (
+              <View
+                style={[
+                  style,
+                  {
+                    backgroundColor: Colors.dark.cGradient2,
+                    borderTopLeftRadius: 20,
+                    borderTopRightRadius: 20,
+                    width: "100%",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  },
+                ]}
+              />
+            )}
+          >
+            <BottomSheetView style={{ flex: 1, marginTop: 10 }}>
+              <ExploreBottomSheet bootomSheetValues={bootomSheetValues} />
+            </BottomSheetView>
+          </BottomSheetModal>
+        </BottomSheetModalProvider>
+      </GestureHandlerRootView>
+    </SafeAreaView>
   );
 };
 

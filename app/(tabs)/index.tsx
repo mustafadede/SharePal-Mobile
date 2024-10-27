@@ -1,72 +1,41 @@
-import { View, Text, RefreshControl, FlatList } from "react-native";
-import React, { useEffect, useState } from "react";
-import { getAllPosts, getSelectedUser } from "@/services/firebaseActions";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store";
-import { useDispatch } from "react-redux";
-import { profileActions } from "@/store/profileSlice";
-import { ProfileHeader } from "@/constants/Profile";
+import { SafeAreaView, Platform, StatusBar as RNStatusBar } from "react-native";
+import Feed from "../feed";
 import { Colors } from "@/constants/Colors";
-import FeedCard from "@/components/FeedPage/FeedCard";
+import { useCallback, useRef, useState } from "react";
+import CustomBottomSheet from "@/common/CustomBottomSheet";
+import { useDispatch } from "react-redux";
+import { modalActions } from "@/store/modalSlice";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import Tabs from "@/common/Tabs";
 
 const Index = () => {
-  const { userId } = useSelector((state: RootState) => state.profile);
   const dispatch = useDispatch();
-  const [data, setData] = React.useState([]);
-  const [isRefreshing, setIsRefreshing] = useState(false);
-  const [status, setStatus] = useState("loading");
-  useEffect(() => {}, []);
-
-  const onRefresh = () => {
-    setIsRefreshing(true);
-    getAllPosts().then((res) => {
-      setData(res);
-      setIsRefreshing(false);
-      setStatus("done");
-    });
-  };
-
-  useEffect(() => {
-    if (userId) {
-      getSelectedUser(userId).then((user: ProfileHeader) => {
-        dispatch(
-          profileActions.updateProfile({
-            ...user,
-          })
-        );
-
-        getAllPosts().then((res) => {
-          setData(res);
-          setStatus("done");
-        });
-      });
+  const [tab, setTab] = useState(0);
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+  const handlePresentModalPress = useCallback(() => {
+    bottomSheetModalRef.current?.present();
+  }, []);
+  const handleSheetChanges = useCallback((index: number) => {
+    if (index < 0) {
+      console.log("Sheet Closed");
+      dispatch(modalActions.closeModal());
     }
-  }, [userId, isRefreshing]);
+  }, []);
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <View className={"flex-1 w-full h-full px-3 pt-10"} style={{ backgroundColor: Colors.dark.cGradient2 }}>
-        {status === "done" && (
-          <FlatList
-            keyExtractor={(item, index) => index.toString()}
-            refreshControl={
-              <RefreshControl
-                colors={["#9F23B3"]}
-                refreshing={isRefreshing}
-                progressBackgroundColor={"#0E0B13"}
-                onRefresh={onRefresh}
-                tintColor={"#9F23B3"}
-              />
-            }
-            data={data || []}
-            showsVerticalScrollIndicator={false}
-            refreshing={isRefreshing}
-            onRefresh={onRefresh}
-            renderItem={({ item, index }) => <FeedCard data={item} index={index} />}
-          />
-        )}
-      </View>
+    <GestureHandlerRootView>
+      <SafeAreaView
+        className="flex-1 w-full h-full"
+        style={{
+          backgroundColor: Colors.dark.cGradient2,
+          paddingTop: Platform.OS === "android" ? RNStatusBar.currentHeight : 0, // Sadece Android için padding ekler
+        }}
+      >
+        <Tabs tab={tab} setTab={setTab} />
+        {tab === 0 && <Feed handleModal={handlePresentModalPress} />}
+        <CustomBottomSheet handleSheetChanges={handleSheetChanges} bottomSheetModalRef={bottomSheetModalRef} />
+      </SafeAreaView>
     </GestureHandlerRootView>
   );
 };
