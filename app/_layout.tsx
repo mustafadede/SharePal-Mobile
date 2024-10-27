@@ -2,10 +2,12 @@ import { Stack, useGlobalSearchParams, useLocalSearchParams } from "expo-router"
 import "@/i18n/i18n";
 import { Colors } from "@/constants/Colors";
 import { Provider } from "react-redux";
-import { store } from "@/store";
+import { RootState, store } from "@/store";
 import Feather from "@expo/vector-icons/Feather";
-import { TouchableOpacity } from "react-native";
+import { TouchableOpacity, View, Alert } from "react-native";
+import { captureRef } from "react-native-view-shot";
 import * as Sharing from "expo-sharing";
+import { useRef } from "react";
 
 export default function RootLayout() {
   const related = useGlobalSearchParams();
@@ -25,14 +27,10 @@ export default function RootLayout() {
           options={{
             headerShown: true,
             headerTransparent: true,
+            headerTitleAlign: "center",
             headerStyle: {
-              backgroundColor: "transparent",
+              backgroundColor: Colors.dark.cGradient2,
             },
-            headerRight: () => (
-              <TouchableOpacity onPress={() => {}}>
-                <Feather name="share" size={24} color="white" />
-              </TouchableOpacity>
-            ),
             headerTintColor: "#ffffff",
             headerTitle: "",
             animation: "slide_from_right",

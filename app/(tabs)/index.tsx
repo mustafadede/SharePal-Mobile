@@ -29,7 +29,7 @@ const Index = () => {
         className="flex-1 w-full h-full"
         style={{
           backgroundColor: Colors.dark.cGradient2,
-          paddingTop: Platform.OS === "android" ? RNStatusBar.currentHeight : 0, // Sadece Android için padding ekler
+          paddingTop: Platform.OS === "android" ? RNStatusBar.currentHeight : 0,
         }}
       >
         <Tabs tab={tab} setTab={setTab} />

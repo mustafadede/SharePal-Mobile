@@ -8,12 +8,19 @@ import { Post } from "@/constants/Post";
 import Feather from "@expo/vector-icons/Feather";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
+import { useDispatch } from "react-redux";
+import { modalActions } from "@/store/modalSlice";
 
-const FeedCardHeader = ({ data }: { data: Post }) => {
+const FeedCardHeader = ({ data, handleModal }: { data: Post; handleModal: () => void }) => {
   const newYear = DateFormatter(data.date);
+  const dispatch = useDispatch();
   const { userId } = useSelector((state: RootState) => state.profile);
   const handleClick = () => {
     // navigate to post detail
+  };
+  const handleOptions = () => {
+    handleModal();
+    dispatch(modalActions.updateModalType("feedcardoptions"));
   };
   return (
     <View className={"flex-row justify-between items-center"}>
@@ -31,11 +38,7 @@ const FeedCardHeader = ({ data }: { data: Post }) => {
       </View>
       <View className="flex-row-reverse items-center gap-1">
         {data.userId === userId && (
-          <TouchableOpacity
-            onPress={() => {
-              // open more options
-            }}
-          >
+          <TouchableOpacity onPress={handleOptions}>
             <Text className={"text-slate-400 text-xl mb-3 ml-1"}>...</Text>
           </TouchableOpacity>
         )}

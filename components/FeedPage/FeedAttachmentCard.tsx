@@ -18,7 +18,7 @@ const FeedAttachmentCard = ({
 }) => {
   return (
     <View className={"bg-slate-900 rounded-2xl p-4 h-fit w-full mb-4"}>
-      <FeedCardHeader data={data} />
+      <FeedCardHeader data={data} handleModal={handleModal} />
       <FeedCardContent data={data} haveSpoiler={false} />
       <FeedCardAttachment attachedData={attachedData} />
       <FeedCardActions data={data} handleModal={handleModal} />

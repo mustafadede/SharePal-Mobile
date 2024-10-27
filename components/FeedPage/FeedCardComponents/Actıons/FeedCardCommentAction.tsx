@@ -10,13 +10,13 @@ const FeedCardCommentAction = ({ data, handleModal }) => {
   const dispatch = useDispatch();
   const handleModalState = () => {
     handleModal();
+    dispatch(modalActions.updateModalType("comments"));
     getSelectedCommentsList(data.postId).then((res) => {
       dispatch(modalActions.updateStatus("loading"));
-      res.forEach((comment, index) => {
+      res.forEach((comment) => {
         getSelectedUser(comment.userId).then((user) => {
           dispatch(
             modalActions.updateModal({
-              modalType: "Comments",
               modalProps: [
                 {
                   comment: comment.comment,

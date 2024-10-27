@@ -6,6 +6,7 @@ import FeedCardCommentAction from "./Actıons/FeedCardCommentAction";
 import { Colors } from "@/constants/Colors";
 import { Post } from "@/constants/Post";
 import EvilIcons from "@expo/vector-icons/EvilIcons";
+import FeedCardShareAction from "./Actıons/FeedCardShareAction";
 
 const FeedCardActions = ({ data, handleModal }: { data: Post; handleModal: () => void }) => {
   return (
@@ -16,6 +17,7 @@ const FeedCardActions = ({ data, handleModal }: { data: Post; handleModal: () =>
         <EvilIcons name="retweet" size={32} color={Colors.dark.tColor1} className={"ml-4"} />
         <Text className={"text-slate-400"}>{data?.repost}</Text>
       </TouchableOpacity>
+      <FeedCardShareAction data={data} handleModal={handleModal} />
     </View>
   );
 };

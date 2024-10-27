@@ -53,14 +53,14 @@ const ExploreCard = ({
         {item?.poster_path ? (
           <Image
             source={{
-              uri: `https://image.tmdb.org/t/p/w500${item.poster_path}`,
+              uri: `https://image.tmdb.org/t/p/original${item.poster_path}`,
             }}
             className="absolute w-full h-full rounded-2xl"
           />
         ) : item?.backdrop_path ? (
           <Image
             source={{
-              uri: `https://image.tmdb.org/t/p/w500${item.backdrop_path}`,
+              uri: `https://image.tmdb.org/t/p/original${item.backdrop_path}`,
             }}
             className="absolute w-full h-full rounded-2xl"
           />

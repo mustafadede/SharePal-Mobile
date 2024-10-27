@@ -29,7 +29,7 @@ const FeedCardAttachment = ({ attachedData }: { attachedData: PostAttachment }) 
     >
       <View className={"w-12 h-12 rounded-full bg-slate-800"}>
         {attachedData?.poster ? (
-          <ImageComponent url={`https://image.tmdb.org/t/p/w500${attachedData?.poster}`} />
+          <ImageComponent url={`https://image.tmdb.org/t/p/original${attachedData?.poster}`} />
         ) : (
           <DummyImage wide={12} />
         )}

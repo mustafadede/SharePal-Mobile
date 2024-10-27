@@ -8,7 +8,7 @@ import { signInWithEmailAction } from "@/services/firebaseActions";
 import { BottomSheetModal, BottomSheetModalProvider, BottomSheetView } from "@gorhom/bottom-sheet";
 import { router } from "expo-router";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { View, Dimensions } from "react-native";
+import { View, Dimensions, SafeAreaView, Platform, StatusBar as RNStatusBar } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Toast from "react-native-toast-message";
 import { ToastConfig } from "@/utils/ToastConfig";
@@ -16,6 +16,7 @@ import * as Haptics from "expo-haptics";
 import StandartButton from "@/common/StandartButton";
 import { useDispatch } from "react-redux";
 import { profileActions } from "@/store/profileSlice";
+import { Colors } from "@/constants/Colors";
 
 export default function Home() {
   const [email, setEmail] = useState(process.env.EXPO_PUBLIC_EMAIL);
@@ -61,6 +62,13 @@ export default function Home() {
 
   return (
     <GestureHandlerRootView>
+      <SafeAreaView
+        className="flex-1 w-full h-full"
+        style={{
+          backgroundColor: Colors.dark.cGradient2,
+          paddingTop: Platform.OS === "android" ? RNStatusBar.currentHeight : 0,
+        }}
+      />
       <View className="items-center justify-center flex-1 bg-cGradient2" style={{ minHeight: Math.round(Dimensions.get("window").height) }}>
         <ImageComponent />
         <AppTitle title={"SharePal"} />

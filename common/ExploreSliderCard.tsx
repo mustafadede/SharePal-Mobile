@@ -42,7 +42,7 @@ const ExploreSliderCard = ({ photo, title, index, backdrop, releaseDate, overvie
     >
       <ImageBackground
         source={{
-          uri: `https://image.tmdb.org/t/p/w500/${backdrop}`,
+          uri: `https://image.tmdb.org/t/p/original/${backdrop}`,
         }}
         className={"w-full h-full absolute z-0 bg-slate-400"}
         resizeMode="cover"
@@ -53,7 +53,7 @@ const ExploreSliderCard = ({ photo, title, index, backdrop, releaseDate, overvie
         <View className="flex flex-row items-center">
           <Animated.Image
             entering={FadeInDown.duration(400).delay(100)}
-            source={{ uri: `https://image.tmdb.org/t/p/w500/${photo}` }}
+            source={{ uri: `https://image.tmdb.org/t/p/original/${photo}` }}
             className={"w-40 h-60 bg-cGradient1 rounded-2xl"}
             style={{ borderWidth: 0.5, borderColor: Colors.dark.text }}
             resizeMode="cover"

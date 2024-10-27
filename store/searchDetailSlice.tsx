@@ -32,10 +32,17 @@ const searchDetailSlice = createSlice({
       seasons: [],
       type: "",
     },
+    share: {
+      ref: null,
+      status: "idle",
+    },
   },
   reducers: {
     updateSearchDetail: (state, action) => {
       state.searchDetail = action.payload;
+    },
+    updateShareRef: (state, action) => {
+      state.share.ref = action.payload;
     },
     clearSearchDetail: (state) => {
       state.searchDetail = {

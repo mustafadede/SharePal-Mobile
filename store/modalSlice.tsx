@@ -11,8 +11,10 @@ const modalSlice = createSlice({
     updateStatus: (state, action) => {
       state.modalStatus = action.payload;
     },
+    updateModalType: (state, action) => {
+      state.modalType = action.payload;
+    },
     updateModal: (state, action) => {
-      state.modalType = action.payload.modalType;
       state.modalProps.push(action.payload.modalProps);
     },
     closeModal: (state) => {

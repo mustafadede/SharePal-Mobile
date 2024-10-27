@@ -112,7 +112,7 @@ const Settings = () => {
                 <Image
                   className="rounded-lg w-28 h-36"
                   source={{
-                    uri: `https://image.tmdb.org/t/p/w500/${profile.currentlyWatching.poster}`,
+                    uri: `https://image.tmdb.org/t/p/original/${profile.currentlyWatching.poster}`,
                   }}
                 />
                 <View className="gap-1">
