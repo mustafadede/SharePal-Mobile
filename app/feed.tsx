@@ -12,28 +12,28 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import InfoLabel from "@/common/InfoLabel";
 import { scrollActions } from "@/store/scrollSlice";
 import { flatListRef } from "./(tabs)/_layout";
+import { postsActions } from "@/store/postSlice";
 
 const Feed = ({ handleModal }) => {
   const { userId } = useSelector((state: RootState) => state.profile);
+  const { posts, status } = useSelector((state: RootState) => state.post);
+
   const dispatch = useDispatch();
-  const [data, setData] = React.useState([]);
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const [status, setStatus] = useState("loading");
-  useEffect(() => {}, []);
 
   const onRefresh = () => {
     setIsRefreshing(true);
-    setStatus("loading");
+    dispatch(postsActions.setStatus("loading"));
     getAllPosts().then((res) => {
-      setData(res);
+      dispatch(postsActions.fetchPosts(res));
       setIsRefreshing(false);
-      setStatus("done");
+      dispatch(postsActions.setStatus("done"));
     });
   };
 
   useEffect(() => {
     if (userId) {
-      setStatus("loading");
+      dispatch(postsActions.setStatus("loading"));
       getSelectedUser(userId).then((user: ProfileHeader) => {
         dispatch(
           profileActions.updateProfile({
@@ -42,8 +42,8 @@ const Feed = ({ handleModal }) => {
         );
 
         getAllPosts().then((res) => {
-          setData(res);
-          setStatus("done");
+          dispatch(postsActions.fetchPosts(res));
+          dispatch(postsActions.setStatus("done"));
         });
       });
     }
@@ -75,7 +75,7 @@ const Feed = ({ handleModal }) => {
                 tintColor={"#9F23B3"}
               />
             }
-            data={data || []}
+            data={posts}
             showsVerticalScrollIndicator={false}
             refreshing={isRefreshing}
             onRefresh={onRefresh}

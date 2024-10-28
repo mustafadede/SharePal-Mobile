@@ -27,7 +27,7 @@ export default function TabLayout() {
         tabBarHideOnKeyboard: true,
         tabBarActiveTintColor: Colors.dark.cFuc6,
         tabBarStyle: {
-          borderColor: Colors.dark.cGradient1,
+          borderColor: Colors.dark.cDarkGray,
           backgroundColor: Colors.dark.cGradient2,
           borderTopWidth: 0.5,
           height: 55,
@@ -73,6 +73,12 @@ export default function TabLayout() {
         }}
         options={{
           title: "Notification",
+          headerShown: true,
+          headerTintColor: Colors.dark.cWhite,
+          headerShadowVisible: false,
+          headerStyle: {
+            backgroundColor: Colors.dark.cGradient2,
+          },
           tabBarLabel: "Notification",
           tabBarIcon: ({ color }) => <Ionicons name="notifications" size={24} color={color} />,
         }}

@@ -62,46 +62,54 @@ const Settings = () => {
             </View>
           </View>
         </ImageBackground>
-        <View className="flex-row justify-center gap-4 pb-4 mx-4 my-2 rounded-2xl bg-slate-900">
-          <View className="items-center">
+        <View className="flex-row items-center justify-center gap-4 pb-4 mx-4 my-2 rounded-2xl bg-slate-900">
+          <View className="items-center flex-1">
             <Text className="text-lg text-white">{profile.followers}</Text>
             <Text className="text-lg text-white">Followers</Text>
           </View>
           <View className="border-l-2 border-slate-700"></View>
-          <View className="items-center">
+          <View className="items-center flex-1">
             <Text className="text-lg text-white">{profile.following}</Text>
             <Text className="text-lg text-white">Following</Text>
           </View>
           <View className="border-l-2 border-slate-700"></View>
-          <View className="items-center">
+          <View className="items-center flex-1 mr-4">
             <Text className="text-lg text-fuchsia-600">#1</Text>
             <Text className="text-lg text-white">{profile.topOne}</Text>
           </View>
         </View>
         <View className="flex-row justify-center gap-2 pb-4 mx-4 my-1 rounded-2xl">
           <TouchableOpacity
-            className={tabs === 0 ? "px-5 py-2 bg-fuchsia-600 rounded-xl" : "px-5 py-2 bg-transparent"}
+            className={
+              tabs === 0 ? "px-1 flex-1 justify-center bg-fuchsia-600 rounded-xl" : "px-1 justify-center flex-1 py-2 bg-transparent"
+            }
             onPress={() => setTabs(0)}
           >
-            <Text className={tabs === 0 ? "text-slate-950" : "text-white"}>Stats</Text>
+            <Text className={tabs === 0 ? "text-slate-950 text-center" : "text-white text-center"}>Stats</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            className={tabs === 1 ? "px-5 py-2 bg-fuchsia-600 rounded-xl" : "px-5 py-2 bg-transparent"}
+            className={
+              tabs === 1 ? "px-1 flex-1 justify-center bg-fuchsia-600 rounded-xl" : "px-1 justify-center flex-1 py-2 bg-transparent"
+            }
             onPress={() => setTabs(1)}
           >
-            <Text className={tabs === 1 ? "text-slate-950" : "text-white"}>Lists</Text>
+            <Text className={tabs === 1 ? "text-slate-950 text-center" : "text-white text-center"}>Lists</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            className={tabs === 2 ? "px-5 py-2 bg-fuchsia-600 rounded-xl" : "px-5 py-2 bg-transparent"}
+            className={
+              tabs === 2 ? "px-1 flex-1 justify-center bg-fuchsia-600 rounded-xl" : "px-1 justify-center flex-1 py-2 bg-transparent"
+            }
             onPress={() => setTabs(2)}
           >
-            <Text className={tabs === 2 ? "text-slate-950" : "text-white"}>Posts</Text>
+            <Text className={tabs === 2 ? "text-slate-950 text-center" : "text-white text-center"}>Posts</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            className={tabs === 3 ? "px-5 py-2 bg-fuchsia-600 rounded-xl" : "px-5 py-2 bg-transparent"}
+            className={
+              tabs === 3 ? "px-1 flex-1 justify-center bg-fuchsia-600 rounded-xl" : "px-1 justify-center flex-1 py-2 bg-transparent"
+            }
             onPress={() => setTabs(3)}
           >
-            <Text className={tabs === 3 ? "text-slate-950" : "text-white"}>Activities</Text>
+            <Text className={tabs === 3 ? "text-slate-950 text-center" : "text-white text-center"}>Activities</Text>
           </TouchableOpacity>
         </View>
         {tabs === 0 && (
@@ -122,13 +130,13 @@ const Settings = () => {
               </TouchableOpacity>
             </View>
             <View className="flex-row gap-4 my-1">
-              <View className="px-4 pb-4 rounded-2xl w-fit bg-slate-900 h-fit">
-                <Text className="mt-4 text-2xl font-bold text-white">Total Films</Text>
+              <View className="flex-1 px-4 pb-4 rounded-2xl bg-slate-900 h-fit">
+                <Text className="mt-4 text-xl font-bold text-white">Total Films</Text>
 
                 {profile.status === "done" ? <Text className="text-2xl text-slate-400">{profile.totalFilms}</Text> : <StatusLabel />}
               </View>
-              <View className="px-4 pb-4 rounded-2xl w-fit bg-slate-900 h-fit">
-                <Text className="mt-4 text-2xl font-bold text-white">Total Series</Text>
+              <View className="flex-1 px-4 pb-4 rounded-2xl bg-slate-900 h-fit">
+                <Text className="mt-4 text-xl font-bold text-white">Total Series</Text>
                 {profile.status === "done" ? <Text className="text-2xl text-slate-400">{profile.totalSeries}</Text> : <StatusLabel />}
               </View>
             </View>

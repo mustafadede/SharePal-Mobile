@@ -34,7 +34,7 @@ const Tabs = ({ tab, setTab }) => {
             tab === 1 ? "flex-1 py-1 bg-slate-800 rounded-tr-xl rounded-br-xl" : "flex-1 py-1 rounded-tr-xl bg-slate-900 rounded-br-xl"
           }
         >
-          <Text className={tab === 1 ? "text-lg text-center text-fuchsia-300" : "text-lg text-center text-white"}>Following</Text>
+          <Text className={tab === 1 ? "text-lg text-center py-1 text-fuchsia-300" : "text-lg text-center py-1 text-white"}>Following</Text>
         </TouchableOpacity>
       </View>
     </View>

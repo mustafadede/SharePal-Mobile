@@ -23,6 +23,18 @@ export default function RootLayout() {
         <Stack.Screen name="reset" options={{ title: "Reset Password" }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen
+          name="postaction"
+          options={{
+            headerStyle: {
+              backgroundColor: Colors.dark.cGradient2,
+            },
+            headerTintColor: Colors.dark.cWhite,
+            animation: "slide_from_bottom",
+            headerTitle: "Create Post",
+            headerShown: true,
+          }}
+        />
+        <Stack.Screen
           name="searchdetail"
           options={{
             headerShown: true,
