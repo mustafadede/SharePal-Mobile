@@ -1,6 +1,6 @@
 import { View, Text, RefreshControl, FlatList, NativeSyntheticEvent, NativeScrollEvent } from "react-native";
 import React, { useCallback, useEffect, useState } from "react";
-import { getAllPosts, getSelectedUser } from "@/services/firebaseActions";
+import { getAllPosts, getPreviousPosts, getSelectedUser } from "@/services/firebaseActions";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { useDispatch } from "react-redux";
@@ -17,6 +17,8 @@ import { postsActions } from "@/store/postSlice";
 const Feed = ({ handleModal }) => {
   const { userId } = useSelector((state: RootState) => state.profile);
   const { posts, status } = useSelector((state: RootState) => state.post);
+  const [lastPostDate, setLastPostDate] = useState(null); // Son post tarihini tut
+  const [loadingMore, setLoadingMore] = useState(false); // Ek yükleme durumunu takip et
 
   const dispatch = useDispatch();
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -26,6 +28,7 @@ const Feed = ({ handleModal }) => {
     dispatch(postsActions.setStatus("loading"));
     getAllPosts().then((res) => {
       dispatch(postsActions.fetchPosts(res));
+      setLastPostDate(res[res.length - 1].date); // Son post tarihini güncelle
       setIsRefreshing(false);
       dispatch(postsActions.setStatus("done"));
     });
@@ -33,18 +36,16 @@ const Feed = ({ handleModal }) => {
 
   useEffect(() => {
     if (userId) {
-      dispatch(postsActions.setStatus("loading"));
       getSelectedUser(userId).then((user: ProfileHeader) => {
-        dispatch(
-          profileActions.updateProfile({
-            ...user,
-          })
-        );
-
-        getAllPosts().then((res) => {
-          dispatch(postsActions.fetchPosts(res));
-          dispatch(postsActions.setStatus("done"));
-        });
+        dispatch(profileActions.updateProfile(user));
+        if (posts.length === 0) {
+          dispatch(postsActions.setStatus("loading"));
+          getAllPosts().then((res) => {
+            setLastPostDate(res[res.length - 1].date); // Son post tarihini ayarla
+            dispatch(postsActions.fetchPosts(res));
+            dispatch(postsActions.setStatus("done"));
+          });
+        }
       });
     }
   }, [userId, isRefreshing]);
@@ -52,6 +53,22 @@ const Feed = ({ handleModal }) => {
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const scrollPosition = event.nativeEvent.contentOffset.y;
     dispatch(scrollActions.updateScrollPosition(scrollPosition));
+  };
+
+  // Yeni postları yüklemek için fonksiyon
+  const fetchMorePosts = () => {
+    if (!loadingMore && lastPostDate) {
+      // Yükleme işlemi yapılırken tekrar çağırmaz
+      setLoadingMore(true);
+      getPreviousPosts(lastPostDate).then((res) => {
+        // lastPostDate ile sonraki postları al
+        if (res.length > 0) {
+          dispatch(postsActions.fetchPosts([...posts, ...res])); // Postları güncelle
+          setLastPostDate(res[res.length - 1].date); // Yeni son post tarihini ayarla
+        }
+        setLoadingMore(false);
+      });
+    }
   };
 
   const renderItem = useCallback(({ item, index }) => {
@@ -82,6 +99,8 @@ const Feed = ({ handleModal }) => {
             onScroll={handleScroll}
             scrollEventThrottle={32}
             renderItem={renderItem}
+            onEndReached={fetchMorePosts}
+            onEndReachedThreshold={1}
           />
         )}
         {status === "loading" && (

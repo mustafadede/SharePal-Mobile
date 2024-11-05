@@ -26,15 +26,17 @@ const ExploreCard = ({
       <TouchableOpacity
         className="relative w-48 h-full mr-4 rounded-2xl bg-cGradient1"
         onLongPress={() => {
-          setBootomSheetValues({
-            title: item.title || item.name,
-            release_date: item.release_date || item.first_air_date,
-            poster_path: item.poster_path || item.backdrop_path,
-            mediaType: sliderType || item.media_type,
-            id: item.id,
-          });
-          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
-          setBottomSheetVisible();
+          if (setBottomSheetVisible) {
+            setBootomSheetValues({
+              title: item.title || item.name,
+              release_date: item.release_date || item.first_air_date,
+              poster_path: item.poster_path || item.backdrop_path,
+              mediaType: sliderType || item.media_type,
+              id: item.id,
+            });
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+            setBottomSheetVisible();
+          }
         }}
         onPress={() => {
           router.push({

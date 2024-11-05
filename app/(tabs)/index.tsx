@@ -21,7 +21,6 @@ const Index = () => {
   }, []);
   const handleSheetChanges = useCallback((index: number) => {
     if (index < 0) {
-      console.log("Sheet Closed");
       dispatch(modalActions.closeModal());
     }
   }, []);
@@ -38,7 +37,7 @@ const Index = () => {
         <Tabs tab={tab} setTab={setTab} />
         {tab === 0 && <Feed handleModal={handlePresentModalPress} />}
         <TouchableOpacity
-          onPress={() => navigate.navigate("postaction")}
+          onPress={() => navigate.navigate("createpost")}
           activeOpacity={0.8}
           style={{
             position: "absolute",
@@ -54,7 +53,11 @@ const Index = () => {
         >
           <Feather name="plus" size={32} color={Colors.dark.cWhite} />
         </TouchableOpacity>
-        <CustomBottomSheet handleSheetChanges={handleSheetChanges} bottomSheetModalRef={bottomSheetModalRef} />
+        <CustomBottomSheet
+          handleSheetChanges={handleSheetChanges}
+          bottomSheetModalRef={bottomSheetModalRef}
+          snaps={["25%", "40%", "75%"]}
+        />
       </SafeAreaView>
     </GestureHandlerRootView>
   );

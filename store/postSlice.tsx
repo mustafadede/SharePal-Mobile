@@ -5,8 +5,9 @@ const postSlice = createSlice({
   initialState: {
     createdPost: {
       photoURL: null,
-      id: "",
-      text: "",
+      userId: "",
+      postId: "",
+      content: "",
       attachedFilm: "",
       spoiler: false,
       nick: "",

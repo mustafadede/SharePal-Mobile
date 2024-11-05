@@ -15,7 +15,7 @@ const modalSlice = createSlice({
       state.modalType = action.payload;
     },
     updateModal: (state, action) => {
-      state.modalProps.push(action.payload.modalProps);
+      state.modalProps.push(action.payload);
     },
     closeModal: (state) => {
       state.modalStatus = "idle";

@@ -17,17 +17,13 @@ const FeedCardCommentAction = ({ data, handleModal }) => {
         getSelectedUser(comment.userId).then((user) => {
           dispatch(
             modalActions.updateModal({
-              modalProps: [
-                {
-                  comment: comment.comment,
-                  date: comment.date,
-                  relatedUserId: comment.relatedUserId,
-                  userId: comment.userId,
-                  nick: user.nick,
-                  photoURL: user.photoURL,
-                  banner: user.banner,
-                },
-              ],
+              comment: comment.comment,
+              date: comment.date,
+              relatedUserId: comment.relatedUserId,
+              userId: comment.userId,
+              nick: user.nick,
+              photoURL: user.photoURL,
+              banner: user.banner,
             })
           );
           dispatch(modalActions.updateStatus("done"));

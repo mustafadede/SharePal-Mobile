@@ -1,13 +1,8 @@
-import { Stack, useGlobalSearchParams, useLocalSearchParams } from "expo-router";
+import { Stack, useGlobalSearchParams } from "expo-router";
 import "@/i18n/i18n";
 import { Colors } from "@/constants/Colors";
 import { Provider } from "react-redux";
-import { RootState, store } from "@/store";
-import Feather from "@expo/vector-icons/Feather";
-import { TouchableOpacity, View, Alert } from "react-native";
-import { captureRef } from "react-native-view-shot";
-import * as Sharing from "expo-sharing";
-import { useRef } from "react";
+import { store } from "@/store";
 
 export default function RootLayout() {
   const related = useGlobalSearchParams();
@@ -23,7 +18,7 @@ export default function RootLayout() {
         <Stack.Screen name="reset" options={{ title: "Reset Password" }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen
-          name="postaction"
+          name="createpost"
           options={{
             headerStyle: {
               backgroundColor: Colors.dark.cGradient2,

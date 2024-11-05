@@ -1,22 +1,37 @@
 import React, { useMemo } from "react";
-import { View, Text, FlatList, TextInput, TouchableOpacity } from "react-native";
-import { BottomSheetModal, BottomSheetView, BottomSheetModalProvider, BottomSheetFooter } from "@gorhom/bottom-sheet";
+import { View, Text, FlatList, TextInput, TouchableOpacity, ScrollView, Image } from "react-native";
+import {
+  BottomSheetModal,
+  BottomSheetView,
+  BottomSheetModalProvider,
+  BottomSheetFooter,
+  BottomSheetTextInput,
+  BottomSheetScrollView,
+} from "@gorhom/bottom-sheet";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { Colors } from "@/constants/Colors";
 import StatusLabel from "@/components/StatusLabel/StatusLabel";
 import InfoLabel from "./InfoLabel";
 import CommentCards from "./CommentCards";
+import Line from "./Line";
+import Entypo from "@expo/vector-icons/Entypo";
+import AttachItem from "./AttachItem";
 
 const CustomBottomSheet = ({
   handleSheetChanges,
   bottomSheetModalRef,
+  snaps = ["25%", "40%", "75%"],
 }: {
   handleSheetChanges: (index: number) => void;
   bottomSheetModalRef: React.RefObject<BottomSheetModal>;
+  snaps: string[];
 }) => {
   const { modalStatus, modalType, modalProps } = useSelector((state: RootState) => state.modal);
-  const snapPoints = useMemo(() => ["25%", "40%", "75%"], []);
+  const snapPoints = useMemo(() => snaps, []);
+
+  console.log(modalProps);
+
   return (
     <BottomSheetModalProvider>
       <BottomSheetModal
@@ -67,14 +82,32 @@ const CustomBottomSheet = ({
           {modalProps.length > 0 && modalStatus && (
             <FlatList
               data={modalProps}
-              className="flex-1 w-full mt-2 h-fit" // flex-1: main content fills available space
+              className="flex-1 w-full px-2 mt-2"
               renderItem={({ item, index }) => modalType === "comments" && <CommentCards item={item} index={index} />}
-              keyExtractor={(item, index) => index.toString()}
+              keyExtractor={(item) => item.date + item.userId}
             />
           )}
           {modalStatus === "noData" && modalType === "comments" && <InfoLabel status="No comments" />}
           {modalType === "feedcardshare" && <InfoLabel status="Feed Card Share" />}
           {modalType === "feedcardoptions" && <InfoLabel status="Feed Card Options" />}
+          {modalType === "attach" && (
+            <View className="flex-1">
+              <BottomSheetTextInput
+                placeholder="Search for a film or series"
+                style={{ backgroundColor: "#1e293b", borderRadius: 12, padding: 8, marginHorizontal: 8, color: Colors.dark.cWhite }}
+                placeholderTextColor={Colors.dark.icon}
+              />
+              <ScrollView
+                contentContainerStyle={{
+                  paddingHorizontal: 8,
+                  marginTop: 8,
+                }}
+                style={{ flexGrow: 1 }}
+              >
+                <AttachItem />
+              </ScrollView>
+            </View>
+          )}
         </BottomSheetView>
       </BottomSheetModal>
     </BottomSheetModalProvider>

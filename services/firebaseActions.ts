@@ -7,7 +7,20 @@ import {
   signInWithEmailAndPassword,
   updateProfile,
 } from "firebase/auth";
-import { child, get, getDatabase, limitToLast, orderByChild, orderByValue, push, query, ref, set, update } from "firebase/database";
+import {
+  child,
+  endBefore,
+  get,
+  getDatabase,
+  limitToLast,
+  orderByChild,
+  orderByValue,
+  push,
+  query,
+  ref,
+  set,
+  update,
+} from "firebase/database";
 import { getDownloadURL, ref as sRef, uploadBytes } from "firebase/storage";
 import { FirebaseError } from "firebase/app";
 import { app, auth } from "@/firebaseConfig";
@@ -115,6 +128,45 @@ const getAllPosts = async () => {
   return allPosts.sort((a, b) => b.date - a.date);
 };
 
+const getPreviousPosts = async (lastPostDate) => {
+  const postsRef = ref(database, "posts");
+  // lastPostDate'den önceki verileri getirmek için endBefore kullanıyoruz.
+  const sortedPostsRef = query(
+    postsRef,
+    orderByChild("date"),
+    endBefore(lastPostDate), // Bu, belirli bir tarihten önceki verileri getirir.
+    limitToLast(15) // Son 15 veriyi getiriyoruz (önceki sayfa)
+  );
+
+  const snapshot = await get(sortedPostsRef);
+  const allPosts = [];
+  if (snapshot.exists()) {
+    snapshot.forEach((childSnapshot) => {
+      const posts = childSnapshot.val();
+      const postId = childSnapshot.key;
+      allPosts.push({
+        photoURL: posts.photoURL || null,
+        postId: postId,
+        nick: posts.nick,
+        content: posts.content,
+        spoiler: posts.spoiler,
+        attachedFilm: posts.attachedFilm,
+        likesList: posts.likesList || null,
+        likes: posts.likes,
+        comments: posts.comments,
+        edited: posts.edited || false,
+        repost: posts.repost,
+        repostsList: posts.repostsList || null,
+        date: posts.date,
+        userId: posts.userId.trim(),
+        attachedAction: posts.attachedAction || null,
+        actionName: posts.actionName || null,
+      });
+    });
+  }
+  return allPosts;
+};
+
 const getSelectedCommentsList = async (postId) => {
   try {
     const commentsRef = ref(database, `commentsList/${postId}`);
@@ -141,4 +193,4 @@ const getSelectedCommentsList = async (postId) => {
   }
 };
 
-export { signInWithEmailAction, getSelectedUser, getSelectedUserWatched, getAllPosts, getSelectedCommentsList };
+export { signInWithEmailAction, getSelectedUser, getSelectedUserWatched, getAllPosts, getPreviousPosts, getSelectedCommentsList };

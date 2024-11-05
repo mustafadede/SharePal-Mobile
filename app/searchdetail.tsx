@@ -208,9 +208,9 @@ const searchdetail = () => {
       )}
       {isShared && (
         <View className={"bg-slate-950 flex-1 w-full h-full pt-10 z-50"}>
-          <View className="items-center w-full h-full rounded-3xl">
+          <View className="items-center w-full h-full mt-10 rounded-3xl">
             {captureShot(viewRef, handleShare, nick, title, mediaType, backdrop_path, poster_path, color)}
-            <Animated.View entering={FadeInUp.duration(300).delay(300)} className="flex-row gap-2 mt-4">
+            <Animated.View entering={FadeInUp.duration(300).delay(300)} className="flex-row gap-2 mb-2">
               <TouchableOpacity onPress={() => setColor(0)}>
                 <Image
                   source={{ uri: `https://image.tmdb.org/t/p/original/${backdrop_path}` }}
