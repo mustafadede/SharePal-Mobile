@@ -1,4 +1,4 @@
-import { Platform, SafeAreaView, ScrollView, Text, TextInput, View, StatusBar as RNStatusBar } from "react-native";
+import { Platform, SafeAreaView, ScrollView, Text, TextInput, View, StatusBar as RNStatusBar, TouchableOpacity } from "react-native";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Colors } from "@/constants/Colors";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -9,16 +9,27 @@ import useTop10 from "@/hooks/useTop10";
 import ExploreBottomSheet from "@/components/ExploreBottomSheet/ExploreBottomSheet";
 import { BottomSheetModal, BottomSheetModalProvider, BottomSheetView } from "@gorhom/bottom-sheet";
 import Discover from "@/components/Explore/Discover";
+import EvilIcons from "@expo/vector-icons/EvilIcons";
+import { styled } from "nativewind";
+import Animated, { FadeInUp } from "react-native-reanimated";
+
+const filters = [
+  { label: "Movie", id: 0 },
+  { label: "Series", id: 1 },
+  { label: "Users", id: 2 },
+  { label: "People", id: 3 },
+];
 
 const Explore = () => {
+  const StyledEvilIcon = styled(EvilIcons);
   const [nowPlaying, setNowPlaying] = useState<Object[]>();
   const [upcoming, setUpcoming] = useState<Object[]>();
   const [nextYear, setNextYear] = useState<Object[]>();
   const [top10Movies, setTop10Movies] = useState<Object[]>();
   const [top10Series, setTop10Series] = useState<Object[]>();
   const [bootomSheetValues, setBootomSheetValues] = useState<object>({});
-  const [search, setSearch] = useState<string>("");
-
+  const [search, setSearch] = useState("");
+  const [selectedFilter, setSelectedFilter] = useState(0);
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const snapPoints = useMemo(() => ["20%", "25%", "45%"], []);
 
@@ -31,9 +42,11 @@ const Explore = () => {
   useEffect(() => {
     useNowPlaying(setNowPlaying);
     useUpcoming(setUpcoming);
-    useNextYear(setNextYear);
-    useTop10("movies", setTop10Movies);
-    useTop10("series", setTop10Series);
+    setTimeout(() => {
+      useNextYear(setNextYear);
+      useTop10("movies", setTop10Movies);
+      useTop10("series", setTop10Series);
+    }, 1000);
   }, []);
 
   return (
@@ -46,15 +59,39 @@ const Explore = () => {
     >
       <GestureHandlerRootView className="flex-1 bg-cGradient2">
         <ScrollView className="flex-1 bg-cGradient2">
-          <TextInput
-            placeholder="Search"
-            className="h-12 px-4 m-4 text-lg text-slate-200 rounded-2xl bg-cGradient1"
-            placeholderTextColor={Colors.dark.tColor1}
-            onChange={(e) => setSearch(e.nativeEvent.text)}
-          />
+          <View className="flex-row flex-1">
+            <TextInput
+              placeholder="Search"
+              className="flex-1 h-12 px-4 mt-2 mb-2 ml-2 mr-2 text-lg border-slate-600 text-slate-200 rounded-2xl bg-cGradient2"
+              placeholderTextColor={Colors.dark.slate600}
+              value={search}
+              style={{ borderWidth: 0.5 }}
+              onChange={(e) => setSearch(e.nativeEvent.text)}
+            />
+            {search.length > 0 && (
+              <TouchableOpacity onPress={() => setSearch("")} className="items-center justify-center mx-2">
+                <StyledEvilIcon name="close" size={24} className="text-slate-600" />
+              </TouchableOpacity>
+            )}
+          </View>
           {search.length > 0 ? (
-            <View className="flex-1 pl-4">
-              <Text className="text-xl text-start text-slate-200">Search Results</Text>
+            <View className="flex-1 mt-2 ml-2">
+              <Animated.View entering={FadeInUp.delay(100).duration(200)} className="flex-row justify-around mx-2 h-fit">
+                {filters.map((filter) => (
+                  <TouchableOpacity
+                    key={filter.id}
+                    onPress={() => setSelectedFilter(filter.id)}
+                    className={
+                      selectedFilter === filter.id
+                        ? "items-center justify-center flex-1 py-1 mx-1 rounded-lg border-fuchsia-600"
+                        : "items-center justify-center flex-1 py-1 mx-1 rounded-lg bg-slate-900"
+                    }
+                    style={{ borderWidth: 0.5 }}
+                  >
+                    <Text className="text-center text-md text-slate-200">{filter.label}</Text>
+                  </TouchableOpacity>
+                ))}
+              </Animated.View>
             </View>
           ) : (
             <Discover

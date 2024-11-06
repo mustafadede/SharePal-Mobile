@@ -14,7 +14,6 @@ import { Colors } from "@/constants/Colors";
 import StatusLabel from "@/components/StatusLabel/StatusLabel";
 import InfoLabel from "./InfoLabel";
 import CommentCards from "./CommentCards";
-import Line from "./Line";
 import Entypo from "@expo/vector-icons/Entypo";
 import AttachItem from "./AttachItem";
 
@@ -29,8 +28,6 @@ const CustomBottomSheet = ({
 }) => {
   const { modalStatus, modalType, modalProps } = useSelector((state: RootState) => state.modal);
   const snapPoints = useMemo(() => snaps, []);
-
-  console.log(modalProps);
 
   return (
     <BottomSheetModalProvider>

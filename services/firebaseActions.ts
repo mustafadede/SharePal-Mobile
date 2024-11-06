@@ -95,6 +95,40 @@ const getSelectedUserWatched = async (userId) => {
   return selectedUserWatched;
 };
 
+const getSelectedUserWantToWatch = async (userId) => {
+  const wantToWatchRef = ref(database, `wanttowatch/${userId}`);
+  const snapshot = await get(wantToWatchRef);
+  const selectedUserWantToWatch = [];
+  if (snapshot.exists()) {
+    snapshot.forEach((childSnapshot) => {
+      selectedUserWantToWatch.push({
+        id: childSnapshot.val().id,
+        mediaType: childSnapshot.val().mediaType,
+        name: childSnapshot.val().name,
+        photoURL: childSnapshot.val().photoURL,
+      });
+    });
+  }
+  return selectedUserWantToWatch;
+};
+
+const getSelectedUserUnfinished = async (userId) => {
+  const unfinishedRef = ref(database, `unfinished/${userId}`);
+  const snapshot = await get(unfinishedRef);
+  const selectedUserUnfinished = [];
+  if (snapshot.exists()) {
+    snapshot.forEach((childSnapshot) => {
+      selectedUserUnfinished.push({
+        id: childSnapshot.val().id,
+        mediaType: childSnapshot.val().mediaType,
+        name: childSnapshot.val().name,
+        photoURL: childSnapshot.val().photoURL,
+      });
+    });
+  }
+  return selectedUserUnfinished;
+};
+
 const getAllPosts = async () => {
   const postsRef = ref(database, "posts");
   const sortedPostsRef = query(postsRef, orderByChild("date"), limitToLast(20));
@@ -193,4 +227,13 @@ const getSelectedCommentsList = async (postId) => {
   }
 };
 
-export { signInWithEmailAction, getSelectedUser, getSelectedUserWatched, getAllPosts, getPreviousPosts, getSelectedCommentsList };
+export {
+  signInWithEmailAction,
+  getSelectedUser,
+  getSelectedUserWatched,
+  getSelectedUserWantToWatch,
+  getSelectedUserUnfinished,
+  getAllPosts,
+  getPreviousPosts,
+  getSelectedCommentsList,
+};

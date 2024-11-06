@@ -1,15 +1,5 @@
-import {
-  View,
-  Text,
-  ImageBackground,
-  Image,
-  TouchableOpacity,
-  SafeAreaView,
-  Platform,
-  StatusBar as RNStatusBar,
-  ScrollView,
-} from "react-native";
-import React, { useEffect, useRef, useState } from "react";
+import { View, Text, ImageBackground, TouchableOpacity, ScrollView } from "react-native";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { Colors } from "@/constants/Colors";
 import { useLocalSearchParams, useNavigation } from "expo-router";
@@ -26,37 +16,28 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useTranslation } from "react-i18next";
 import { RootState } from "@/store";
-import ViewShot, { captureRef } from "react-native-view-shot";
-import * as Sharing from "expo-sharing";
 import Feather from "@expo/vector-icons/Feather";
-import SearchDetailPageShareWantToWatch from "@/common/SearchDetailPageShare";
-
-const captureShot = (ref, handleShare, username, title, mediaType, backdrop_path, poster_path, color) => {
-  return (
-    <ViewShot ref={ref} options={{ format: "png", quality: 1 }} onCapture={handleShare}>
-      <SearchDetailPageShareWantToWatch
-        backdrop_path={backdrop_path}
-        poster_path={poster_path}
-        title={title}
-        username={username}
-        mediaType={mediaType}
-        color={color}
-      />
-    </ViewShot>
-  );
-};
+import ShareDetailShare from "@/common/ShareDetailShare";
+import { getSelectedUserUnfinished, getSelectedUserWantToWatch, getSelectedUserWatched } from "@/services/firebaseActions";
+import { shareSearchDetailAction } from "@/store/shareSearchDetail";
+import { BottomSheetModal, BottomSheetModalProvider, BottomSheetView } from "@gorhom/bottom-sheet";
+import ExploreBottomSheet from "@/components/ExploreBottomSheet/ExploreBottomSheet";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 const searchdetail = () => {
   const viewRef = useRef(null);
   const [isShared, setIsShared] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
+  const [hasWatched, setHasWatched] = useState(false);
+  const [hasWantToWatch, setHasWantToWatch] = useState(false);
+  const [hasUnfinished, setHasUnfinished] = useState(false);
+  const [blur, setBlur] = useState(7);
   const [color, setColor] = useState(0);
   const navigation = useNavigation();
   const { id, title, release_date, poster_path, mediaType, backdrop_path } = useLocalSearchParams();
-  const { nick } = useSelector((state: RootState) => state.profile);
+  const { nick, userId } = useSelector((state: RootState) => state.profile);
   const newDate = DateFormatter(release_date, "Search");
   const dispatch = useDispatch();
-  const { t } = useTranslation();
   const {
     adult,
     genre_ids,
@@ -79,53 +60,72 @@ const searchdetail = () => {
     status,
     type,
   } = useSelector((state: RootState) => state.searchDetail.searchDetail);
-
-  const handleShare = async () => {
-    try {
-      if (viewRef.current) {
-        const uri = await captureRef(viewRef, {
-          format: "png",
-          quality: 1,
-          result: "tmpfile",
-        });
-
-        const isAvailable = await Sharing.isAvailableAsync();
-
-        if (isAvailable) {
-          await Sharing.shareAsync(uri, {
-            mimeType: "image/png",
-            dialogTitle: "Share your content",
-          });
-        } else {
-          console.log("Sharing not available");
-        }
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
+  const { shareStatus } = useSelector((state: RootState) => state.shareSearchDetail);
   useEffect(() => {
     dispatch(searchDetailActions.clearSearchDetail());
     dispatch(searchDetailActions.setStatus("loading"));
-    useSearchWithYear(title, release_date).then((res) => {
-      dispatch(searchDetailActions.updateSearchDetail(res));
-      dispatch(searchDetailActions.setStatus("done"));
-    });
+    useSearchWithYear(title, release_date)
+      .then((res) => {
+        dispatch(searchDetailActions.updateSearchDetail(res));
+        dispatch(searchDetailActions.setStatus("done"));
+      })
+      .then(() => {
+        getSelectedUserWatched(userId).then((res) => {
+          if (res.length > 0) {
+            const arr = res.find((item) => item.id.toString() === id);
+            arr && setHasWatched(true);
+          }
+        });
+        getSelectedUserWantToWatch(userId).then((res) => {
+          if (res.length > 0) {
+            const arr = res.find((item) => item.id.toString() === id);
+            arr && setHasWantToWatch(true);
+          }
+        });
+        getSelectedUserUnfinished(userId).then((res) => {
+          if (res.length > 0) {
+            const arr = res.find((item) => item.id.toString() === id);
+            arr && setHasUnfinished(true);
+          }
+        });
+      });
   }, []);
 
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <TouchableOpacity onPress={() => setIsShared(!isShared)}>
-          {isShared ? <Feather name="x" size={24} color="white" /> : <Feather name="share" size={24} color="white" />}
-        </TouchableOpacity>
+        <View className="flex-row items-center">
+          {/* <TouchableOpacity onPress={() => {}} className="mr-4">
+            <Feather name="plus" size={28} color="white" />
+          </TouchableOpacity> */}
+          <TouchableOpacity onPress={() => setIsShared(!isShared)}>
+            {isShared ? <Feather name="x" size={24} color="white" /> : <Feather name="share" size={24} color="white" />}
+          </TouchableOpacity>
+        </View>
       ),
     });
+    dispatch(shareSearchDetailAction.setLabel(hasWatched ? "watched" : hasWantToWatch ? "wanttowatch" : hasUnfinished ? "unfinished" : ""));
+    dispatch(shareSearchDetailAction.setStatus("done"));
   }, [isShared]);
+  // BottomSheet Section
+  const [bootomSheetValues, setBootomSheetValues] = useState({
+    title: title,
+    release_date: release_date,
+    poster_path: poster_path,
+    mediaType: mediaType,
+    id: id,
+  });
+
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+  const snapPoints = useMemo(() => ["20%", "25%", "45%"], []);
+  const handlePresentModalPress = useCallback(() => {
+    bottomSheetModalRef.current?.present();
+  }, []);
+
+  const handleSheetChanges = useCallback((index: number) => {}, []);
 
   return (
-    <>
+    <GestureHandlerRootView className="flex-1">
       {!isShared && (
         <ScrollView className="flex-1 mt-20 bg-cGradient2">
           <View className="w-full h-96">
@@ -133,6 +133,7 @@ const searchdetail = () => {
               source={{ uri: `https://image.tmdb.org/t/p/original/${backdrop_path}` }}
               className={"w-full h-96 absolute z-0 bg-slate-900"}
               resizeMode="cover"
+              blurRadius={7}
             >
               <LinearGradient colors={["rgba(0, 0, 0, 0.4)", "rgb(14, 11, 19)"]} style={{ flex: 1 }} />
             </ImageBackground>
@@ -171,13 +172,7 @@ const searchdetail = () => {
               <StatusLabel />
             )}
           </Animated.View>
-          <Animated.View entering={FadeInUp.duration(400).delay(1000)} className="flex-row flex-wrap justify-around w-full gap-0 px-3">
-            <ActionPill type="detail" title={t("actions.wanttowatch")} icon={<FontAwesome name="bookmark-o" size={24} color="white" />} />
-            <ActionPill type="detail" title={t("actions.watched")} icon={<FontAwesome name="bookmark" size={24} color="white" />} />
-            <ActionPill type="detail" title={t("actions.currentlywatching")} icon={<FontAwesome name="eye" size={24} color="white" />} />
-            <ActionPill type="detail" title={t("actions.unfinished")} icon={<Ionicons name="pause-outline" size={24} color="white" />} />
-          </Animated.View>
-          <View className="flex-row justify-around w-full px-6">
+          <View className="flex-row justify-around w-full px-6 mt-2">
             <Animated.View entering={FadeInUp.duration(400).delay(1200)} className="w-2/3">
               <Text className="text-2xl text-start text-slate-200">Overview</Text>
               {overview ? (
@@ -207,34 +202,69 @@ const searchdetail = () => {
         </ScrollView>
       )}
       {isShared && (
-        <View className={"bg-slate-950 flex-1 w-full h-full pt-10 z-50"}>
-          <View className="items-center w-full h-full mt-10 rounded-3xl">
-            {captureShot(viewRef, handleShare, nick, title, mediaType, backdrop_path, poster_path, color)}
-            <Animated.View entering={FadeInUp.duration(300).delay(300)} className="flex-row gap-2 mb-2">
-              <TouchableOpacity onPress={() => setColor(0)}>
-                <Image
-                  source={{ uri: `https://image.tmdb.org/t/p/original/${backdrop_path}` }}
-                  className="w-8 h-8 rounded-full"
-                  resizeMode="cover"
-                  style={{ borderWidth: 1, borderColor: "rgb(148, 163, 184)" }}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => setColor(1)}>
-                <View className="w-8 h-8 border rounded-full border-slate-400 bg-slate-950"></View>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => setColor(2)}>
-                <View className="w-8 h-8 border rounded-full border-slate-400 bg-fuchsia-800"></View>
-              </TouchableOpacity>
-            </Animated.View>
-            <Animated.View entering={FadeInUp.duration(300).delay(400)}>
-              <TouchableOpacity onPress={handleShare} className="mt-4">
-                <Text className="px-4 py-1 text-lg text-white border border-white rounded-xl">Share</Text>
-              </TouchableOpacity>
-            </Animated.View>
-          </View>
-        </View>
+        <ShareDetailShare
+          viewRef={viewRef}
+          nick={nick}
+          title={title}
+          mediaType={mediaType}
+          backdrop_path={backdrop_path}
+          poster_path={poster_path}
+          color={color}
+          setColor={setColor}
+          shareStatus={shareStatus}
+          blur={blur}
+          setBlur={setBlur}
+        />
       )}
-    </>
+      <TouchableOpacity
+        onPress={handlePresentModalPress}
+        activeOpacity={0.8}
+        style={{
+          position: "absolute",
+          borderColor: Colors.dark.cDarkGray,
+          bottom: 10,
+          right: 10,
+          backgroundColor: Colors.dark.cGradient2,
+          borderRadius: 50,
+          padding: 14,
+          elevation: 5,
+          borderWidth: 1,
+        }}
+      >
+        <Feather name="plus" size={32} color={Colors.dark.cWhite} />
+      </TouchableOpacity>
+      <BottomSheetModalProvider>
+        <BottomSheetModal
+          ref={bottomSheetModalRef}
+          index={2}
+          snapPoints={snapPoints}
+          onChange={handleSheetChanges}
+          keyboardBlurBehavior="none"
+          handleIndicatorStyle={{ backgroundColor: "rgb(100 116 139)" }}
+          keyboardBehavior="interactive"
+          android_keyboardInputMode="adjustPan"
+          backgroundComponent={({ style }) => (
+            <View
+              style={[
+                style,
+                {
+                  backgroundColor: Colors.dark.cGradient2,
+                  borderTopLeftRadius: 20,
+                  borderTopRightRadius: 20,
+                  width: "100%",
+                  justifyContent: "center",
+                  alignItems: "center",
+                },
+              ]}
+            />
+          )}
+        >
+          <BottomSheetView style={{ flex: 1, marginTop: 10 }}>
+            <ExploreBottomSheet bootomSheetValues={bootomSheetValues} />
+          </BottomSheetView>
+        </BottomSheetModal>
+      </BottomSheetModalProvider>
+    </GestureHandlerRootView>
   );
 };
 

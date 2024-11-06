@@ -2,6 +2,7 @@ import React from "react";
 import ExploreBanner from "@/common/ExploreBanner";
 import ExploreCollections from "../ExploreCollections/ExploreCollections";
 import ExploreListSection from "../ExploreListSection/ExploreListSection";
+import Animated, { FadeInUp } from "react-native-reanimated";
 
 const Discover = ({
   nowPlaying,
@@ -21,7 +22,7 @@ const Discover = ({
   setBootomSheetValues: (value: object) => void;
 }) => {
   return (
-    <>
+    <Animated.View entering={FadeInUp.delay(100).duration(200)}>
       <ExploreBanner />
       <ExploreCollections />
       <ExploreListSection
@@ -59,7 +60,7 @@ const Discover = ({
         setBottomSheetVisible={setBottomSheetVisible}
         setBootomSheetValues={setBootomSheetValues}
       />
-    </>
+    </Animated.View>
   );
 };
 

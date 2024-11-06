@@ -39,7 +39,7 @@ const ExploreCard = ({
           }
         }}
         onPress={() => {
-          router.push({
+          router.navigate({
             pathname: "/searchdetail",
             params: {
               title: item.title || item.name,

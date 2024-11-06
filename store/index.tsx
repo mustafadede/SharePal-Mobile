@@ -4,6 +4,7 @@ import searchDetailSlice from "./searchDetailSlice";
 import scrollSlice from "./scrollSlice";
 import modalSlice from "./modalSlice";
 import postSlice from "./postSlice";
+import shareSearchDetail from "./shareSearchDetail";
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     scroll: scrollSlice,
     modal: modalSlice,
     post: postSlice,
+    shareSearchDetail: shareSearchDetail,
   },
 });
 

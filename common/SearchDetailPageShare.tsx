@@ -2,8 +2,11 @@ import { View, Text, ImageBackground, Image } from "react-native";
 import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 
 const SearchDetailPageShareWantToWatch = ({ backdrop_path, poster_path, title, mediaType, username, color }) => {
+  const { label } = useSelector((state: RootState) => state.shareSearchDetail);
   return (
     <Animated.View
       entering={FadeInUp.duration(300).delay(100)}
@@ -15,19 +18,30 @@ const SearchDetailPageShareWantToWatch = ({ backdrop_path, poster_path, title, m
     >
       {color === 0 && (
         <ImageBackground
-          source={{ uri: `https://image.tmdb.org/t/p/original/${backdrop_path}` }}
+          source={{ uri: `https://image.tmdb.org/t/p/original/${poster_path}` }}
           className={"w-full h-full absolute z-0 bg-slate-900"}
           resizeMode="cover"
+          blurRadius={7}
         >
           <LinearGradient colors={["rgba(0, 0, 0, 0.1)", "rgb(14, 11, 19)"]} style={{ flex: 1 }} />
         </ImageBackground>
       )}
       {color === 1 && (
+        <ImageBackground
+          source={{ uri: `https://image.tmdb.org/t/p/original/${backdrop_path}` }}
+          className={"w-full h-full absolute z-0 bg-slate-900"}
+          resizeMode="cover"
+          blurRadius={3}
+        >
+          <LinearGradient colors={["rgba(0, 0, 0, 0.1)", "rgb(14, 11, 19)"]} style={{ flex: 1 }} />
+        </ImageBackground>
+      )}
+      {color === 2 && (
         <View className={"w-full h-full absolute z-0 bg-slate-950"}>
           <LinearGradient colors={["rgba(0, 0, 0, 0.1)", "rgb(14, 11, 19)"]} style={{ flex: 1 }} />
         </View>
       )}
-      {color === 2 && (
+      {color === 3 && (
         <View className={"w-full h-full absolute z-0 bg-fuchsia-800"}>
           <LinearGradient colors={["rgba(0, 0, 0, 0.1)", "rgb(14, 11, 19)"]} style={{ flex: 1 }} />
         </View>
@@ -43,16 +57,20 @@ const SearchDetailPageShareWantToWatch = ({ backdrop_path, poster_path, title, m
             ]}
           />
         </View>
-        <View className="items-center justify-center">
-          <Text className={"text-start text-lg text-white"}>
-            {username}
-            <Text className={"text-start text-fuchsia-600"}> {title} </Text>
-          </Text>
-          <Text className={"text-center text-lg text-white"}>
-            <Text className={"text-center text-lg text-white"}>adlı {mediaType === "movie" ? "filmi " : "diziyi "}</Text>
-            izlemek istiyor.
-          </Text>
-        </View>
+        {label !== "" && (
+          <View className="items-center justify-center w-full text-center">
+            <Text className={"text-center text-lg text-white"}>
+              {username}
+              <Text className={"text-center text-fuchsia-600"}> {title} </Text>
+            </Text>
+            <Text className={"text-center text-lg text-white"}>
+              <Text className={"text-center text-lg text-white"}>adlı {mediaType === "movie" ? "filmi " : "diziyi "}</Text>
+              {label === "watched" && "izledi."}
+              {label === "wanttowatch" && "izlemek istiyor."}
+            </Text>
+          </View>
+        )}
+        {label === "" && <Text className={"text-center text-lg text-fuchsia-600"}>{title}</Text>}
       </View>
       <View className="right-0 bottom-2">
         <Text

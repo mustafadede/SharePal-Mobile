@@ -21,7 +21,17 @@ const ExploreListSection = ({
   return (
     <>
       <PrimaryTitle title={exploreTitle} additionalClassnames="text-slate-200 pl-4" />
-      {data ? (
+      {!data && (
+        <FlatList
+          key={"nowPlaying"}
+          className="flex-1 px-4 mb-2 h-72"
+          data={[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
+          horizontal
+          renderItem={({ item }: { item: number }) => <ExploreCard loading={true} />}
+          keyExtractor={(item) => item}
+        />
+      )}
+      {data && (
         <FlatList
           className="flex-1 px-4 mb-2 h-72"
           data={data}
@@ -36,15 +46,6 @@ const ExploreListSection = ({
             />
           )}
           keyExtractor={(item: Movie) => item.id.toString()}
-        />
-      ) : (
-        <FlatList
-          key={"nowPlaying"}
-          className="flex-1 px-4 mb-2 h-72"
-          data={[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
-          horizontal
-          renderItem={({ item }: { item: number }) => <ExploreCard loading={true} />}
-          keyExtractor={(item) => item}
         />
       )}
     </>
