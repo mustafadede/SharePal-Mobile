@@ -6,6 +6,9 @@
 ![Redux](https://img.shields.io/badge/redux-%23593d88.svg?style=for-the-badge&logo=redux&logoColor=white)
 ![React Hook Form](https://img.shields.io/badge/React%20Hook%20Form-%23EC5990.svg?style=for-the-badge&logo=reacthookform&logoColor=white)
 
+
+![Frame 1](https://github.com/user-attachments/assets/4589b562-d9a9-4832-abff-06d77d79a39e)
+
 ## Get started
 
 1. Install dependencies
