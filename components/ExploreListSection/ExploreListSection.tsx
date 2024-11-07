@@ -10,13 +10,13 @@ const ExploreListSection = ({
   data,
   sliderType,
   setBottomSheetVisible,
-  setBootomSheetValues,
+  setBottomSheetValues,
 }: {
   exploreTitle: string;
   data: object[];
   sliderType: string;
   setBottomSheetVisible: () => void;
-  setBootomSheetValues: (value: object) => void;
+  setBottomSheetValues: (value: object) => void;
 }) => {
   return (
     <>
@@ -42,7 +42,7 @@ const ExploreListSection = ({
               item={item}
               sliderType={sliderType}
               setBottomSheetVisible={setBottomSheetVisible}
-              setBootomSheetValues={setBootomSheetValues}
+              setBottomSheetValues={setBottomSheetValues}
             />
           )}
           keyExtractor={(item: Movie) => item.id.toString()}

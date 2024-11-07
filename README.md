@@ -29,4 +29,12 @@
     npx expo start
    ```
 
+4. Cannot find module 'metro/src/lib/TerminalReporter'
+
+```bash
+  # If you encounter this error when app loaded. Open the terminal and paste this
+
+   npm install --save-dev metro
+```
+
 ##### Disclaimer : If you don't have .env file this project don't run in your local machine. If you want to run locally contact this address `mustafa.dede.0016@gmail.com`

@@ -11,7 +11,7 @@ import Animated, { Easing, FadeIn, FadeInDown } from "react-native-reanimated";
 
 const collection = () => {
   const { dir } = useLocalSearchParams();
-  const [bootomSheetValues, setBootomSheetValues] = useState<object>({});
+  const [bottomSheetValues, setBottomSheetValues] = useState<object>({});
 
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const snapPoints = useMemo(() => ["20%", "25%", "45%"], []);
@@ -48,7 +48,7 @@ const collection = () => {
                 sliderType="movie"
                 exploreTitle="Infinity Saga"
                 setBottomSheetVisible={handlePresentModalPress}
-                setBootomSheetValues={setBootomSheetValues}
+                setBottomSheetValues={setBottomSheetValues}
               />
             </View>
             <View className="h-80">
@@ -57,7 +57,7 @@ const collection = () => {
                 sliderType="movie"
                 exploreTitle="Multiverse Saga"
                 setBottomSheetVisible={handlePresentModalPress}
-                setBootomSheetValues={setBootomSheetValues}
+                setBottomSheetValues={setBottomSheetValues}
               />
             </View>
           </ScrollView>
@@ -89,7 +89,7 @@ const collection = () => {
             )}
           >
             <BottomSheetView style={{ flex: 1, marginTop: 10 }}>
-              <ExploreBottomSheet bootomSheetValues={bootomSheetValues} />
+              <ExploreBottomSheet bottomSheetValues={bottomSheetValues} />
             </BottomSheetView>
           </BottomSheetModal>
         </BottomSheetModalProvider>

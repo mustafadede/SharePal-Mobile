@@ -1,4 +1,14 @@
-import { Platform, SafeAreaView, ScrollView, Text, TextInput, View, StatusBar as RNStatusBar, TouchableOpacity } from "react-native";
+import {
+  Platform,
+  SafeAreaView,
+  ScrollView,
+  Text,
+  TextInput,
+  View,
+  StatusBar as RNStatusBar,
+  TouchableOpacity,
+  FlatList,
+} from "react-native";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Colors } from "@/constants/Colors";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -11,11 +21,12 @@ import { BottomSheetModal, BottomSheetModalProvider, BottomSheetView } from "@go
 import Discover from "@/components/Explore/Discover";
 import EvilIcons from "@expo/vector-icons/EvilIcons";
 import { styled } from "nativewind";
-import Animated, { FadeInUp } from "react-native-reanimated";
+import useSearch from "@/hooks/useSearch";
+import Results from "@/components/Explore/Results";
 
 const filters = [
   { label: "Movie", id: 0 },
-  { label: "Series", id: 1 },
+  { label: "TV", id: 1 },
   { label: "Users", id: 2 },
   { label: "People", id: 3 },
 ];
@@ -27,12 +38,13 @@ const Explore = () => {
   const [nextYear, setNextYear] = useState<Object[]>();
   const [top10Movies, setTop10Movies] = useState<Object[]>();
   const [top10Series, setTop10Series] = useState<Object[]>();
-  const [bootomSheetValues, setBootomSheetValues] = useState<object>({});
+  const [results, setResults] = useState<Object[]>();
+  const [bottomSheetValues, setBottomSheetValues] = useState<object>({});
   const [search, setSearch] = useState("");
-  const [selectedFilter, setSelectedFilter] = useState(0);
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const snapPoints = useMemo(() => ["20%", "25%", "45%"], []);
-
+  const [selectedFilter, setSelectedFilter] = useState(0);
+  const [loading, setLoading] = useState(false);
   const handlePresentModalPress = useCallback(() => {
     bottomSheetModalRef.current?.present();
   }, []);
@@ -48,6 +60,19 @@ const Explore = () => {
       useTop10("series", setTop10Series);
     }, 1000);
   }, []);
+  const handleSearch = (search: string) => {
+    setSearch(search);
+    setLoading(true);
+    setTimeout(() => {
+      const type = filters[selectedFilter].label.toLowerCase();
+      useSearch(search, setResults, type).then(() => setLoading(false));
+    }, 300);
+  };
+
+  useEffect(() => {
+    setResults([]);
+    handleSearch(search);
+  }, [selectedFilter]);
 
   return (
     <SafeAreaView
@@ -57,43 +82,33 @@ const Explore = () => {
         paddingTop: Platform.OS === "android" ? RNStatusBar.currentHeight : 0, // Sadece Android için padding ekler
       }}
     >
-      <GestureHandlerRootView className="flex-1 bg-cGradient2">
-        <ScrollView className="flex-1 bg-cGradient2">
-          <View className="flex-row flex-1">
-            <TextInput
-              placeholder="Search"
-              className="flex-1 h-12 px-4 mt-2 mb-2 ml-2 mr-2 text-lg border-slate-600 text-slate-200 rounded-2xl bg-cGradient2"
-              placeholderTextColor={Colors.dark.slate600}
-              value={search}
-              style={{ borderWidth: 0.5 }}
-              onChange={(e) => setSearch(e.nativeEvent.text)}
-            />
-            {search.length > 0 && (
-              <TouchableOpacity onPress={() => setSearch("")} className="items-center justify-center mx-2">
-                <StyledEvilIcon name="close" size={24} className="text-slate-600" />
-              </TouchableOpacity>
-            )}
-          </View>
-          {search.length > 0 ? (
-            <View className="flex-1 mt-2 ml-2">
-              <Animated.View entering={FadeInUp.delay(100).duration(200)} className="flex-row justify-around mx-2 h-fit">
-                {filters.map((filter) => (
-                  <TouchableOpacity
-                    key={filter.id}
-                    onPress={() => setSelectedFilter(filter.id)}
-                    className={
-                      selectedFilter === filter.id
-                        ? "items-center justify-center flex-1 py-1 mx-1 rounded-lg border-fuchsia-600"
-                        : "items-center justify-center flex-1 py-1 mx-1 rounded-lg bg-slate-900"
-                    }
-                    style={{ borderWidth: 0.5 }}
-                  >
-                    <Text className="text-center text-md text-slate-200">{filter.label}</Text>
-                  </TouchableOpacity>
-                ))}
-              </Animated.View>
-            </View>
-          ) : (
+      <GestureHandlerRootView className="flex-1">
+        <View className="flex-row">
+          <TextInput
+            placeholder="Search"
+            className="flex-1 px-4 py-2 mt-2 mb-2 ml-2 mr-2 text-lg border-slate-600 text-slate-200 rounded-2xl"
+            placeholderTextColor={Colors.dark.slate600}
+            value={search}
+            style={{ borderWidth: 0.5 }}
+            onChange={(e) => handleSearch(e.nativeEvent.text)}
+          />
+          {search.length > 0 && (
+            <TouchableOpacity onPress={() => setSearch("")} className="items-center justify-center mx-2">
+              <StyledEvilIcon name="close" size={24} className="text-slate-600" />
+            </TouchableOpacity>
+          )}
+        </View>
+        {search.length > 0 ? (
+          <Results
+            results={results}
+            filters={filters}
+            selectedFilter={selectedFilter}
+            setSelectedFilter={setSelectedFilter}
+            loading={loading}
+            setLoading={setLoading}
+          />
+        ) : (
+          <ScrollView className="flex-1 bg-cGradient2">
             <Discover
               nowPlaying={nowPlaying}
               upcoming={upcoming}
@@ -101,10 +116,10 @@ const Explore = () => {
               top10Movies={top10Movies}
               top10Series={top10Series}
               setBottomSheetVisible={handlePresentModalPress}
-              setBootomSheetValues={setBootomSheetValues}
+              setBottomSheetValues={setBottomSheetValues}
             />
-          )}
-        </ScrollView>
+          </ScrollView>
+        )}
         <BottomSheetModalProvider>
           <BottomSheetModal
             ref={bottomSheetModalRef}
@@ -132,7 +147,7 @@ const Explore = () => {
             )}
           >
             <BottomSheetView style={{ flex: 1, marginTop: 10 }}>
-              <ExploreBottomSheet bootomSheetValues={bootomSheetValues} />
+              <ExploreBottomSheet bottomSheetValues={bottomSheetValues} />
             </BottomSheetView>
           </BottomSheetModal>
         </BottomSheetModalProvider>

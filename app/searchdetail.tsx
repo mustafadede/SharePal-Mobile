@@ -38,6 +38,16 @@ const searchdetail = () => {
   const { nick, userId } = useSelector((state: RootState) => state.profile);
   const newDate = DateFormatter(release_date, "Search");
   const dispatch = useDispatch();
+  const [bootomSheetValues, setBottomSheetValues] = useState({
+    title: title,
+    release_date: release_date,
+    poster_path: poster_path,
+    mediaType: mediaType,
+    id: id,
+    wanttowatch: hasWantToWatch,
+    watched: hasWatched,
+    unfinished: hasUnfinished,
+  });
   const {
     adult,
     genre_ids,
@@ -61,6 +71,7 @@ const searchdetail = () => {
     type,
   } = useSelector((state: RootState) => state.searchDetail.searchDetail);
   const { shareStatus } = useSelector((state: RootState) => state.shareSearchDetail);
+
   useEffect(() => {
     dispatch(searchDetailActions.clearSearchDetail());
     dispatch(searchDetailActions.setStatus("loading"));
@@ -74,18 +85,21 @@ const searchdetail = () => {
           if (res.length > 0) {
             const arr = res.find((item) => item.id.toString() === id);
             arr && setHasWatched(true);
+            arr && setBottomSheetValues({ ...bootomSheetValues, watched: true });
           }
         });
         getSelectedUserWantToWatch(userId).then((res) => {
           if (res.length > 0) {
             const arr = res.find((item) => item.id.toString() === id);
             arr && setHasWantToWatch(true);
+            arr && setBottomSheetValues({ ...bootomSheetValues, wanttowatch: true });
           }
         });
         getSelectedUserUnfinished(userId).then((res) => {
           if (res.length > 0) {
             const arr = res.find((item) => item.id.toString() === id);
             arr && setHasUnfinished(true);
+            arr && setBottomSheetValues({ ...bootomSheetValues, unfinished: true });
           }
         });
       });
@@ -107,15 +121,8 @@ const searchdetail = () => {
     dispatch(shareSearchDetailAction.setLabel(hasWatched ? "watched" : hasWantToWatch ? "wanttowatch" : hasUnfinished ? "unfinished" : ""));
     dispatch(shareSearchDetailAction.setStatus("done"));
   }, [isShared]);
-  // BottomSheet Section
-  const [bootomSheetValues, setBootomSheetValues] = useState({
-    title: title,
-    release_date: release_date,
-    poster_path: poster_path,
-    mediaType: mediaType,
-    id: id,
-  });
 
+  // BottomSheet Section
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const snapPoints = useMemo(() => ["20%", "25%", "45%"], []);
   const handlePresentModalPress = useCallback(() => {
@@ -260,7 +267,7 @@ const searchdetail = () => {
           )}
         >
           <BottomSheetView style={{ flex: 1, marginTop: 10 }}>
-            <ExploreBottomSheet bootomSheetValues={bootomSheetValues} />
+            <ExploreBottomSheet bottomSheetValues={bootomSheetValues} />
           </BottomSheetView>
         </BottomSheetModal>
       </BottomSheetModalProvider>

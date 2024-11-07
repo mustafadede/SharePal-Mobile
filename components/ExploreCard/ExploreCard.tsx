@@ -10,24 +10,27 @@ const ExploreCard = ({
   loading = false,
   sliderType,
   setBottomSheetVisible,
-  setBootomSheetValues,
+  setBottomSheetValues,
+  explore,
 }: {
   item: Movie;
   loading?: boolean;
   sliderType: string;
   setBottomSheetVisible: () => void;
-  setBootomSheetValues?: (value: object) => void;
+  setBottomSheetValues?: (value: object) => void;
+  explore?: boolean;
 }) => {
   const router = useRouter();
   const releaseYear = item?.release_date ? item?.release_date?.slice(0, 4) : item?.first_air_date?.slice(0, 4);
-
   return !loading ? (
     <>
       <TouchableOpacity
-        className="relative w-48 h-full mr-4 rounded-2xl bg-cGradient1"
+        className={
+          explore ? "relative w-full h-full mr-4 rounded-2xl bg-cGradient1" : "relative w-48 h-full mr-4 rounded-2xl bg-cGradient1"
+        }
         onLongPress={() => {
           if (setBottomSheetVisible) {
-            setBootomSheetValues({
+            setBottomSheetValues({
               title: item.title || item.name,
               release_date: item.release_date || item.first_air_date,
               poster_path: item.poster_path || item.backdrop_path,
