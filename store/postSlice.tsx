@@ -35,6 +35,9 @@ const postSlice = createSlice({
     setSpoiler: (state) => {
       state.createdPost.spoiler = !state.createdPost.spoiler;
     },
+    fetchMorePosts: (state, action) => {
+      state.posts = [...state.posts, ...action.payload];
+    },
     fetchPosts: (state, action) => {
       state.posts = action.payload;
     },

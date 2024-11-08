@@ -12,7 +12,7 @@ const Tabs = ({ tab, setTab }) => {
           top: -40,
           left: 0,
           right: 0,
-          height: 160,
+          height: 120,
           zIndex: 1,
           bottom: 0,
         }}

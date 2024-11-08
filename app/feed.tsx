@@ -1,5 +1,5 @@
-import { View, Text, RefreshControl, FlatList, NativeSyntheticEvent, NativeScrollEvent } from "react-native";
-import React, { useCallback, useEffect, useState } from "react";
+import { View, RefreshControl, FlatList, NativeSyntheticEvent, NativeScrollEvent } from "react-native";
+import React, { useEffect, useState } from "react";
 import { getAllPosts, getPreviousPosts, getSelectedUser } from "@/services/firebaseActions";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
@@ -13,6 +13,7 @@ import InfoLabel from "@/common/InfoLabel";
 import { scrollActions } from "@/store/scrollSlice";
 import { flatListRef } from "./(tabs)/_layout";
 import { postsActions } from "@/store/postSlice";
+import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
 
 const Feed = ({ handleModal }) => {
   const { userId } = useSelector((state: RootState) => state.profile);
@@ -28,6 +29,7 @@ const Feed = ({ handleModal }) => {
     dispatch(postsActions.setStatus("loading"));
     getAllPosts().then((res) => {
       dispatch(postsActions.fetchPosts(res));
+
       setLastPostDate(res[res.length - 1].date); // Son post tarihini güncelle
       setIsRefreshing(false);
       dispatch(postsActions.setStatus("done"));
@@ -63,26 +65,31 @@ const Feed = ({ handleModal }) => {
       getPreviousPosts(lastPostDate).then((res) => {
         // lastPostDate ile sonraki postları al
         if (res.length > 0) {
-          dispatch(postsActions.fetchPosts([...posts, ...res])); // Postları güncelle
-          setLastPostDate(res[res.length - 1].date); // Yeni son post tarihini ayarla
+          setLastPostDate(res[0].date); // Yeni son post tarihini ayarla
+          dispatch(postsActions.fetchMorePosts(res));
         }
         setLoadingMore(false);
       });
     }
   };
 
-  const renderItem = useCallback(({ item, index }) => {
+  const renderItem = ({ item, index }) => {
     return <FeedCard data={item} index={index} handleModal={handleModal} />;
-  }, []);
+  };
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <View className={"flex-1 z-0 w-full h-full px-3"} style={{ backgroundColor: Colors.dark.cGradient2 }}>
+        {status === "loading" && (
+          <View className={"pt-20"}>
+            <InfoLabel status="Loading..." />
+          </View>
+        )}
         {status === "done" && (
           <FlatList
             ref={flatListRef}
             className="pt-20"
-            keyExtractor={(_, index) => index.toString()}
+            keyExtractor={(item, index) => item.postId + index.toString()}
             refreshControl={
               <RefreshControl
                 colors={["#9F23B3"]}
@@ -93,6 +100,7 @@ const Feed = ({ handleModal }) => {
               />
             }
             data={posts}
+            fadingEdgeLength={24}
             showsVerticalScrollIndicator={false}
             refreshing={isRefreshing}
             onRefresh={onRefresh}
@@ -100,13 +108,14 @@ const Feed = ({ handleModal }) => {
             scrollEventThrottle={32}
             renderItem={renderItem}
             onEndReached={fetchMorePosts}
-            onEndReachedThreshold={1}
+            onEndReachedThreshold={0.5}
+            maxToRenderPerBatch={10}
           />
         )}
-        {status === "loading" && (
-          <View className={"pt-20"}>
-            <InfoLabel status="Loading..." />
-          </View>
+        {loadingMore && (
+          <Animated.View entering={FadeInDown.duration(300)} exiting={FadeInUp.duration(150)}>
+            <InfoLabel status="Loading..." small />
+          </Animated.View>
         )}
       </View>
     </GestureHandlerRootView>
