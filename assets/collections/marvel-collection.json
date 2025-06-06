@@ -1,0 +1,281 @@
+{
+  "name": "Marvel Collection",
+  "MCU Sagas": {
+    "Infinity Saga": [
+      {
+        "id": 1726,
+        "title": "Iron Man",
+        "poster_path": "/78lPtwv72eTNqFW9COBYI0dWDJa.jpg",
+        "release_date": "2008-04-30",
+        "type": "movie",
+        "backdrop_path": "/cyecB7godJ6kNHGONFjUyVN9OX5.jpg"
+      },
+      {
+        "id": 1724,
+        "title": "The Incredible Hulk",
+        "poster_path": "/gKzYx79y0AQTL4UAk1cBQJ3nvrm.jpg",
+        "release_date": "2008-06-12",
+        "type": "movie",
+        "backdrop_path": "/xfBnQ4mgf1jYZsscJGJjr6ce0Ar.jpg"
+      },
+      {
+        "id": 10138,
+        "title": "Iron Man 2",
+        "poster_path": "/6WBeq4fCfn7AN0o21W9qNcRF2l9.jpg",
+        "release_date": "2010-04-28",
+        "type": "movie",
+        "backdrop_path": "/7lmBufEG7P7Y1HClYK3gCxYrkgS.jpg"
+      },
+      {
+        "id": 10195,
+        "title": "Thor",
+        "poster_path": "/prSfAi1xGrhLQNxVSUFh61xQ4Qy.jpg",
+        "release_date": "2011-04-21",
+        "type": "movie",
+        "backdrop_path": "/cDJ61O1STtbWNBwefuqVrRe3d7l.jpg"
+      },
+      {
+        "id": 1771,
+        "title": "Captain America: The First Avenger",
+        "poster_path": "/vSNxAJTlD0r02V9sPYpOjqDZXUK.jpg",
+        "release_date": "2011-07-22",
+        "type": "movie",
+        "backdrop_path": "/yFuKvT4Vm3sKHdFY4eG6I4ldAnn.jpg"
+      },
+      {
+        "id": 24428,
+        "title": "The Avengers",
+        "poster_path": "/RYMX2wcKCBAr24UyPD7xwmjaTn.jpg",
+        "release_date": "2012-04-25",
+        "type": "movie",
+        "backdrop_path": "/9BBTo63ANSmhC4e6r62OJFuK2GL.jpg"
+      },
+      {
+        "id": 68721,
+        "title": "Iron Man 3",
+        "poster_path": "/qhPtAc1TKbMPqNvcdXSOn9Bn7hZ.jpg",
+        "release_date": "2013-04-18",
+        "type": "movie",
+        "backdrop_path": "/aFTYFqrWp4RS46Twm87l5e0ItYb.jpg"
+      },
+      {
+        "id": 76338,
+        "title": "Thor: The Dark World",
+        "poster_path": "/wp6OxE4poJ4G7c0U2ZIXasTSMR7.jpg",
+        "release_date": "2013-10-30",
+        "type": "movie",
+        "backdrop_path": "/4zTsF0RtO0av3YX1NaKDqGKPxYF.jpg"
+      },
+      {
+        "id": 100402,
+        "title": "Captain America: The Winter Soldier",
+        "poster_path": "/tVFRpFw3xTedgPGqxW0AOI8Qhh0.jpg",
+        "release_date": "2014-03-20",
+        "type": "movie",
+        "backdrop_path": "/1RWLMyC9KcFfcaoViMiJGSSZzzr.jpg"
+      },
+      {
+        "id": 118340,
+        "title": "Guardians of the Galaxy",
+        "poster_path": "/r7vmZjiyZw9rpJMQJdXpjgiCOk9.jpg",
+        "release_date": "2014-07-30",
+        "type": "movie",
+        "backdrop_path": "/uLtVbjvS1O7gXL8lUOwsFOH4man.jpg"
+      },
+      {
+        "id": 99861,
+        "title": "Avengers: Age of Ultron",
+        "poster_path": "/4ssDuvEDkSArWEdyBl2X5EHvYKU.jpg",
+        "release_date": "2015-04-22",
+        "type": "movie",
+        "backdrop_path": "/6YwkGolwdOMNpbTOmLjoehlVWs5.jpg"
+      },
+      {
+        "id": 102899,
+        "title": "Ant-Man",
+        "poster_path": "/rQRnQfUl3kfp78nCWq8Ks04vnq1.jpg",
+        "release_date": "2015-07-14",
+        "type": "movie",
+        "backdrop_path": "/1K3JmSNUN8OpjYsCjc0Hy0SYxAb.jpg"
+      },
+      {
+        "id": 271110,
+        "title": "Captain America: Civil War",
+        "poster_path": "/rAGiXaUfPzY7CDEyNKUofk3Kw2e.jpg",
+        "release_date": "2016-04-27",
+        "type": "movie",
+        "backdrop_path": "/wdwcOBMkt3zmPQuEMxB3FUtMio2.jpg"
+      },
+      {
+        "id": 284052,
+        "title": "Doctor Strange",
+        "poster_path": "/7WfK17BXE6szXlm4WOxfswgbdsL.jpg",
+        "release_date": "2016-10-25",
+        "type": "movie",
+        "backdrop_path": "/3zvZ699gMW2RhWc0GisIukzq0Ls.jpg"
+      },
+      {
+        "id": 283995,
+        "title": "Guardians of the Galaxy Vol. 2",
+        "poster_path": "/y4MBh0EjBlMuOzv9axM4qJlmhzz.jpg",
+        "release_date": "2017-04-19",
+        "type": "movie",
+        "backdrop_path": "/aJn9XeesqsrSLKcHfHP4u5985hn.jpg"
+      },
+      {
+        "id": 315635,
+        "title": "Spider-Man: Homecoming",
+        "poster_path": "/c24sv2weTHPsmDa7jEMN0m2P3RT.jpg",
+        "release_date": "2017-07-05",
+        "type": "movie",
+        "backdrop_path": "/fn4n6uOYcB6Uh89nbNPoU2w80RV.jpg"
+      },
+      {
+        "id": 284053,
+        "title": "Thor: Ragnarok",
+        "poster_path": "/rzRwTcFvttcN1ZpX2xv4j3tSdJu.jpg",
+        "release_date": "2017-10-02",
+        "type": "movie",
+        "backdrop_path": "/kaIfm5ryEOwYg8mLbq8HkPuM1Fo.jpg"
+      },
+      {
+        "id": 284054,
+        "title": "Black Panther",
+        "poster_path": "/uxzzxijgPIY7slzFvMotPv8wjKA.jpg",
+        "release_date": "2018-02-13",
+        "type": "movie",
+        "backdrop_path": "/b6ZJZHUdMEFECvGiDpJjlfUWela.jpg"
+      },
+      {
+        "id": 299536,
+        "title": "Avengers: Infinity War",
+        "poster_path": "/7WsyChQLEftFiDOVTGkv3hFpyyt.jpg",
+        "release_date": "2018-04-25",
+        "type": "movie",
+        "backdrop_path": "/mDfJG3LC3Dqb67AZ52x3Z0jU0uB.jpg"
+      },
+      {
+        "id": 363088,
+        "title": "Ant-Man and the Wasp",
+        "poster_path": "/cFQEO687n1K6umXbInzocxcnAQz.jpg",
+        "release_date": "2018-07-04",
+        "type": "movie",
+        "backdrop_path": "/iYdgEUE2W2aJkgqfSjf1x3gFfuV.jpg"
+      },
+      {
+        "id": 299537,
+        "title": "Captain Marvel",
+        "poster_path": "/AtsgWhDnHTq68L0lLsUrCnM7TjG.jpg",
+        "release_date": "2019-03-06",
+        "type": "movie",
+        "backdrop_path": "/qAzYK4YPSWDc7aa4R43LcwRIAyb.jpg"
+      },
+      {
+        "id": 299534,
+        "title": "Avengers: Endgame",
+        "poster_path": "/or06FN3Dka5tukK1e9sl16pB3iy.jpg",
+        "release_date": "2019-04-24",
+        "type": "movie",
+        "backdrop_path": "/7RyHsO4yDXtBv1zUU3mTpHeQ0d5.jpg"
+      },
+      {
+        "id": 429617,
+        "title": "Spider-Man: Far From Home",
+        "poster_path": "/4q2NNj4S5dG2RLF9CpXsej7yXl.jpg",
+        "release_date": "2019-06-28",
+        "type": "movie",
+        "backdrop_path": "/34jW8LvjRplM8Pv06cBFDpLlenR.jpg"
+      }
+    ],
+    "Multiverse Saga": [
+      {
+        "id": 497698,
+        "title": "Black Widow",
+        "poster_path": "/kwB7d51AIcyzPOBOHLCEZJkmPhQ.jpg",
+        "release_date": "2021-01-01",
+        "type": "movie",
+        "backdrop_path": "/dq18nCTTLpy9PmtzZI6Y2yAgdw5.jpg"
+      },
+      {
+        "id": 566525,
+        "title": "Shang-Chi and the Legend of the Ten Rings",
+        "poster_path": "/1BIoJGKbXjdFDAqUEiA2VHqkK1Z.jpg",
+        "release_date": "2021-09-01",
+        "type": "movie",
+        "backdrop_path": "/rAksPS6LjBONzY84szQBz5gGej6.jpg"
+      },
+      {
+        "id": 524434,
+        "title": "Eternals",
+        "poster_path": "/lFByFSLV5WDJEv3KabbdAF959F2.jpg",
+        "release_date": "2021-11-03",
+        "type": "movie",
+        "backdrop_path": "/c6H7Z4u73ir3cIoCteuhJh7UCAR.jpg"
+      },
+      {
+        "id": 634649,
+        "title": "Spider-Man: No Way Home",
+        "poster_path": "/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg",
+        "release_date": "2021-12-15",
+        "type": "movie",
+        "backdrop_path": "/zD5v1E4joAzFvmAEytt7fM3ivyT.jpg"
+      },
+      {
+        "id": 453395,
+        "title": "Doctor Strange in the Multiverse of Madness",
+        "poster_path": "/9Gtg2DzBhmYamXBS1hKAhiwbBKS.jpg",
+        "release_date": "2022-05-04",
+        "type": "movie",
+        "backdrop_path": "/gUNRlH66yNDH3NQblYMIwgZXJ2u.jpg"
+      },
+      {
+        "id": 616037,
+        "title": "Thor: Love and Thunder",
+        "poster_path": "/pIkRyD18kl4FhoCNQuWxWu5cBLM.jpg",
+        "release_date": "2022-07-06",
+        "type": "movie",
+        "backdrop_path": "/jsoz1HlxczSuTx0mDl2h0lxy36l.jpg"
+      },
+      {
+        "id": 505642,
+        "title": "Black Panther: Wakanda Forever",
+        "poster_path": "/sv1xJUazXeYqALzczSZ3O6nkH75.jpg",
+        "release_date": "2022-11-09",
+        "type": "movie",
+        "backdrop_path": "/xDMIl84Qo5Tsu62c9DGWhmPI67A.jpg"
+      },
+      {
+        "id": 640146,
+        "title": "Ant-Man and the Wasp: Quantumania",
+        "poster_path": "/qnqGbB22YJ7dSs4o6M7exTpNxPz.jpg",
+        "release_date": "2023-02-15",
+        "type": "movie",
+        "backdrop_path": "/m8JTwHFwX7I7JY5fPe4SjqejWag.jpg"
+      },
+      {
+        "id": 447365,
+        "title": "Guardians of the Galaxy Vol. 3",
+        "poster_path": "/r2J02Z2OpNTctfOSN1Ydgii51I3.jpg",
+        "release_date": "2023-05-03",
+        "type": "movie",
+        "backdrop_path": "/5YZbUmjbMa3ClvSW1Wj3D6XGolb.jpg"
+      },
+      {
+        "id": 609681,
+        "title": "The Marvels",
+        "poster_path": "/9GBhzXMFjgcZ3FdR9w3bUMMTps5.jpg",
+        "release_date": "2023-11-08",
+        "type": "movie",
+        "backdrop_path": "/criPrxkTggCra1jch49jsiSeXo1.jpg"
+      },
+      {
+        "id": 533535,
+        "title": "Deadpool & Wolverine",
+        "poster_path": "/8cdWjvZQUExUUTzyp4t6EDMubfO.jpg",
+        "release_date": "2024-07-24",
+        "type": "movie",
+        "backdrop_path": "/yDHYTfA3R0jFYba16jBB1ef8oIt.jpg"
+      }
+    ]
+  }
+}
