@@ -3,9 +3,11 @@ import "@/i18n/i18n";
 import { store } from "@/store";
 import { Stack, useGlobalSearchParams } from "expo-router";
 import { useTranslation } from "react-i18next";
+import { useColorScheme } from "react-native";
 import { Provider } from "react-redux";
 
 export default function RootLayout() {
+  const colorScheme = useColorScheme();
   const related = useGlobalSearchParams();
   const { t } = useTranslation();
 
@@ -21,9 +23,11 @@ export default function RootLayout() {
           name="reset"
           options={{
             headerStyle: {
-              backgroundColor: Colors.dark.cGradient2,
+              backgroundColor:
+                colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
             },
-            headerTintColor: Colors.dark.cWhite,
+            headerTintColor:
+              colorScheme === "dark" ? Colors.dark.cWhite : "black",
             animation: "slide_from_right",
             title: t("reset.title"),
             headerShown: true,
@@ -35,11 +39,14 @@ export default function RootLayout() {
           name="createpost"
           options={{
             headerStyle: {
-              backgroundColor: Colors.dark.cGradient2,
+              backgroundColor:
+                colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
             },
             animation: "slide_from_right",
-            headerTintColor: Colors.dark.cWhite,
+            headerTintColor:
+              colorScheme === "dark" ? Colors.dark.cWhite : "black",
             headerTitle: t("createpost.title"),
+            headerShadowVisible: false,
             headerShown: true,
             headerBackTitle: "Ana sayfa",
           }}

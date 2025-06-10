@@ -2,7 +2,13 @@ import StatusLabel from "@/components/StatusLabel/StatusLabel";
 import * as Sharing from "expo-sharing";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Image, Text, TouchableOpacity, View } from "react-native";
+import {
+  Image,
+  Text,
+  TouchableOpacity,
+  useColorScheme,
+  View,
+} from "react-native";
 import Animated, { FadeInUp } from "react-native-reanimated";
 import ViewShot, { captureRef } from "react-native-view-shot";
 import SearchDetailPageShareWantToWatch from "./SearchDetailPageShare";
@@ -69,6 +75,7 @@ const ShareDetailShare = ({
 }: ShareDetailShareProps) => {
   const { t } = useTranslation();
   const [border, setBorder] = useState(false);
+  const colorScheme = useColorScheme();
   const handleShare = async () => {
     try {
       if (viewRef.current) {
@@ -94,7 +101,12 @@ const ShareDetailShare = ({
   };
 
   return (
-    <View className={"flex-1 w-full h-full pt-10 z-50 bg-cGradient2"}>
+    <View
+      className={"flex-1 w-full h-full pt-10 z-50"}
+      style={{
+        backgroundColor: colorScheme === "dark" ? "#0E0B13" : "#cbd5e1",
+      }}
+    >
       <View className="items-center justify-center w-full h-full mt-2 rounded-3xl">
         <View className="relative">
           {captureShot(
@@ -196,10 +208,8 @@ const ShareDetailShare = ({
         <Animated.View entering={FadeInUp.duration(300).delay(400)}>
           <TouchableOpacity onPress={handleShare} className="mt-4 rounded-3xl">
             <Text
-              className="px-8 py-1 text-lg text-white border border-white rounded-full"
-              style={{
-                borderColor: "white",
-              }}
+              className="px-8 py-1 text-lg dark:text-white border border-black dark:border-white rounded-full"
+              style={{}}
             >
               {t("searchdetail.share")}
             </Text>

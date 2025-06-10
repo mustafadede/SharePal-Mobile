@@ -45,7 +45,9 @@ const FeedCardAttachment = ({
             ? attachedData?.title.slice(0, 24) + "..."
             : attachedData?.title}
         </Text>
-        <Text className={"text-slate-400 ml-1"}>({newDate})</Text>
+        <Text className={"text-gray-50 dark:text-slate-400 ml-1"}>
+          ({newDate})
+        </Text>
       </View>
     </TouchableOpacity>
   );

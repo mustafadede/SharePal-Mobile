@@ -29,6 +29,7 @@ import {
   ScrollView,
   TextInput,
   TouchableOpacity,
+  useColorScheme,
   View,
 } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -42,12 +43,13 @@ const filters = [
 
 const Explore = () => {
   const { t } = useTranslation();
+  const colorScheme = useColorScheme();
   const [nowPlaying, setNowPlaying] = useState<Movie[]>([]);
   const [upcoming, setUpcoming] = useState<Movie[]>([]);
   const [nextYear, setNextYear] = useState<Movie[]>([]);
   const [top10Movies, setTop10Movies] = useState<Movie[]>([]);
   const [top10Series, setTop10Series] = useState<Movie[]>([]);
-  const [results, setResults] = useState<Object[]>([]);
+  const [results, setResults] = useState<object[]>([]);
   const [bottomSheetValues, setBottomSheetValues] = useState<object>({});
   const [search, setSearch] = useState("");
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
@@ -73,6 +75,7 @@ const Explore = () => {
       useTop10("series", setTop10Series);
     }, 1000);
   }, []);
+
   const handleSearch = (search: string) => {
     setSearch(search);
     setLoading(true);
@@ -91,7 +94,8 @@ const Explore = () => {
     <SafeAreaView
       className="flex-1 w-full h-full"
       style={{
-        backgroundColor: Colors.dark.cGradient2,
+        backgroundColor:
+          colorScheme === "dark" ? Colors.dark.cGradient2 : "transparent",
         paddingTop: Platform.OS === "android" ? RNStatusBar.currentHeight : 0, // Sadece Android için padding ekler
       }}
     >
@@ -99,10 +103,13 @@ const Explore = () => {
         <View className="flex-row">
           <TextInput
             placeholder={t("explore.search")}
-            className="flex-1 px-4 pb-2 mt-2 mb-2 ml-2 h-12 mr-2 text-lg bg-slate-800 text-slate-400 rounded-2xl"
+            className="flex-1 px-4 pb-2 mt-2 mb-2 ml-2 h-12 mr-2 text-lg bg-white dark:bg-slate-800 dark:text-slate-400 rounded-2xl"
             placeholderTextColor={Colors.dark.slate600}
             value={search}
-            style={{ borderWidth: 0.5, textAlign: "center" }}
+            style={{
+              borderWidth: colorScheme === "dark" ? 0.5 : 0,
+              textAlign: "center",
+            }}
             onChange={(e) => handleSearch(e.nativeEvent.text)}
           />
           {search.length > 0 && (
@@ -110,7 +117,11 @@ const Explore = () => {
               onPress={() => setSearch("")}
               className="items-center justify-center mx-2"
             >
-              <EvilIcons name="close" size={24} style={{ color: "#94a3b8" }} />
+              <EvilIcons
+                name="close"
+                size={34}
+                style={{ color: colorScheme === "dark" ? "#94a3b8" : "black" }}
+              />
             </TouchableOpacity>
           )}
         </View>
@@ -124,7 +135,7 @@ const Explore = () => {
             setLoading={setLoading}
           />
         ) : (
-          <ScrollView className="flex-1 bg-cGradient2">
+          <ScrollView className="flex-1 dark:bg-cGradient2">
             <Discover
               nowPlaying={nowPlaying}
               upcoming={upcoming}

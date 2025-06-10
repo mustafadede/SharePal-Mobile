@@ -6,7 +6,7 @@ import { modalActions } from "@/store/modalSlice";
 import { DateFormatter } from "@/utils/formatter";
 import Feather from "@expo/vector-icons/Feather";
 import React from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, useColorScheme, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
 const FeedCardHeader = ({
@@ -16,6 +16,7 @@ const FeedCardHeader = ({
   data: Post;
   handleModal: () => void;
 }) => {
+  const colorScheme = useColorScheme();
   const newYear = DateFormatter(data.date);
   const dispatch = useDispatch();
   const { userId } = useSelector((state: RootState) => state.profile);
@@ -30,7 +31,7 @@ const FeedCardHeader = ({
     <View className={"flex-row justify-between items-center"}>
       <View className={"flex-row gap-2 items-center mb-2"}>
         <TouchableOpacity
-          className={"w-12 h-12 rounded-full bg-slate-800"}
+          className={"w-12 h-12 rounded-full dark:bg-slate-800"}
           onPress={handleClick}
         >
           {data.photoURL && <ImageComponent url={`${data.photoURL}`} />}
@@ -42,24 +43,38 @@ const FeedCardHeader = ({
               @{data.nick || data.displayName}
             </Text>
           </TouchableOpacity>
-          <Text className={"text-xs text-slate-400"}>{newYear}</Text>
+          <Text className={"text-xs text-slate-600 dark:text-slate-400"}>
+            {newYear}
+          </Text>
         </View>
       </View>
       <View className="flex-row-reverse items-center gap-1">
         {data.userId === userId && (
           <TouchableOpacity onPress={handleOptions}>
-            <Text className={"text-slate-400 text-xl mb-3 ml-1"}>...</Text>
+            <Text
+              className={"text-black dark:text-slate-400 text-xl mb-3 ml-1"}
+            >
+              ...
+            </Text>
           </TouchableOpacity>
         )}
         {data.spoiler && (
           <View className={"flex-row items-start"}>
-            <Feather name="lock" size={16} color={"#6B7280"} />
-            <Text className={"text-xs text-slate-400 ml-1"}>Spoiler</Text>
+            <Feather
+              name="lock"
+              size={16}
+              color={colorScheme === "dark" ? "#6B7280" : "black"}
+            />
+            <Text className={"text-xs text-black dark:text-slate-400 ml-1"}>
+              Spoiler
+            </Text>
           </View>
         )}
         {data.edited && (
           <View className={"flex-row items-start mr-1"}>
-            <Text className={"text-xs text-slate-400 ml-1"}>Edited</Text>
+            <Text className={"text-xs text-black dark:text-slate-400 ml-1"}>
+              Edited
+            </Text>
           </View>
         )}
       </View>

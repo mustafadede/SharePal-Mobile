@@ -13,11 +13,11 @@ const Discover = ({
   setBottomSheetVisible,
   setBottomSheetValues,
 }: {
-  nowPlaying: Object[];
-  upcoming: Object[];
-  nextYear: Object[];
-  top10Movies: Object[];
-  top10Series: Object[];
+  nowPlaying: object[];
+  upcoming: object[];
+  nextYear: object[];
+  top10Movies: object[];
+  top10Series: object[];
   setBottomSheetVisible: () => void;
   setBottomSheetValues: (value: object) => void;
 }) => {
@@ -39,7 +39,7 @@ const Discover = ({
         setBottomSheetVisible={setBottomSheetVisible}
         setBottomSheetValues={setBottomSheetValues}
       />
-      <ExploreListSection
+      {/* <ExploreListSection
         exploreTitle="explore.nextyear"
         data={nextYear}
         sliderType="movie"
@@ -59,7 +59,7 @@ const Discover = ({
         sliderType="tv"
         setBottomSheetVisible={setBottomSheetVisible}
         setBottomSheetValues={setBottomSheetValues}
-      />
+      /> */}
     </Animated.View>
   );
 };

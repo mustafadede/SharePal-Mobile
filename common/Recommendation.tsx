@@ -1,18 +1,30 @@
 import ExploreCard from "@/components/ExploreCard/ExploreCard";
 import React from "react";
-import { ScrollView, Text, View } from "react-native";
+import { ScrollView, Text, useColorScheme, View } from "react-native";
 
 const Recommendation = ({ title }: { title: string }) => {
+  const colorScheme = useColorScheme();
   return (
     <View className="py-2 h-max">
-      <Text className="mb-2 ml-2 text-xl text-slate-200">{title}</Text>
+      <Text
+        className="mb-2 ml-2 text-xl"
+        style={{
+          paddingLeft: 12,
+          fontWeight: 500,
+          color: colorScheme === "dark" ? "#e2e8f0" : "black",
+        }}
+      >
+        {title}
+      </Text>
       <ScrollView
         horizontal
-        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
         contentContainerStyle={{
           flexDirection: "row",
           justifyContent: "space-between",
           height: 270,
+          gap: 14,
+          paddingLeft: 12,
         }}
       >
         <ExploreCard

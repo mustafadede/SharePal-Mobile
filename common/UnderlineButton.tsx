@@ -1,6 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Text, TouchableOpacity } from "react-native";
+import { Text, TouchableOpacity, useColorScheme } from "react-native";
 
 const UnderlineButton = ({
   subtitle,
@@ -11,6 +11,7 @@ const UnderlineButton = ({
   title: string;
   onClickHandler: () => void;
 }) => {
+  const colorScheme = useColorScheme();
   const { t } = useTranslation();
   return (
     <TouchableOpacity
@@ -19,8 +20,8 @@ const UnderlineButton = ({
     >
       {subtitle && (
         <Text
-          className="text-slate-300"
           style={{
+            color: colorScheme !== "dark" ? "#1e293b" : "white",
             fontSize: 16,
             marginBottom: 6,
           }}

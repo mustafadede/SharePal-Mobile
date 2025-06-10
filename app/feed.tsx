@@ -13,9 +13,12 @@ import { scrollActions } from "@/store/scrollSlice";
 import React, { useEffect, useState } from "react";
 import {
   FlatList,
+  KeyboardAvoidingView,
   NativeScrollEvent,
   NativeSyntheticEvent,
+  Platform,
   RefreshControl,
+  useColorScheme,
   View,
 } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -28,7 +31,7 @@ const Feed = ({ handleModal }) => {
   const { posts, status } = useSelector((state: RootState) => state.post);
   const [lastPostDate, setLastPostDate] = useState(null); // Son post tarihini tut
   const [loadingMore, setLoadingMore] = useState(false); // Ek yükleme durumunu takip et
-
+  const colorScheme = useColorScheme();
   const dispatch = useDispatch();
   const [isRefreshing, setIsRefreshing] = useState(false);
 
@@ -86,10 +89,13 @@ const Feed = ({ handleModal }) => {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <View
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
+        keyboardVerticalOffset={Platform.OS === "android" ? -500 : 0}
         className={"flex-1 z-0 w-full h-full px-3"}
         style={{
-          backgroundColor: Colors.dark.cGradient2,
+          backgroundColor:
+            colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
           width: "100%",
           height: "100%",
         }}
@@ -134,7 +140,7 @@ const Feed = ({ handleModal }) => {
             <InfoLabel status="feed.loading" small />
           </Animated.View>
         )}
-      </View>
+      </KeyboardAvoidingView>
     </GestureHandlerRootView>
   );
 };

@@ -6,11 +6,12 @@ import Feather from "@expo/vector-icons/Feather";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Tabs } from "expo-router";
 import React, { useState } from "react";
-import { FlatList, TouchableOpacity } from "react-native";
+import { FlatList, TouchableOpacity, useColorScheme } from "react-native";
 import { useSelector } from "react-redux";
 export const flatListRef = React.createRef<FlatList<any>>();
 
 export default function TabLayout() {
+  const colorScheme = useColorScheme();
   const { scrollPosition } = useSelector((state: RootState) => state.scroll);
   const [currentTab, setCurrentTab] = useState("index");
   const handleScroll = () => {
@@ -27,8 +28,12 @@ export default function TabLayout() {
         tabBarHideOnKeyboard: true,
         tabBarActiveTintColor: Colors.dark.cFuc6,
         tabBarStyle: {
-          borderColor: Colors.dark.cDarkGray,
-          backgroundColor: Colors.dark.cGradient2,
+          borderColor:
+            colorScheme === "dark" ? Colors.dark.cDarkGray : Colors.dark.cWhite,
+          backgroundColor:
+            colorScheme === "dark"
+              ? Colors.dark.cGradient2
+              : Colors.dark.cWhite,
           borderTopWidth: 0.5,
           paddingTop: 4,
         },
@@ -76,11 +81,15 @@ export default function TabLayout() {
         options={{
           title: "Notification",
           headerShown: true,
-          headerTintColor: Colors.dark.cWhite,
           headerShadowVisible: false,
           headerStyle: {
-            backgroundColor: Colors.dark.cGradient2,
+            backgroundColor:
+              colorScheme === "dark"
+                ? Colors.dark.cGradient2
+                : Colors.dark.cWhite,
           },
+          headerTintColor:
+            colorScheme === "dark" ? Colors.dark.cWhite : "black",
           tabBarLabel: "Notification",
           tabBarIcon: ({ color }) => (
             <Ionicons name="notifications" size={26} color={color} />

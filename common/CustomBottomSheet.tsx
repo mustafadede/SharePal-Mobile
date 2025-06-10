@@ -13,8 +13,8 @@ import {
   FlatList,
   ScrollView,
   Text,
-  TextInput,
   TouchableOpacity,
+  useColorScheme,
   View,
 } from "react-native";
 import { useSelector } from "react-redux";
@@ -31,6 +31,7 @@ const CustomBottomSheet = ({
   bottomSheetModalRef: React.RefObject<BottomSheetModal>;
   snaps: string[];
 }) => {
+  const colorScheme = useColorScheme();
   const { modalStatus, modalType, modalProps } = useSelector(
     (state: RootState) => state.modal
   );
@@ -46,19 +47,41 @@ const CustomBottomSheet = ({
         keyboardBlurBehavior="none"
         handleIndicatorStyle={{ backgroundColor: "rgb(100 116 139)" }}
         keyboardBehavior="interactive"
-        android_keyboardInputMode="adjustPan"
+        android_keyboardInputMode="adjustResize"
         footerComponent={(props) => (
           <BottomSheetFooter {...props}>
             {modalType === "comments" && (
-              <View className="pt-2 pb-4 border-t bg-cGradient2 border-slate-700">
+              <View
+                className="pt-2 pb-4 border-t dark:bg-cGradient2 dark:border-slate-700"
+                style={{
+                  flex: 1,
+                }}
+              >
                 <View className="flex-row items-center mx-2 mt-2">
-                  <TextInput
-                    className="flex-1 h-10 px-2 mr-4 text-slate-100 bg-slate-800 rounded-xl"
-                    placeholder="Write a comment..."
+                  <BottomSheetTextInput
+                    className="flex-1 h-10 mr-2 text-slate-100 bg-white dark:bg-slate-800 rounded-xl"
+                    placeholder="Write comment..."
+                    style={{
+                      flex: 1,
+                      paddingLeft: 12,
+                      paddingRight: 12,
+                      paddingTop: 12,
+                      paddingBottom: 12,
+                    }}
                     placeholderTextColor={Colors.dark.icon}
                   />
-                  <TouchableOpacity className="items-center justify-center px-4 py-2 bg-fuchsia-600 rounded-xl">
-                    <Text className="text-center text-fuchsia-100">Send</Text>
+                  <TouchableOpacity
+                    className="items-center justify-center bg-fuchsia-600 rounded-xl"
+                    style={{
+                      paddingLeft: 12,
+                      paddingRight: 12,
+                      paddingTop: 12,
+                      paddingBottom: 12,
+                    }}
+                  >
+                    <Text className="text-center text-white dark:text-fuchsia-100">
+                      Send
+                    </Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -70,7 +93,8 @@ const CustomBottomSheet = ({
             style={[
               style,
               {
-                backgroundColor: Colors.dark.cGradient2,
+                backgroundColor:
+                  colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
                 borderTopLeftRadius: 20,
                 borderTopRightRadius: 20,
                 width: "100%",
@@ -109,7 +133,10 @@ const CustomBottomSheet = ({
               <BottomSheetTextInput
                 placeholder="Search for a film or series"
                 style={{
-                  backgroundColor: "#1e293b",
+                  backgroundColor:
+                    colorScheme === "dark"
+                      ? Colors.dark.cGradient1
+                      : Colors.light.cWhite,
                   borderRadius: 12,
                   height: 48,
                   padding: 12,

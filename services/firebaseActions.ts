@@ -30,7 +30,6 @@ const getSelectedUser = async (userId: string) => {
   try {
     const userRef = ref(database, `users/${userId}`);
     const snapshot = await get(userRef);
-
     if (snapshot.exists()) {
       const user = {
         uid: snapshot.key,

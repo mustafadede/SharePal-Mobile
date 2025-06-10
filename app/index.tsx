@@ -19,13 +19,14 @@ import * as Haptics from "expo-haptics";
 import { router } from "expo-router";
 import { useCallback, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { SafeAreaView, View } from "react-native";
+import { SafeAreaView, useColorScheme, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Toast from "react-native-toast-message";
 import { useDispatch } from "react-redux";
 
 export default function Home() {
   const { t } = useTranslation();
+  const colorScheme = useColorScheme();
   const [email, setEmail] = useState<string>(
     process.env.EXPO_PUBLIC_EMAIL || ""
   );
@@ -35,6 +36,7 @@ export default function Home() {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const snapPoints = useMemo(() => ["15%", "25%", "55%"], []);
   const dispatch = useDispatch();
+
   const handlePresentModalPress = useCallback(() => {
     bottomSheetModalRef.current?.present();
   }, []);
@@ -58,6 +60,8 @@ export default function Home() {
         } else if (user === "auth/invalid-email") {
           user = t("toaster.wrongmail");
         } else {
+          console.log(user);
+
           user = t("toaster.erroroccured");
         }
         Toast.show({
@@ -74,14 +78,16 @@ export default function Home() {
       }
     });
   };
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaView
         style={{
-          backgroundColor: Colors.dark.cGradient2,
+          backgroundColor:
+            colorScheme === "dark" ? Colors.dark.cGradient2 : "transparent",
         }}
       />
-      <View className="items-center justify-center flex-1 bg-cGradient2">
+      <View className="items-center justify-center flex-1 dark:bg-cGradient2">
         <ImageComponent />
         <View className="w-full px-14 justify-center items-center flex-1">
           <AppTitle title={"SharePal"} />
@@ -128,7 +134,6 @@ export default function Home() {
               style={[
                 style,
                 {
-                  backgroundColor: "rgb(15 23 42)",
                   borderTopLeftRadius: 20,
                   borderTopRightRadius: 20,
                   width: "100%",
@@ -136,6 +141,7 @@ export default function Home() {
                   alignItems: "center",
                 },
               ]}
+              className="bg-[#f2f2f2] dark:bg-black"
             />
           )}
         >

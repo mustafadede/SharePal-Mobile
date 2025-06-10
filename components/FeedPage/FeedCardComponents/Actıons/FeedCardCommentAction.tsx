@@ -1,12 +1,16 @@
-import { Text, TouchableOpacity } from "react-native";
-import React from "react";
 import { Colors } from "@/constants/Colors";
-import Ionicons from "@expo/vector-icons/Ionicons";
-import { useDispatch } from "react-redux";
+import {
+  getSelectedCommentsList,
+  getSelectedUser,
+} from "@/services/firebaseActions";
 import { modalActions } from "@/store/modalSlice";
-import { getSelectedCommentsList, getSelectedUser } from "@/services/firebaseActions";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import React from "react";
+import { Text, TouchableOpacity, useColorScheme } from "react-native";
+import { useDispatch } from "react-redux";
 
 const FeedCardCommentAction = ({ data, handleModal }) => {
+  const colorScheme = useColorScheme();
   const dispatch = useDispatch();
   const handleModalState = () => {
     handleModal();
@@ -36,9 +40,17 @@ const FeedCardCommentAction = ({ data, handleModal }) => {
   };
 
   return (
-    <TouchableOpacity className={"flex flex-row items-center gap-2"} onPress={handleModalState}>
-      <Ionicons name={"chatbox-outline"} size={21} color={Colors.dark.tColor1} className={"ml-4 text-slate-300"} />
-      <Text className={"text-slate-400"}>{data?.comments}</Text>
+    <TouchableOpacity
+      className={"flex flex-row items-center gap-2"}
+      onPress={handleModalState}
+    >
+      <Ionicons
+        name={"chatbox-outline"}
+        size={21}
+        color={colorScheme === "dark" ? Colors.dark.tColor1 : "black"}
+        className={"ml-4"}
+      />
+      <Text className={"text-black dark:text-slate-400"}>{data?.comments}</Text>
     </TouchableOpacity>
   );
 };

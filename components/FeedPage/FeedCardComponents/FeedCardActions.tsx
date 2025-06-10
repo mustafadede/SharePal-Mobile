@@ -2,7 +2,7 @@ import { Colors } from "@/constants/Colors";
 import { Post } from "@/constants/Post";
 import EvilIcons from "@expo/vector-icons/EvilIcons";
 import React from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, useColorScheme, View } from "react-native";
 import FeedCardCommentAction from "./Actıons/FeedCardCommentAction";
 import FeedCardLikeAction from "./Actıons/FeedCardLikeAction";
 import FeedCardShareAction from "./Actıons/FeedCardShareAction";
@@ -14,6 +14,7 @@ const FeedCardActions = ({
   data: Post;
   handleModal: () => void;
 }) => {
+  const colorScheme = useColorScheme();
   return (
     <View className={"flex-row items-center justify-around mt-4"}>
       <FeedCardLikeAction data={data} />
@@ -22,10 +23,10 @@ const FeedCardActions = ({
         <EvilIcons
           name="retweet"
           size={32}
-          color={Colors.dark.tColor1}
+          color={colorScheme === "dark" ? Colors.dark.tColor1 : "black"}
           className={"ml-4"}
         />
-        <Text className={"text-slate-400"}>{data?.repost}</Text>
+        <Text className={"text-black dark:text-slate-400"}>{data?.repost}</Text>
       </TouchableOpacity>
       <FeedCardShareAction data={data} handleModal={handleModal} />
     </View>

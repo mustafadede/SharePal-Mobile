@@ -28,24 +28,23 @@ import React, {
   useState,
 } from "react";
 import {
+  Image,
   ImageBackground,
   ScrollView,
   Text,
   TouchableOpacity,
+  useColorScheme,
   View,
 } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import Animated, {
-  FadeIn,
-  FadeInDown,
-  FadeInUp,
-} from "react-native-reanimated";
+import Animated, { FadeIn, FadeInUp } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
 import { movieGenresJSON, tvGenresJSON } from "../assets/genre/genreData";
 
 const searchdetail = () => {
   const viewRef = useRef(null);
+  const colorScheme = useColorScheme();
   const [isShared, setIsShared] = useState(false);
   const [setStatus, setSetStatus] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -60,7 +59,7 @@ const searchdetail = () => {
   const { nick, userId } = useSelector((state: RootState) => state.profile);
   const newDate = DateFormatter(release_date, "Search");
   const dispatch = useDispatch();
-  const [bootomSheetValues, setBottomSheetValues] = useState({
+  const [bottomSheetValues, setBottomSheetValues] = useState({
     title: title,
     release_date: release_date,
     poster_path: poster_path,
@@ -97,9 +96,9 @@ const searchdetail = () => {
   );
 
   useEffect(() => {
+    setSetStatus(false);
     dispatch(searchDetailActions.clearSearchDetail());
     dispatch(searchDetailActions.setStatus("loading"));
-    setSetStatus(false);
     useSearchWithYear(title, release_date)
       .then((res) => {
         dispatch(searchDetailActions.updateSearchDetail(res));
@@ -112,7 +111,7 @@ const searchdetail = () => {
             const arr = res.find((item) => item.id.toString() === id);
             arr && setHasWatched(true);
             arr &&
-              setBottomSheetValues({ ...bootomSheetValues, watched: true });
+              setBottomSheetValues({ ...bottomSheetValues, watched: true });
           }
         });
         getSelectedUserWantToWatch(userId).then((res) => {
@@ -120,7 +119,7 @@ const searchdetail = () => {
             const arr = res.find((item) => item.id.toString() === id);
             arr && setHasWantToWatch(true);
             arr &&
-              setBottomSheetValues({ ...bootomSheetValues, wanttowatch: true });
+              setBottomSheetValues({ ...bottomSheetValues, wanttowatch: true });
           }
         });
         getSelectedUserUnfinished(userId).then((res) => {
@@ -128,7 +127,7 @@ const searchdetail = () => {
             const arr = res.find((item) => item.id.toString() === id);
             arr && setHasUnfinished(true);
             arr &&
-              setBottomSheetValues({ ...bootomSheetValues, unfinished: true });
+              setBottomSheetValues({ ...bottomSheetValues, unfinished: true });
           }
         });
       });
@@ -137,7 +136,7 @@ const searchdetail = () => {
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <View className="flex-row items-center">
+        <View className="flex-row items-center w-8 h-8">
           {/* <TouchableOpacity onPress={() => {}} className="mr-4">
             <Feather name="plus" size={28} color="white" />
           </TouchableOpacity> */}
@@ -166,44 +165,50 @@ const searchdetail = () => {
       )
     );
     dispatch(shareSearchDetailAction.setStatus("done"));
-  }, [isShared, setStatus]);
+  }, [isShared, setStatus, dispatch]);
 
   // BottomSheet Section
-  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-  const snapPoints = useMemo(() => ["20%", "25%", "45%"], []);
+  const BottomSheetModalRef = useRef<BottomSheetModal>(null);
+  const SnapPoints = useMemo(() => ["20%", "25%", "45%"], []);
   const handlePresentModalPress = useCallback(() => {
-    bottomSheetModalRef.current?.present();
+    BottomSheetModalRef.current?.present();
   }, []);
 
-  const handleSheetChanges = useCallback((index: number) => {}, []);
+  const HandleSheetChanges = useCallback((index: number) => {}, []);
   return (
     <GestureHandlerRootView>
       <SafeAreaView
         style={{
           flex: 1,
-          backgroundColor: Colors.dark.cGradient2,
+          backgroundColor:
+            colorScheme === "dark" ? Colors.dark.cGradient2 : "transparent",
         }}
       >
         {!isShared && (
-          <ScrollView className="flex-1 bg-cGradient2">
-            <View className="w-full h-96">
+          <ScrollView className="flex-1 dark:bg-cGradient2">
+            <View className="w-full h-96 bg-cGradient2">
               <ImageBackground
                 source={{
                   uri: `https://image.tmdb.org/t/p/original/${backdrop_path}`,
                 }}
                 className={"w-full h-96 absolute z-0"}
+                style={{
+                  height: 305,
+                }}
                 resizeMode="cover"
                 blurRadius={7}
               >
-                <LinearGradient
-                  colors={["rgba(0, 0, 0, 0.4)", "rgb(14, 11, 19)"]}
-                  style={{ flex: 1 }}
-                />
+                {colorScheme === "dark" && (
+                  <LinearGradient
+                    colors={["rgba(0, 0, 0, 0.4)", "rgb(14, 11, 19)"]}
+                    style={{ flex: 1 }}
+                  />
+                )}
               </ImageBackground>
               <View
                 className={"flex-1 relative justify-center items-center z-10"}
               >
-                <Animated.Image
+                <Image
                   source={{
                     uri: `https://image.tmdb.org/t/p/original/${poster_path}`,
                   }}
@@ -211,15 +216,15 @@ const searchdetail = () => {
                   style={{ borderWidth: 2, borderColor: Colors.dark.text }}
                 />
               </View>
-              <View className="mt-0">
-                <Animated.Text
-                  className={"text-xl text-center text-fuchsia-600"}
-                  entering={FadeInDown.duration(400).delay(200)}
+              <View className="mt-2">
+                <Text
+                  className={
+                    "text-xl text-center text-white dark:text-fuchsia-600"
+                  }
                 >
                   {title}
-                </Animated.Text>
-                <Animated.View
-                  entering={FadeInDown.duration(400).delay(400)}
+                </Text>
+                <View
                   className={"flex-row justify-center gap-1 mt-1 items-center"}
                 >
                   <Text className={"text-lg text-center text-slate-300 mr-2"}>
@@ -232,13 +237,13 @@ const searchdetail = () => {
                   >
                     {mediaType === "movie" ? "Movie" : "TV"}
                   </Text>
-                </Animated.View>
+                </View>
               </View>
             </View>
             <Animated.View
               entering={FadeInUp.duration(400).delay(800)}
               className={
-                "flex-row flex-wrap px-3 pt-2 justify-center gap-1 items-center"
+                "flex-row flex-wrap px-3 pt-2 mt-2 justify-center gap-1 items-center"
               }
             >
               {genre_ids ? (
@@ -246,7 +251,7 @@ const searchdetail = () => {
                   <Text
                     key={genre}
                     className={
-                      "text-sm  border border-slate-300 text-center px-3 rounded-lg text-slate-300"
+                      "text-sm  border border-slate-700 dark:border-slate-300 text-center px-3 rounded-lg text-black dark:text-slate-300"
                     }
                   >
                     {mediaType === "movie"
@@ -263,13 +268,13 @@ const searchdetail = () => {
                 entering={FadeInUp.duration(400).delay(1200)}
                 className="w-2/3"
               >
-                <Text className="text-2xl text-start text-slate-200">
+                <Text className="text-2xl text-start text-dark dark:text-slate-200">
                   Overview
                 </Text>
                 {overview ? (
                   <>
                     <Text
-                      className="text-md text-start text-slate-400"
+                      className="text-md text-start text-slate-600 dark:text-slate-400"
                       numberOfLines={isExpanded ? 0 : 2}
                     >
                       {overview}
@@ -296,12 +301,14 @@ const searchdetail = () => {
                 entering={FadeIn.duration(400).delay(1400)}
                 className="flex-col justify-start w-1/3 ml-4"
               >
-                <Text className="text-2xl text-start text-slate-300">
+                <Text className="text-2xl text-start text-black dark:text-slate-300">
                   Rating
                 </Text>
                 <Text className="pt-2 text-3xl min-h-fit text-start text-fuchsia-400">
                   {`${vote_average}`[0]}{" "}
-                  <Text className="text-lg text-slate-300">/ 10</Text>
+                  <Text className="text-lg text-black dark:text-slate-300">
+                    / 10
+                  </Text>
                 </Text>
               </Animated.View>
             </View>
@@ -328,10 +335,16 @@ const searchdetail = () => {
             activeOpacity={0.8}
             style={{
               position: "absolute",
-              borderColor: Colors.dark.cDarkGray,
+              borderColor:
+                colorScheme === "dark"
+                  ? Colors.dark.cDarkGray
+                  : Colors.dark.cFuc6,
               bottom: 64,
               right: 10,
-              backgroundColor: Colors.dark.cGradient2,
+              backgroundColor:
+                colorScheme === "dark"
+                  ? Colors.dark.cGradient2
+                  : Colors.dark.cFuc6,
               borderRadius: 50,
               padding: 14,
               elevation: 5,
@@ -343,10 +356,10 @@ const searchdetail = () => {
         )}
         <BottomSheetModalProvider>
           <BottomSheetModal
-            ref={bottomSheetModalRef}
+            ref={BottomSheetModalRef}
             index={2}
-            snapPoints={snapPoints}
-            onChange={handleSheetChanges}
+            SnapPoints={SnapPoints}
+            onChange={HandleSheetChanges}
             keyboardBlurBehavior="none"
             handleIndicatorStyle={{ backgroundColor: "rgb(100 116 139)" }}
             keyboardBehavior="interactive"
@@ -368,7 +381,7 @@ const searchdetail = () => {
             )}
           >
             <BottomSheetView style={{ flex: 1, marginTop: 10 }}>
-              <ExploreBottomSheet bottomSheetValues={bootomSheetValues} />
+              <ExploreBottomSheet bottomSheetValues={bottomSheetValues} />
             </BottomSheetView>
           </BottomSheetModal>
         </BottomSheetModalProvider>

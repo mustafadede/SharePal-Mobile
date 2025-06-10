@@ -2,7 +2,12 @@ import { Colors } from "@/constants/Colors";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { TextInput, TouchableOpacity, View } from "react-native";
+import {
+  TextInput,
+  TouchableOpacity,
+  useColorScheme,
+  View,
+} from "react-native";
 
 const PrimaryInput = ({
   placeholder,
@@ -13,17 +18,20 @@ const PrimaryInput = ({
   visibility?: boolean;
   setInput: (text: string) => void;
 }) => {
+  const colorScheme = useColorScheme();
   const { t } = useTranslation();
   const [visible, setVisible] = React.useState(visibility);
   return (
     <View className="relative flex flex-row-reverse items-center w-4/5 h-12 mb-4 rounded-lg">
       <TextInput
         style={{
-          backgroundColor: Colors.dark.cGradient1,
+          backgroundColor:
+            colorScheme === "dark"
+              ? Colors.dark.cGradient1
+              : Colors.light.cWhite,
           color: Colors.dark.cWhite,
           borderRadius: 10,
         }}
-        selectionColor="#C026D3"
         placeholderTextColor={Colors.dark.tColor1}
         className={visibility ? "w-full h-12 pl-4" : "w-full h-12 px-4"}
         placeholder={t(placeholder)}

@@ -1,5 +1,4 @@
 import ActionPill from "@/common/ActionPill";
-import { DateFormatter } from "@/utils/formatter";
 import Entypo from "@expo/vector-icons/Entypo";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -20,7 +19,6 @@ type ExploreBottomSheetProps = {
 
 const ExploreBottomSheet = React.memo(
   ({ bottomSheetValues }: { bottomSheetValues: ExploreBottomSheetProps }) => {
-    const NewYear = DateFormatter(bottomSheetValues.release_date, "Explore");
     const thisYear = new Date().getFullYear();
     const { t } = useTranslation();
     return (

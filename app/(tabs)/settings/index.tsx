@@ -53,6 +53,7 @@ const Settings = () => {
       });
     });
   };
+
   return (
     <SafeAreaView
       className="flex-1 w-full h-full"
@@ -61,7 +62,7 @@ const Settings = () => {
         paddingTop: Platform.OS === "android" ? RNStatusBar.currentHeight : 0, // Sadece Android için padding ekler
       }}
     >
-      <View className="flex-1 bg-cGradient2">
+      <View className="flex-1 bg-[#f2f2f2] dark:bg-cGradient2">
         <ImageBackground
           className="flex items-center justify-center px-4 mx-4 mt-4 mb-2 h-52 bg-slate-800 rounded-2xl"
           source={profile.banner && { uri: profile.banner }}
@@ -80,7 +81,7 @@ const Settings = () => {
             </View>
           </View>
         </ImageBackground>
-        <View className="flex-row items-center justify-center gap-4 pb-4 mx-4 my-2 rounded-2xl bg-slate-900">
+        <View className="flex-row items-center justify-center gap-4 py-4 mx-4 my-2 rounded-2xl bg-slate-900">
           <View className="items-center flex-1">
             <Text className="text-lg text-white">{profile.followers}</Text>
             <Text className="text-lg text-white">Followers</Text>
@@ -108,8 +109,8 @@ const Settings = () => {
             <Text
               className={
                 tabs === 0
-                  ? "text-slate-950 text-center"
-                  : "text-white text-center"
+                  ? "text-slate-50 dark:text-slate-950 text-center"
+                  : "dark:text-white text-center"
               }
             >
               Stats
@@ -126,8 +127,8 @@ const Settings = () => {
             <Text
               className={
                 tabs === 1
-                  ? "text-slate-950 text-center"
-                  : "text-white text-center"
+                  ? "text-slate-50 dark:text-slate-950 text-center"
+                  : "dark:text-white text-center"
               }
             >
               Lists
@@ -144,8 +145,8 @@ const Settings = () => {
             <Text
               className={
                 tabs === 2
-                  ? "text-slate-950 text-center"
-                  : "text-white text-center"
+                  ? "text-slate-50 dark:text-slate-950 text-center"
+                  : "dark:text-white text-center"
               }
             >
               Posts
@@ -162,8 +163,8 @@ const Settings = () => {
             <Text
               className={
                 tabs === 3
-                  ? "text-slate-950 text-center"
-                  : "text-white text-center"
+                  ? "text-slate-50 dark:text-slate-950 text-center"
+                  : "dark:text-white text-center"
               }
             >
               Activities

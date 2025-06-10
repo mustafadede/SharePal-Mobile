@@ -1,5 +1,4 @@
 import CustomBottomSheet from "@/common/CustomBottomSheet";
-import Line from "@/common/Line";
 import Recommendation from "@/common/Recommendation";
 import { Colors } from "@/constants/Colors";
 import { RootState } from "@/store";
@@ -8,6 +7,7 @@ import { postsActions } from "@/store/postSlice";
 import Entypo from "@expo/vector-icons/Entypo";
 import Feather from "@expo/vector-icons/Feather";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import * as Haptics from "expo-haptics";
 import { useNavigation } from "expo-router";
 import React, { useCallback, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
@@ -16,6 +16,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  useColorScheme,
   View,
 } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -23,6 +24,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 const createpost = () => {
   const { t } = useTranslation();
+  const colorScheme = useColorScheme();
   const dispatch = useDispatch();
   const { userId, photoURL, nick } = useSelector(
     (state: RootState) => state.profile
@@ -81,17 +83,18 @@ const createpost = () => {
 
   return (
     <GestureHandlerRootView className="w-full h-full">
-      <ScrollView className="flex-1 bg-cGradient2">
+      <ScrollView className="flex-1 dark:bg-cGradient2">
         <TextInput
           autoFocus
           style={{
-            backgroundColor: "#1e293b",
+            backgroundColor: colorScheme === "dark" ? "#1e293b" : "white",
             borderRadius: 12,
             padding: 8,
             marginHorizontal: 8,
-            color: Colors.dark.cWhite,
+            color:
+              colorScheme === "dark" ? Colors.dark.cWhite : Colors.dark.tColor1,
             height: 100,
-            fontSize: 18,
+            fontSize: 16,
             marginTop: 10,
           }}
           multiline
@@ -108,23 +111,28 @@ const createpost = () => {
               })
             );
           }}
-          placeholderTextColor={"#ffffff"}
+          placeholderTextColor={
+            colorScheme === "dark" ? "#ffffff" : Colors.dark.tColor1
+          }
           placeholder={t("createpost.whats")}
         />
         <View className={"flex-row justify-around items-center pt-4 mx-2"}>
           <TouchableOpacity
             onPress={handlePresentModalPress}
-            className="flex-row flex-1 px-4 py-2 mr-4 rounded-md bg-slate-800"
+            className="flex-row flex-1 px-4 py-2 mr-4 rounded-md bg-fuchsia-600 dark:bg-slate-800"
           >
             <Entypo name="attachment" size={18} color="white" />
             <Text className="ml-2 text-white">{t("createpost.attach")}</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => dispatch(postsActions.setSpoiler())}
+            onPress={() => {
+              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
+              dispatch(postsActions.setSpoiler());
+            }}
             className={
               createdPost.spoiler
-                ? "flex-row flex-1 px-4 py-2 rounded-md bg-slate-600"
-                : "flex-row flex-1 px-4 py-2 rounded-md bg-slate-800"
+                ? "flex-row flex-1 px-4 py-2 rounded-md bg-fuchsia-600 dark:bg-slate-600"
+                : "flex-row flex-1 px-4 py-2 rounded-md bg-fuchsia-800 dark:bg-slate-800"
             }
           >
             {!createdPost.spoiler ? (
@@ -135,7 +143,6 @@ const createpost = () => {
             <Text className="ml-2 text-white">{t("createpost.spoiler")}</Text>
           </TouchableOpacity>
         </View>
-        <Line />
         <Recommendation title="Search History" />
         <Recommendation title="Suggestions" />
         <CustomBottomSheet

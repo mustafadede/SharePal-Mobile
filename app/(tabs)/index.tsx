@@ -6,30 +6,40 @@ import Feather from "@expo/vector-icons/Feather";
 import { BottomSheetModal, TouchableOpacity } from "@gorhom/bottom-sheet";
 import { router } from "expo-router";
 import { useCallback, useRef, useState } from "react";
-import { Platform, StatusBar as RNStatusBar, SafeAreaView } from "react-native";
+import {
+  Platform,
+  StatusBar as RNStatusBar,
+  SafeAreaView,
+  useColorScheme,
+} from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useDispatch } from "react-redux";
 import Feed from "../feed";
 
 const Index = () => {
   const dispatch = useDispatch();
+  const colorScheme = useColorScheme();
   const [tab, setTab] = useState(0);
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const handlePresentModalPress = useCallback(() => {
     bottomSheetModalRef.current?.present();
   }, []);
-  const handleSheetChanges = useCallback((index: number) => {
-    if (index < 0) {
-      dispatch(modalActions.closeModal());
-    }
-  }, []);
+  const handleSheetChanges = useCallback(
+    (index: number) => {
+      if (index < 0) {
+        dispatch(modalActions.closeModal());
+      }
+    },
+    [dispatch]
+  );
 
   return (
     <GestureHandlerRootView>
       <SafeAreaView
         style={{
           flex: 1,
-          backgroundColor: Colors.dark.cGradient2,
+          backgroundColor:
+            colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
           paddingTop: Platform.OS === "android" ? RNStatusBar.currentHeight : 0,
         }}
       >
@@ -40,10 +50,16 @@ const Index = () => {
           activeOpacity={0.8}
           style={{
             position: "absolute",
-            borderColor: Colors.dark.cDarkGray,
+            borderColor:
+              colorScheme === "dark"
+                ? Colors.dark.cDarkGray
+                : Colors.dark.cFuc6,
             bottom: 10,
             right: 10,
-            backgroundColor: Colors.dark.cGradient2,
+            backgroundColor:
+              colorScheme === "dark"
+                ? Colors.dark.cGradient2
+                : Colors.dark.cFuc6,
             borderRadius: 50,
             padding: 14,
             elevation: 5,

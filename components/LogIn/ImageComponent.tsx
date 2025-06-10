@@ -1,6 +1,6 @@
 import { LinearGradient } from "expo-linear-gradient";
 import React, { useEffect } from "react";
-import { View } from "react-native";
+import { useColorScheme, View } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -20,6 +20,7 @@ const AnimatedView = Animated.createAnimatedComponent(View);
 
 const ImageComponent = () => {
   const translateY = useSharedValue(0);
+  const colorScheme = useColorScheme();
 
   useEffect(() => {
     translateY.value = withRepeat(
@@ -29,7 +30,7 @@ const ImageComponent = () => {
       -1,
       false
     );
-  }, []);
+  }, [translateY]);
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ translateY: translateY.value }],
@@ -45,7 +46,7 @@ const ImageComponent = () => {
               key={i}
               style={{
                 height: CARD_HEIGHT,
-                width: 220,
+                width: 200,
                 marginBottom: SPACING,
                 borderRadius: 16,
                 overflow: "hidden",
@@ -64,7 +65,10 @@ const ImageComponent = () => {
       </View>
 
       <LinearGradient
-        colors={["rgb(14, 11, 19)", "transparent"]}
+        colors={[
+          colorScheme === "dark" ? "rgb(14, 11, 19)" : "transparent",
+          "transparent",
+        ]}
         start={{ x: 0.5, y: 1 }}
         end={{ x: 0.5, y: 0 }}
         style={{
