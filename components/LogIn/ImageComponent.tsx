@@ -1,84 +1,30 @@
 import { LinearGradient } from "expo-linear-gradient";
-import React, { useEffect } from "react";
-import { useColorScheme, View } from "react-native";
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withRepeat,
-  withTiming,
-} from "react-native-reanimated";
-
-const images = new Array(6).fill(
-  "https://m.media-amazon.com/images/M/MV5BZjE4ZDU4ZjMtZjliYS00M2ZmLThkNTItN2U3MmJjOGU0NmIxXkEyXkFqcGc@._V1_.jpg"
-);
-
-const CARD_HEIGHT = 400;
-const SPACING = 24;
-const TOTAL_HEIGHT = (CARD_HEIGHT + SPACING) * images.length;
-
-const AnimatedView = Animated.createAnimatedComponent(View);
+import React from "react";
+import { Image, useColorScheme } from "react-native";
 
 const ImageComponent = () => {
-  const translateY = useSharedValue(0);
   const colorScheme = useColorScheme();
-
-  useEffect(() => {
-    translateY.value = withRepeat(
-      withTiming(-TOTAL_HEIGHT, {
-        duration: 20000,
-      }),
-      -1,
-      false
-    );
-  }, [translateY]);
-
-  const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ translateY: translateY.value }],
-  }));
-
   return (
     <>
-      <View className="absolute top-0 left-0 right-0 w-full h-96 overflow-hidden items-center z-0">
-        <AnimatedView style={[animatedStyle]}>
-          {/* Duplicate to fill loop space */}
-          {[...images, ...images].map((uri, i) => (
-            <View
-              key={i}
-              style={{
-                height: CARD_HEIGHT,
-                width: 200,
-                marginBottom: SPACING,
-                borderRadius: 16,
-                overflow: "hidden",
-                borderWidth: 1,
-                borderColor: "#94a3b8",
-              }}
-            >
-              <Animated.Image
-                source={{ uri }}
-                resizeMode="cover"
-                style={{ height: "100%", width: "100%" }}
-              />
-            </View>
-          ))}
-        </AnimatedView>
-      </View>
-
+      <Image
+        source={{
+          uri: "https://firebasestorage.googleapis.com/v0/b/sharepal-5d528.appspot.com/o/sharepal%2FDesktop%20-%201%20(1).png?alt=media&token=78b8d741-7575-484c-9def-e44a242fb683",
+        }}
+        className="absolute top-0 left-0 right-0 z-0 w-full h-96"
+        onError={(error) =>
+          console.error("Image loading error:", error.nativeEvent?.error)
+        }
+        onLoad={() => console.log("Image loaded successfully")}
+      />
       <LinearGradient
-        colors={[
-          colorScheme === "dark" ? "rgb(14, 11, 19)" : "transparent",
-          "transparent",
-        ]}
+        colors={
+          colorScheme === "dark"
+            ? ["rgb(14, 11, 19)", "transparent"]
+            : ["transparent", "transparent"]
+        }
+        className="absolute top-0 left-0 right-0 z-10 w-full h-96"
         start={{ x: 0.5, y: 1 }}
         end={{ x: 0.5, y: 0 }}
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          right: 0,
-          height: "39%",
-          zIndex: 10,
-        }}
       />
     </>
   );

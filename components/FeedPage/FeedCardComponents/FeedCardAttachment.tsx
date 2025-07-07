@@ -28,7 +28,9 @@ const FeedCardAttachment = ({
           },
         });
       }}
-      className={"flex-row py-2 px-4 rounded-2xl items-center bg-slate-800"}
+      className={
+        "flex-row py-2 px-4 rounded-2xl items-center dark:border dark:border-slate-600 bg-slate-800"
+      }
     >
       <View className={"w-12 h-12 rounded-full bg-slate-800"}>
         {attachedData?.poster ? (

@@ -22,7 +22,6 @@ import {
   View,
 } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
 import { useDispatch, useSelector } from "react-redux";
 import { flatListRef } from "./(tabs)/_layout";
 
@@ -108,7 +107,7 @@ const Feed = ({ handleModal }) => {
         {status === "done" && (
           <FlatList
             ref={flatListRef}
-            className="pt-20"
+            className="pt-20 pb-20"
             keyExtractor={(item, index) => item.postId + index.toString()}
             refreshControl={
               <RefreshControl
@@ -120,7 +119,6 @@ const Feed = ({ handleModal }) => {
               />
             }
             data={posts}
-            fadingEdgeLength={24}
             showsVerticalScrollIndicator={false}
             refreshing={isRefreshing}
             onRefresh={onRefresh}
@@ -131,14 +129,6 @@ const Feed = ({ handleModal }) => {
             onEndReachedThreshold={0.5}
             maxToRenderPerBatch={10}
           />
-        )}
-        {loadingMore && (
-          <Animated.View
-            entering={FadeInDown.duration(300)}
-            exiting={FadeInUp.duration(150)}
-          >
-            <InfoLabel status="feed.loading" small />
-          </Animated.View>
         )}
       </KeyboardAvoidingView>
     </GestureHandlerRootView>

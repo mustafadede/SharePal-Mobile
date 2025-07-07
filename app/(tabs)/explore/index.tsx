@@ -135,7 +135,10 @@ const Explore = () => {
             setLoading={setLoading}
           />
         ) : (
-          <ScrollView className="flex-1 dark:bg-cGradient2">
+          <ScrollView
+            className="flex-1 dark:bg-cGradient2"
+            keyboardDismissMode="on-drag"
+          >
             <Discover
               nowPlaying={nowPlaying}
               upcoming={upcoming}

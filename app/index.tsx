@@ -19,7 +19,13 @@ import * as Haptics from "expo-haptics";
 import { router } from "expo-router";
 import { useCallback, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { SafeAreaView, useColorScheme, View } from "react-native";
+import {
+  Platform,
+  StatusBar as RNStatusBar,
+  SafeAreaView,
+  useColorScheme,
+  View,
+} from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Toast from "react-native-toast-message";
 import { useDispatch } from "react-redux";
@@ -85,6 +91,7 @@ export default function Home() {
         style={{
           backgroundColor:
             colorScheme === "dark" ? Colors.dark.cGradient2 : "transparent",
+          paddingTop: Platform.OS === "android" ? RNStatusBar.currentHeight : 0,
         }}
       />
       <View className="items-center justify-center flex-1 dark:bg-cGradient2">

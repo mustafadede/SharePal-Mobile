@@ -2,6 +2,7 @@ import { Post } from "@/constants/Post";
 import { BlurView } from "expo-blur";
 import React, { useState } from "react";
 import { Text, TouchableOpacity, useColorScheme, View } from "react-native";
+
 const FeedCardContent = ({
   data,
   haveSpoiler = false,
@@ -12,23 +13,24 @@ const FeedCardContent = ({
   const colorScheme = useColorScheme();
   const [spoiler, setSpoiler] = useState(haveSpoiler);
   const [isExpanded, setIsExpanded] = useState(false);
+
   return (
     <View>
-      {haveSpoiler ? (
-        <TouchableOpacity onPress={() => setSpoiler(!spoiler)}>
+      {haveSpoiler && spoiler ? (
+        <TouchableOpacity onPress={() => setSpoiler(false)} activeOpacity={0.8}>
           <BlurView
-            intensity={100}
+            intensity={10}
+            experimentalBlurMethod="dimezisBlurView"
             tint={colorScheme === "dark" ? "dark" : "light"}
-            style={{
-              backgroundColor:
-                colorScheme === "dark"
-                  ? "rgba(20,20,20,0.3)"
-                  : "rgba(255,255,255,0.7)",
-              borderRadius: 8,
-              padding: 8,
-            }}
+            style={{ borderRadius: 8, overflow: "hidden" }}
           >
-            <Text className="text-white mb-2">{data.content}</Text>
+            <Text
+              numberOfLines={2}
+              className="text-white mb-2"
+              style={{ padding: 8 }}
+            >
+              {data.content}
+            </Text>
           </BlurView>
         </TouchableOpacity>
       ) : (

@@ -82,12 +82,7 @@ export default function TabLayout() {
           title: "Notification",
           headerShown: true,
           headerShadowVisible: false,
-          headerStyle: {
-            backgroundColor:
-              colorScheme === "dark"
-                ? Colors.dark.cGradient2
-                : Colors.dark.cWhite,
-          },
+          headerTransparent: true,
           headerTintColor:
             colorScheme === "dark" ? Colors.dark.cWhite : "black",
           tabBarLabel: "Notification",
