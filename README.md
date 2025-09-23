@@ -41,3 +41,15 @@
 ```
 
 ##### Disclaimer : If you don't have .env file this project don't run in your local machine. If you want to run locally contact this address `mustafa.dede.0016@gmail.com`
+
+
+## ⚠️ License Notice
+
+This project was previously distributed under the MIT License.  
+However, as of the current version, **all rights are reserved**.
+
+You are **not permitted** to copy, distribute, modify, or use this software without **explicit written permission** from the author.
+
+Unauthorized use, reproduction, or redistribution of any part of this codebase is strictly prohibited.
+
+For licensing inquiries, please contact the repository owner.
