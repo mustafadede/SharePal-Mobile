@@ -41,5 +41,16 @@
   "explore.search": "Film veya dizi ara",
   "tabs.feed": "Akış",
   "tabs.following": "Takip ettiklerim",
-   "feed.loading": "Yükleniyor"
+  "feed.loading": "Yükleniyor",
+  "modal.writecomment": "Yorum yazın...",
+  "modal.nocomment": "Herhangi bir yorum mevcut değil.",
+  "modal.feedcardtitle": "Gönderi Paylaş",
+  "modal.feedcardoptionstitle": "Gönderi Seçenekleri",
+  "modal.attachtitle": "Dizi veya film ara",
+  "searchdetail.overview": "Genel Bakış",
+  "searchdetail.movie": "Film",
+  "searchdetail.tv": "Dizi",
+  "searchdetail.rating": "Derecelendirme",
+  "searchdetail.readmore": "Daha fazla",
+  "searchdetail.close": "Kapat"
 }

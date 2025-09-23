@@ -1,7 +1,15 @@
 import { Post } from "@/constants/Post";
 import { BlurView } from "expo-blur";
-import React, { useState } from "react";
-import { Text, TouchableOpacity, useColorScheme, View } from "react-native";
+import React, { useRef, useState } from "react";
+import {
+  Animated,
+  Platform,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  useColorScheme,
+  View,
+} from "react-native";
 
 const FeedCardContent = ({
   data,
@@ -12,40 +20,63 @@ const FeedCardContent = ({
 }) => {
   const colorScheme = useColorScheme();
   const [spoiler, setSpoiler] = useState(haveSpoiler);
-  const [isExpanded, setIsExpanded] = useState(false);
+
+  // Animated opacity for overlay/blur
+  const opacity = useRef(new Animated.Value(haveSpoiler ? 1 : 0)).current;
+
+  const handleReveal = () => {
+    if (spoiler) {
+      Animated.timing(opacity, {
+        toValue: 0,
+        duration: 500, // fade speed
+        useNativeDriver: true,
+      }).start(() => {
+        setSpoiler(false);
+      });
+    }
+  };
 
   return (
     <View>
-      {haveSpoiler && spoiler ? (
-        <TouchableOpacity onPress={() => setSpoiler(false)} activeOpacity={0.8}>
-          <BlurView
-            intensity={10}
-            experimentalBlurMethod="dimezisBlurView"
-            tint={colorScheme === "dark" ? "dark" : "light"}
-            style={{ borderRadius: 8, overflow: "hidden" }}
-          >
-            <Text
-              numberOfLines={2}
-              className="text-white mb-2"
-              style={{ padding: 8 }}
-            >
-              {data.content}
-            </Text>
-          </BlurView>
-        </TouchableOpacity>
-      ) : (
-        <TouchableOpacity
-          activeOpacity={0.8}
-          onPress={() => setIsExpanded(true)}
-        >
+      <TouchableOpacity onPress={handleReveal} activeOpacity={0.8}>
+        <View className="overflow-hidden rounded-lg">
           <Text
-            numberOfLines={isExpanded ? 0 : 2}
-            className="text-black dark:text-white mb-2"
+            numberOfLines={2}
+            className="text-white mb-2"
+            style={{ padding: 8 }}
           >
-            {data?.content}
+            {data.content}
           </Text>
-        </TouchableOpacity>
-      )}
+
+          {/* Spoiler overlay */}
+          {spoiler && (
+            <Animated.View
+              style={[StyleSheet.absoluteFill, { opacity }]}
+              pointerEvents="none"
+            >
+              {Platform.OS === "ios" ? (
+                <BlurView
+                  intensity={20}
+                  tint={colorScheme === "dark" ? "dark" : "light"}
+                  style={StyleSheet.absoluteFill}
+                />
+              ) : (
+                <View
+                  style={[
+                    StyleSheet.absoluteFill,
+                    {
+                      backgroundColor:
+                        colorScheme === "dark"
+                          ? "rgba(0,0,0,0.6)"
+                          : "rgba(255,255,255,0.6)",
+                    },
+                  ]}
+                />
+              )}
+            </Animated.View>
+          )}
+        </View>
+      </TouchableOpacity>
     </View>
   );
 };

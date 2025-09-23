@@ -34,10 +34,30 @@ export default function RootLayout() {
             headerBackTitle: t("headerbacktitle.title"),
           }}
         />
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="(tabs)"
+          options={{
+            headerShown: false,
+            headerStyle: {
+              backgroundColor:
+                colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
+            },
+            headerBackVisible: false,
+            headerTintColor:
+              colorScheme === "dark" ? Colors.dark.cWhite : "black",
+            headerTransparent: true,
+            headerTitle: "SharePal",
+            headerTitleAlign: "center",
+            headerTitleStyle: {
+              fontWeight: "600",
+              fontSize: 24,
+            },
+          }}
+        />
         <Stack.Screen
           name="createpost"
           options={{
+            presentation: "modal",
             headerStyle: {
               backgroundColor:
                 colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
@@ -54,6 +74,22 @@ export default function RootLayout() {
         <Stack.Screen
           name="searchdetail"
           options={{
+            presentation: "card",
+            headerShown: true,
+            headerTransparent: true,
+            headerTitleAlign: "center",
+            headerStyle: {
+              backgroundColor: "transparent",
+            },
+            headerTintColor: "#ffffff",
+            headerTitle: "",
+            animation: "slide_from_right",
+            headerBackTitle: t("headerbacktitle.title"),
+          }}
+        />
+        <Stack.Screen
+          name="profile"
+          options={{
             headerShown: true,
             headerTransparent: true,
             headerTitleAlign: "center",
@@ -69,6 +105,7 @@ export default function RootLayout() {
         <Stack.Screen
           name="collection"
           options={{
+            presentation: "modal",
             headerShown: true,
             headerStyle: {
               backgroundColor: Colors.dark.cGradient2,

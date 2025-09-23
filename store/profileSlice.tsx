@@ -31,6 +31,7 @@ const profileSlice = createSlice({
     listPrivacy: "Public",
     totalSeries: 0,
     totalFilms: 0,
+    lists: [],
   },
   reducers: {
     updateProfile: (state, action) => {
@@ -50,6 +51,9 @@ const profileSlice = createSlice({
     },
     setStatus: (state, action) => {
       state.status = action.payload;
+    },
+    initilizeLists: (state, action) => {
+      state.lists = action.payload;
     },
   },
 });

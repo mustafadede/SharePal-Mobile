@@ -41,6 +41,17 @@
    "explore.search": "Search",
    "tabs.feed": "Feed",
    "tabs.following": "Following",
-   "feed.loading": "Loading..."
+   "feed.loading": "Loading...",
+   "modal.writecomment": "Write comment...",
+   "modal.nocomment": "No comments",
+   "modal.feedcardtitle": "Feed Card Share",
+   "modal.feedcardoptionstitle": "Feed Card Options",
+   "modal.attachtitle": "Search for a film or series",
+   "searchdetail.overview": "Overview",
+   "searchdetail.movie": "Movie",
+   "searchdetail.tv": "TV",
+   "searchdetail.rating": "Rating",
+   "searchdetail.readmore": "Read More",
+   "searchdetail.close": "Close"
    
 }

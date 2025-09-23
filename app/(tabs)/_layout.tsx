@@ -51,7 +51,7 @@ export default function TabLayout() {
             if (scrollPosition > 10 && currentTab === "index") {
               return (
                 <TouchableOpacity onPress={handleScroll}>
-                  <AntDesign name="upcircleo" size={26} color={color} />
+                  <AntDesign name="up-circle" size={26} color={color} />
                 </TouchableOpacity>
               );
             } else {

@@ -215,11 +215,45 @@ const getSelectedCommentsList = async (postId: string) => {
   }
 };
 
+const getSelectedUserLists = async (userId: string) => {
+  try {
+    const pinnedLists = ref(database, `pinnedList/${userId}`);
+    const snapshot = await get(pinnedLists);
+    const selectedUserLists: Array<{
+      id: string;
+      title: string;
+      isPinned: boolean;
+      date: number;
+      list: any;
+      edited: boolean;
+      editedDate: number;
+    }> = [];
+
+    if (snapshot.exists()) {
+      snapshot.forEach((childSnapshot) => {
+        selectedUserLists.push({
+          id: childSnapshot.val().id,
+          title: childSnapshot.val().title,
+          isPinned: childSnapshot.val().isPinned,
+          date: childSnapshot.val().date,
+          list: childSnapshot.val().list,
+          edited: childSnapshot.val().edited,
+          editedDate: childSnapshot.val().editedDate,
+        });
+      });
+    }
+    return selectedUserLists;
+  } catch (error) {
+    return error;
+  }
+};
+
 export {
   getAllPosts,
   getPreviousPosts,
   getSelectedCommentsList,
   getSelectedUser,
+  getSelectedUserLists,
   getSelectedUserUnfinished,
   getSelectedUserWantToWatch,
   getSelectedUserWatched,

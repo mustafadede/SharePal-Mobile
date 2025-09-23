@@ -9,14 +9,8 @@ import {
   BottomSheetView,
 } from "@gorhom/bottom-sheet";
 import React, { useMemo } from "react";
-import {
-  FlatList,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  useColorScheme,
-  View,
-} from "react-native";
+import { useTranslation } from "react-i18next";
+import { FlatList, ScrollView, useColorScheme, View } from "react-native";
 import { useSelector } from "react-redux";
 import AttachItem from "./AttachItem";
 import CommentCards from "./CommentCards";
@@ -36,6 +30,7 @@ const CustomBottomSheet = ({
     (state: RootState) => state.modal
   );
   const snapPoints = useMemo(() => snaps, []);
+  const { t } = useTranslation();
 
   return (
     <BottomSheetModalProvider>
@@ -60,7 +55,7 @@ const CustomBottomSheet = ({
                 <View className="flex-row items-center mx-2 mt-2">
                   <BottomSheetTextInput
                     className="flex-1 h-10 mr-2 text-slate-100 bg-white dark:bg-slate-800 rounded-xl"
-                    placeholder="Write comment..."
+                    placeholder={t("modal.writecomment")}
                     style={{
                       flex: 1,
                       paddingLeft: 12,
@@ -68,21 +63,9 @@ const CustomBottomSheet = ({
                       paddingTop: 12,
                       paddingBottom: 12,
                     }}
+                    keyboardType="default"
                     placeholderTextColor={Colors.dark.icon}
                   />
-                  <TouchableOpacity
-                    className="items-center justify-center bg-fuchsia-600 rounded-xl"
-                    style={{
-                      paddingLeft: 12,
-                      paddingRight: 12,
-                      paddingTop: 12,
-                      paddingBottom: 12,
-                    }}
-                  >
-                    <Text className="text-center text-white dark:text-fuchsia-100">
-                      Send
-                    </Text>
-                  </TouchableOpacity>
                 </View>
               </View>
             )}
@@ -120,18 +103,18 @@ const CustomBottomSheet = ({
             />
           )}
           {modalStatus === "noData" && modalType === "comments" && (
-            <InfoLabel status="No comments" />
+            <InfoLabel status={t("modal.nocomment")} />
           )}
           {modalType === "feedcardshare" && (
-            <InfoLabel status="Feed Card Share" />
+            <InfoLabel status={t("modal.feedcardtitle")} />
           )}
           {modalType === "feedcardoptions" && (
-            <InfoLabel status="Feed Card Options" />
+            <InfoLabel status={t("modal.feedcardoptionstitle")} />
           )}
           {modalType === "attach" && (
             <View className="flex-1 px-4">
               <BottomSheetTextInput
-                placeholder="Search for a film or series"
+                placeholder={t("modal.attachtitle")}
                 style={{
                   backgroundColor:
                     colorScheme === "dark"

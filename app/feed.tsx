@@ -119,11 +119,11 @@ const Feed = ({ handleModal }) => {
               />
             }
             data={posts}
-            showsVerticalScrollIndicator={false}
+            showsVerticalScrollIndicator={true}
             refreshing={isRefreshing}
             onRefresh={onRefresh}
             onScroll={handleScroll}
-            scrollEventThrottle={32}
+            scrollEventThrottle={16}
             renderItem={renderItem}
             onEndReached={fetchMorePosts}
             onEndReachedThreshold={0.5}

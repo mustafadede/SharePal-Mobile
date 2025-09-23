@@ -27,6 +27,7 @@ import React, {
   useRef,
   useState,
 } from "react";
+import { useTranslation } from "react-i18next";
 import {
   Image,
   ImageBackground,
@@ -44,6 +45,9 @@ import { movieGenresJSON, tvGenresJSON } from "../assets/genre/genreData";
 
 const searchdetail = () => {
   const viewRef = useRef(null);
+  const { displayName, email } = useSelector(
+    (state: RootState) => state.profile
+  );
   const colorScheme = useColorScheme();
   const [isShared, setIsShared] = useState(false);
   const [setStatus, setSetStatus] = useState(false);
@@ -94,6 +98,8 @@ const searchdetail = () => {
   const { shareStatus } = useSelector(
     (state: RootState) => state.shareSearchDetail
   );
+
+  const { t } = useTranslation();
 
   useEffect(() => {
     setSetStatus(false);
@@ -235,7 +241,9 @@ const searchdetail = () => {
                       "text-lg text-center border border-slate-300 px-4 rounded-lg text-slate-300"
                     }
                   >
-                    {mediaType === "movie" ? "Movie" : "TV"}
+                    {mediaType === "movie"
+                      ? t("searchdetail.movie")
+                      : t("searchdetail.tv")}
                   </Text>
                 </View>
               </View>
@@ -269,7 +277,7 @@ const searchdetail = () => {
                 className="w-2/3"
               >
                 <Text className="text-2xl text-start text-dark dark:text-slate-200">
-                  Overview
+                  {t("searchdetail.overview")}
                 </Text>
                 {overview ? (
                   <>
@@ -284,11 +292,11 @@ const searchdetail = () => {
                     >
                       {!isExpanded ? (
                         <Text className="mt-1 text-start text-fuchsia-600">
-                          Read More
+                          {t("searchdetail.readmore")}
                         </Text>
                       ) : (
                         <Text className="mt-1 text-start text-fuchsia-600">
-                          Close
+                          {t("searchdetail.close")}
                         </Text>
                       )}
                     </TouchableOpacity>
@@ -302,7 +310,7 @@ const searchdetail = () => {
                 className="flex-col justify-start w-1/3 ml-4"
               >
                 <Text className="text-2xl text-start text-black dark:text-slate-300">
-                  Rating
+                  {t("searchdetail.rating")}
                 </Text>
                 <Text className="pt-2 text-3xl min-h-fit text-start text-fuchsia-400">
                   {`${vote_average}`[0]}{" "}
