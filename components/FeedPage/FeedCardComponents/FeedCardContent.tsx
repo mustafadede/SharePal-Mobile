@@ -20,7 +20,7 @@ const FeedCardContent = ({
 }) => {
   const colorScheme = useColorScheme();
   const [spoiler, setSpoiler] = useState(haveSpoiler);
-
+  const [open, setOpen] = useState(false);
   // Animated opacity for overlay/blur
   const opacity = useRef(new Animated.Value(haveSpoiler ? 1 : 0)).current;
 
@@ -33,6 +33,8 @@ const FeedCardContent = ({
       }).start(() => {
         setSpoiler(false);
       });
+    } else {
+      setOpen((prev) => !prev);
     }
   };
 
@@ -41,7 +43,7 @@ const FeedCardContent = ({
       <TouchableOpacity onPress={handleReveal} activeOpacity={0.8}>
         <View className="overflow-hidden rounded-lg">
           <Text
-            numberOfLines={2}
+            numberOfLines={open ? undefined : 3}
             className="text-white mb-2"
             style={{ padding: 8 }}
           >
