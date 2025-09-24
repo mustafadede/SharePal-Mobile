@@ -25,11 +25,6 @@ export default function TabLayout() {
     }
   };
 
-  const handleDrawerPress = () => {
-    // TODO: Replace with actual drawer open logic
-    console.log("Drawer icon pressed!");
-  };
-
   return (
     <Tabs
       screenOptions={{
@@ -101,17 +96,12 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="profile/index"
+        name="profile"
         listeners={{
           tabPress: () => setCurrentTab("profile/index"),
         }}
         options={{
-          title: profile ? profile.nick : "",
-          headerShown: true,
-          headerTransparent: true,
-          headerTintColor:
-            colorScheme === "dark" ? Colors.dark.cWhite : "black",
-          tabBarLabel: "Profile",
+          headerShown: false,
           tabBarIcon: ({ color }) => (
             <Image
               source={
@@ -127,18 +117,6 @@ export default function TabLayout() {
               }}
               className={`rounded-full`}
             />
-          ),
-          headerRight: () => (
-            <TouchableOpacity
-              onPress={handleDrawerPress}
-              style={{ marginRight: 16 }}
-            >
-              <Entypo
-                name="menu"
-                size={26}
-                color={colorScheme === "dark" ? Colors.dark.cWhite : "black"}
-              />
-            </TouchableOpacity>
           ),
         }}
       />
