@@ -4,7 +4,7 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Text, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 
 type ExploreBottomSheetProps = {
   title: string;
@@ -21,27 +21,62 @@ const ExploreBottomSheet = React.memo(
   ({ bottomSheetValues }: { bottomSheetValues: ExploreBottomSheetProps }) => {
     const thisYear = new Date().getFullYear();
     const { t } = useTranslation();
+
     return (
-      <>
-        <View className="flex items-center justify-center">
-          <Text className="text-2xl text-center text-slate-100">
-            {bottomSheetValues.title}
-            <Text className="text-slate-100"> {t("actions.title")}</Text>
+      <ScrollView
+        contentContainerStyle={{
+          padding: 20,
+          alignItems: "center",
+          gap: 20,
+        }}
+        showsVerticalScrollIndicator={false}
+      >
+        {/* Title */}
+        <Text
+          style={{
+            fontSize: 18,
+            fontWeight: "700",
+            textAlign: "center",
+            color: "#f1f5f9",
+          }}
+        >
+          {bottomSheetValues.title}{" "}
+          <Text style={{ fontWeight: "500", color: "#f1f5f9" }}>
+            {t("actions.title")}
           </Text>
-        </View>
-        <View className="flex items-center justify-center">
+        </Text>
+
+        {/* Actions */}
+        <View
+          style={{
+            flexDirection: "row",
+            flexWrap: "wrap",
+            justifyContent: "center",
+            gap: 12,
+          }}
+        >
           <ActionPill
             title={t("actions.wanttowatch")}
             status={bottomSheetValues.wanttoWatch}
             icon={
               <FontAwesome
                 name="bookmark-o"
-                size={24}
-                color={
-                  bottomSheetValues.wanttoWatch ? "text-fuchsia-600" : "white"
-                }
+                size={22}
+                color={bottomSheetValues.wanttoWatch ? "#C026D3" : "#fff"}
               />
             }
+            pillStyle={{
+              paddingHorizontal: 16,
+              paddingVertical: 10,
+              borderRadius: 20,
+              backgroundColor: bottomSheetValues.wanttoWatch
+                ? "rgba(192,38,211,0.15)"
+                : "rgba(255,255,255,0.05)",
+              shadowColor: "#000",
+              shadowOpacity: 0.15,
+              shadowRadius: 6,
+              elevation: 2,
+            }}
           />
           <ActionPill
             title={t("actions.watched")}
@@ -49,14 +84,36 @@ const ExploreBottomSheet = React.memo(
             icon={
               <FontAwesome
                 name="bookmark"
-                size={24}
-                color={bottomSheetValues.watched ? "text-fuchsia-600" : "white"}
+                size={22}
+                color={bottomSheetValues.watched ? "#C026D3" : "#fff"}
               />
             }
+            pillStyle={{
+              paddingHorizontal: 16,
+              paddingVertical: 10,
+              borderRadius: 20,
+              backgroundColor: bottomSheetValues.watched
+                ? "rgba(192,38,211,0.15)"
+                : "rgba(255,255,255,0.05)",
+              shadowColor: "#000",
+              shadowOpacity: 0.15,
+              shadowRadius: 6,
+              elevation: 2,
+            }}
           />
           <ActionPill
             title={t("actions.currentlywatching")}
-            icon={<FontAwesome name="eye" size={24} color="white" />}
+            icon={<FontAwesome name="eye" size={22} color="#fff" />}
+            pillStyle={{
+              paddingHorizontal: 16,
+              paddingVertical: 10,
+              borderRadius: 20,
+              backgroundColor: "rgba(255,255,255,0.05)",
+              shadowColor: "#000",
+              shadowOpacity: 0.15,
+              shadowRadius: 6,
+              elevation: 2,
+            }}
           />
           <ActionPill
             title={t("actions.unfinished")}
@@ -64,19 +121,39 @@ const ExploreBottomSheet = React.memo(
             icon={
               <Ionicons
                 name="pause-outline"
-                size={24}
-                color={
-                  bottomSheetValues.unfinished ? "text-fuchsia-600" : "white"
-                }
+                size={22}
+                color={bottomSheetValues.unfinished ? "#C026D3" : "#fff"}
               />
             }
+            pillStyle={{
+              paddingHorizontal: 16,
+              paddingVertical: 10,
+              borderRadius: 20,
+              backgroundColor: bottomSheetValues.unfinished
+                ? "rgba(192,38,211,0.15)"
+                : "rgba(255,255,255,0.05)",
+              shadowColor: "#000",
+              shadowOpacity: 0.15,
+              shadowRadius: 6,
+              elevation: 2,
+            }}
           />
           {bottomSheetValues.mediaType === "movie" &&
             bottomSheetValues.release_date.slice(0, 4) ===
               thisYear.toString() && (
               <ActionPill
                 title={t("actions.bestmovies")}
-                icon={<Entypo name="star" size={24} color="white" />}
+                icon={<Entypo name="star" size={22} color="#fff" />}
+                pillStyle={{
+                  paddingHorizontal: 16,
+                  paddingVertical: 10,
+                  borderRadius: 20,
+                  backgroundColor: "rgba(255,255,255,0.05)",
+                  shadowColor: "#000",
+                  shadowOpacity: 0.15,
+                  shadowRadius: 6,
+                  elevation: 2,
+                }}
               />
             )}
           {bottomSheetValues.mediaType === "tv" &&
@@ -84,11 +161,21 @@ const ExploreBottomSheet = React.memo(
               thisYear.toString() && (
               <ActionPill
                 title={t("actions.bestseries")}
-                icon={<Entypo name="star" size={24} color="white" />}
+                icon={<Entypo name="star" size={22} color="#fff" />}
+                pillStyle={{
+                  paddingHorizontal: 16,
+                  paddingVertical: 10,
+                  borderRadius: 20,
+                  backgroundColor: "rgba(255,255,255,0.05)",
+                  shadowColor: "#000",
+                  shadowOpacity: 0.15,
+                  shadowRadius: 6,
+                  elevation: 2,
+                }}
               />
             )}
         </View>
-      </>
+      </ScrollView>
     );
   }
 );

@@ -63,7 +63,6 @@ const CustomBottomSheet = ({
                       paddingTop: 12,
                       paddingBottom: 12,
                     }}
-                    keyboardType="default"
                     placeholderTextColor={Colors.dark.icon}
                   />
                 </View>

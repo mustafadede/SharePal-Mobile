@@ -121,7 +121,7 @@ export default function Home() {
             />
             <StandartButton
               title={"login.forgotPassword"}
-              onClickHandler={() => router.push("/reset")}
+              onClickHandler={() => router.replace("/reset")}
             />
           </View>
         </View>

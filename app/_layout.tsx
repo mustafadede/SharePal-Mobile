@@ -46,7 +46,7 @@ export default function RootLayout() {
             headerTintColor:
               colorScheme === "dark" ? Colors.dark.cWhite : "black",
             headerTransparent: true,
-            headerTitle: "SharePal",
+            headerTitle: "",
             headerTitleAlign: "center",
             headerTitleStyle: {
               fontWeight: "600",
@@ -88,29 +88,18 @@ export default function RootLayout() {
           }}
         />
         <Stack.Screen
-          name="profile"
-          options={{
-            headerShown: true,
-            headerTransparent: true,
-            headerTitleAlign: "center",
-            headerStyle: {
-              backgroundColor: "transparent",
-            },
-            headerTintColor: "#ffffff",
-            headerTitle: "",
-            animation: "slide_from_right",
-            headerBackTitle: t("headerbacktitle.title"),
-          }}
-        />
-        <Stack.Screen
           name="collection"
           options={{
-            presentation: "modal",
             headerShown: true,
             headerStyle: {
               backgroundColor: Colors.dark.cGradient2,
             },
-            headerTitle: related?.dir,
+            headerTitle:
+              related && related?.dir
+                ? Array.isArray(related.dir)
+                  ? related.dir.join(", ")
+                  : related.dir
+                : "",
             headerTintColor: Colors.dark.cWhite,
             animation: "slide_from_right",
           }}

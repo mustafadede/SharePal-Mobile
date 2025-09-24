@@ -1,7 +1,6 @@
 import InfoLabel from "@/common/InfoLabel";
 import FeedCard from "@/components/FeedPage/FeedCard";
 import { Colors } from "@/constants/Colors";
-import { ProfileHeader } from "@/constants/Profile";
 import {
   getAllPosts,
   getPreviousPosts,
@@ -9,6 +8,7 @@ import {
 } from "@/services/firebaseActions";
 import { RootState } from "@/store";
 import { postsActions } from "@/store/postSlice";
+import { profileActions } from "@/store/profileSlice";
 import { scrollActions } from "@/store/scrollSlice";
 import React, { useEffect, useState } from "react";
 import {
@@ -26,6 +26,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { flatListRef } from "./(tabs)/_layout";
 
 const Feed = ({ handleModal }) => {
+  const profile = useSelector((state: RootState) => state.profile);
   const { userId } = useSelector((state: RootState) => state.profile);
   const { posts, status } = useSelector((state: RootState) => state.post);
   const [lastPostDate, setLastPostDate] = useState(null); // Son post tarihini tut
@@ -39,7 +40,6 @@ const Feed = ({ handleModal }) => {
     dispatch(postsActions.setStatus("loading"));
     getAllPosts().then((res) => {
       dispatch(postsActions.fetchPosts(res));
-
       setLastPostDate(res[res.length - 1].date); // Son post tarihini güncelle
       setIsRefreshing(false);
       dispatch(postsActions.setStatus("done"));
@@ -48,7 +48,8 @@ const Feed = ({ handleModal }) => {
 
   useEffect(() => {
     if (userId) {
-      getSelectedUser(userId).then((user: ProfileHeader) => {
+      getSelectedUser(userId).then((user) => {
+        dispatch(profileActions.updateProfile(user));
         if (posts.length === 0) {
           dispatch(postsActions.setStatus("loading"));
           getAllPosts().then((res) => {

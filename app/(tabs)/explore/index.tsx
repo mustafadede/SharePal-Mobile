@@ -138,6 +138,7 @@ const Explore = () => {
           <ScrollView
             className="flex-1 dark:bg-cGradient2"
             keyboardDismissMode="on-drag"
+            contentInsetAdjustmentBehavior="automatic"
           >
             <Discover
               nowPlaying={nowPlaying}

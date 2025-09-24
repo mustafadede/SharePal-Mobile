@@ -248,12 +248,36 @@ const getSelectedUserLists = async (userId: string) => {
   }
 };
 
+const getSelectedUserPosts = async (postId: string) => {
+  const selectedUserPosts = ref(database, `posts/${postId}`);
+  const snapshot = await get(selectedUserPosts);
+  const allPosts = [];
+  if (snapshot.exists()) {
+    allPosts.push(snapshot.val());
+  }
+  return allPosts;
+};
+
+const getSelectedUserPostsList = async (userId: string) => {
+  const postsRef = ref(database, `userPostsList/${userId}/posts/`);
+  const snapshot = await get(postsRef);
+  const posts: any[] = [];
+  if (snapshot.exists()) {
+    snapshot.forEach((childSnapshot) => {
+      posts.push(childSnapshot.val());
+    });
+  }
+  return posts;
+};
+
 export {
   getAllPosts,
   getPreviousPosts,
   getSelectedCommentsList,
   getSelectedUser,
   getSelectedUserLists,
+  getSelectedUserPosts,
+  getSelectedUserPostsList,
   getSelectedUserUnfinished,
   getSelectedUserWantToWatch,
   getSelectedUserWatched,

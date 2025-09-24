@@ -10,15 +10,7 @@ import { RootState } from "@/store";
 import { profileActions } from "@/store/profileSlice";
 
 import React, { useEffect } from "react";
-import {
-  Image,
-  ImageBackground,
-  Platform,
-  StatusBar as RNStatusBar,
-  SafeAreaView,
-  Text,
-  View,
-} from "react-native";
+import { Image, ImageBackground, SafeAreaView, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
 const Profile = () => {
@@ -41,14 +33,12 @@ const Profile = () => {
     });
   }, []);
 
-  console.log(profile);
-
   return (
     <SafeAreaView
       className="flex-1 w-full h-full"
       style={{
         backgroundColor: Colors.dark.cGradient2,
-        paddingTop: Platform.OS === "android" ? RNStatusBar.currentHeight : 0, // Sadece Android için padding ekler
+        paddingTop: 80,
       }}
     >
       <View className="flex-1 bg-[#f2f2f2] dark:bg-cGradient2">

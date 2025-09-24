@@ -13,7 +13,9 @@ const SearchDetailPageShareWantToWatch = ({
   username,
   color,
 }) => {
+  const profile = useSelector((state: RootState) => state.profile);
   const { label } = useSelector((state: RootState) => state.shareSearchDetail);
+
   return (
     <Animated.View
       entering={FadeInUp.duration(300).delay(100)}
@@ -23,10 +25,11 @@ const SearchDetailPageShareWantToWatch = ({
         width: 360,
       }}
     >
+      {/* Backgrounds */}
       {color === 0 && (
         <ImageBackground
           source={{ uri: `https://image.tmdb.org/t/p/original/${poster_path}` }}
-          className={"w-full h-full absolute z-0 bg-slate-900"}
+          className="w-full h-full absolute z-0 bg-slate-900"
           resizeMode="cover"
           blurRadius={7}
         >
@@ -41,7 +44,7 @@ const SearchDetailPageShareWantToWatch = ({
           source={{
             uri: `https://image.tmdb.org/t/p/original/${backdrop_path}`,
           }}
-          className={"w-full h-full absolute z-0 bg-slate-900"}
+          className="w-full h-full absolute z-0 bg-slate-900"
           resizeMode="cover"
           blurRadius={3}
         >
@@ -52,7 +55,7 @@ const SearchDetailPageShareWantToWatch = ({
         </ImageBackground>
       )}
       {color === 2 && (
-        <View className={"w-full h-full absolute z-0 bg-slate-950"}>
+        <View className="w-full h-full absolute z-0 bg-slate-950">
           <LinearGradient
             colors={["rgba(0, 0, 0, 0.1)", "rgb(14, 11, 19)"]}
             style={{ flex: 1 }}
@@ -61,7 +64,7 @@ const SearchDetailPageShareWantToWatch = ({
       )}
       {color === 3 && (
         <View
-          className={"w-full h-full absolute z-0"}
+          className="w-full h-full absolute z-0"
           style={{ backgroundColor: "#86198f" }}
         >
           <LinearGradient
@@ -70,21 +73,22 @@ const SearchDetailPageShareWantToWatch = ({
           />
         </View>
       )}
-      <View className={"flex-1 p-4 mt-20 items-center"}>
+
+      {/* Content */}
+      <View className="flex-1 p-4 mt-20 items-center">
         <Text
           className="font-bold text-fuchsia-600"
-          style={{
-            fontSize: 42,
-          }}
+          style={{ fontSize: 42, marginTop: 24 }}
         >
           SharePal
         </Text>
-        <View className={"mb-5 justify-center items-center z-10"}>
+
+        <View className="mb-6 justify-center items-center z-10">
           <Image
             source={{
               uri: `https://image.tmdb.org/t/p/original/${poster_path}`,
             }}
-            className="w-40 h-64 mt-4 bg-cGradient1 rounded-2xl"
+            className="w-40 h-64 mt-4 rounded-2xl"
             style={[
               color === 1 && {
                 borderWidth: 1,
@@ -93,23 +97,44 @@ const SearchDetailPageShareWantToWatch = ({
             ]}
           />
         </View>
+
         {label !== "" && (
           <View className="items-center justify-center w-full text-center">
-            <Text className={"text-center text-2xl mt-4 text-white"}>
+            <Text className="text-center text-2xl mt-4 text-white">
               {username}
-              <Text className={"text-center text-fuchsia-600"}> {title} </Text>
+              <Text className="text-center text-fuchsia-600"> {title} </Text>
             </Text>
-            <Text className={"text-center text-2xl text-white"}>
-              <Text className={"text-center text-2xl text-white"}>
-                adlı {mediaType === "movie" ? "filmi " : "diziyi "}
-              </Text>
-              {label === "watched" && "izledi."}
-              {label === "wanttowatch" && "izlemek istiyor."}
+            <Text className="text-center text-2xl text-white">
+              adlı {mediaType === "movie" ? "filmi " : "diziyi "}
+              {label === "watched" && "izledi"}
+              {label === "wanttowatch" && "izlemek istiyor"}
             </Text>
           </View>
         )}
+
         {label === "" && (
-          <Text className={"text-center text-lg text-white"}>{title}</Text>
+          <Text className="text-center text-lg text-white">{title}</Text>
+        )}
+
+        {label !== "" && (
+          <View
+            className="flex-row items-center"
+            style={{
+              position: "relative",
+              top: 140,
+            }}
+          >
+            <Image
+              className="rounded-full"
+              source={
+                profile.photoURL
+                  ? { uri: `${profile.photoURL}` }
+                  : require("@/assets/images/react-logo.png")
+              }
+              style={{ width: 42, height: 42 }}
+            />
+            <Text className="ml-2 text-lg text-white">@{username}</Text>
+          </View>
         )}
       </View>
     </Animated.View>
