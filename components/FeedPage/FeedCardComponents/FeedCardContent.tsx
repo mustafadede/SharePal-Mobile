@@ -44,7 +44,7 @@ const FeedCardContent = ({
         <View className="overflow-hidden rounded-lg">
           <Text
             numberOfLines={open ? undefined : 3}
-            className="text-white mb-2"
+            className="text-slate-700 dark:text-white mb-2"
             style={{ padding: 8 }}
           >
             {data.content}

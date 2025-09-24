@@ -41,15 +41,15 @@ const Tabs = ({ tab, setTab }) => {
           }}
           className={
             tab === 0
-              ? "flex-1 py-1 bg-[#475569] dark:bg-slate-800"
-              : "flex-1 py-1 bg-[#94a3b8] dark:bg-slate-900"
+              ? "flex-1 py-1 bg-white dark:bg-slate-800"
+              : "flex-1 py-1 bg-slate-100 dark:bg-slate-900"
           }
         >
           <Text
             className={
               tab === 0
-                ? "text-xl text-center py-1 text-white"
-                : "text-xl text-center py-1 text-slate-200"
+                ? "text-xl text-center py-1 text-slate-800 dark:text-slate-200"
+                : "text-xl text-center py-1 text-slate-600"
             }
           >
             {t("tabs.feed")}
@@ -63,15 +63,15 @@ const Tabs = ({ tab, setTab }) => {
           }}
           className={
             tab === 1
-              ? "flex-1 py-1 bg-[#475569] dark:bg-slate-800 rounded-tr-xl rounded-br-xl"
-              : "flex-1 py-1 rounded-tr-xl bg-[#94a3b8] dark:bg-slate-900 rounded-br-xl"
+              ? "flex-1 py-1 bg-white dark:bg-slate-800 rounded-tr-xl rounded-br-xl"
+              : "flex-1 py-1 rounded-tr-xl bg-slate-100 dark:bg-slate-900 rounded-br-xl"
           }
         >
           <Text
             className={
               tab === 1
-                ? "text-xl text-center py-1 text-white"
-                : "text-xl text-center py-1 text-slate-200"
+                ? "text-xl text-center py-1 text-slate-800 dark:text-slate-200"
+                : "text-xl text-center py-1 text-slate-600"
             }
           >
             {t("tabs.following")}
