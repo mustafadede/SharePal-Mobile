@@ -54,25 +54,12 @@ const FeedCardContent = ({
               style={[StyleSheet.absoluteFill, { opacity }]}
               pointerEvents="none"
             >
-              {Platform.OS === "ios" ? (
-                <BlurView
-                  intensity={20}
-                  tint={colorScheme === "dark" ? "dark" : "light"}
-                  style={StyleSheet.absoluteFill}
-                />
-              ) : (
-                <View
-                  style={[
-                    StyleSheet.absoluteFill,
-                    {
-                      backgroundColor:
-                        colorScheme === "dark"
-                          ? "rgba(0,0,0,0.6)"
-                          : "rgba(255,255,255,0.6)",
-                    },
-                  ]}
-                />
-              )}
+              <BlurView
+                intensity={Platform.OS === "android" ? 10 : 20}
+                tint={colorScheme === "dark" ? "dark" : "light"}
+                style={StyleSheet.absoluteFill}
+                experimentalBlurMethod="dimezisBlurView"
+              />
             </Animated.View>
           )}
         </View>
