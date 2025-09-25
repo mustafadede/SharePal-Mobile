@@ -6,6 +6,7 @@ import { modalActions } from "@/store/modalSlice";
 import { DateFormatter } from "@/utils/formatter";
 import Feather from "@expo/vector-icons/Feather";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { Text, TouchableOpacity, useColorScheme, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -16,6 +17,7 @@ const FeedCardHeader = ({
   data: Post;
   handleModal: () => void;
 }) => {
+  const { t } = useTranslation();
   const colorScheme = useColorScheme();
   const newYear = DateFormatter(data.date);
   const dispatch = useDispatch();
@@ -66,14 +68,14 @@ const FeedCardHeader = ({
               color={colorScheme === "dark" ? "#6B7280" : "black"}
             />
             <Text className={"text-xs text-black dark:text-slate-400 ml-1"}>
-              Spoiler
+              {t("feedCard.spoiler")}
             </Text>
           </View>
         )}
         {data.edited && (
           <View className={"flex-row items-start mr-1"}>
             <Text className={"text-xs text-black dark:text-slate-400 ml-1"}>
-              Edited
+              {t("feedCard.edited")}
             </Text>
           </View>
         )}

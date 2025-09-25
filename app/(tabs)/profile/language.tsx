@@ -53,11 +53,6 @@ const Language = () => {
               >
                 {lang.label}
               </Text>
-              {selected && (
-                <Text className="text-white text-sm">
-                  {t("profileSettings.defaultLangSelection")}
-                </Text>
-              )}
             </TouchableOpacity>
           );
         })}

@@ -72,7 +72,6 @@
       "title": "'s settings",
       "defaultTitle": "Settings",
       "langTitle": "Language",
-      "defaultLangSelection": "Selected",
       "sections": {
         "account": "Account",
         "preferences": "Preferences",
@@ -112,5 +111,7 @@
           "description": "Get help or contact support"
         }
       }
-    }
+    },
+    "feedCard.spoiler": "Spoiler",
+    "feedCard.edited": "Edited"
 }

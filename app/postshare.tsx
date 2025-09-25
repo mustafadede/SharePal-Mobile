@@ -1,11 +1,11 @@
 import SharePostComponent from "@/common/SharePostComponent";
+import { RootState } from "@/store";
 import { modalActions } from "@/store/modalSlice";
 import { useFocusEffect } from "expo-router";
 import * as Sharing from "expo-sharing";
 import React, { useCallback, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
-  Platform,
   Switch,
   Text,
   TouchableOpacity,
@@ -13,7 +13,7 @@ import {
   View,
 } from "react-native";
 import ViewShot, { captureRef } from "react-native-view-shot";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const captureShot = (
   ref: React.RefObject<any>,
@@ -34,13 +34,14 @@ const captureShot = (
 const postshare = () => {
   const viewRef = useRef(null);
   const { t } = useTranslation();
-
+  const modal = useSelector((state: RootState) => state.modal);
   const dispatch = useDispatch();
   const [shareWithSpoiler, setShareWithSpoiler] = useState(false);
   const colorScheme = useColorScheme();
 
   useFocusEffect(
     useCallback(() => {
+      setShareWithSpoiler(modal.modalProps[0]?.modalProps.spoiler);
       return () => {
         dispatch(modalActions.closeModal());
       };
@@ -72,28 +73,30 @@ const postshare = () => {
   };
 
   return (
-    <View className="bg-cGradient2 flex-1 items-center">
+    <View className="dark:bg-cGradient2 flex-1 items-center">
       <View className="relative">
         {captureShot(viewRef, handleShare, shareWithSpoiler)}
       </View>
-      <View className="flex-row items-center relative bottom-4">
-        <Text
-          className="mr-2 text-md font-semibold"
-          style={{ color: colorScheme === "dark" ? "#fff" : "#0E0B13" }}
-        >
-          {t("share.sharewithspoiler")}
-        </Text>
-        <Switch
-          value={shareWithSpoiler}
-          onValueChange={setShareWithSpoiler}
-          trackColor={{ false: "#767577", true: "#a855f7" }}
-          thumbColor={shareWithSpoiler ? "#f4f3f4" : "#f4f3f4"}
-        />
-      </View>
+      {modal.modalProps[0]?.modalProps.spoiler && (
+        <View className="flex-row items-center relative">
+          <Text
+            className="mr-2 text-md font-semibold"
+            style={{ color: colorScheme === "dark" ? "#fff" : "#0E0B13" }}
+          >
+            {t("share.sharewithspoiler")}
+          </Text>
+          <Switch
+            value={shareWithSpoiler}
+            onValueChange={setShareWithSpoiler}
+            trackColor={{ false: "#767577", true: "#a855f7" }}
+            thumbColor={shareWithSpoiler ? "#f4f3f4" : "#f4f3f4"}
+          />
+        </View>
+      )}
       <TouchableOpacity
         onPress={handleShare}
-        className={Platform.OS === "android" ? "relative bottom-4" : ""}
         style={{
+          marginTop: 7,
           paddingHorizontal: 32,
           paddingVertical: 12,
           borderRadius: 9999,

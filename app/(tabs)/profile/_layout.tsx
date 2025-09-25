@@ -22,6 +22,10 @@ export default function ProfileLayout() {
           title: profile ? profile.nick : "",
           headerShown: true,
           headerTransparent: true,
+          headerStyle: {
+            backgroundColor:
+              colorScheme !== "dark" ? Colors.dark.cWhite : "black",
+          },
           headerTintColor:
             colorScheme === "dark" ? Colors.dark.cWhite : "black",
           headerRight: () => (
@@ -35,7 +39,11 @@ export default function ProfileLayout() {
                 <Ionicons
                   name="create-outline"
                   size={26}
-                  color={colorScheme === "dark" ? Colors.dark.cWhite : "black"}
+                  color={
+                    colorScheme === "dark"
+                      ? Colors.dark.cWhite
+                      : "rgb(192 38 211)"
+                  }
                 />
               </TouchableOpacity>
               <TouchableOpacity

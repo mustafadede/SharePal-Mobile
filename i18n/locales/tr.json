@@ -72,7 +72,6 @@
     "title": "'nın ayarları",
     "defaultTitle": "Ayarlar",
     "langTitle": "Dil",
-    "defaultLangSelection": "Seçildi",
     "sections": {
       "account": "Hesap",
       "preferences": "Tercihler",
@@ -112,5 +111,7 @@
         "description": "Yardım al veya destekle iletişime geç"
       }
     }
-  }
+  },
+    "feedCard.spoiler": "Spoiler",
+    "feedCard.edited": "Düzenlendi"
 }

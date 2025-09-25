@@ -29,7 +29,7 @@ const FeedCardAttachment = ({
         });
       }}
       className={
-        "flex-row py-2 px-4 rounded-2xl items-center dark:border dark:border-slate-600 bg-slate-800"
+        "flex-row py-2 px-4 rounded-2xl items-center border border-slate-400 dark:border-slate-600 bg-white dark:bg-slate-800"
       }
     >
       <View className={"w-12 h-12 rounded-full bg-slate-800"}>
@@ -42,12 +42,12 @@ const FeedCardAttachment = ({
         )}
       </View>
       <View className={"flex-row items-center ml-2"}>
-        <Text className={"text-white"}>
+        <Text className={"text-slate-700 dark:text-white"}>
           {attachedData?.title.length > 24
             ? attachedData?.title.slice(0, 24) + "..."
             : attachedData?.title}
         </Text>
-        <Text className={"text-gray-50 dark:text-slate-400 ml-1"}>
+        <Text className={"text-slate-400 dark:text-slate-400 ml-1"}>
           ({newDate})
         </Text>
       </View>

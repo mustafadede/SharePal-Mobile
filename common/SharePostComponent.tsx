@@ -1,4 +1,3 @@
-import { Colors } from "@/constants/Colors";
 import { RootState } from "@/store";
 import { DateFormatter } from "@/utils/formatter";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -12,7 +11,6 @@ import {
   Platform,
   StyleSheet,
   Text,
-  useColorScheme,
   View,
 } from "react-native";
 import { useSelector } from "react-redux";
@@ -39,7 +37,6 @@ type ModalPropsType = {
 
 const SharePostComponent = ({ switchValue }: { switchValue: boolean }) => {
   const { t } = useTranslation();
-  const colorScheme = useColorScheme();
   const modal = useSelector(
     (state: RootState) => state.modal
   ) as ModalPropsType | null;
@@ -51,10 +48,10 @@ const SharePostComponent = ({ switchValue }: { switchValue: boolean }) => {
   const newYear = DateFormatter(modal?.modalProps[0].modalProps.date, "modal");
   return (
     <View
+      className=" dark:bg-slate-900 mb-4"
       style={{
-        height: 640,
+        height: 630,
         width: 360,
-        backgroundColor: Colors.dark.cGradient1,
         position: "relative",
       }}
     >
@@ -122,7 +119,7 @@ const SharePostComponent = ({ switchValue }: { switchValue: boolean }) => {
               <View style={[StyleSheet.absoluteFill]} pointerEvents="none">
                 <BlurView
                   intensity={Platform.OS === "android" ? 10 : 20}
-                  tint={colorScheme === "dark" ? "dark" : "light"}
+                  tint={"dark"}
                   style={StyleSheet.absoluteFill}
                   experimentalBlurMethod="dimezisBlurView"
                 />

@@ -118,10 +118,7 @@ const Settings = () => {
                           ? Colors.dark.cWhite
                           : Colors.dark.cDarkGray
                       }
-                      trackColor={{
-                        false: Colors.dark.cFuc6,
-                        true: Colors.dark.cDarkGray,
-                      }}
+                      trackColor={{ false: "#767577", true: "#a855f7" }}
                     />
                   )}
                 </View>
@@ -130,7 +127,7 @@ const Settings = () => {
           </View>
         ))}
         <TouchableOpacity
-          className="p-4 rounded-xl bg-transparent border dark:border-red-700 items-center"
+          className="p-4 rounded-xl bg-transparent border border-red-700 items-center"
           activeOpacity={0.8}
           onPress={() => router.replace("/")}
         >
