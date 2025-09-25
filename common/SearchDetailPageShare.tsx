@@ -12,6 +12,13 @@ const SearchDetailPageShareWantToWatch = ({
   mediaType,
   username,
   color,
+}: {
+  backdrop_path: string;
+  poster_path: string;
+  title: string;
+  mediaType: string;
+  username: string;
+  color: number;
 }) => {
   const profile = useSelector((state: RootState) => state.profile);
   const { label } = useSelector((state: RootState) => state.shareSearchDetail);

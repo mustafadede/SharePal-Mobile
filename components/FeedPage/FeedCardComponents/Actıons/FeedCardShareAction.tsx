@@ -1,6 +1,7 @@
 import { Colors } from "@/constants/Colors";
 import { modalActions } from "@/store/modalSlice";
 import EvilIcons from "@expo/vector-icons/EvilIcons";
+import { router } from "expo-router";
 import React from "react";
 import { TouchableOpacity, useColorScheme } from "react-native";
 import { useDispatch } from "react-redux";
@@ -9,9 +10,8 @@ const FeedCardShareAction = ({ data, handleModal }) => {
   const dispatch = useDispatch();
   const colorScheme = useColorScheme();
   const handlePress = () => {
-    handleModal();
-    dispatch(modalActions.updateModalType("feedcardshare"));
     dispatch(modalActions.updateModal({ modalProps: data }));
+    router.push("/postshare");
   };
   return (
     <TouchableOpacity

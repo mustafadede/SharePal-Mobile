@@ -1,6 +1,6 @@
 import StatusLabel from "@/components/StatusLabel/StatusLabel";
 import * as Sharing from "expo-sharing";
-import React, { useState } from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
 import {
   Image,
@@ -32,10 +32,10 @@ const captureShot = (
   handleShare: () => void,
   shareStatus: "done" | "loading" | string,
   username: string,
-  title: string | string[],
-  mediaType: string | string[],
-  backdrop_path: string | string[],
-  poster_path: string | string[],
+  title: string,
+  mediaType: string,
+  backdrop_path: string,
+  poster_path: string,
   color: number
 ) => {
   return (
@@ -74,7 +74,6 @@ const ShareDetailShare = ({
   setBlur,
 }: ShareDetailShareProps) => {
   const { t } = useTranslation();
-  const [border, setBorder] = useState(false);
   const colorScheme = useColorScheme();
   const handleShare = async () => {
     try {

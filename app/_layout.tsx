@@ -107,6 +107,22 @@ export default function RootLayout() {
             animation: "slide_from_right",
           }}
         />
+        <Stack.Screen
+          name="postshare"
+          options={{
+            headerStyle: {
+              backgroundColor:
+                colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
+            },
+            animation: "slide_from_right",
+            headerTintColor:
+              colorScheme === "dark" ? Colors.dark.cWhite : "black",
+            headerTitle: "Share Post",
+            headerShadowVisible: false,
+            headerShown: true,
+            headerBackTitle: "Ana sayfa",
+          }}
+        />
       </Stack>
     </Provider>
   );

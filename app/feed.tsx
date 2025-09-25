@@ -10,8 +10,7 @@ import { RootState } from "@/store";
 import { postsActions } from "@/store/postSlice";
 import { profileActions } from "@/store/profileSlice";
 import { scrollActions } from "@/store/scrollSlice";
-import { useFocusEffect } from "expo-router";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   FlatList,
   KeyboardAvoidingView,
@@ -47,16 +46,16 @@ const Feed = ({ handleModal }) => {
     });
   };
 
-  useFocusEffect(
-    useCallback(() => {
-      dispatch(postsActions.setStatus("loading"));
-      getAllPosts().then((res) => {
-        setLastPostDate(res[res.length - 1].date);
-        dispatch(postsActions.fetchPosts(res));
-        dispatch(postsActions.setStatus("done"));
-      });
-    }, [dispatch])
-  );
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     dispatch(postsActions.setStatus("loading"));
+  //     getAllPosts().then((res) => {
+  //       setLastPostDate(res[res.length - 1].date);
+  //       dispatch(postsActions.fetchPosts(res));
+  //       dispatch(postsActions.setStatus("done"));
+  //     });
+  //   }, [dispatch])
+  // );
 
   useEffect(() => {
     if (userId) {
