@@ -3,11 +3,13 @@ import { RootState } from "@/store";
 import Entypo from "@expo/vector-icons/Entypo";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { router, Stack } from "expo-router";
+import { useTranslation } from "react-i18next";
 import { TouchableOpacity, useColorScheme, View } from "react-native";
 import { useSelector } from "react-redux";
 
 export default function ProfileLayout() {
   const profile = useSelector((state: RootState) => state.profile);
+  const { t } = useTranslation();
   const colorScheme = useColorScheme();
   return (
     <Stack
@@ -57,7 +59,19 @@ export default function ProfileLayout() {
         name="settings"
         options={{
           animation: "slide_from_right",
-          title: profile ? `${profile.nick}'s settings` : "Settings",
+          title: profile
+            ? `${profile.nick}${t("profileSettings.title")}`
+            : t("profileSettings.defaultTitle"),
+          headerTransparent: true,
+          headerTintColor:
+            colorScheme === "dark" ? Colors.dark.cWhite : "black",
+        }}
+      />
+      <Stack.Screen
+        name="language"
+        options={{
+          animation: "slide_from_right",
+          title: t("profileSettings.langTitle"),
           headerTransparent: true,
           headerTintColor:
             colorScheme === "dark" ? Colors.dark.cWhite : "black",

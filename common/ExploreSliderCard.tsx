@@ -88,7 +88,7 @@ const ExploreSliderCard = ({
                 color: "#d946ef",
                 backgroundColor: "rgb(15 23 42 / 0.6)",
               }}
-              className={"text-sm border px-3 rounded-md text-fuchsia-500"}
+              className={"text-sm border rounded-lg px-3 text-fuchsia-500"}
             >
               {newYear}
             </Animated.Text>

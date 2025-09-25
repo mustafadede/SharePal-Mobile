@@ -6,7 +6,7 @@ import en from "./locales/en.json";
 import tr from "./locales/tr.json";
 
 i18n.use(initReactI18next).init({
-  lng: Localization.locale,
+  lng: Localization.getLocales()[0].languageTag,
   fallbackLng: "en",
   resources: {
     en: {

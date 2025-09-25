@@ -5,6 +5,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { BlurView } from "expo-blur";
 import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import {
   Image,
   ImageBackground,
@@ -37,6 +38,7 @@ type ModalPropsType = {
 };
 
 const SharePostComponent = ({ switchValue }: { switchValue: boolean }) => {
+  const { t } = useTranslation();
   const colorScheme = useColorScheme();
   const modal = useSelector(
     (state: RootState) => state.modal
@@ -114,7 +116,7 @@ const SharePostComponent = ({ switchValue }: { switchValue: boolean }) => {
                 "
               </Text>
               <Text className="absolute z-10 text-white w-full text-center">
-                Tap to reveal spoiler{" "}
+                {t("share.taptoreveal")}{" "}
                 <Ionicons name="lock-closed-outline" size={24} color="white" />
               </Text>
               <View style={[StyleSheet.absoluteFill]} pointerEvents="none">

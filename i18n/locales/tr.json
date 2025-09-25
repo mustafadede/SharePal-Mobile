@@ -34,6 +34,10 @@
   "createpost.spoiler": "Spoiler!",
   "searchdetail.share": "Paylaş",
   "explore.nowplaying": "Şimdi vizyonda",
+  "explore.marvel": "Marvel Koleksiyonu",
+  "explore.hbo": "HBO Koleksiyonu",
+  "explore.prime": "Prime Koleksiyonu",
+  "explore.searchNotFound": "Herhangi bir içerik bulunamadı. Farklı bir şekilde arama yapın.",
   "explore.upcoming": "Vizyona girecekler",
   "explore.nextyear": "Seneye vizyonda",
   "explore.topmovies": "En iyi 10 Film",
@@ -52,5 +56,61 @@
   "searchdetail.tv": "Dizi",
   "searchdetail.rating": "Derecelendirme",
   "searchdetail.readmore": "Daha fazla",
-  "searchdetail.close": "Kapat"
+  "searchdetail.close": "Kapat",
+  "share.sharewithspoiler": "Spoiler ile paylaş",
+  "share.taptoreveal": "Görmek için tıkla",
+  "share.title": "Gönderi paylaş",
+  "profile.stats": "İstatistik",
+  "profile.lists": "Listeler",
+  "profile.posts": "Gönderiler",
+  "profile.activities": "Etkileşimler",
+  "profile.currently": "Şu anda izliyor",
+  "profile.totalFilms": "Tüm filmler",
+  "profile.totalSeries": "Tüm Diziler",
+  "profileSettings": {
+    "logout": "Çıkış yap",
+    "title": "'nın ayarları",
+    "defaultTitle": "Ayarlar",
+    "langTitle": "Dil",
+    "defaultLangSelection": "Seçildi",
+    "sections": {
+      "account": "Hesap",
+      "preferences": "Tercihler",
+      "support": "Destek"
+    },
+    "items": {
+      "profile": {
+        "title": "Profil",
+        "description": "Profil bilgilerini yönet"
+      },
+      "accountSecurity": {
+        "title": "Hesap Güvenliği",
+        "description": "Şifre ve güvenlik seçenekleri"
+      },
+      "notifications": {
+        "title": "Bildirimler",
+        "description": "Bildirim tercihlerini özelleştir"
+      },
+      "privacy": {
+        "title": "Gizlilik",
+        "description": "Gizlilik ayarlarını kontrol et"
+      },
+      "language": {
+        "title": "Dil",
+        "description": "Uygulama dilini değiştir"
+      },
+      "appearance": {
+        "title": "Görünüm",
+        "description": "Tema, yazı boyutu ve düzen"
+      },
+      "darkMode": {
+        "title": "Karanlık Mod",
+        "description": "Açık ve koyu tema arasında geçiş yap"
+      },
+      "helpSupport": {
+        "title": "Yardım & Destek",
+        "description": "Yardım al veya destekle iletişime geç"
+      }
+    }
+  }
 }

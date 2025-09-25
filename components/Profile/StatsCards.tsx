@@ -2,12 +2,14 @@ import useSearchWithYear from "@/hooks/useSearchWithYear";
 import { RootState } from "@/store";
 import { router } from "expo-router";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import { useSelector } from "react-redux";
 import StatusLabel from "../StatusLabel/StatusLabel";
 
 const StatsCards = () => {
   const profile = useSelector((state: RootState) => state.profile);
+  const { t } = useTranslation();
   const handleCurrentlyWatching = () => {
     useSearchWithYear(
       profile.currentlyWatching.title,
@@ -32,7 +34,7 @@ const StatsCards = () => {
       {/* currently Watching */}
       <View className="items-start justify-center w-full px-4 py-2 mb-4 h-fit bg-slate-900 rounded-2xl">
         <Text className="mb-3 text-2xl font-bold text-white">
-          Currently Watching
+          {t("profile.currently")}
         </Text>
         <TouchableOpacity
           className="flex-row items-center gap-4"
@@ -57,7 +59,9 @@ const StatsCards = () => {
       {/* total series/films */}
       <View className="flex-row gap-4 my-1">
         <View className="flex-1 px-4 pb-4 rounded-2xl bg-slate-900 h-fit">
-          <Text className="mt-4 text-xl font-bold text-white">Total Films</Text>
+          <Text className="mt-4 text-xl font-bold text-white">
+            {t("profile.totalFilms")}
+          </Text>
           {profile.status === "done" ? (
             <Text className="text-2xl text-slate-400">
               {profile.totalFilms}
@@ -68,7 +72,7 @@ const StatsCards = () => {
         </View>
         <View className="flex-1 px-4 pb-4 rounded-2xl bg-slate-900 h-fit">
           <Text className="mt-4 text-xl font-bold text-white">
-            Total Series
+            {t("profile.totalSeries")}
           </Text>
           {profile.status === "done" ? (
             <Text className="text-2xl text-slate-400">

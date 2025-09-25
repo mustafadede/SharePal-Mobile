@@ -33,12 +33,16 @@
   "createpost.attach": "Attach Film/Series",
   "createpost.spoiler": "Sssh! Spoiler!",
   "searchdetail.share": "Share",
+  "explore.marvel": "Marvel Collection",
+  "explore.hbo": "HBO Collection",
+  "explore.prime": "Prime Collection",
   "explore.nowplaying": "Now Playing",
   "explore.upcoming": "Upcoming",
    "explore.nextyear": "Next year",
    "explore.topmovies": "Top 10 Movies",
    "explore.topseries": "Top 10 Series",
    "explore.search": "Search",
+   "explore.searchNotFound": "No results found. Try a different search term.",
    "tabs.feed": "Feed",
    "tabs.following": "Following",
    "feed.loading": "Loading...",
@@ -52,6 +56,61 @@
    "searchdetail.tv": "TV",
    "searchdetail.rating": "Rating",
    "searchdetail.readmore": "Read More",
-   "searchdetail.close": "Close"
-   
+   "searchdetail.close": "Close",
+   "share.sharewithspoiler": "Share with spoiler",
+   "share.taptoreveal": "Tap to reveal spoiler",
+   "share.title": "Share Post",
+   "profile.stats": "Stats",
+   "profile.lists": "Lists",
+   "profile.posts": "Posts",
+   "profile.activities": "Activities",
+   "profile.currently": "Currently Watching",
+   "profile.totalFilms": "Total Movies",
+   "profile.totalSeries": "Total Series",
+   "profileSettings": {
+      "logout": "Logout",
+      "title": "'s settings",
+      "defaultTitle": "Settings",
+      "langTitle": "Language",
+      "defaultLangSelection": "Selected",
+      "sections": {
+        "account": "Account",
+        "preferences": "Preferences",
+        "support": "Support"
+      },
+      "items": {
+        "profile": {
+          "title": "Profile",
+          "description": "Manage your profile info"
+        },
+        "accountSecurity": {
+          "title": "Account Security",
+          "description": "Password and security options"
+        },
+        "notifications": {
+          "title": "Notifications",
+          "description": "Customize notification preferences"
+        },
+        "privacy": {
+          "title": "Privacy",
+          "description": "Control your privacy settings"
+        },
+        "language": {
+          "title": "Language",
+          "description": "Change app language"
+        },
+        "appearance": {
+          "title": "Appearance",
+          "description": "Theme, font size, and layout"
+        },
+        "darkMode": {
+          "title": "Dark Mode",
+          "description": "Toggle between light and dark theme"
+        },
+        "helpSupport": {
+          "title": "Help & Support",
+          "description": "Get help or contact support"
+        }
+      }
+    }
 }

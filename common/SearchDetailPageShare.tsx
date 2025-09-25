@@ -1,6 +1,7 @@
 import { RootState } from "@/store";
 import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { Image, ImageBackground, Text, View } from "react-native";
 import Animated, { FadeInUp } from "react-native-reanimated";
 import { useSelector } from "react-redux";
@@ -20,6 +21,7 @@ const SearchDetailPageShareWantToWatch = ({
   username: string;
   color: number;
 }) => {
+  const { t, i18n } = useTranslation();
   const profile = useSelector((state: RootState) => state.profile);
   const { label } = useSelector((state: RootState) => state.shareSearchDetail);
 
@@ -105,19 +107,27 @@ const SearchDetailPageShareWantToWatch = ({
           />
         </View>
 
-        {label !== "" && (
-          <View className="items-center justify-center w-full text-center">
+        {label !== "" &&
+          (i18n.language === "tr" ? (
+            <View className="items-center justify-center w-full text-center">
+              <Text className="text-center text-2xl mt-4 text-white">
+                {username}
+                <Text className="text-center text-fuchsia-600"> {title} </Text>
+              </Text>
+              <Text className="text-center text-2xl text-white">
+                adlı {mediaType === "movie" ? "filmi " : "diziyi "}
+                {label === "watched" && "izledi"}
+                {label === "wanttowatch" && "izlemek istiyor"}
+              </Text>
+            </View>
+          ) : (
             <Text className="text-center text-2xl mt-4 text-white">
               {username}
+              {label === "watched" && " watched"}
+              {label === "wanttowatch" && " wants to watch"}
               <Text className="text-center text-fuchsia-600"> {title} </Text>
             </Text>
-            <Text className="text-center text-2xl text-white">
-              adlı {mediaType === "movie" ? "filmi " : "diziyi "}
-              {label === "watched" && "izledi"}
-              {label === "wanttowatch" && "izlemek istiyor"}
-            </Text>
-          </View>
-        )}
+          ))}
 
         {label === "" && (
           <Text className="text-center text-lg text-white">{title}</Text>

@@ -47,9 +47,7 @@ const Results = ({
         ))}
       </Animated.View>
       {loading && results?.length < 1 && <StatusLabel />}
-      {!loading && !results && (
-        <InfoLabel status="No results found. Try a different search term." />
-      )}
+      {!loading && !results && <InfoLabel status="explore.searchNotFound" />}
       {!loading && (
         <FlatList
           className="flex-col flex-1 w-full h-full pl-2 mt-2 mb-2"
@@ -82,7 +80,7 @@ const Results = ({
                     uri: `https://image.tmdb.org/t/p/original${
                       item.backdrop_path || item.poster_path
                     }`,
-                  }} // Add your background image URL here
+                  }}
                   imageStyle={{ borderRadius: 16 }} // Optional: to ensure the image corners are rounded
                   className="absolute w-full h-full opacity-80 bg-black dark:opacity-20 rounded-2xl"
                   style={{

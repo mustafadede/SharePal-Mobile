@@ -15,6 +15,7 @@ import Animated, { FadeIn, FadeInDown } from "react-native-reanimated";
 
 const collection = () => {
   const { dir } = useLocalSearchParams();
+
   const [bottomSheetValues, setBottomSheetValues] = useState<object>({});
 
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);

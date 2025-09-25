@@ -81,7 +81,7 @@ const postshare = () => {
           className="mr-2 text-md font-semibold"
           style={{ color: colorScheme === "dark" ? "#fff" : "#0E0B13" }}
         >
-          Share with spoiler
+          {t("share.sharewithspoiler")}
         </Text>
         <Switch
           value={shareWithSpoiler}
@@ -90,7 +90,6 @@ const postshare = () => {
           thumbColor={shareWithSpoiler ? "#f4f3f4" : "#f4f3f4"}
         />
       </View>
-
       <TouchableOpacity
         onPress={handleShare}
         className={Platform.OS === "android" ? "relative bottom-4" : ""}

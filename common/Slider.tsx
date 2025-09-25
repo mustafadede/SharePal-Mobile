@@ -29,7 +29,7 @@ const Slider = ({ data }: SliderProps) => {
 
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => {
-        const nextIndex = (prevIndex + 1) % data.length;
+        const nextIndex = data ? (prevIndex + 1) % data.length : null;
         flatListRef.current?.scrollToIndex({
           index: nextIndex,
           animated: true,

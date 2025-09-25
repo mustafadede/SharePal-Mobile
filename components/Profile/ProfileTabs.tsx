@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { Text, TouchableOpacity, View } from "react-native";
 
 const ProfileTabs = ({
@@ -8,6 +9,7 @@ const ProfileTabs = ({
   tabs: Number;
   setTabs: (tab: number) => void;
 }) => {
+  const { t } = useTranslation();
   return (
     <View className="flex-row justify-center gap-2 pb-2 mx-4 my-1 rounded-2xl">
       <TouchableOpacity
@@ -25,7 +27,7 @@ const ProfileTabs = ({
               : "dark:text-white text-center"
           }
         >
-          Stats
+          {t("profile.stats")}
         </Text>
       </TouchableOpacity>
       <TouchableOpacity
@@ -43,7 +45,7 @@ const ProfileTabs = ({
               : "dark:text-white text-center"
           }
         >
-          Lists
+          {t("profile.lists")}
         </Text>
       </TouchableOpacity>
       <TouchableOpacity
@@ -61,7 +63,7 @@ const ProfileTabs = ({
               : "dark:text-white text-center"
           }
         >
-          Posts
+          {t("profile.posts")}
         </Text>
       </TouchableOpacity>
       <TouchableOpacity
@@ -79,7 +81,7 @@ const ProfileTabs = ({
               : "dark:text-white text-center"
           }
         >
-          Activities
+          {t("profile.activities")}
         </Text>
       </TouchableOpacity>
     </View>

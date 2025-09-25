@@ -2,6 +2,7 @@ import { Colors } from "@/constants/Colors";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { router } from "expo-router";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import {
   Appearance,
   SafeAreaView,
@@ -13,46 +14,67 @@ import {
   View,
 } from "react-native";
 
+const sections = [
+  {
+    title: "profileSettings.sections.account",
+    data: [
+      {
+        title: "profileSettings.items.profile.title",
+        description: "profileSettings.items.profile.description",
+        to: "",
+      },
+      {
+        title: "profileSettings.items.accountSecurity.title",
+        description: "profileSettings.items.accountSecurity.description",
+        to: "",
+      },
+    ],
+  },
+  {
+    title: "profileSettings.sections.preferences",
+    data: [
+      {
+        title: "profileSettings.items.notifications.title",
+        description: "profileSettings.items.notifications.description",
+        to: "",
+      },
+      {
+        title: "profileSettings.items.privacy.title",
+        description: "profileSettings.items.privacy.description",
+        to: "",
+      },
+      {
+        title: "profileSettings.items.language.title",
+        description: "profileSettings.items.language.description",
+        to: "(tabs)/profile/language",
+      },
+      {
+        title: "profileSettings.items.appearance.title",
+        description: "profileSettings.items.appearance.description",
+        to: "",
+      },
+      {
+        title: "profileSettings.items.darkMode.title",
+        description: "profileSettings.items.darkMode.description",
+        type: "switch",
+        to: "",
+      },
+    ],
+  },
+  {
+    title: "profileSettings.sections.support",
+    data: [
+      {
+        title: "profileSettings.items.helpSupport.title",
+        description: "profileSettings.items.helpSupport.description",
+      },
+    ],
+  },
+];
+
 const Settings = () => {
   const colorScheme = useColorScheme();
-  const sections = [
-    {
-      title: "Account",
-      data: [
-        { title: "Profile", description: "Manage your profile info" },
-        {
-          title: "Account Security",
-          description: "Password and security options",
-        },
-      ],
-    },
-    {
-      title: "Preferences",
-      data: [
-        {
-          title: "Notifications",
-          description: "Customize notification preferences",
-        },
-        { title: "Privacy", description: "Control your privacy settings" },
-        { title: "Language", description: "Change app language" },
-        { title: "Appearance", description: "Theme, font size, and layout" },
-        {
-          title: "Dark Mode",
-          description: "Toggle between light and dark theme",
-          type: "switch",
-        },
-      ],
-    },
-    {
-      title: "Support",
-      data: [
-        {
-          title: "Help & Support",
-          description: "Get help or contact support",
-        },
-      ],
-    },
-  ];
+  const { t } = useTranslation();
 
   return (
     <SafeAreaView className={"dark:bg-cGradient2 bg-gray-50 flex-1 pt-24"}>
@@ -63,21 +85,24 @@ const Settings = () => {
         {sections.map((section, idx) => (
           <View key={idx} className="mb-6">
             <Text className="text-xs font-semibold uppercase mb-2 dark:text-slate-400 text-gray-700">
-              {section.title}
+              {t(section.title)}
             </Text>
             {section.data.map((item, index) => (
               <TouchableOpacity
                 key={index}
                 className="p-4 rounded-2xl border mb-3 dark:bg-slate-900 bg-white border-gray-200 dark:border-slate-900"
                 activeOpacity={item.type === "switch" ? 1 : 0.7}
+                onPress={() => {
+                  router.push(item?.to);
+                }}
               >
                 <View className="flex-row justify-between items-center">
                   <View>
                     <Text className="text-base font-medium dark:text-white text-gray-900">
-                      {item.title}
+                      {t(item.title)}
                     </Text>
                     <Text className="text-sm mt-1 dark:text-slate-400 text-gray-500">
-                      {item.description}
+                      {t(item.description)}
                     </Text>
                   </View>
                   {item.type === "switch" && (
@@ -111,7 +136,9 @@ const Settings = () => {
         >
           <View className="flex-row items-center gap-2 space-x-2">
             <Ionicons name="log-out-outline" size={20} color="rgb(185 28 28)" />
-            <Text className="text-red-700 text-lg font-semibold">Logout</Text>
+            <Text className="text-red-700 text-lg font-semibold">
+              {t("profileSettings.logout")}
+            </Text>
           </View>
         </TouchableOpacity>
       </ScrollView>

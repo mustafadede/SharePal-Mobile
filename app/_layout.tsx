@@ -20,7 +20,7 @@ export default function RootLayout() {
       >
         <Stack.Screen
           name="index"
-          options={{ title: "login", headerShown: false }}
+          options={{ title: t("login.title"), headerShown: false }}
         />
         <Stack.Screen
           name="reset"
@@ -100,11 +100,12 @@ export default function RootLayout() {
             headerTitle:
               related && related?.dir
                 ? Array.isArray(related.dir)
-                  ? related.dir.join(", ")
-                  : related.dir
+                  ? t(related.dir.join(", "))
+                  : t(related.dir)
                 : "",
             headerTintColor: Colors.dark.cWhite,
             animation: "slide_from_right",
+            headerBackTitle: t("headerbacktitle.title"),
           }}
         />
         <Stack.Screen
@@ -117,10 +118,10 @@ export default function RootLayout() {
             animation: "slide_from_right",
             headerTintColor:
               colorScheme === "dark" ? Colors.dark.cWhite : "black",
-            headerTitle: "Share Post",
+            headerTitle: t("share.title"),
             headerShadowVisible: false,
             headerShown: true,
-            headerBackTitle: "Ana sayfa",
+            headerBackTitle: t("headerbacktitle.title"),
           }}
         />
       </Stack>

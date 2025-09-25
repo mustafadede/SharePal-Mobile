@@ -1,5 +1,6 @@
 import { useRouter } from "expo-router";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { ImageBackground, Text, TouchableOpacity } from "react-native";
 
 const ExploreCollection = ({
@@ -10,6 +11,7 @@ const ExploreCollection = ({
   title: string;
 }) => {
   const router = useRouter();
+  const { t } = useTranslation();
   return (
     <TouchableOpacity
       className="flex flex-col items-center justify-center w-64 h-24 my-1 overflow-hidden"
@@ -43,7 +45,7 @@ const ExploreCollection = ({
         }}
       >
         <Text className="text-xl w-full font-bold text-center text-slate-200">
-          {title}
+          {t(title)}
         </Text>
       </ImageBackground>
     </TouchableOpacity>
