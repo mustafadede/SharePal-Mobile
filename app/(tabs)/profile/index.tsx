@@ -12,7 +12,11 @@ import { RootState } from "@/store";
 import { profileActions } from "@/store/profileSlice";
 
 import React, { useEffect } from "react";
-import { SafeAreaView, View } from "react-native";
+import { SafeAreaView } from "react-native";
+import {
+  GestureHandlerRootView,
+  ScrollView,
+} from "react-native-gesture-handler";
 import { useDispatch, useSelector } from "react-redux";
 
 const Profile = () => {
@@ -45,13 +49,15 @@ const Profile = () => {
         paddingTop: 80,
       }}
     >
-      <View className="flex-1 bg-[#f2f2f2] dark:bg-cGradient2">
-        <ProfileHeader />
-        <FollowStats />
-        <ProfileTabs tabs={tabs} setTabs={setTabs} />
-        {tabs === 0 && <StatsCards />}
-        {tabs === 1 && <ListsCard />}
-      </View>
+      <GestureHandlerRootView className="flex-1">
+        <ScrollView className="flex-1 bg-[#f2f2f2] dark:bg-cGradient2 px-4">
+          <ProfileHeader />
+          <FollowStats />
+          <ProfileTabs tabs={tabs} setTabs={setTabs} />
+          {tabs === 0 && <StatsCards />}
+          {tabs === 1 && <ListsCard />}
+        </ScrollView>
+      </GestureHandlerRootView>
     </SafeAreaView>
   );
 };

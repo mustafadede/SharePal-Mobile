@@ -1,10 +1,10 @@
 import { Colors } from "@/constants/Colors";
 import { RootState } from "@/store";
-import AntDesign from "@expo/vector-icons/AntDesign";
 import Entypo from "@expo/vector-icons/Entypo";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Tabs } from "expo-router";
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   FlatList,
   Image,
@@ -15,6 +15,7 @@ import { useSelector } from "react-redux";
 export const flatListRef = React.createRef<FlatList<any>>();
 
 export default function TabLayout() {
+  const { t } = useTranslation();
   const colorScheme = useColorScheme();
   const { scrollPosition } = useSelector((state: RootState) => state.scroll);
   const [currentTab, setCurrentTab] = useState("index");
@@ -52,17 +53,11 @@ export default function TabLayout() {
         options={{
           title: "Feed",
           tabBarLabel: "Feed",
-          tabBarIcon: ({ color }) => {
-            if (scrollPosition > 10 && currentTab === "index") {
-              return (
-                <TouchableOpacity onPress={handleScroll}>
-                  <AntDesign name="up-circle" size={26} color={color} />
-                </TouchableOpacity>
-              );
-            } else {
-              return <Entypo name="home" size={26} color={color} />;
-            }
-          },
+          tabBarIcon: ({ color }) => (
+            <TouchableOpacity onPress={handleScroll}>
+              <Entypo name="home" size={26} color={color} />
+            </TouchableOpacity>
+          ),
         }}
       />
       <Tabs.Screen

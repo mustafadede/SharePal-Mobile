@@ -11,7 +11,7 @@ const ProfileTabs = ({
 }) => {
   const { t } = useTranslation();
   return (
-    <View className="flex-row justify-center gap-2 pb-2 mx-4 my-1 rounded-2xl">
+    <View className="flex-row justify-center gap-2 pb-2 my-1 rounded-2xl">
       <TouchableOpacity
         className={
           tabs === 0

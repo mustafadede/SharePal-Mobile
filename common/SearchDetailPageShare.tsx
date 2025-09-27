@@ -2,7 +2,13 @@ import { RootState } from "@/store";
 import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Image, ImageBackground, Text, View } from "react-native";
+import {
+  Image,
+  ImageBackground,
+  Text,
+  useColorScheme,
+  View,
+} from "react-native";
 import Animated, { FadeInUp } from "react-native-reanimated";
 import { useSelector } from "react-redux";
 
@@ -21,9 +27,10 @@ const SearchDetailPageShareWantToWatch = ({
   username: string;
   color: number;
 }) => {
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
   const profile = useSelector((state: RootState) => state.profile);
   const { label } = useSelector((state: RootState) => state.shareSearchDetail);
+  const colorScheme = useColorScheme();
 
   return (
     <Animated.View
@@ -35,34 +42,28 @@ const SearchDetailPageShareWantToWatch = ({
       }}
     >
       {/* Backgrounds */}
-      {color === 0 && (
-        <ImageBackground
-          source={{ uri: `https://image.tmdb.org/t/p/original/${poster_path}` }}
-          className="w-full h-full absolute z-0 bg-slate-900"
-          resizeMode="cover"
-          blurRadius={7}
-        >
+      <ImageBackground
+        source={{
+          uri: `https://image.tmdb.org/t/p/original/${
+            color === 0 ? poster_path : color === 1 ? backdrop_path : null
+          }`,
+        }}
+        className="w-full h-full absolute z-0 bg-slate-900"
+        resizeMode="cover"
+        blurRadius={7}
+      >
+        {colorScheme === "dark" ? (
           <LinearGradient
-            colors={["rgba(0, 0, 0, 0.1)", "rgb(14, 11, 19)"]}
+            colors={["rgba(0, 0, 0, 0.4)", "rgb(14, 11, 19)"]}
             style={{ flex: 1 }}
           />
-        </ImageBackground>
-      )}
-      {color === 1 && (
-        <ImageBackground
-          source={{
-            uri: `https://image.tmdb.org/t/p/original/${backdrop_path}`,
-          }}
-          className="w-full h-full absolute z-0 bg-slate-900"
-          resizeMode="cover"
-          blurRadius={3}
-        >
+        ) : (
           <LinearGradient
-            colors={["rgba(0, 0, 0, 0.1)", "rgb(14, 11, 19)"]}
+            colors={["rgba(255, 255, 255, 0.6)", "rgb(245, 245, 245)"]}
             style={{ flex: 1 }}
           />
-        </ImageBackground>
-      )}
+        )}
+      </ImageBackground>
       {color === 2 && (
         <View className="w-full h-full absolute z-0 bg-slate-950">
           <LinearGradient
@@ -97,13 +98,7 @@ const SearchDetailPageShareWantToWatch = ({
             source={{
               uri: `https://image.tmdb.org/t/p/original/${poster_path}`,
             }}
-            className="w-40 h-64 mt-4 rounded-2xl"
-            style={[
-              color === 1 && {
-                borderWidth: 1,
-                borderColor: "rgb(241, 245, 249)",
-              },
-            ]}
+            className="w-40 h-64 mt-4 rounded-2xl shadow-lg"
           />
         </View>
 
@@ -114,14 +109,14 @@ const SearchDetailPageShareWantToWatch = ({
                 {username}
                 <Text className="text-center text-fuchsia-600"> {title} </Text>
               </Text>
-              <Text className="text-center text-2xl text-white">
+              <Text className="text-center text-2xl text-slate-700 dark:text-white">
                 adlı {mediaType === "movie" ? "filmi " : "diziyi "}
                 {label === "watched" && "izledi"}
                 {label === "wanttowatch" && "izlemek istiyor"}
               </Text>
             </View>
           ) : (
-            <Text className="text-center text-2xl mt-4 text-white">
+            <Text className="text-center text-2xl mt-4 text-slate-700 dark:text-white">
               {username}
               {label === "watched" && " watched"}
               {label === "wanttowatch" && " wants to watch"}
@@ -150,7 +145,9 @@ const SearchDetailPageShareWantToWatch = ({
               }
               style={{ width: 42, height: 42 }}
             />
-            <Text className="ml-2 text-lg text-white">@{username}</Text>
+            <Text className="ml-2 text-lg font-semibold text-slate-700 dark:text-white">
+              @{username}
+            </Text>
           </View>
         )}
       </View>

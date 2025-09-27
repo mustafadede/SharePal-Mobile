@@ -201,7 +201,7 @@ const ShareDetailShare = ({
           entering={FadeInUp.duration(300).delay(400)}
           style={{
             position: "absolute",
-            bottom: 20,
+            bottom: 4,
             alignSelf: "center",
           }}
         >

@@ -2,6 +2,7 @@ import { Colors } from "@/constants/Colors";
 import { RootState } from "@/store";
 import Entypo from "@expo/vector-icons/Entypo";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import SimpleLineIcons from "@expo/vector-icons/SimpleLineIcons";
 import { router, Stack } from "expo-router";
 import { useTranslation } from "react-i18next";
 import { TouchableOpacity, useColorScheme, View } from "react-native";
@@ -126,6 +127,29 @@ export default function ProfileLayout() {
           headerBackTitle: t("headerbacktitle.title"),
           headerTintColor:
             colorScheme === "dark" ? Colors.dark.cWhite : "black",
+        }}
+      />
+      <Stack.Screen
+        name="[list]"
+        options={{
+          animation: "slide_from_right",
+          headerStyle: {
+            backgroundColor:
+              colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
+          },
+          title: t("profile.list"),
+          headerBackTitle: t("headerbacktitle.title"),
+          headerTintColor:
+            colorScheme === "dark" ? Colors.dark.cWhite : "black",
+          headerRight: () => (
+            <TouchableOpacity onPress={() => {}}>
+              <SimpleLineIcons
+                name="options-vertical"
+                size={16}
+                color={colorScheme === "dark" ? Colors.dark.cWhite : "black"}
+              />
+            </TouchableOpacity>
+          ),
         }}
       />
     </Stack>

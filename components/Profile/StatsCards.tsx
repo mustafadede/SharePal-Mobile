@@ -30,7 +30,7 @@ const StatsCards = () => {
     });
   };
   return (
-    <View className="items-center flex-1 pb-4 mx-6">
+    <View className="items-center flex-1 pb-4">
       {/* currently Watching */}
       <View className="items-start justify-center w-full px-4 py-2 mb-4 h-fit border border-slate-200 dark:border-0 bg-white dark:bg-slate-900 rounded-2xl">
         <Text className="mb-3 text-2xl font-bold text-slate-700 dark:text-white">

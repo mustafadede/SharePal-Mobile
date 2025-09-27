@@ -239,17 +239,15 @@ const searchdetail = () => {
                   style={{ borderWidth: 2, borderColor: Colors.dark.text }}
                 />
               </View>
-              <View className="mt-2">
+              <View>
                 <Text
                   className={
-                    "text-xl text-center text-slate-700 dark:text-fuchsia-600"
+                    "text-xl text-center mb-3 text-slate-700 dark:text-fuchsia-600"
                   }
                 >
                   {title}
                 </Text>
-                <View
-                  className={"flex-row justify-center gap-1 mt-1 items-center"}
-                >
+                <View className={"flex-row justify-center gap-1 items-center"}>
                   <Text
                     className={
                       "text-lg text-center text-slate-600 dark:text-slate-300 mr-2"
@@ -292,35 +290,20 @@ const searchdetail = () => {
                 <StatusLabel />
               )}
             </Animated.View>
-            <View className="flex-row justify-around w-full px-6 mt-2">
-              <Animated.View
-                entering={FadeInUp.duration(400).delay(1200)}
-                className="w-2/3"
-              >
-                <Text className="text-2xl text-start text-dark dark:text-slate-200">
+            <View className="flex-col justify-around w-full px-6 mt-2">
+              <Animated.View entering={FadeInUp.duration(400).delay(1200)}>
+                <Text className="text-2xl mt-2 text-start text-dark dark:text-slate-200">
                   {t("searchdetail.overview")}
                 </Text>
                 {overview ? (
                   <>
                     <Text
-                      className="text-md text-start text-slate-600 dark:text-slate-400"
-                      numberOfLines={isExpanded ? 0 : 2}
+                      className="text-md text-start my-2 text-slate-600 dark:text-slate-400"
+                      numberOfLines={isExpanded ? 0 : 3}
+                      onPress={() => setIsExpanded(!isExpanded)}
                     >
                       {overview}
                     </Text>
-                    <TouchableOpacity
-                      onPress={() => setIsExpanded(!isExpanded)}
-                    >
-                      {!isExpanded ? (
-                        <Text className="mt-1 text-start text-fuchsia-600">
-                          {t("searchdetail.readmore")}
-                        </Text>
-                      ) : (
-                        <Text className="mt-1 text-start text-fuchsia-600">
-                          {t("searchdetail.close")}
-                        </Text>
-                      )}
-                    </TouchableOpacity>
                   </>
                 ) : (
                   <StatusLabel />
@@ -328,12 +311,12 @@ const searchdetail = () => {
               </Animated.View>
               <Animated.View
                 entering={FadeIn.duration(400).delay(1400)}
-                className="flex-col justify-start w-1/3 ml-4"
+                className="flex-row justify-between mt-2"
               >
-                <Text className="text-2xl text-start text-black dark:text-slate-300">
+                <Text className="text-2xl text-black dark:text-slate-300 mt-1">
                   {t("searchdetail.rating")}
                 </Text>
-                <Text className="pt-2 text-3xl min-h-fit text-start text-fuchsia-400">
+                <Text className="text-3xl min-h-fit text-start text-fuchsia-400">
                   {`${vote_average}`[0]}{" "}
                   <Text className="text-lg text-black dark:text-slate-300">
                     / 10

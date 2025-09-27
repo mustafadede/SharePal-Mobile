@@ -9,7 +9,7 @@ const FollowStats = () => {
   const { t } = useTranslation();
   const profile = useSelector((state: RootState) => state.profile);
   return (
-    <View className="px-4 py-2 mx-4 flex flex-row justify-around my-2 bg-white dark:bg-slate-900 rounded-2xl h-20 border border-slate-200 dark:border-transparent">
+    <View className="py-2 flex flex-row justify-around my-2 bg-white dark:bg-slate-900 rounded-2xl h-20 border border-slate-200 dark:border-transparent">
       <TouchableOpacity className=" items-center h-full">
         <Text className="text-xl font-bold text-slate-700 dark:text-white">
           {t("profile.followers")}

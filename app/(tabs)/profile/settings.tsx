@@ -34,11 +34,11 @@ const sections = [
         description: "profileSettings.items.notifications.description",
         to: "",
       },
-      {
-        title: "profileSettings.items.privacy.title",
-        description: "profileSettings.items.privacy.description",
-        to: "",
-      },
+      // {
+      //   title: "profileSettings.items.privacy.title",
+      //   description: "profileSettings.items.privacy.description",
+      //   to: "",
+      // },
       {
         title: "profileSettings.items.language.title",
         description: "profileSettings.items.language.description",

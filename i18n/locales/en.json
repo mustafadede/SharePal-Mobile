@@ -72,6 +72,7 @@
    "profile.currently": "Currently Watching",
    "profile.totalFilms": "Total Movies",
    "profile.totalSeries": "Total Series",
+  "profile.list": "List",
    "profileSettings": {
       "logout": "Logout",
       "save": "Save Changes",

@@ -78,7 +78,7 @@ const postshare = () => {
         {captureShot(viewRef, handleShare, shareWithSpoiler)}
       </View>
       {modal.modalProps[0]?.modalProps.spoiler && (
-        <View className="flex-row items-center relative">
+        <View className="flex-row items-center relative bottom-2">
           <Text
             className="mr-2 text-md font-semibold"
             style={{ color: colorScheme === "dark" ? "#fff" : "#0E0B13" }}

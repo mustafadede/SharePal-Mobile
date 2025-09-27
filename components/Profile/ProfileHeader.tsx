@@ -8,7 +8,7 @@ const ProfileHeader = () => {
   return (
     <>
       <ImageBackground
-        className="flex items-center justify-center px-4 mx-4 mt-4 mb-2 h-52 bg-slate-800 rounded-2xl"
+        className="flex items-center justify-center px-4 mt-4 mb-2 h-52 bg-slate-800 rounded-2xl"
         source={
           profile.banner
             ? { uri: profile.banner }
