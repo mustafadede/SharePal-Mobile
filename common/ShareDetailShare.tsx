@@ -103,7 +103,7 @@ const ShareDetailShare = ({
     <View
       className={"flex-1 w-full h-full pt-10 z-50"}
       style={{
-        backgroundColor: colorScheme === "dark" ? "#0E0B13" : "#cbd5e1",
+        backgroundColor: colorScheme === "dark" ? "#0E0B13" : "transparent",
       }}
     >
       <View className="items-center justify-center w-full h-full rounded-3xl">

@@ -150,9 +150,21 @@ const searchdetail = () => {
           {setStatus && (
             <TouchableOpacity onPress={() => setIsShared(!isShared)}>
               {isShared ? (
-                <Feather name="x" size={24} color="white" />
+                <Feather
+                  name="x"
+                  size={24}
+                  color={
+                    colorScheme === "dark" ? "white" : Colors.dark.cDarkGray
+                  }
+                />
               ) : (
-                <Feather name="share" size={24} color="white" />
+                <Feather
+                  name="share"
+                  size={24}
+                  color={
+                    colorScheme === "dark" ? "white" : Colors.dark.cDarkGray
+                  }
+                />
               )}
             </TouchableOpacity>
           )}
@@ -192,7 +204,7 @@ const searchdetail = () => {
       >
         {!isShared && (
           <ScrollView className="flex-1 dark:bg-cGradient2">
-            <View className="w-full h-96 bg-cGradient2">
+            <View className="w-full h-96 dark:bg-cGradient2">
               <ImageBackground
                 source={{
                   uri: `https://image.tmdb.org/t/p/original/${backdrop_path}`,
@@ -204,9 +216,14 @@ const searchdetail = () => {
                 resizeMode="cover"
                 blurRadius={7}
               >
-                {colorScheme === "dark" && (
+                {colorScheme === "dark" ? (
                   <LinearGradient
                     colors={["rgba(0, 0, 0, 0.4)", "rgb(14, 11, 19)"]}
+                    style={{ flex: 1 }}
+                  />
+                ) : (
+                  <LinearGradient
+                    colors={["rgba(255, 255, 255, 0.6)", "rgb(245, 245, 245)"]}
                     style={{ flex: 1 }}
                   />
                 )}
@@ -225,7 +242,7 @@ const searchdetail = () => {
               <View className="mt-2">
                 <Text
                   className={
-                    "text-xl text-center text-white dark:text-fuchsia-600"
+                    "text-xl text-center text-slate-700 dark:text-fuchsia-600"
                   }
                 >
                   {title}
@@ -233,12 +250,16 @@ const searchdetail = () => {
                 <View
                   className={"flex-row justify-center gap-1 mt-1 items-center"}
                 >
-                  <Text className={"text-lg text-center text-slate-300 mr-2"}>
+                  <Text
+                    className={
+                      "text-lg text-center text-slate-600 dark:text-slate-300 mr-2"
+                    }
+                  >
                     {newDate}
                   </Text>
                   <Text
                     className={
-                      "text-lg text-center border border-slate-300 px-4 rounded-lg text-slate-300"
+                      "text-lg text-center border border-slate-600 dark:border-slate-300 px-4 rounded-lg text-slate-600 dark:text-slate-300"
                     }
                   >
                     {mediaType === "movie"

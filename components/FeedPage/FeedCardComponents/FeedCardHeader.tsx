@@ -5,6 +5,7 @@ import { RootState } from "@/store";
 import { modalActions } from "@/store/modalSlice";
 import { DateFormatter } from "@/utils/formatter";
 import Feather from "@expo/vector-icons/Feather";
+import { router } from "expo-router";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Text, TouchableOpacity, useColorScheme, View } from "react-native";
@@ -23,7 +24,9 @@ const FeedCardHeader = ({
   const dispatch = useDispatch();
   const { userId } = useSelector((state: RootState) => state.profile);
   const handleClick = () => {
-    // navigate to post detail
+    if (data.userId === userId) {
+      router.push("/profile");
+    }
   };
   const handleOptions = () => {
     handleModal();

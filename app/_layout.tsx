@@ -77,14 +77,14 @@ export default function RootLayout() {
         <Stack.Screen
           name="searchdetail"
           options={{
-            presentation: "card",
             headerShown: true,
             headerTransparent: true,
             headerTitleAlign: "center",
             headerStyle: {
               backgroundColor: "transparent",
             },
-            headerTintColor: "#ffffff",
+            headerTintColor:
+              colorScheme === "dark" ? Colors.dark.cWhite : "black",
             headerTitle: "",
             animation: "slide_from_right",
             headerBackTitle: t("headerbacktitle.title"),
