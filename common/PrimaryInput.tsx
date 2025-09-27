@@ -29,7 +29,8 @@ const PrimaryInput = ({
             colorScheme === "dark"
               ? Colors.dark.cGradient1
               : Colors.light.cWhite,
-          color: Colors.dark.cWhite,
+          color:
+            colorScheme === "dark" ? Colors.dark.cWhite : Colors.light.cBlack,
           borderRadius: 10,
         }}
         placeholderTextColor={Colors.dark.tColor1}
@@ -43,7 +44,7 @@ const PrimaryInput = ({
       />
       {visibility && (
         <TouchableOpacity
-          className="absolute text-center mr-4 right-2 text-fuchsia-600"
+          className="absolute text-center mr-1 right-2 text-fuchsia-600"
           onPress={() => setVisible(!visible)}
         >
           {visible ? (

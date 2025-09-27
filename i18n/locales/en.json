@@ -60,6 +60,11 @@
    "share.sharewithspoiler": "Share with spoiler",
    "share.taptoreveal": "Tap to reveal spoiler",
    "share.title": "Share Post",
+   "profile.follow": "Follow",
+  "profile.unfollow": "Unfollow",
+  "profile.editprofile": "Edit Profile",
+  "profile.followers": "Followers",
+  "profile.following": "Following",
    "profile.stats": "Stats",
    "profile.lists": "Lists",
    "profile.posts": "Posts",
@@ -69,6 +74,7 @@
    "profile.totalSeries": "Total Series",
    "profileSettings": {
       "logout": "Logout",
+      "save": "Save Changes",
       "title": "'s settings",
       "defaultTitle": "Settings",
       "langTitle": "Language",
@@ -80,10 +86,15 @@
       "items": {
         "profile": {
           "title": "Profile",
-          "description": "Manage your profile info"
+          "socials": "socials",
+          "changephoto": "Change Photo",
+          "description": "Your profile info and socials"
         },
         "accountSecurity": {
           "title": "Account Security",
+        "currentPassword": "Current Password",
+        "newPassword": "New Password",
+        "confirmNewPassword": "New Password (Again)",
           "description": "Password and security options"
         },
         "notifications": {

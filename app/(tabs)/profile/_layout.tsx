@@ -24,10 +24,12 @@ export default function ProfileLayout() {
           headerTransparent: true,
           headerStyle: {
             backgroundColor:
-              colorScheme !== "dark" ? Colors.dark.cWhite : "black",
+              colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
           },
           headerTintColor:
-            colorScheme === "dark" ? Colors.dark.cWhite : "black",
+            colorScheme === "dark"
+              ? Colors.dark.cWhite
+              : Colors.dark.cGradient2,
           headerRight: () => (
             <View className="flex flex-row gap-2">
               <TouchableOpacity
@@ -42,7 +44,7 @@ export default function ProfileLayout() {
                   color={
                     colorScheme === "dark"
                       ? Colors.dark.cWhite
-                      : "rgb(192 38 211)"
+                      : Colors.dark.cBlack
                   }
                 />
               </TouchableOpacity>
@@ -67,6 +69,7 @@ export default function ProfileLayout() {
         name="settings"
         options={{
           animation: "slide_from_right",
+          headerBackTitle: t("headerbacktitle.title"),
           title: profile
             ? `${profile.nick}${t("profileSettings.title")}`
             : t("profileSettings.defaultTitle"),
@@ -80,7 +83,47 @@ export default function ProfileLayout() {
         options={{
           animation: "slide_from_right",
           title: t("profileSettings.langTitle"),
+          headerBackTitle: t("headerbacktitle.title"),
           headerTransparent: true,
+          headerTintColor:
+            colorScheme === "dark" ? Colors.dark.cWhite : "black",
+        }}
+      />
+      <Stack.Screen
+        name="appearance"
+        options={{
+          animation: "slide_from_right",
+          title: t("profileSettings.items.appearance.title"),
+          headerTransparent: true,
+          headerBackTitle: t("headerbacktitle.title"),
+          headerTintColor:
+            colorScheme === "dark" ? Colors.dark.cWhite : "black",
+        }}
+      />
+      <Stack.Screen
+        name="profileedit"
+        options={{
+          animation: "slide_from_right",
+          headerStyle: {
+            backgroundColor:
+              colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
+          },
+          title: t("profileSettings.items.profile.title"),
+          headerBackTitle: t("headerbacktitle.title"),
+          headerTintColor:
+            colorScheme === "dark" ? Colors.dark.cWhite : "black",
+        }}
+      />
+      <Stack.Screen
+        name="accountsecurity"
+        options={{
+          animation: "slide_from_right",
+          headerStyle: {
+            backgroundColor:
+              colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
+          },
+          title: t("profileSettings.items.accountSecurity.title"),
+          headerBackTitle: t("headerbacktitle.title"),
           headerTintColor:
             colorScheme === "dark" ? Colors.dark.cWhite : "black",
         }}

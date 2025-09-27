@@ -1,16 +1,12 @@
-import { Colors } from "@/constants/Colors";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { router } from "expo-router";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import {
-  Appearance,
   SafeAreaView,
   ScrollView,
-  Switch,
   Text,
   TouchableOpacity,
-  useColorScheme,
   View,
 } from "react-native";
 
@@ -21,12 +17,12 @@ const sections = [
       {
         title: "profileSettings.items.profile.title",
         description: "profileSettings.items.profile.description",
-        to: "",
+        to: "(tabs)/profile/profileedit",
       },
       {
         title: "profileSettings.items.accountSecurity.title",
         description: "profileSettings.items.accountSecurity.description",
-        to: "",
+        to: "(tabs)/profile/accountsecurity",
       },
     ],
   },
@@ -51,13 +47,7 @@ const sections = [
       {
         title: "profileSettings.items.appearance.title",
         description: "profileSettings.items.appearance.description",
-        to: "",
-      },
-      {
-        title: "profileSettings.items.darkMode.title",
-        description: "profileSettings.items.darkMode.description",
-        type: "switch",
-        to: "",
+        to: "(tabs)/profile/appearance",
       },
     ],
   },
@@ -67,13 +57,13 @@ const sections = [
       {
         title: "profileSettings.items.helpSupport.title",
         description: "profileSettings.items.helpSupport.description",
+        to: "",
       },
     ],
   },
 ];
 
 const Settings = () => {
-  const colorScheme = useColorScheme();
   const { t } = useTranslation();
 
   return (
@@ -105,22 +95,6 @@ const Settings = () => {
                       {t(item.description)}
                     </Text>
                   </View>
-                  {item.type === "switch" && (
-                    <Switch
-                      value={colorScheme === "dark"}
-                      onValueChange={() => {
-                        const newTheme =
-                          colorScheme === "dark" ? "light" : "dark";
-                        Appearance.setColorScheme(newTheme);
-                      }}
-                      thumbColor={
-                        colorScheme === "dark"
-                          ? Colors.dark.cWhite
-                          : Colors.dark.cDarkGray
-                      }
-                      trackColor={{ false: "#767577", true: "#a855f7" }}
-                    />
-                  )}
                 </View>
               </TouchableOpacity>
             ))}

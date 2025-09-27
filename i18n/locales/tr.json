@@ -60,6 +60,11 @@
   "share.sharewithspoiler": "Spoiler ile paylaş",
   "share.taptoreveal": "Görmek için tıkla",
   "share.title": "Gönderi paylaş",
+  "profile.follow": "Takip et",
+  "profile.unfollow": "Takibi bırak",
+  "profile.editprofile": "Profili düzenle",
+  "profile.followers": "Takipçiler",
+  "profile.following": "Takip Edilenler",
   "profile.stats": "İstatistik",
   "profile.lists": "Listeler",
   "profile.posts": "Gönderiler",
@@ -70,6 +75,7 @@
   "profileSettings": {
     "logout": "Çıkış yap",
     "title": "'nın ayarları",
+    "save": "Değişiklikleri Kaydet",
     "defaultTitle": "Ayarlar",
     "langTitle": "Dil",
     "sections": {
@@ -80,10 +86,15 @@
     "items": {
       "profile": {
         "title": "Profil",
-        "description": "Profil bilgilerini yönet"
+        "socials": "Sosyal Medya Bağlantıları",
+        "changephoto": "Fotoğrafı değiştir",
+        "description": "Profil bilgileri, Sosyal medya bağlantıları"
       },
       "accountSecurity": {
         "title": "Hesap Güvenliği",
+        "currentPassword": "Mevcut Şifre",
+        "newPassword": "Yeni Şifre",
+        "confirmNewPassword": "Yeni Şifre (Tekrar)",
         "description": "Şifre ve güvenlik seçenekleri"
       },
       "notifications": {

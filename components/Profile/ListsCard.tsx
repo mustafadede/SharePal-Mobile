@@ -31,9 +31,11 @@ const ListsCard = () => {
           {profile?.lists?.map((list: ListItem, index: number) => (
             <TouchableOpacity
               key={index}
-              className="py-2 border bg-slate-900 border-slate-200/10 rounded-xl my-1 px-4 pt-4 pb-4"
+              className="py-2 border bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-200/10 rounded-xl my-1 px-4 pt-4 pb-4"
             >
-              <Text className="text-white">{list.title}</Text>
+              <Text className="text-slate-700 dark:text-white">
+                {list.title}
+              </Text>
             </TouchableOpacity>
           ))}
         </>
