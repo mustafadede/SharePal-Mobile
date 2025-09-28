@@ -53,11 +53,17 @@ export default function TabLayout() {
         options={{
           title: "Feed",
           tabBarLabel: "Feed",
-          tabBarIcon: ({ color }) => (
-            <TouchableOpacity onPress={handleScroll}>
-              <Entypo name="home" size={26} color={color} />
-            </TouchableOpacity>
-          ),
+          tabBarIcon: ({ color }) => {
+            if (scrollPosition > 10 && currentTab === "index") {
+              return (
+                <TouchableOpacity onPress={handleScroll}>
+                  <Entypo name="home" size={26} color={color} />
+                </TouchableOpacity>
+              );
+            } else {
+              return <Entypo name="home" size={26} color={color} />;
+            }
+          },
         }}
       />
       <Tabs.Screen

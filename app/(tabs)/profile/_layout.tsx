@@ -3,12 +3,13 @@ import { RootState } from "@/store";
 import Entypo from "@expo/vector-icons/Entypo";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import SimpleLineIcons from "@expo/vector-icons/SimpleLineIcons";
-import { router, Stack } from "expo-router";
+import { router, Stack, useLocalSearchParams } from "expo-router";
 import { useTranslation } from "react-i18next";
 import { TouchableOpacity, useColorScheme, View } from "react-native";
 import { useSelector } from "react-redux";
 
 export default function ProfileLayout() {
+  const { id, list } = useLocalSearchParams();
   const profile = useSelector((state: RootState) => state.profile);
   const { t } = useTranslation();
   const colorScheme = useColorScheme();
@@ -137,7 +138,7 @@ export default function ProfileLayout() {
             backgroundColor:
               colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
           },
-          title: t("profile.list"),
+          title: list ? list.toString() : t("profile.list"),
           headerBackTitle: t("headerbacktitle.title"),
           headerTintColor:
             colorScheme === "dark" ? Colors.dark.cWhite : "black",

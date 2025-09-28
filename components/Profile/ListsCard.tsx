@@ -84,7 +84,12 @@ const ListsCard = () => {
               >
                 <TouchableOpacity
                   activeOpacity={1}
-                  onPress={() => router.push("/profile/list")}
+                  onPress={() =>
+                    router.push({
+                      pathname: "/profile/[list]",
+                      params: { list: list.title, id: list.id },
+                    })
+                  }
                   className="py-2 border bg-white dark:bg-slate-900 flex-row justify-between border-slate-200 dark:border-slate-200/10 rounded-xl my-1 px-4 pt-4 pb-4"
                 >
                   <Text className="text-slate-700 dark:text-white">
@@ -94,8 +99,10 @@ const ListsCard = () => {
                     <MaterialIcons
                       name="push-pin"
                       size={18}
-                      className="rotate-45"
                       color={Colors.dark.cFuc6}
+                      style={{
+                        transform: [{ rotate: "45deg" }],
+                      }}
                     />
                   )}
                 </TouchableOpacity>
