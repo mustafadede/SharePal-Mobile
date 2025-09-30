@@ -48,50 +48,52 @@ const ListCard = ({
         </View>
       )}
     >
-      <TouchableOpacity
-        activeOpacity={1}
-        className="relative flex-row items-center px-4 flex-grow h-24 mt-4 rounded-2xl"
-        onPress={() =>
-          router.navigate({
-            pathname: "/searchdetail",
-            params: {
-              title: movie.title,
-              release_date: movie.releaseDate,
-              poster_path: movie.poster,
-              mediaType: movie.media_type,
-              id: itemKey, // use the firebase key here
-              backdrop_path: movie.backdrop,
-            },
-          })
-        }
-      >
-        <ImageBackground
-          source={{
-            uri: `https://image.tmdb.org/t/p/original${movie.backdrop}`,
-          }}
-          imageStyle={{ borderRadius: 16 }}
-          className="absolute w-full h-full opacity-80 bg-black dark:opacity-20 rounded-2xl"
-          blurRadius={10}
-        />
-        <Image
-          source={{
-            uri: `https://image.tmdb.org/t/p/original${movie.poster}`,
-          }}
-          className="w-14 h-14 rounded-full"
-        />
-        <View className="pl-4">
-          <Text
-            className="overflow-visible text-white w-72"
-            ellipsizeMode="tail"
-            numberOfLines={1}
-          >
-            {index + 1 + ". " + movie.title}
-          </Text>
-          <Text className="text-slate-200 dark:text-fuchsia-600">
-            ({movie.releaseDate?.slice(0, 4)})
-          </Text>
-        </View>
-      </TouchableOpacity>
+      <View className="px-4">
+        <TouchableOpacity
+          activeOpacity={1}
+          className="relative flex-row items-center flex-grow h-24 mt-4 w-full rounded-2xl"
+          onPress={() =>
+            router.navigate({
+              pathname: "/searchdetail",
+              params: {
+                title: movie.title,
+                release_date: movie.releaseDate,
+                poster_path: movie.poster,
+                mediaType: movie.media_type,
+                id: itemKey, // use the firebase key here
+                backdrop_path: movie.backdrop,
+              },
+            })
+          }
+        >
+          <ImageBackground
+            source={{
+              uri: `https://image.tmdb.org/t/p/original${movie.backdrop}`,
+            }}
+            imageStyle={{ borderRadius: 16 }}
+            className="absolute w-full h-full opacity-85 bg-black dark:opacity-20 rounded-2xl"
+            blurRadius={10}
+          />
+          <Image
+            source={{
+              uri: `https://image.tmdb.org/t/p/original${movie.poster}`,
+            }}
+            className="w-16 h-16 rounded-full ml-4"
+          />
+          <View className="pl-4">
+            <Text
+              className="overflow-visible text-white w-72"
+              ellipsizeMode="tail"
+              numberOfLines={1}
+            >
+              {index + 1 + ". " + movie.title}
+            </Text>
+            <Text className="text-slate-200 dark:text-fuchsia-600">
+              ({movie.releaseDate?.slice(0, 4)})
+            </Text>
+          </View>
+        </TouchableOpacity>
+      </View>
     </Swipeable>
   );
 };

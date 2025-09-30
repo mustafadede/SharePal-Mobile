@@ -143,13 +143,27 @@ export default function ProfileLayout() {
           headerTintColor:
             colorScheme === "dark" ? Colors.dark.cWhite : "black",
           headerRight: () => (
-            <TouchableOpacity onPress={() => {}}>
-              <SimpleLineIcons
-                name="options-vertical"
-                size={16}
-                color={colorScheme === "dark" ? Colors.dark.cWhite : "black"}
-              />
-            </TouchableOpacity>
+            <>
+              <TouchableOpacity
+                onPress={() => {
+                  router.navigate("/explore");
+                }}
+                className="ml-4 justify-center px-6 items-center rounded-xl"
+              >
+                <Ionicons
+                  name="add-outline"
+                  size={28}
+                  color={colorScheme === "dark" ? Colors.dark.cWhite : "black"}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => {}}>
+                <SimpleLineIcons
+                  name="options-vertical"
+                  size={16}
+                  color={colorScheme === "dark" ? Colors.dark.cWhite : "black"}
+                />
+              </TouchableOpacity>
+            </>
           ),
         }}
       />
