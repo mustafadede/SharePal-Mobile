@@ -94,16 +94,19 @@ export default function RootLayout() {
           name="collection"
           options={{
             headerShown: true,
+            headerTransparent: true,
             headerStyle: {
-              backgroundColor: Colors.dark.cGradient2,
+              backgroundColor:
+                colorScheme === "dark" ? Colors.dark.cGradient2 : "transparent",
             },
+            headerTintColor:
+              colorScheme === "dark" ? Colors.dark.cWhite : "black",
             headerTitle:
               related && related?.dir
                 ? Array.isArray(related.dir)
                   ? t(related.dir.join(", "))
                   : t(related.dir)
                 : "",
-            headerTintColor: Colors.dark.cWhite,
             animation: "slide_from_right",
             headerBackTitle: t("headerbacktitle.title"),
           }}

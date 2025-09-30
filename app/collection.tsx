@@ -30,8 +30,8 @@ const collection = () => {
   }, []);
 
   return (
-    <GestureHandlerRootView className="flex-1 bg-cGradient2">
-      <View className="flex-1 bg-cGradient2">
+    <GestureHandlerRootView className="flex-1">
+      <View className="flex-1 pt-36 bg-transparent dark:bg-cGradient2">
         {dir === Marvel.name && (
           <ScrollView className="flex-1">
             <View className="flex items-center justify-center w-full h-72">
