@@ -60,7 +60,6 @@ export default function RootLayout() {
         <Stack.Screen
           name="createpost"
           options={{
-            presentation: "modal",
             headerStyle: {
               backgroundColor:
                 colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
@@ -122,6 +121,22 @@ export default function RootLayout() {
             headerTintColor:
               colorScheme === "dark" ? Colors.dark.cWhite : "black",
             headerTitle: t("share.title"),
+            headerShadowVisible: false,
+            headerShown: true,
+            headerBackTitle: t("headerbacktitle.title"),
+          }}
+        />
+        <Stack.Screen
+          name="attachtopost"
+          options={{
+            headerStyle: {
+              backgroundColor:
+                colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
+            },
+            animation: "slide_from_right",
+            headerTintColor:
+              colorScheme === "dark" ? Colors.dark.cWhite : "black",
+            headerTitle: t("attachtopost.title"),
             headerShadowVisible: false,
             headerShown: true,
             headerBackTitle: t("headerbacktitle.title"),

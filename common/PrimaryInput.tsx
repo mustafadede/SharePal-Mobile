@@ -39,7 +39,7 @@ const PrimaryInput = ({
         selectionColor={Colors.dark.cFuc6}
         clearButtonMode="while-editing"
         secureTextEntry={visible}
-        onChangeText={(text) => setInput(text)}
+        onSubmitEditing={(text) => setInput(text)}
         autoCapitalize="none"
       />
       {visibility && (

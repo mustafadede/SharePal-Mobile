@@ -1,3 +1,4 @@
+import AttachModal from "@/components/CreatePost/AttachModal";
 import StatusLabel from "@/components/StatusLabel/StatusLabel";
 import { Colors } from "@/constants/Colors";
 import { RootState } from "@/store";
@@ -10,16 +11,15 @@ import {
 } from "@gorhom/bottom-sheet";
 import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { FlatList, ScrollView, useColorScheme, View } from "react-native";
+import { FlatList, useColorScheme, View } from "react-native";
 import { useSelector } from "react-redux";
-import AttachItem from "./AttachItem";
 import CommentCards from "./CommentCards";
 import InfoLabel from "./InfoLabel";
 
 const CustomBottomSheet = ({
   handleSheetChanges,
   bottomSheetModalRef,
-  snaps = ["25%", "40%", "75%"],
+  snaps = ["25%", "40%", "55%"],
 }: {
   handleSheetChanges: (index: number) => void;
   bottomSheetModalRef: React.RefObject<BottomSheetModal>;
@@ -110,33 +110,7 @@ const CustomBottomSheet = ({
           {modalType === "feedcardoptions" && (
             <InfoLabel status={t("modal.feedcardoptionstitle")} />
           )}
-          {modalType === "attach" && (
-            <View className="flex-1 px-4">
-              <BottomSheetTextInput
-                placeholder={t("modal.attachtitle")}
-                style={{
-                  backgroundColor:
-                    colorScheme === "dark"
-                      ? Colors.dark.cGradient1
-                      : Colors.light.cWhite,
-                  borderRadius: 12,
-                  height: 48,
-                  padding: 12,
-                  color: Colors.dark.cWhite,
-                }}
-                placeholderTextColor={Colors.dark.icon}
-                clearButtonMode="while-editing"
-              />
-              <ScrollView
-                contentContainerStyle={{
-                  marginTop: 8,
-                }}
-                style={{ flexGrow: 1 }}
-              >
-                <AttachItem />
-              </ScrollView>
-            </View>
-          )}
+          {modalType === "attach" && <AttachModal />}
         </BottomSheetView>
       </BottomSheetModal>
     </BottomSheetModalProvider>

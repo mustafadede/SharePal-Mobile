@@ -48,7 +48,7 @@ const Tabs = ({ tab, setTab }) => {
           <Text
             className={
               tab === 0
-                ? "text-xl text-center py-1 text-slate-800 dark:text-slate-200"
+                ? "text-xl text-center py-1 text-fuchsia-600"
                 : "text-xl text-center py-1 text-slate-200"
             }
           >
@@ -70,7 +70,7 @@ const Tabs = ({ tab, setTab }) => {
           <Text
             className={
               tab === 1
-                ? "text-xl text-center py-1 text-slate-800 dark:text-slate-200"
+                ? "text-xl text-center py-1 text-fuchsia-600"
                 : "text-xl text-center py-1 text-slate-200"
             }
           >

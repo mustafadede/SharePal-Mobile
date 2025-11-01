@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 
+import createPost from "./createpostSlice";
 import modalSlice from "./modalSlice";
 import postSlice from "./postSlice";
 import profileSlice from "./profileSlice";
@@ -17,6 +18,7 @@ export const store = configureStore({
     post: postSlice,
     shareSearchDetail: shareSearchDetail,
     theme: themeReducer,
+    createpost: createPost,
   },
 });
 
