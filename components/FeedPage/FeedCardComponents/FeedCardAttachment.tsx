@@ -43,7 +43,7 @@ const FeedCardAttachment = ({
       </View>
       <View className={"flex-row items-center ml-2"}>
         <Text className={"text-slate-700 dark:text-white"}>
-          {attachedData?.title.length > 24
+          {attachedData && attachedData.title?.length > 24
             ? attachedData?.title.slice(0, 24) + "..."
             : attachedData?.title}
         </Text>

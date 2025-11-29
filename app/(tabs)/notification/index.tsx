@@ -1,3 +1,6 @@
+import NotificationFollowCard from "@/common/NotificationFollowCard";
+import NotificationLikeCard from "@/common/NotificationLikeCard";
+import NotificationListCard from "@/common/NotificationListCard";
 import NotificationSuggestionCard from "@/common/NotificationSuggestionCard";
 import React from "react";
 import {
@@ -8,9 +11,11 @@ import {
 const Notification = () => {
   return (
     <GestureHandlerRootView>
-      <ScrollView className="flex-1 px-4 mt-0 dark:bg-cGradient2">
+      <ScrollView className="flex-1 pt-4 dark:bg-cGradient2">
         <NotificationSuggestionCard />
-        <NotificationSuggestionCard />
+        <NotificationFollowCard />
+        <NotificationLikeCard />
+        <NotificationListCard />
       </ScrollView>
     </GestureHandlerRootView>
   );

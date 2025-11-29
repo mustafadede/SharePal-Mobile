@@ -1,6 +1,6 @@
 import { Colors } from "@/constants/Colors";
 import Feather from "@expo/vector-icons/Feather";
-import Ionicons from "@expo/vector-icons/Ionicons";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import * as Haptics from "expo-haptics";
 import React from "react";
@@ -14,8 +14,7 @@ import {
 } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Swipeable from "react-native-gesture-handler/ReanimatedSwipeable";
-
-const NotificationSuggestionCard = () => {
+const NotificationLikeCard = () => {
   const colorScheme = useColorScheme();
   return (
     <GestureHandlerRootView>
@@ -53,12 +52,12 @@ const NotificationSuggestionCard = () => {
               />
             </TouchableOpacity>
             <Text className="text-slate-700 dark:text-white ml-4">
-              Mustafa size bir film önerdi
+              Mustafa gönderinizi beğendi
             </Text>
           </View>
           <View className="flex-row justify-center items-center">
-            <Ionicons
-              name="sparkles-outline"
+            <FontAwesome
+              name="heart-o"
               size={18}
               color={colorScheme === "dark" ? Colors.dark.tColor1 : "black"}
             />
@@ -74,4 +73,4 @@ const NotificationSuggestionCard = () => {
   );
 };
 
-export default NotificationSuggestionCard;
+export default NotificationLikeCard;
