@@ -7,9 +7,11 @@ import AppTitle from "@/components/Registration/AppTitle";
 import SignUpContentComponent from "@/components/SignUp/SignUpContentComponent";
 import { Colors } from "@/constants/Colors";
 import "@/global.css";
+import i18n from "@/i18n/i18n";
 import { signInWithEmailAction } from "@/services/firebaseActions";
 import { profileActions } from "@/store/profileSlice";
 import { ToastConfig } from "@/utils/ToastConfig";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import {
   BottomSheetModal,
   BottomSheetModalProvider,
@@ -23,6 +25,7 @@ import {
   Platform,
   StatusBar as RNStatusBar,
   SafeAreaView,
+  TouchableOpacity,
   useColorScheme,
   View,
 } from "react-native";
@@ -84,6 +87,11 @@ export default function Home() {
       }
     });
   };
+  const handleChangeLanguage = () => {
+    // Örnek olarak 'en' ve 'tr' arasında geçiş
+    const newLang = i18n.language === "tr" ? "en" : "tr";
+    i18n.changeLanguage(newLang);
+  };
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
@@ -95,6 +103,26 @@ export default function Home() {
         }}
       />
       <View className="items-center justify-center flex-1 dark:bg-cGradient2">
+        <TouchableOpacity
+          onPress={handleChangeLanguage}
+          className="border border-slate-400"
+          style={{
+            position: "absolute",
+            top: 10,
+            right: 10,
+            padding: 8,
+            backgroundColor:
+              colorScheme === "dark" ? Colors.dark.cGradient1 : "#eee",
+            borderRadius: 50,
+            zIndex: 20,
+          }}
+        >
+          <Ionicons
+            name="language-outline"
+            size={24}
+            color={colorScheme === "dark" ? "#fff" : "#000"}
+          />
+        </TouchableOpacity>
         <ImageComponent />
         <View className="w-full px-14 justify-center items-center flex-1">
           <AppTitle title={"SharePal"} />

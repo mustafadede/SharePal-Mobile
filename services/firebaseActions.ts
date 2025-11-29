@@ -270,8 +270,28 @@ const getSelectedUserPostsList = async (userId: string) => {
   return posts;
 };
 
+const getNotifications = async (userId: string) => {
+  const notificationsRef = ref(database, `notifications/${userId}`);
+  const snapshot = await get(notificationsRef);
+  const notifications: any[] = [];
+  if (snapshot.exists()) {
+    snapshot.forEach((childSnapshot) => {
+      notifications.push({
+        id: childSnapshot.key,
+        from: childSnapshot.val().from,
+        date: childSnapshot.val().date,
+        type: childSnapshot.val().type,
+        isComment: childSnapshot.val().isComment || false,
+        isRead: childSnapshot.val().isRead || false,
+      });
+    });
+  }
+  return notifications;
+};
+
 export {
   getAllPosts,
+  getNotifications,
   getPreviousPosts,
   getSelectedCommentsList,
   getSelectedUser,

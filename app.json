@@ -35,15 +35,24 @@
           "backgroundColor": "#ffffff"
         }
       ],
-     [ "expo-localization",
-       {
+      [
+        "expo-localization",
+        {
           "supportedLocales": {
-            "ios": ["en", "tr"],
-            "android": ["en", "tr"]
+            "ios": [
+              "en",
+              "tr"
+            ],
+            "android": [
+              "en",
+              "tr"
+            ]
           }
         }
-    ],
-      "expo-secure-store"
+      ],
+      "expo-secure-store",
+      "expo-font",
+      "expo-web-browser"
     ],
     "experiments": {
       "typedRoutes": true

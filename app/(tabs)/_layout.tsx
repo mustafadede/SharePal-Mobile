@@ -84,13 +84,16 @@ export default function TabLayout() {
           tabPress: () => setCurrentTab("notification/index"),
         }}
         options={{
-          title: "Notification",
+          title: "Notifications",
           headerShown: true,
           headerShadowVisible: false,
-          headerTransparent: true,
+          headerStyle: {
+            backgroundColor:
+              colorScheme === "dark" ? Colors.dark.cBlack : Colors.dark.cWhite,
+          },
           headerTintColor:
             colorScheme === "dark" ? Colors.dark.cWhite : "black",
-          tabBarLabel: "Notification",
+          tabBarLabel: "Notifications",
           tabBarIcon: ({ color }) => (
             <Ionicons name="notifications" size={26} color={color} />
           ),

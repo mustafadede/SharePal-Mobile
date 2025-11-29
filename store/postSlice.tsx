@@ -8,6 +8,9 @@ const postSlice = createSlice({
     error: null,
   },
   reducers: {
+    fetchMorePosts: (state, action) => {
+      state.posts = [...state.posts, ...action.payload];
+    },
     fetchPosts: (state, action) => {
       state.posts = action.payload;
     },
