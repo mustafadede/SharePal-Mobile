@@ -1,6 +1,6 @@
 import { app, auth } from "@/firebaseConfig";
 import { FirebaseError } from "firebase/app";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import {
   endBefore,
   get,
@@ -46,8 +46,7 @@ const getSelectedUser = async (userId: string) => {
         currentlyWatching: snapshot.val().currentlyWatching || "",
         bestMovieYear: snapshot.val().bestMovieYear || "",
         bestSeriesYear: snapshot.val().bestSeriesYear || "",
-        photoURL:
-          getAuth().currentUser?.photoURL || snapshot.val().photoURL || "",
+        photoURL: snapshot.val().photoURL || "",
         online: snapshot.val().online,
         splash: snapshot.val().splash,
         accountPrivate: snapshot.val().accountPrivate || "Public",

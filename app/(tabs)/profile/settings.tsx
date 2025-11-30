@@ -2,13 +2,8 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { router } from "expo-router";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import {
-  SafeAreaView,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const sections = [
   {
@@ -67,10 +62,10 @@ const Settings = () => {
   const { t } = useTranslation();
 
   return (
-    <SafeAreaView className={"dark:bg-cGradient2 bg-gray-50 flex-1 pt-24"}>
+    <SafeAreaView className={"dark:bg-cGradient2 bg-gray-50 flex-1 pt-16"}>
       <ScrollView
         contentContainerStyle={{ paddingBottom: 100 }}
-        className="px-5"
+        className="px-5 pt-4"
       >
         {sections.map((section, idx) => (
           <View key={idx} className="mb-6">

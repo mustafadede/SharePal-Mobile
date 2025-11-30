@@ -3,7 +3,6 @@ import ListsCard from "@/components/Profile/ListsCard";
 import ProfileHeader from "@/components/Profile/ProfileHeader";
 import ProfileTabs from "@/components/Profile/ProfileTabs";
 import StatsCards from "@/components/Profile/StatsCards";
-import { Colors } from "@/constants/Colors";
 import {
   getSelectedUser,
   getSelectedUserWatched,
@@ -12,7 +11,7 @@ import { RootState } from "@/store";
 import { profileActions } from "@/store/profileSlice";
 
 import React, { useEffect } from "react";
-import { SafeAreaView } from "react-native";
+import { Platform, StatusBar as RNStatusBar } from "react-native";
 import {
   GestureHandlerRootView,
   ScrollView,
@@ -42,23 +41,25 @@ const Profile = () => {
   }, []);
 
   return (
-    <SafeAreaView
-      className="flex-1 w-full h-full"
+    <GestureHandlerRootView
       style={{
-        backgroundColor: Colors.dark.cGradient2,
-        paddingTop: 80,
+        flex: 1,
+        width: "100%",
+        height: "100%",
+        paddingTop:
+          Platform.OS === "android"
+            ? (RNStatusBar.currentHeight ?? 0) + 40
+            : 90,
       }}
     >
-      <GestureHandlerRootView className="flex-1">
-        <ScrollView className="flex-1 bg-[#f2f2f2] dark:bg-cGradient2 px-4">
-          <ProfileHeader />
-          <FollowStats />
-          <ProfileTabs tabs={tabs} setTabs={setTabs} />
-          {tabs === 0 && <StatsCards />}
-          {tabs === 1 && <ListsCard />}
-        </ScrollView>
-      </GestureHandlerRootView>
-    </SafeAreaView>
+      <ScrollView className="flex-1 bg-[#f2f2f2] dark:bg-cGradient2 h-full px-4">
+        <ProfileHeader />
+        <FollowStats />
+        <ProfileTabs tabs={tabs} setTabs={setTabs} />
+        {tabs === 0 && <StatsCards />}
+        {tabs === 1 && <ListsCard />}
+      </ScrollView>
+    </GestureHandlerRootView>
   );
 };
 

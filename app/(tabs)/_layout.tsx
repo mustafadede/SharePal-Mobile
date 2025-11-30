@@ -4,7 +4,6 @@ import Entypo from "@expo/vector-icons/Entypo";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Tabs } from "expo-router";
 import React, { useState } from "react";
-import { useTranslation } from "react-i18next";
 import {
   FlatList,
   Image,
@@ -15,7 +14,6 @@ import { useSelector } from "react-redux";
 export const flatListRef = React.createRef<FlatList<any>>();
 
 export default function TabLayout() {
-  const { t } = useTranslation();
   const colorScheme = useColorScheme();
   const { scrollPosition } = useSelector((state: RootState) => state.scroll);
   const [currentTab, setCurrentTab] = useState("index");
@@ -41,7 +39,8 @@ export default function TabLayout() {
               ? Colors.dark.cGradient2
               : Colors.dark.cWhite,
           borderTopWidth: 1,
-          paddingTop: 4,
+          paddingTop: 10,
+          paddingBottom: 40,
         },
       }}
     >
@@ -108,11 +107,7 @@ export default function TabLayout() {
           headerShown: false,
           tabBarIcon: ({ color }) => (
             <Image
-              source={
-                profile.photoURL
-                  ? { uri: `${profile.photoURL}` }
-                  : require("@/assets/images/react-logo.png")
-              }
+              source={{ uri: `${profile.photoURL}` }}
               style={{
                 width: 30,
                 height: 30,

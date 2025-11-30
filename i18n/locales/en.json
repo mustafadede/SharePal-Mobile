@@ -71,6 +71,7 @@
    "profile.posts": "Posts",
    "profile.activities": "Activities",
    "profile.currently": "Currently Watching",
+   "profile.noCurrently": "Currently not watching anything",
    "profile.totalFilms": "Total Movies",
    "profile.totalSeries": "Total Series",
   "profile.list": "List",

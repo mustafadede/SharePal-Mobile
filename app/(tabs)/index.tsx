@@ -9,7 +9,6 @@ import { useCallback, useRef, useState } from "react";
 import {
   Platform,
   StatusBar as RNStatusBar,
-  SafeAreaView,
   useColorScheme,
 } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -34,46 +33,42 @@ const Index = () => {
   );
 
   return (
-    <GestureHandlerRootView>
-      <SafeAreaView
+    <GestureHandlerRootView
+      style={{
+        flex: 1,
+        width: "100%",
+        height: "100%",
+        backgroundColor:
+          colorScheme === "dark" ? Colors.dark.cGradient2 : "transparent",
+        paddingTop: Platform.OS === "android" ? RNStatusBar.currentHeight : 40,
+      }}
+    >
+      <Tabs tab={tab} setTab={setTab} />
+      {tab === 0 && <Feed handleModal={handlePresentModalPress} />}
+      <TouchableOpacity
+        onPress={() => router.push("/createpost")}
+        activeOpacity={0.8}
         style={{
-          flex: 1,
+          position: "absolute",
+          borderColor:
+            colorScheme === "dark" ? Colors.dark.cDarkGray : Colors.dark.cFuc6,
+          bottom: 10,
+          right: 10,
           backgroundColor:
-            colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
-          paddingTop: Platform.OS === "android" ? RNStatusBar.currentHeight : 0,
+            colorScheme === "dark" ? Colors.dark.cGradient2 : Colors.dark.cFuc6,
+          borderRadius: 50,
+          padding: 14,
+          elevation: 5,
+          borderWidth: 1,
         }}
       >
-        <Tabs tab={tab} setTab={setTab} />
-        {tab === 0 && <Feed handleModal={handlePresentModalPress} />}
-        <TouchableOpacity
-          onPress={() => router.push("/createpost")}
-          activeOpacity={0.8}
-          style={{
-            position: "absolute",
-            borderColor:
-              colorScheme === "dark"
-                ? Colors.dark.cDarkGray
-                : Colors.dark.cFuc6,
-            bottom: 10,
-            right: 10,
-            backgroundColor:
-              colorScheme === "dark"
-                ? Colors.dark.cGradient2
-                : Colors.dark.cFuc6,
-            borderRadius: 50,
-            padding: 14,
-            elevation: 5,
-            borderWidth: 1,
-          }}
-        >
-          <Feather name="plus" size={32} color={Colors.dark.cWhite} />
-        </TouchableOpacity>
-        <CustomBottomSheet
-          handleSheetChanges={handleSheetChanges}
-          bottomSheetModalRef={bottomSheetModalRef}
-          snaps={["25%", "40%", "75%"]}
-        />
-      </SafeAreaView>
+        <Feather name="plus" size={32} color={Colors.dark.cWhite} />
+      </TouchableOpacity>
+      <CustomBottomSheet
+        handleSheetChanges={handleSheetChanges}
+        bottomSheetModalRef={bottomSheetModalRef}
+        snaps={["25%", "40%", "75%"]}
+      />
     </GestureHandlerRootView>
   );
 };

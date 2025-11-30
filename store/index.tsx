@@ -8,6 +8,7 @@ import scrollSlice from "./scrollSlice";
 import searchDetailSlice from "./searchDetailSlice";
 import shareSearchDetail from "./shareSearchDetail";
 import themeReducer from "./themeSlice";
+import userProfileSlice from "./userProfileSlice";
 
 export const store = configureStore({
   reducer: {
@@ -19,6 +20,7 @@ export const store = configureStore({
     shareSearchDetail: shareSearchDetail,
     theme: themeReducer,
     createpost: createPost,
+    userProfile: userProfileSlice,
   },
 });
 

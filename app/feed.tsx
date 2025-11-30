@@ -1,6 +1,5 @@
 import InfoLabel from "@/common/InfoLabel";
 import FeedCard from "@/components/FeedPage/FeedCard";
-import { Colors } from "@/constants/Colors";
 import {
   getAllPosts,
   getPreviousPosts,
@@ -13,10 +12,8 @@ import { scrollActions } from "@/store/scrollSlice";
 import React, { useEffect, useState } from "react";
 import {
   FlatList,
-  KeyboardAvoidingView,
   NativeScrollEvent,
   NativeSyntheticEvent,
-  Platform,
   RefreshControl,
   useColorScheme,
   View,
@@ -100,49 +97,37 @@ const Feed = ({ handleModal }) => {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : undefined}
-        keyboardVerticalOffset={Platform.OS === "android" ? -500 : 0}
-        className={"flex-1 z-0 w-full h-full px-3"}
-        style={{
-          backgroundColor:
-            colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
-          width: "100%",
-          height: "100%",
-        }}
-      >
-        {status === "loading" && (
-          <View className={"pt-20"}>
-            <InfoLabel status="feed.loading" />
-          </View>
-        )}
-        {status === "done" && (
-          <FlatList
-            ref={flatListRef}
-            className="pt-20 pb-20"
-            keyExtractor={(item, index) => item.postId + index.toString()}
-            refreshControl={
-              <RefreshControl
-                colors={["#9F23B3"]}
-                refreshing={isRefreshing}
-                progressBackgroundColor={"#0E0B13"}
-                onRefresh={onRefresh}
-                tintColor={"#9F23B3"}
-              />
-            }
-            data={posts}
-            showsVerticalScrollIndicator={true}
-            refreshing={isRefreshing}
-            onRefresh={onRefresh}
-            onScroll={handleScroll}
-            scrollEventThrottle={16}
-            renderItem={renderItem}
-            onEndReached={fetchMorePosts}
-            onEndReachedThreshold={0.5}
-            maxToRenderPerBatch={10}
-          />
-        )}
-      </KeyboardAvoidingView>
+      {status === "loading" && (
+        <View className={"pt-20"}>
+          <InfoLabel status="feed.loading" />
+        </View>
+      )}
+      {status === "done" && (
+        <FlatList
+          ref={flatListRef}
+          className="pt-20 px-2 h-full w-full"
+          keyExtractor={(item, index) => item.postId + index.toString()}
+          refreshControl={
+            <RefreshControl
+              colors={["#9F23B3"]}
+              refreshing={isRefreshing}
+              progressBackgroundColor={"#0E0B13"}
+              onRefresh={onRefresh}
+              tintColor={"#9F23B3"}
+            />
+          }
+          data={posts}
+          showsVerticalScrollIndicator={true}
+          refreshing={isRefreshing}
+          onRefresh={onRefresh}
+          onScroll={handleScroll}
+          scrollEventThrottle={16}
+          renderItem={renderItem}
+          onEndReached={fetchMorePosts}
+          onEndReachedThreshold={0.5}
+          maxToRenderPerBatch={10}
+        />
+      )}
     </GestureHandlerRootView>
   );
 };

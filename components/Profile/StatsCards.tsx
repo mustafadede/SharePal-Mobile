@@ -7,8 +7,10 @@ import { Image, Text, TouchableOpacity, View } from "react-native";
 import { useSelector } from "react-redux";
 import StatusLabel from "../StatusLabel/StatusLabel";
 
-const StatsCards = () => {
-  const profile = useSelector((state: RootState) => state.profile);
+const StatsCards = ({ user = false }: { user?: boolean }) => {
+  const otherProfile = useSelector((state: RootState) => state.userProfile);
+  const yourProfile = useSelector((state: RootState) => state.profile);
+  const profile = user ? otherProfile : yourProfile;
   const { t } = useTranslation();
   const handleCurrentlyWatching = () => {
     useSearchWithYear(
@@ -33,28 +35,34 @@ const StatsCards = () => {
     <View className="items-center flex-1 pb-4">
       {/* currently Watching */}
       <View className="items-start justify-center w-full px-4 py-2 mb-4 h-fit border border-slate-200 dark:border-0 bg-white dark:bg-slate-900 rounded-2xl">
-        <Text className="mb-3 text-2xl font-bold text-slate-700 dark:text-white">
+        <Text className="mb-3 py-2 text-2xl font-bold text-slate-700 dark:text-white">
           {t("profile.currently")}
         </Text>
-        <TouchableOpacity
-          className="flex-row items-center gap-4"
-          onPress={() => handleCurrentlyWatching()}
-        >
-          <Image
-            className="rounded-lg w-28 h-36"
-            source={{
-              uri: `https://image.tmdb.org/t/p/original/${profile.currentlyWatching.poster}`,
-            }}
-          />
-          <View>
-            <Text className="text-lg text-slate-700 dark:text-white">
-              {profile.currentlyWatching.title}
-            </Text>
-            <Text className="text-lg text-slate-600 dark:text-slate-400">
-              ({profile.currentlyWatching.releaseDate?.slice(0, 4)})
-            </Text>
-          </View>
-        </TouchableOpacity>
+        {profile.currentlyWatching.title ? (
+          <TouchableOpacity
+            className="flex-row items-center gap-4"
+            onPress={() => handleCurrentlyWatching()}
+          >
+            <Image
+              className="rounded-lg w-28 h-36"
+              source={{
+                uri: `https://image.tmdb.org/t/p/original/${profile.currentlyWatching.poster}`,
+              }}
+            />
+            <View>
+              <Text className="text-lg text-slate-700 dark:text-white">
+                {profile.currentlyWatching.title}
+              </Text>
+              <Text className="text-lg text-slate-600 dark:text-slate-400">
+                ({profile.currentlyWatching.releaseDate?.slice(0, 4)})
+              </Text>
+            </View>
+          </TouchableOpacity>
+        ) : (
+          <Text className="dark:text-slate-300 mb-4 mt-2 text-black">
+            {t("profile.noCurrently")}
+          </Text>
+        )}
       </View>
       {/* total series/films */}
       <View className="flex-row gap-4 my-1">

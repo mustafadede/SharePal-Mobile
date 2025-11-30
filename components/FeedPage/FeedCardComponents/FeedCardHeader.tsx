@@ -26,6 +26,14 @@ const FeedCardHeader = ({
   const handleClick = () => {
     if (data.userId === userId) {
       router.push("/profile");
+    } else {
+      router.push({
+        pathname: "/userprofile/[id]",
+        params: {
+          id: data.userId,
+          username: data.nick,
+        },
+      });
     }
   };
   const handleOptions = () => {

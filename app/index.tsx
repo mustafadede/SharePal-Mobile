@@ -21,14 +21,7 @@ import * as Haptics from "expo-haptics";
 import { router } from "expo-router";
 import { useCallback, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import {
-  Platform,
-  StatusBar as RNStatusBar,
-  SafeAreaView,
-  TouchableOpacity,
-  useColorScheme,
-  View,
-} from "react-native";
+import { Platform, TouchableOpacity, useColorScheme, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Toast from "react-native-toast-message";
 import { useDispatch } from "react-redux";
@@ -94,22 +87,22 @@ export default function Home() {
   };
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <SafeAreaView
-        style={{
-          backgroundColor:
-            colorScheme === "dark" ? Colors.dark.cGradient2 : "transparent",
-          paddingTop: Platform.OS === "android" ? RNStatusBar.currentHeight : 0,
-        }}
-      />
+    <GestureHandlerRootView
+      style={{
+        flex: 1,
+        backgroundColor:
+          colorScheme === "dark" ? Colors.dark.cGradient2 : "transparent",
+        paddingTop: Platform.OS === "android" ? 0 : 0,
+      }}
+    >
       <View className="items-center justify-center flex-1 dark:bg-cGradient2">
         <TouchableOpacity
           onPress={handleChangeLanguage}
           className="border border-slate-400"
           style={{
             position: "absolute",
-            top: 10,
-            right: 10,
+            top: 45,
+            right: 20,
             padding: 8,
             backgroundColor:
               colorScheme === "dark" ? Colors.dark.cGradient1 : "#eee",
@@ -124,7 +117,7 @@ export default function Home() {
           />
         </TouchableOpacity>
         <ImageComponent />
-        <View className="w-full px-14 justify-center items-center flex-1">
+        <View className="w-full h-full px-14 flex-1 justify-center items-center">
           <AppTitle title={"SharePal"} />
           <PrimaryInput placeholder={"login.email"} setInput={setEmail} />
           <PrimaryInput
