@@ -13,7 +13,11 @@ import { userProfileActions } from "@/store/userProfileSlice";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 
 import React, { useEffect } from "react";
-import { useColorScheme } from "react-native";
+import {
+  Platform,
+  StatusBar as RNStatusBar,
+  useColorScheme,
+} from "react-native";
 import {
   GestureHandlerRootView,
   ScrollView,
@@ -54,6 +58,10 @@ const UserProfile = () => {
     <GestureHandlerRootView
       style={{
         flex: 1,
+        paddingTop:
+          Platform.OS === "android"
+            ? (RNStatusBar.currentHeight ?? 0) + 40
+            : 90,
         backgroundColor:
           colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
       }}

@@ -1,15 +1,41 @@
+import { Post } from "@/constants/Post";
+import FeedAttachmentCard from "./FeedAttachmentCard";
 import FeedCommentCard from "./FeedCommentCard";
 import FeedSpoilerCard from "./FeedSpoilerCard";
-import FeedAttachmentCard from "./FeedAttachmentCard";
-import { Post } from "@/constants/Post";
 
-const FeedCard = ({ data, index, handleModal }: { data: Post; index: number; handleModal: () => void }) => {
+const FeedCard = ({
+  data,
+  index,
+  postPage = false,
+  handleModal,
+}: {
+  data: Post;
+  index: number;
+  postPage?: boolean;
+  handleModal: () => void;
+}) => {
   return !data.attachedFilm && !data.spoiler && !data.actionName ? (
-    <FeedCommentCard data={data} index={index} handleModal={handleModal} />
+    <FeedCommentCard
+      data={data}
+      index={index}
+      postPage={postPage}
+      handleModal={handleModal}
+    />
   ) : data.attachedFilm && !data.actionName && !data.spoiler ? (
-    <FeedAttachmentCard data={data} attachedData={data.attachedFilm} index={index} handleModal={handleModal} />
+    <FeedAttachmentCard
+      data={data}
+      attachedData={data.attachedFilm}
+      index={index}
+      postPage={postPage}
+      handleModal={handleModal}
+    />
   ) : data.spoiler && !data.actionName ? (
-    <FeedSpoilerCard data={data} index={index} handleModal={handleModal} />
+    <FeedSpoilerCard
+      data={data}
+      index={index}
+      postPage={postPage}
+      handleModal={handleModal}
+    />
   ) : null;
 };
 

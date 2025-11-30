@@ -9,10 +9,12 @@ import FeedCardHeader from "./FeedCardComponents/FeedCardHeader";
 const FeedSpoilerCard = ({
   data,
   index,
+  postPage,
   handleModal,
 }: {
   data: Post;
   index: number;
+  postPage?: boolean;
   handleModal: () => void;
 }) => {
   return (
@@ -21,12 +23,20 @@ const FeedSpoilerCard = ({
         "dark:bg-slate-900 bg-white border dark:border-slate-900 border-slate-200 rounded-2xl p-4 h-fit w-full mb-4"
       }
     >
-      <FeedCardHeader data={data} handleModal={handleModal} />
+      <FeedCardHeader
+        data={data}
+        postPage={postPage}
+        handleModal={handleModal}
+      />
       <FeedCardContent data={data} haveSpoiler={true} />
       {data?.attachedFilm && (
         <FeedCardAttachment attachedData={data?.attachedFilm} />
       )}
-      <FeedCardActions data={data} handleModal={handleModal} />
+      <FeedCardActions
+        data={data}
+        postPage={postPage}
+        handleModal={handleModal}
+      />
     </View>
   );
 };

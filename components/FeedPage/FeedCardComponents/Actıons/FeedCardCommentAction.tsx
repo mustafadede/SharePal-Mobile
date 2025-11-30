@@ -1,42 +1,21 @@
 import { Colors } from "@/constants/Colors";
-import {
-  getSelectedCommentsList,
-  getSelectedUser,
-} from "@/services/firebaseActions";
-import { modalActions } from "@/store/modalSlice";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { useRouter } from "expo-router";
 import React from "react";
 import { Text, TouchableOpacity, useColorScheme } from "react-native";
-import { useDispatch } from "react-redux";
 
-const FeedCardCommentAction = ({ data, handleModal }) => {
+const FeedCardCommentAction = ({ data, postPage }) => {
   const colorScheme = useColorScheme();
-  const dispatch = useDispatch();
+  const router = useRouter();
   const handleModalState = () => {
-    handleModal();
-    dispatch(modalActions.updateModalType("comments"));
-    getSelectedCommentsList(data.postId).then((res) => {
-      dispatch(modalActions.updateStatus("loading"));
-      res.forEach((comment) => {
-        getSelectedUser(comment.userId).then((user) => {
-          dispatch(
-            modalActions.updateModal({
-              comment: comment.comment,
-              date: comment.date,
-              relatedUserId: comment.relatedUserId,
-              userId: comment.userId,
-              nick: user.nick,
-              photoURL: user.photoURL,
-              banner: user.banner,
-            })
-          );
-          dispatch(modalActions.updateStatus("done"));
-        });
+    !postPage &&
+      router.push({
+        pathname: "/post/[id]",
+        params: {
+          id: data.postId,
+          userId: data.userId,
+        },
       });
-      if (res.length === 0) {
-        dispatch(modalActions.updateStatus("noData"));
-      }
-    });
   };
 
   return (

@@ -10,15 +10,21 @@ import FeedCardShareAction from "./Actıons/FeedCardShareAction";
 const FeedCardActions = ({
   data,
   handleModal,
+  postPage,
 }: {
   data: Post;
   handleModal: () => void;
+  postPage?: boolean;
 }) => {
   const colorScheme = useColorScheme();
   return (
     <View className={"flex-row items-center justify-around mt-4"}>
       <FeedCardLikeAction data={data} />
-      <FeedCardCommentAction data={data} handleModal={handleModal} />
+      <FeedCardCommentAction
+        data={data}
+        postPage={postPage}
+        handleModal={handleModal}
+      />
       <TouchableOpacity className={"flex flex-row items-center gap-2"}>
         <EvilIcons
           name="retweet"

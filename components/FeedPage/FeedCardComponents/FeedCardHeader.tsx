@@ -13,9 +13,11 @@ import { useDispatch, useSelector } from "react-redux";
 
 const FeedCardHeader = ({
   data,
+  postPage = false,
   handleModal,
 }: {
   data: Post;
+  postPage?: boolean;
   handleModal: () => void;
 }) => {
   const { t } = useTranslation();
@@ -62,7 +64,7 @@ const FeedCardHeader = ({
         </View>
       </View>
       <View className="flex-row-reverse items-center gap-1">
-        {data.userId === userId && (
+        {data.userId === userId && !postPage && (
           <TouchableOpacity onPress={handleOptions}>
             <Text
               className={"text-black dark:text-slate-400 text-xl mb-3 ml-1"}

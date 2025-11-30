@@ -192,7 +192,19 @@ const getSelectedCommentsList = async (postId: string) => {
   try {
     const commentsRef = ref(database, `commentsList/${postId}`);
     const res = await get(commentsRef);
-    const comments = [];
+    const comments: {
+      id: string;
+      commentId: any;
+      comment: any;
+      comments: any;
+      isEdited: any;
+      likes: any;
+      relatedPostId: any;
+      relatedUserId: any;
+      reposts: any;
+      date: any;
+      userId: any;
+    }[] = [];
     res.forEach((comment) => {
       comments.push({
         id: comment.key,
@@ -269,6 +281,19 @@ const getSelectedUserPostsList = async (userId: string) => {
   return posts;
 };
 
+const getSpecificPost = async (postId: string) => {
+  const postRef = ref(database, `posts/${postId}`);
+  const snapshot = await get(postRef);
+  if (snapshot.exists()) {
+    return {
+      id: snapshot.key,
+      ...snapshot.val(),
+    };
+  } else {
+    return null;
+  }
+};
+
 const getNotifications = async (userId: string) => {
   const notificationsRef = ref(database, `notifications/${userId}`);
   const snapshot = await get(notificationsRef);
@@ -300,5 +325,6 @@ export {
   getSelectedUserUnfinished,
   getSelectedUserWantToWatch,
   getSelectedUserWatched,
+  getSpecificPost,
   signInWithEmailAction,
 };

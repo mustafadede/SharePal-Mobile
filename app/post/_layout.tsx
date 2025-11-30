@@ -1,18 +1,19 @@
 import { Colors } from "@/constants/Colors";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { router, Stack } from "expo-router";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import { router, Stack, useLocalSearchParams } from "expo-router";
+import { getAuth } from "firebase/auth";
+import React from "react";
 import { useTranslation } from "react-i18next";
-import {
-  Platform,
-  Text,
-  TouchableOpacity,
-  useColorScheme,
-  View,
-} from "react-native";
+import { Platform, Text, TouchableOpacity, useColorScheme } from "react-native";
 
-export default function ProfileLayout() {
+const _layout = () => {
   const colorScheme = useColorScheme();
+  const currentUserId = getAuth().currentUser?.uid;
+  const { userId } = useLocalSearchParams();
   const { t } = useTranslation();
+  console.log(userId, currentUserId);
+
   return (
     <Stack>
       <Stack.Screen
@@ -23,12 +24,13 @@ export default function ProfileLayout() {
               colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
           },
           animation: "slide_from_right",
+          headerTitle: "",
+
           headerTintColor:
             colorScheme === "dark" ? Colors.dark.cWhite : "black",
           headerShown: true,
           headerBackButtonMenuEnabled: true,
           headerBackVisible: true,
-          headerTransparent: true,
           headerBackTitle: t("headerbacktitle.title"),
           headerBackButtonDisplayMode: "minimal",
           headerLeft: () =>
@@ -44,22 +46,31 @@ export default function ProfileLayout() {
                   size={24}
                   color={colorScheme === "dark" ? Colors.dark.cWhite : "black"}
                 />
-                <Text className="text-lg ml-2">
+                <Text className="text-lg dark:text-white ml-2">
                   {t("headerbacktitle.title")}
                 </Text>
               </TouchableOpacity>
             ) : null,
-          headerRight: () => (
-            <View className="flex flex-row gap-2">
-              <TouchableOpacity onPress={() => {}}>
-                <Text className="bg-fuchsia-600 px-6 py-2 rounded-xl text-white">
-                  Follow
-                </Text>
+          headerRight: () =>
+            currentUserId === userId && (
+              <TouchableOpacity className="flex flex-row gap-2">
+                <TouchableOpacity onPress={() => {}}>
+                  <MaterialCommunityIcons
+                    name="dots-horizontal"
+                    size={24}
+                    color={
+                      colorScheme === "dark"
+                        ? Colors.dark.cWhite
+                        : Colors.dark.cBlack
+                    }
+                  />
+                </TouchableOpacity>
               </TouchableOpacity>
-            </View>
-          ),
+            ),
         }}
       />
     </Stack>
   );
-}
+};
+
+export default _layout;

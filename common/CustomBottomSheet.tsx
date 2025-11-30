@@ -1,19 +1,15 @@
 import AttachModal from "@/components/CreatePost/AttachModal";
-import StatusLabel from "@/components/StatusLabel/StatusLabel";
 import { Colors } from "@/constants/Colors";
 import { RootState } from "@/store";
 import {
-  BottomSheetFooter,
   BottomSheetModal,
   BottomSheetModalProvider,
-  BottomSheetTextInput,
   BottomSheetView,
 } from "@gorhom/bottom-sheet";
 import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { FlatList, useColorScheme, View } from "react-native";
+import { useColorScheme, View } from "react-native";
 import { useSelector } from "react-redux";
-import CommentCards from "./CommentCards";
 import InfoLabel from "./InfoLabel";
 
 const CustomBottomSheet = ({
@@ -43,33 +39,6 @@ const CustomBottomSheet = ({
         handleIndicatorStyle={{ backgroundColor: "rgb(100 116 139)" }}
         keyboardBehavior="interactive"
         android_keyboardInputMode="adjustResize"
-        footerComponent={(props) => (
-          <BottomSheetFooter {...props}>
-            {modalType === "comments" && (
-              <View
-                className="pt-2 pb-4 border-t dark:bg-cGradient2 dark:border-slate-700"
-                style={{
-                  flex: 1,
-                }}
-              >
-                <View className="flex-row items-center mx-2 mt-2">
-                  <BottomSheetTextInput
-                    className="flex-1 h-10 mr-2 text-slate-100 bg-white dark:bg-slate-800 rounded-xl"
-                    placeholder={t("modal.writecomment")}
-                    style={{
-                      flex: 1,
-                      paddingLeft: 12,
-                      paddingRight: 12,
-                      paddingTop: 12,
-                      paddingBottom: 12,
-                    }}
-                    placeholderTextColor={Colors.dark.icon}
-                  />
-                </View>
-              </View>
-            )}
-          </BottomSheetFooter>
-        )}
         backgroundComponent={({ style }) => (
           <View
             style={[
@@ -88,22 +57,6 @@ const CustomBottomSheet = ({
         )}
       >
         <BottomSheetView style={{ flex: 1 }}>
-          {modalStatus === "loading" && <StatusLabel />}
-          {modalProps.length > 0 && modalStatus && (
-            <FlatList
-              data={modalProps}
-              className="flex-1 w-full px-2 mt-2"
-              renderItem={({ item, index }) =>
-                modalType === "comments" && (
-                  <CommentCards item={item} index={index} />
-                )
-              }
-              keyExtractor={(item) => item.date + item.userId}
-            />
-          )}
-          {modalStatus === "noData" && modalType === "comments" && (
-            <InfoLabel status={t("modal.nocomment")} />
-          )}
           {modalType === "feedcardshare" && (
             <InfoLabel status={t("modal.feedcardtitle")} />
           )}
