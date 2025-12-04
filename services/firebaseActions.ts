@@ -116,6 +116,21 @@ const getSelectedUserUnfinished = async (userId: string) => {
   return selectedUserUnfinished;
 };
 
+const getSelectedUserFollowing = async (userId: string) => {
+  const followingRef = ref(database, `following/${userId}`);
+  const snapshot = await get(followingRef);
+  const selectedUserFollowing: Array<{ uid: string; date: number }> = [];
+  if (snapshot.exists()) {
+    snapshot.forEach((childSnapshot) => {
+      selectedUserFollowing.push({
+        uid: childSnapshot.val().uid,
+        date: childSnapshot.val().date,
+      });
+    });
+  }
+  return selectedUserFollowing;
+};
+
 const getAllPosts = async () => {
   const postsRef = ref(database, "posts");
   const sortedPostsRef = query(postsRef, orderByChild("date"), limitToLast(20));
@@ -319,6 +334,7 @@ export {
   getPreviousPosts,
   getSelectedCommentsList,
   getSelectedUser,
+  getSelectedUserFollowing,
   getSelectedUserLists,
   getSelectedUserPosts,
   getSelectedUserPostsList,

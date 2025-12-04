@@ -1,18 +1,13 @@
 import { Colors } from "@/constants/Colors";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { router, Stack } from "expo-router";
+import { router, Stack, useLocalSearchParams } from "expo-router";
 import { useTranslation } from "react-i18next";
-import {
-  Platform,
-  Text,
-  TouchableOpacity,
-  useColorScheme,
-  View,
-} from "react-native";
+import { Platform, TouchableOpacity, useColorScheme } from "react-native";
 
 export default function ProfileLayout() {
   const colorScheme = useColorScheme();
   const { t } = useTranslation();
+  const { list } = useLocalSearchParams();
   return (
     <Stack>
       <Stack.Screen
@@ -29,7 +24,6 @@ export default function ProfileLayout() {
           headerBackButtonMenuEnabled: true,
           headerBackVisible: true,
           headerTransparent: true,
-          headerBackTitle: t("headerbacktitle.title"),
           headerBackButtonDisplayMode: "minimal",
           headerLeft: () =>
             Platform.OS === "ios" ? (
@@ -44,20 +38,37 @@ export default function ProfileLayout() {
                   size={24}
                   color={colorScheme === "dark" ? Colors.dark.cWhite : "black"}
                 />
-                <Text className="text-lg ml-2">
-                  {t("headerbacktitle.title")}
-                </Text>
               </TouchableOpacity>
             ) : null,
-          headerRight: () => (
-            <View className="flex flex-row gap-2">
-              <TouchableOpacity onPress={() => {}}>
-                <Text className="bg-fuchsia-600 px-6 py-2 rounded-xl text-white">
-                  Follow
-                </Text>
-              </TouchableOpacity>
-            </View>
-          ),
+        }}
+      />
+      <Stack.Screen
+        name="usersuggest"
+        options={{
+          title: t("profile.suggestusertitle"),
+          sheetElevation: 0,
+          headerStyle: {
+            backgroundColor:
+              colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
+          },
+          animation: "slide_from_right",
+          headerTintColor:
+            colorScheme === "dark" ? Colors.dark.cWhite : "black",
+          headerBackTitle: t("headerbacktitle.title"),
+        }}
+      />
+      <Stack.Screen
+        name="list/[list]/index"
+        options={{
+          animation: "slide_from_right",
+          headerStyle: {
+            backgroundColor:
+              colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
+          },
+          title: list ? list.toString() : t("profile.list"),
+          headerBackTitle: t("headerbacktitle.title"),
+          headerTintColor:
+            colorScheme === "dark" ? Colors.dark.cWhite : "black",
         }}
       />
     </Stack>

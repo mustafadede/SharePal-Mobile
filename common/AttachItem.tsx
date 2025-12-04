@@ -1,5 +1,6 @@
 import { createPostsActions } from "@/store/createpostSlice";
 import Entypo from "@expo/vector-icons/Entypo";
+import Feather from "@expo/vector-icons/Feather";
 import { useRouter } from "expo-router";
 import React from "react";
 import {
@@ -17,12 +18,14 @@ const AttachItem = ({
   title,
   release_date,
   attached = false,
+  hasUser = false,
 }: {
   backdrop?: string;
   poster?: string;
   title?: string;
   release_date?: string;
   attached?: boolean;
+  hasUser?: boolean;
 }) => {
   const colorScheme = useColorScheme();
   const dispatch = useDispatch();
@@ -67,14 +70,22 @@ const AttachItem = ({
         </View>
         {attached && (
           <TouchableOpacity
-            className="justify-center h-12 py-0 px-4 bg-slate-600 rounded-lg"
+            className="justify-center h-12 py-0 px-4 border border-black dark:border-white rounded-lg"
             onPress={() => handleAttachment()}
           >
-            <Entypo
-              name="attachment"
-              size={18}
-              color={colorScheme === "dark" ? "white" : "black"}
-            />
+            {hasUser ? (
+              <Feather
+                name="send"
+                size={16}
+                color={colorScheme === "dark" ? "white" : "black"}
+              />
+            ) : (
+              <Entypo
+                name="attachment"
+                size={18}
+                color={colorScheme === "dark" ? "white" : "black"}
+              />
+            )}
           </TouchableOpacity>
         )}
       </View>

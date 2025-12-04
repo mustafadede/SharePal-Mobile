@@ -22,6 +22,8 @@ const profileSlice = createSlice({
       releaseDate: "",
       poster: "",
     },
+    followingList: [],
+    followersList: [],
     bestMovieYear: "",
     bestSeriesYear: "",
     online: false,
@@ -54,6 +56,12 @@ const profileSlice = createSlice({
     },
     initilizeLists: (state, action) => {
       state.lists = action.payload;
+    },
+    initilizeFollowingList: (state, action) => {
+      state.followingList = action.payload;
+    },
+    resetLists: (state) => {
+      state.lists = [];
     },
   },
 });

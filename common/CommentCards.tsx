@@ -1,12 +1,27 @@
 import { Colors } from "@/constants/Colors";
 import { DateFormatter } from "@/utils/formatter";
 import Entypo from "@expo/vector-icons/Entypo";
+import { useNavigation } from "expo-router";
 import React from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 
 const CommentCards = ({ item, index }) => {
   const newDate = DateFormatter(item?.date || 0);
-  console.log(item);
+  const navigate = useNavigation();
+
+  const handleClick = () => {
+    if (data.userId === userId) {
+      router.push("/profile");
+    } else {
+      router.push({
+        pathname: "/userprofile/[id]",
+        params: {
+          id: data.userId,
+          username: data.nick,
+        },
+      });
+    }
+  };
 
   return (
     <View
@@ -24,7 +39,7 @@ const CommentCards = ({ item, index }) => {
       <View style={{ gap: 6 }}>
         <View className="flex-row items-center justify-between">
           <View className="flex-row items-center">
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => {}}>
               {item?.photoURL ? (
                 <Image
                   source={{ uri: item.photoURL }}

@@ -7,8 +7,11 @@ import UserProfileActions from "@/components/UserProfile/UserProfileActions";
 import { Colors } from "@/constants/Colors";
 import {
   getSelectedUser,
+  getSelectedUserFollowing,
   getSelectedUserWatched,
 } from "@/services/firebaseActions";
+import { RootState } from "@/store";
+import { profileActions } from "@/store/profileSlice";
 import { userProfileActions } from "@/store/userProfileSlice";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 
@@ -22,9 +25,10 @@ import {
   GestureHandlerRootView,
   ScrollView,
 } from "react-native-gesture-handler";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const UserProfile = () => {
+  const profile = useSelector((state: RootState) => state.profile);
   const { id, username } = useLocalSearchParams();
   const [tabs, setTabs] = React.useState(0);
   const dispatch = useDispatch();
@@ -39,11 +43,14 @@ const UserProfile = () => {
 
   useEffect(() => {
     dispatch(userProfileActions.setStatus("Loading"));
-    getSelectedUser(id).then((user) => {
+    getSelectedUser(String(id)).then((user) => {
       dispatch(userProfileActions.updateProfile(user));
-      console.log(user);
     });
-    getSelectedUserWatched(id).then((watched) => {
+    getSelectedUserFollowing(profile.userId).then((followings) => {
+      dispatch(profileActions.initilizeFollowingList(followings));
+    });
+    getSelectedUserFollowing(String(id)).then();
+    getSelectedUserWatched(String(id)).then((watched) => {
       const filteredTVData = watched?.filter((item) => item.mediaType === "tv");
       const filteredMovieData = watched?.filter(
         (item) => item.mediaType === "movie"
@@ -69,7 +76,7 @@ const UserProfile = () => {
       <ScrollView className="flex-1 bg-[#f2f2f2] dark:bg-cGradient2 px-4">
         <ProfileHeader user={true} />
         <FollowStats />
-        <UserProfileActions />
+        <UserProfileActions userId={String(id)} />
         <ProfileTabs tabs={tabs} setTabs={setTabs} />
         {tabs === 0 && <StatsCards user={true} />}
         {tabs === 1 && <ListsCard user={true} />}

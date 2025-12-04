@@ -17,7 +17,7 @@ const filters = [
   { label: "TV", id: 1 },
 ];
 
-const attachtopost = () => {
+const usersuggest = () => {
   const colorScheme = useColorScheme();
   const { t } = useTranslation();
   const [search, setSearch] = useState("");
@@ -37,7 +37,7 @@ const attachtopost = () => {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <View className="flex-1 px-4 dark:bg-cGradient2">
+      <View className="flex-1 px-4 pt-6 dark:bg-cGradient2">
         <TextInput
           placeholder={t("modal.attachtitle")}
           value={search}
@@ -84,6 +84,7 @@ const attachtopost = () => {
               keyExtractor={(_, index) => String(index)}
               renderItem={({ item, index }) => (
                 <AttachItem
+                  hasUser={true}
                   backdrop={item.backdrop_path || item.poster_path}
                   poster={item.poster_path || item.backdrop_path}
                   title={item.title || item.name}
@@ -92,8 +93,8 @@ const attachtopost = () => {
                   attached={true}
                 />
               )}
-              contentContainerStyle={{ paddingBottom: 80 }}
               showsVerticalScrollIndicator={false}
+              contentContainerStyle={{ paddingBottom: 80 }}
             />
           )}
         </View>
@@ -102,4 +103,4 @@ const attachtopost = () => {
   );
 };
 
-export default attachtopost;
+export default usersuggest;

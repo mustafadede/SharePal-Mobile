@@ -61,7 +61,7 @@ const Feed = ({ handleModal }) => {
         if (posts.length === 0) {
           dispatch(postsActions.setStatus("loading"));
           getAllPosts().then((res) => {
-            setLastPostDate(res[res.length - 1].date); // Son post tarihini ayarla
+            setLastPostDate(res[res.length - 1].date);
             dispatch(postsActions.fetchPosts(res));
             dispatch(postsActions.setStatus("done"));
           });
@@ -121,7 +121,7 @@ const Feed = ({ handleModal }) => {
           refreshing={isRefreshing}
           onRefresh={onRefresh}
           onScroll={handleScroll}
-          scrollEventThrottle={16}
+          scrollEventThrottle={0}
           renderItem={renderItem}
           onEndReached={fetchMorePosts}
           onEndReachedThreshold={0.5}

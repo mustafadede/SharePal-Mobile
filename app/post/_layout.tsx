@@ -12,7 +12,6 @@ const _layout = () => {
   const currentUserId = getAuth().currentUser?.uid;
   const { userId } = useLocalSearchParams();
   const { t } = useTranslation();
-  console.log(userId, currentUserId);
 
   return (
     <Stack>

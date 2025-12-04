@@ -5,6 +5,7 @@ const userProfileSlice = createSlice({
   initialState: {
     status: "idle",
     userId: "",
+    uid: "",
     nick: "",
     email: "",
     photoURL: "",
@@ -54,6 +55,9 @@ const userProfileSlice = createSlice({
     },
     initilizeLists: (state, action) => {
       state.lists = action.payload;
+    },
+    resetLists: (state) => {
+      state.lists = [];
     },
   },
 });

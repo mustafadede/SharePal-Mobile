@@ -38,7 +38,7 @@ const StatsCards = ({ user = false }: { user?: boolean }) => {
         <Text className="mb-3 py-2 text-2xl font-bold text-slate-700 dark:text-white">
           {t("profile.currently")}
         </Text>
-        {profile.currentlyWatching.title ? (
+        {profile.status === "done" && profile.currentlyWatching.title && (
           <TouchableOpacity
             className="flex-row items-center gap-4"
             onPress={() => handleCurrentlyWatching()}
@@ -58,11 +58,13 @@ const StatsCards = ({ user = false }: { user?: boolean }) => {
               </Text>
             </View>
           </TouchableOpacity>
-        ) : (
+        )}
+        {profile.status === "done" && !profile.currentlyWatching.title && (
           <Text className="dark:text-slate-300 mb-4 mt-2 text-black">
             {t("profile.noCurrently")}
           </Text>
         )}
+        {profile.status !== "done" && <StatusLabel />}
       </View>
       {/* total series/films */}
       <View className="flex-row gap-4 my-1">

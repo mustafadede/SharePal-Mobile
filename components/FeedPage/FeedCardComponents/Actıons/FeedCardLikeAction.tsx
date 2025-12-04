@@ -8,12 +8,12 @@ import { useSelector } from "react-redux";
 const FeedCardLikeAction = ({ data }) => {
   const colorScheme = useColorScheme();
   const [isLiked, setIsLiked] = useState(false);
-  const { displayName } = useSelector((state: RootState) => state.profile);
+  const { userId } = useSelector((state: RootState) => state.profile);
 
   useEffect(() => {
-    data?.likesList?.map(
-      (likedUser) => likedUser?.id === displayName && setIsLiked(true)
-    );
+    data?.likesList?.map((likedUser) => {
+      likedUser?.id === userId && setIsLiked(true);
+    });
   }, []);
   return (
     <TouchableOpacity

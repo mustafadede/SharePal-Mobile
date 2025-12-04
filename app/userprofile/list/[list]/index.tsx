@@ -29,10 +29,10 @@ const ListCardItem = ({
   return <ListCard movie={movie} index={index} itemKey={key} />;
 };
 
-const list = () => {
+const index = () => {
   const { id, list } = useLocalSearchParams();
   const navigation = useNavigation();
-  const profile = useSelector((state: RootState) => state.profile);
+  const profile = useSelector((state: RootState) => state.userProfile);
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const { scrollPosition } = useSelector((state: RootState) => state.scroll);
@@ -42,9 +42,10 @@ const list = () => {
       title: list,
     });
   }, [list]);
-  const selectedList = profile.lists.find((list) => list?.id === id) as
-    | { items: any[] }
-    | undefined;
+
+  const selectedList = profile.lists.find(
+    (list: { id: string }) => list?.id === id
+  ) as { items: any[] } | undefined;
 
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const scrollPosition = event.nativeEvent.contentOffset.y;
@@ -52,14 +53,14 @@ const list = () => {
   };
 
   return (
-    <GestureHandlerRootView className="flex-1">
+    <GestureHandlerRootView className="flex-1 dark:bg-cGradient2">
       {selectedList ? (
-        <View className="flex-1 pt-4 bg-transparent w-full justify-center items-center dark:bg-cGradient2">
+        <View className="flex-1 pt-4 bg-transparent w-full justify-center items-center">
           <View className="px-4">
             <PrimaryInput placeholder={t("explore.search")} />
           </View>
           <FlatList
-            data={Object.entries(selectedList.list) as [string, any][]}
+            data={Object.entries(selectedList?.items ?? {}) as [string, any][]}
             keyExtractor={([key]) => key}
             className="flex-col flex-1 w-full h-full"
             ref={listRef}
@@ -113,4 +114,4 @@ const list = () => {
   );
 };
 
-export default list;
+export default index;
