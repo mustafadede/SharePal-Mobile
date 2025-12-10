@@ -1,10 +1,9 @@
-import ActionPill from "@/common/ActionPill";
 import Entypo from "@expo/vector-icons/Entypo";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { ScrollView, Text, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 
 type ExploreBottomSheetProps = {
   title: string;
@@ -23,159 +22,97 @@ const ExploreBottomSheet = React.memo(
     const { t } = useTranslation();
 
     return (
-      <ScrollView
-        contentContainerStyle={{
-          padding: 20,
-          alignItems: "center",
-          gap: 20,
-        }}
-        showsVerticalScrollIndicator={false}
-      >
+      <View className="px-5 pb-6 border" style={{ gap: 24 }}>
         {/* Title */}
-        <Text
-          style={{
-            fontSize: 18,
-            fontWeight: "700",
-            textAlign: "center",
-            color: "#f1f5f9",
-          }}
-        >
-          {bottomSheetValues.title}{" "}
-          <Text style={{ fontWeight: "500", color: "#f1f5f9" }}>
-            {t("actions.title")}
+        <View className="w-full">
+          <Text className="text-xl font-bold text-slate-100 leading-snug">
+            {bottomSheetValues.title}{" "}
+            <Text className="font-medium text-slate-300">
+              {t("actions.title")}
+            </Text>
           </Text>
-        </Text>
-
-        {/* Actions */}
-        <View
-          style={{
-            flexDirection: "row",
-            flexWrap: "wrap",
-            justifyContent: "center",
-            gap: 12,
-          }}
-        >
-          <ActionPill
-            title={t("actions.wanttowatch")}
-            status={bottomSheetValues.wanttoWatch}
-            icon={
-              <FontAwesome
-                name="bookmark-o"
-                size={22}
-                color={bottomSheetValues.wanttoWatch ? "#C026D3" : "#fff"}
-              />
-            }
-            pillStyle={{
-              paddingHorizontal: 16,
-              paddingVertical: 10,
-              borderRadius: 20,
-              backgroundColor: bottomSheetValues.wanttoWatch
-                ? "rgba(192,38,211,0.15)"
-                : "rgba(255,255,255,0.05)",
-              shadowColor: "#000",
-              shadowOpacity: 0.15,
-              shadowRadius: 6,
-              elevation: 2,
-            }}
-          />
-          <ActionPill
-            title={t("actions.watched")}
-            status={bottomSheetValues.watched}
-            icon={
-              <FontAwesome
-                name="bookmark"
-                size={22}
-                color={bottomSheetValues.watched ? "#C026D3" : "#fff"}
-              />
-            }
-            pillStyle={{
-              paddingHorizontal: 16,
-              paddingVertical: 10,
-              borderRadius: 20,
-              backgroundColor: bottomSheetValues.watched
-                ? "rgba(192,38,211,0.15)"
-                : "rgba(255,255,255,0.05)",
-              shadowColor: "#000",
-              shadowOpacity: 0.15,
-              shadowRadius: 6,
-              elevation: 2,
-            }}
-          />
-          <ActionPill
-            title={t("actions.currentlywatching")}
-            icon={<FontAwesome name="eye" size={22} color="#fff" />}
-            pillStyle={{
-              paddingHorizontal: 16,
-              paddingVertical: 10,
-              borderRadius: 20,
-              backgroundColor: "rgba(255,255,255,0.05)",
-              shadowColor: "#000",
-              shadowOpacity: 0.15,
-              shadowRadius: 6,
-              elevation: 2,
-            }}
-          />
-          <ActionPill
-            title={t("actions.unfinished")}
-            status={bottomSheetValues.unfinished}
-            icon={
-              <Ionicons
-                name="pause-outline"
-                size={22}
-                color={bottomSheetValues.unfinished ? "#C026D3" : "#fff"}
-              />
-            }
-            pillStyle={{
-              paddingHorizontal: 16,
-              paddingVertical: 10,
-              borderRadius: 20,
-              backgroundColor: bottomSheetValues.unfinished
-                ? "rgba(192,38,211,0.15)"
-                : "rgba(255,255,255,0.05)",
-              shadowColor: "#000",
-              shadowOpacity: 0.15,
-              shadowRadius: 6,
-              elevation: 2,
-            }}
-          />
-          {bottomSheetValues.mediaType === "movie" &&
-            bottomSheetValues.release_date.slice(0, 4) ===
-              thisYear.toString() && (
-              <ActionPill
-                title={t("actions.bestmovies")}
-                icon={<Entypo name="star" size={22} color="#fff" />}
-                pillStyle={{
-                  paddingHorizontal: 16,
-                  paddingVertical: 10,
-                  borderRadius: 20,
-                  backgroundColor: "rgba(255,255,255,0.05)",
-                  shadowColor: "#000",
-                  shadowOpacity: 0.15,
-                  shadowRadius: 6,
-                  elevation: 2,
-                }}
-              />
-            )}
-          {bottomSheetValues.mediaType === "tv" &&
-            bottomSheetValues.release_date.slice(0, 4) ===
-              thisYear.toString() && (
-              <ActionPill
-                title={t("actions.bestseries")}
-                icon={<Entypo name="star" size={22} color="#fff" />}
-                pillStyle={{
-                  paddingHorizontal: 16,
-                  paddingVertical: 10,
-                  borderRadius: 20,
-                  backgroundColor: "rgba(255,255,255,0.05)",
-                  shadowColor: "#000",
-                  shadowOpacity: 0.15,
-                  shadowRadius: 6,
-                  elevation: 2,
-                }}
-              />
-            )}
         </View>
-      </ScrollView>
+
+        {/* Movie-specific */}
+        {bottomSheetValues.mediaType === "movie" &&
+          bottomSheetValues.release_date.slice(0, 4) ===
+            thisYear.toString() && (
+            <TouchableOpacity className="flex-row items-center justify-between bg-slate-600 rounded-xl px-4 py-3">
+              <Text className="text-slate-100 text-base">
+                {t("actions.bestmovies")}
+              </Text>
+              <Entypo name="star" size={22} color="yellow" />
+            </TouchableOpacity>
+          )}
+
+        {/* Series-specific */}
+        {bottomSheetValues.mediaType === "tv" &&
+          bottomSheetValues.release_date.slice(0, 4) ===
+            thisYear.toString() && (
+            <TouchableOpacity className="flex-row items-center justify-between bg-slate-600 rounded-xl px-4 py-3">
+              <Text className="text-slate-100 text-base">
+                {t("actions.bestseries")}
+              </Text>
+              <Entypo name="star" size={22} color="yellow" />
+            </TouchableOpacity>
+          )}
+
+        {/* Modern Minimal Buttons */}
+        <View className="w-full flex flex-col gap-3">
+          {/* Want to Watch */}
+          <TouchableOpacity
+            className={
+              "flex-row items-center justify-between rounded-xl bg-white/5 border border-white/10 px-4 py-3" +
+              (bottomSheetValues.wanttoWatch
+                ? " border-fuchsia-600 bg-fuchsia-600/20"
+                : "")
+            }
+          >
+            <Text className="text-slate-100 text-base">
+              {t("actions.wanttowatch")}
+            </Text>
+            <FontAwesome name="bookmark-o" size={22} color="#f8fafc" />
+          </TouchableOpacity>
+
+          {/* Watched */}
+          <TouchableOpacity
+            className={
+              "flex-row items-center justify-between rounded-xl bg-white/5 border border-white/10 px-4 py-3" +
+              (bottomSheetValues.watched
+                ? " border-fuchsia-600 bg-fuchsia-600/20"
+                : "")
+            }
+          >
+            <Text className="text-slate-100 text-base">
+              {t("actions.watched")}
+            </Text>
+            <FontAwesome name="bookmark" size={22} color="#f8fafc" />
+          </TouchableOpacity>
+
+          {/* Currently Watching */}
+          <TouchableOpacity className="flex-row items-center justify-between rounded-xl bg-white/5 border border-white/10 px-4 py-3">
+            <Text className="text-slate-100 text-base">
+              {t("actions.currentlywatching")}
+            </Text>
+            <FontAwesome name="eye" size={22} color="#f8fafc" />
+          </TouchableOpacity>
+
+          {/* Unfinished */}
+          <TouchableOpacity
+            className={
+              "flex-row items-center justify-between rounded-xl bg-white/5 border border-white/10 px-4 py-3" +
+              (bottomSheetValues.unfinished
+                ? " border-fuchsia-600 bg-fuchsia-600/20"
+                : "")
+            }
+          >
+            <Text className="text-slate-100 text-base">
+              {t("actions.unfinished")}
+            </Text>
+            <Ionicons name="pause-outline" size={22} color="#f8fafc" />
+          </TouchableOpacity>
+        </View>
+      </View>
     );
   }
 );

@@ -176,10 +176,10 @@ const searchdetail = () => {
         hasWatched
           ? "watched"
           : hasWantToWatch
-          ? "wanttowatch"
-          : hasUnfinished
-          ? "unfinished"
-          : ""
+            ? "wanttowatch"
+            : hasUnfinished
+              ? "unfinished"
+              : ""
       )
     );
     dispatch(shareSearchDetailAction.setStatus("done"));
@@ -370,7 +370,7 @@ const searchdetail = () => {
           <BottomSheetModal
             ref={BottomSheetModalRef}
             index={2}
-            SnapPoints={SnapPoints}
+            snapPoints={SnapPoints}
             onChange={HandleSheetChanges}
             keyboardBlurBehavior="none"
             handleIndicatorStyle={{ backgroundColor: "rgb(100 116 139)" }}
@@ -392,7 +392,12 @@ const searchdetail = () => {
               />
             )}
           >
-            <BottomSheetView style={{ flex: 1, marginTop: 10 }}>
+            <BottomSheetView
+              style={{
+                flex: 1,
+                marginTop: 10,
+              }}
+            >
               <ExploreBottomSheet bottomSheetValues={bottomSheetValues} />
             </BottomSheetView>
           </BottomSheetModal>
