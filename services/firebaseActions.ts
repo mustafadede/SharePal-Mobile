@@ -1,14 +1,18 @@
 import { app, auth } from "@/firebaseConfig";
 import { FirebaseError } from "firebase/app";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import {
   endBefore,
   get,
   getDatabase,
   limitToLast,
   orderByChild,
+  push,
   query,
   ref,
+  remove,
+  set,
+  update,
 } from "firebase/database";
 
 const dbRef = ref(getDatabase());
@@ -328,7 +332,132 @@ const getNotifications = async (userId: string) => {
   return notifications;
 };
 
+const createPostAction = async (
+  content: string,
+  attachedFilm: any,
+  spoiler: any,
+  nick: string
+) => {
+  try {
+    const userId = getAuth().currentUser?.uid;
+    const newPostRef = push(ref(database, `posts/`));
+    const newUserPostRef = push(
+      ref(database, `userPostsList/${userId}/posts/`)
+    );
+
+    set(newPostRef, {
+      userId: userId,
+      postId: newPostRef.key,
+      photoURL: getAuth().currentUser?.photoURL || null,
+      nick: nick,
+      spoiler: spoiler || null,
+      attachedFilm: attachedFilm || null,
+      attachedFilmId: attachedFilm?.id || null,
+      content: content,
+      likes: 0,
+      likesList: [],
+      comments: 0,
+      edited: false,
+      commentsList: [],
+      repost: 0,
+      repostList: [],
+      date: Date.now(),
+    });
+
+    await update(newUserPostRef, {
+      [newPostRef.key as string]: newPostRef.key,
+    });
+
+    return true;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const deleteSelectedPost = async (postId: string) => {
+  if (!postId) {
+    console.error("Invalid postId");
+    return null;
+  }
+  try {
+    const postsRef = ref(database, `posts/${postId}`);
+    const snapshot = await get(postsRef);
+    if (snapshot.exists()) {
+      await remove(ref(database, `posts/${postId}`));
+      return true;
+    } else {
+      console.log("No data available");
+      return null;
+    }
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
+
+const updateCurrentUserData = async (userId: string, data: any) => {
+  try {
+    const userRef = ref(database, `users/${userId}`);
+    const snapshot = await get(userRef);
+
+    const postsRef = ref(database, `posts/`);
+    const postsSnapshot = await get(postsRef);
+
+    if (snapshot.exists()) {
+      await set(userRef, {
+        displayName: data.nick || snapshot.val().displayName,
+        email: data.email || snapshot.val().email,
+        following: data.following || snapshot.val().following,
+        followers: data.followers || snapshot.val().followers,
+        quote: data.quote || snapshot.val().quote,
+        topOne: data.topOne || snapshot.val().topOne,
+        banner: data.banner || snapshot.val().banner,
+        instagram: data.instagram || snapshot.val().instagram || "",
+        linkedin: data.linkedin || snapshot.val().linkedin || "",
+        github: data.github || snapshot.val().github || "",
+        currentlyWatching:
+          data.currentlyWatching || snapshot.val().currentlyWatching || "",
+        bestMovieYear: data.bestMovieYear || snapshot.val().bestMovieYear || "",
+        bestSeriesYear:
+          data.bestSeriesYear || snapshot.val().bestSeriesYear || "",
+        photoURL:
+          getAuth().currentUser?.photoURL || snapshot.val().photoURL || null,
+        online: data.online ?? snapshot.val().online ?? false,
+        deleted: data.deleted ?? snapshot.val().deleted ?? false,
+        splash: data.splash ?? snapshot.val().splash ?? false,
+        accountPrivate:
+          data.accountPrivate || snapshot.val().accountPrivate || "Public",
+        taggingPrivacy:
+          data.taggingPrivacy || snapshot.val().taggingPrivacy || "Public",
+        listPrivacy: data.listPrivacy || snapshot.val().listPrivacy || "Public",
+      });
+
+      if (postsSnapshot.exists()) {
+        postsSnapshot.forEach((childSnapshot) => {
+          const post = childSnapshot.val();
+          if (post.userId === userId) {
+            update(ref(database, `posts/${childSnapshot.key}`), {
+              ...post,
+              nick: data.nick || snapshot.val().displayName,
+            });
+          }
+        });
+      }
+
+      return true;
+    } else {
+      console.log("No data available");
+      return null;
+    }
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
+
 export {
+  createPostAction,
+  deleteSelectedPost,
   getAllPosts,
   getNotifications,
   getPreviousPosts,
@@ -343,4 +472,5 @@ export {
   getSelectedUserWatched,
   getSpecificPost,
   signInWithEmailAction,
+  updateCurrentUserData,
 };

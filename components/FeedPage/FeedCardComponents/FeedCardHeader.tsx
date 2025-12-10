@@ -2,28 +2,28 @@ import DummyImage from "@/common/DummyImage";
 import ImageComponent from "@/common/ImageComponent";
 import { Post } from "@/constants/Post";
 import { RootState } from "@/store";
-import { modalActions } from "@/store/modalSlice";
 import { DateFormatter } from "@/utils/formatter";
 import Feather from "@expo/vector-icons/Feather";
 import { router } from "expo-router";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Text, TouchableOpacity, useColorScheme, View } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 const FeedCardHeader = ({
   data,
   postPage = false,
-  handleModal,
+  setOptions,
+  options,
 }: {
   data: Post;
   postPage?: boolean;
-  handleModal: () => void;
+  options: boolean;
+  setOptions: (option: boolean) => void;
 }) => {
   const { t } = useTranslation();
   const colorScheme = useColorScheme();
   const newYear = DateFormatter(data.date);
-  const dispatch = useDispatch();
   const { userId } = useSelector((state: RootState) => state.profile);
   const handleClick = () => {
     if (data.userId === userId) {
@@ -39,8 +39,7 @@ const FeedCardHeader = ({
     }
   };
   const handleOptions = () => {
-    handleModal();
-    dispatch(modalActions.updateModalType("feedcardoptions"));
+    setOptions(!options);
   };
   return (
     <View className={"flex-row justify-between items-center"}>

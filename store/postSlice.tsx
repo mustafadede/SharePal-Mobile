@@ -23,6 +23,10 @@ const postSlice = createSlice({
     setError: (state, action) => {
       state.error = action.payload;
     },
+    removePost(state, action) {
+      const postId = action.payload;
+      state.posts = state.posts.filter((post) => post.postId !== postId);
+    },
   },
 });
 

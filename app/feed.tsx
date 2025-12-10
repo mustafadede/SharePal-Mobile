@@ -105,7 +105,8 @@ const Feed = ({ handleModal }) => {
       {status === "done" && (
         <FlatList
           ref={flatListRef}
-          className="pt-20 px-2 h-full w-full"
+          className="px-2 h-full w-full"
+          contentContainerStyle={{ paddingTop: 65 }}
           keyExtractor={(item, index) => item.postId + index.toString()}
           refreshControl={
             <RefreshControl
@@ -113,6 +114,7 @@ const Feed = ({ handleModal }) => {
               refreshing={isRefreshing}
               progressBackgroundColor={"#0E0B13"}
               onRefresh={onRefresh}
+              progressViewOffset={60}
               tintColor={"#9F23B3"}
             />
           }

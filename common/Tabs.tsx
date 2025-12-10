@@ -1,31 +1,19 @@
 import { Colors } from "@/constants/Colors";
-import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Text, TouchableOpacity, useColorScheme, View } from "react-native";
 
-const Tabs = ({ tab, setTab }) => {
+const Tabs = ({
+  tab,
+  setTab,
+}: {
+  tab: number;
+  setTab: (tab: number) => void;
+}) => {
   const colorScheme = useColorScheme();
   const { t } = useTranslation();
   return (
     <View className="w-full h-fit">
-      <LinearGradient
-        colors={[
-          colorScheme === "dark" ? "rgba(14, 11, 19, 0.7)" : "transparent",
-          "transparent",
-        ]}
-        style={{
-          position: "absolute",
-          top: -40,
-          left: 0,
-          right: 0,
-          height: 125,
-          zIndex: 1,
-          bottom: 0,
-        }}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 0, y: 1 }}
-      />
       <View
         className="absolute z-10 flex-row mx-2 mt-4 rounded-2xl"
         style={{

@@ -25,6 +25,8 @@
   "actions.wanttowatch": "Want to Watch",
   "actions.watched": "Watched",
   "actions.currentlywatching": "Currently Watching",
+  "actions.edit": "Edit",
+  "actions.delete": "Delete",
   "actions.unfinished": "Unfinished",
   "actions.bestseries": "Best Series of the Year",
   "actions.bestmovies": "Best Movies of the Year",

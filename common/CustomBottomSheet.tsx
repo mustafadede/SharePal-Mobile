@@ -8,7 +8,7 @@ import {
 } from "@gorhom/bottom-sheet";
 import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { useColorScheme, View } from "react-native";
+import { Text, TouchableOpacity, useColorScheme, View } from "react-native";
 import { useSelector } from "react-redux";
 import InfoLabel from "./InfoLabel";
 
@@ -25,7 +25,7 @@ const CustomBottomSheet = ({
   const { modalStatus, modalType, modalProps } = useSelector(
     (state: RootState) => state.modal
   );
-  const snapPoints = useMemo(() => snaps, []);
+  const snapPoints = useMemo(() => ["25%"], []);
   const { t } = useTranslation();
 
   return (
@@ -35,6 +35,8 @@ const CustomBottomSheet = ({
         index={1}
         snapPoints={snapPoints}
         onChange={handleSheetChanges}
+        detached={true}
+        bottomInset={46}
         keyboardBlurBehavior="none"
         handleIndicatorStyle={{ backgroundColor: "rgb(100 116 139)" }}
         keyboardBehavior="interactive"
@@ -50,6 +52,7 @@ const CustomBottomSheet = ({
                 borderTopRightRadius: 20,
                 width: "100%",
                 justifyContent: "center",
+                marginHorizontal: 24,
                 alignItems: "center",
               },
             ]}
@@ -61,7 +64,11 @@ const CustomBottomSheet = ({
             <InfoLabel status={t("modal.feedcardtitle")} />
           )}
           {modalType === "feedcardoptions" && (
-            <InfoLabel status={t("modal.feedcardoptionstitle")} />
+            <View className="h-full w-full">
+              <TouchableOpacity className="bg-red-600 h-14 w-full">
+                <Text>{t("actions.delete")}</Text>
+              </TouchableOpacity>
+            </View>
           )}
           {modalType === "attach" && <AttachModal />}
         </BottomSheetView>

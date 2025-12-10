@@ -59,7 +59,7 @@ const SearchDetailPageShareWantToWatch = ({
           />
         ) : (
           <LinearGradient
-            colors={["rgba(255, 255, 255, 0.6)", "rgb(245, 245, 245)"]}
+            colors={["rgba(255, 255, 255, 0.3)", "rgb(245, 245, 245)"]}
             style={{ flex: 1 }}
           />
         )}
@@ -130,7 +130,7 @@ const SearchDetailPageShareWantToWatch = ({
 
         {label !== "" && (
           <View
-            className="flex-row items-center"
+            className="flex-row justif items-center"
             style={{
               position: "relative",
               top: 140,

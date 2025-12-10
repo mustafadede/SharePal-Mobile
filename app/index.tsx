@@ -2,7 +2,7 @@ import PrimaryButton from "@/common/PrimaryButton";
 import PrimaryInput from "@/common/PrimaryInput";
 import StandartButton from "@/common/StandartButton";
 import UnderlineButton from "@/common/UnderlineButton";
-import ImageComponent from "@/components/LogIn/ImageComponent";
+import BackgroundImage from "@/components/LogIn/BackgroundImage";
 import AppTitle from "@/components/Registration/AppTitle";
 import SignUpContentComponent from "@/components/SignUp/SignUpContentComponent";
 import { Colors } from "@/constants/Colors";
@@ -116,7 +116,7 @@ export default function Home() {
             color={colorScheme === "dark" ? "#fff" : "#000"}
           />
         </TouchableOpacity>
-        <ImageComponent />
+        <BackgroundImage />
         <View className="w-full h-full px-14 flex-1 justify-center items-center">
           <AppTitle title={"SharePal"} />
           <PrimaryInput placeholder={"login.email"} setInput={setEmail} />

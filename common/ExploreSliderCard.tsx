@@ -86,7 +86,7 @@ const ExploreSliderCard = ({
               style={{
                 borderColor: "#e2e8f0",
                 color: "#d946ef",
-                backgroundColor: "rgb(15 23 42 / 0.6)",
+                backgroundColor: "rgba(15 23 42 / 0.6)",
               }}
               className={"text-sm border rounded-lg px-3 text-fuchsia-500"}
             >

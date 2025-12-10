@@ -24,7 +24,6 @@ const _layout = () => {
           },
           animation: "slide_from_right",
           headerTitle: "",
-
           headerTintColor:
             colorScheme === "dark" ? Colors.dark.cWhite : "black",
           headerShown: true,

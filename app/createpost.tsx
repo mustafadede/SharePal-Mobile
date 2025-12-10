@@ -1,6 +1,7 @@
 import AttachItem from "@/common/AttachItem";
 import Recommendation from "@/common/Recommendation";
 import { Colors } from "@/constants/Colors";
+import { createPostAction } from "@/services/firebaseActions";
 import { RootState } from "@/store";
 import { createPostsActions } from "@/store/createpostSlice";
 import { postsActions } from "@/store/postSlice";
@@ -49,6 +50,12 @@ const CreatePost = () => {
       })
     );
     dispatch(createPostsActions.createPostAttachment({}));
+    createPostAction(
+      createdPost.content,
+      createdPost.attachedFilm,
+      createdPost.spoiler,
+      nick
+    );
     navigation.goBack();
   };
 

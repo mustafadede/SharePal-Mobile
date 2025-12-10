@@ -2,8 +2,13 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { router } from "expo-router";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { ScrollView, Text, TouchableOpacity, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import {
+  Platform,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 const sections = [
   {
@@ -62,55 +67,54 @@ const Settings = () => {
   const { t } = useTranslation();
 
   return (
-    <SafeAreaView className={"dark:bg-cGradient2 bg-gray-50 flex-1 pt-16"}>
-      <ScrollView
-        contentContainerStyle={{ paddingBottom: 100 }}
-        className="px-5 pt-4"
-      >
-        {sections.map((section, idx) => (
-          <View key={idx} className="mb-6">
-            <Text className="text-xs font-semibold uppercase mb-2 dark:text-slate-400 text-gray-700">
-              {t(section.title)}
-            </Text>
-            {section.data.map((item, index) => (
-              <TouchableOpacity
-                key={index}
-                className="p-4 rounded-2xl border mb-3 dark:bg-slate-900 bg-white border-gray-200 dark:border-slate-900"
-                activeOpacity={item.type === "switch" ? 1 : 0.7}
-                onPress={() => {
-                  router.push(item?.to);
-                }}
-              >
-                <View className="flex-row justify-between items-center">
-                  <View>
-                    <Text className="text-base font-medium dark:text-white text-gray-900">
-                      {t(item.title)}
-                    </Text>
-                    <Text className="text-sm mt-1 dark:text-slate-400 text-gray-500">
-                      {t(item.description)}
-                    </Text>
-                  </View>
+    <ScrollView
+      className="flex-1 px-5  dark:bg-cGradient2 bg-gray-50 pt-24"
+      contentContainerStyle={{
+        paddingBottom: Platform.OS === "ios" ? 20 : 120,
+        paddingTop: 20,
+      }}
+    >
+      {sections.map((section, idx) => (
+        <View key={idx} className="mb-6">
+          <Text className="text-xs font-semibold uppercase mb-2 dark:text-slate-400 text-gray-700">
+            {t(section.title)}
+          </Text>
+          {section.data.map((item, index) => (
+            <TouchableOpacity
+              key={index}
+              className="p-4 rounded-2xl border mb-3 dark:bg-slate-900 bg-white border-gray-200 dark:border-slate-900"
+              activeOpacity={item.type === "switch" ? 1 : 0.7}
+              onPress={() => {
+                router.push(item?.to);
+              }}
+            >
+              <View className="flex-row justify-between items-center">
+                <View>
+                  <Text className="text-base font-medium dark:text-white text-gray-900">
+                    {t(item.title)}
+                  </Text>
+                  <Text className="text-sm mt-1 dark:text-slate-400 text-gray-500">
+                    {t(item.description)}
+                  </Text>
                 </View>
-              </TouchableOpacity>
-            ))}
-          </View>
-        ))}
-        <TouchableOpacity
-          className="p-4 rounded-xl bg-transparent border border-red-700 items-center"
-          activeOpacity={0.8}
-          onPress={() => router.replace("/")}
-        >
-          <View className="flex-row items-center gap-2 space-x-2">
-            <Ionicons name="log-out-outline" size={20} color="rgb(185 28 28)" />
-            <Text className="text-red-700 text-lg font-semibold">
-              {t("profileSettings.logout")}
-            </Text>
-          </View>
-        </TouchableOpacity>
-      </ScrollView>
-
-      {/* Logout Button fixed at bottom */}
-    </SafeAreaView>
+              </View>
+            </TouchableOpacity>
+          ))}
+        </View>
+      ))}
+      <TouchableOpacity
+        className="p-4 rounded-xl bg-transparent border border-red-700 items-center"
+        activeOpacity={0.8}
+        onPress={() => router.dismissTo("/ResetToRoot")}
+      >
+        <View className="flex-row items-center gap-2 space-x-2">
+          <Ionicons name="log-out-outline" size={20} color="rgb(185 28 28)" />
+          <Text className="text-red-700 text-lg font-semibold">
+            {t("profileSettings.logout")}
+          </Text>
+        </View>
+      </TouchableOpacity>
+    </ScrollView>
   );
 };
 

@@ -2,9 +2,11 @@ import { Colors } from "@/constants/Colors";
 import "@/i18n/i18n";
 import { store } from "@/store";
 import { Stack, useGlobalSearchParams } from "expo-router";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useColorScheme } from "react-native";
 import { Provider } from "react-redux";
+import SplashScreen from "./SplashScreen";
 
 export default function RootLayout() {
   return (
@@ -18,7 +20,16 @@ function AppLayout() {
   const colorScheme = useColorScheme();
   const related = useGlobalSearchParams();
   const { t } = useTranslation();
-  return (
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  }, []);
+  return loading ? (
+    <SplashScreen />
+  ) : (
     <Stack
       screenOptions={{
         headerShown: false,
@@ -44,7 +55,7 @@ function AppLayout() {
         }}
       />
       <Stack.Screen
-        name="(tabs)"
+        name="/(tabs)"
         options={{
           headerShown: false,
           headerStyle: {
@@ -52,6 +63,7 @@ function AppLayout() {
               colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
           },
           headerBackVisible: false,
+          animation: "slide_from_right",
           headerTintColor:
             colorScheme === "dark" ? Colors.dark.cWhite : "black",
           headerTransparent: true,
@@ -154,6 +166,7 @@ function AppLayout() {
           headerShown: false,
         }}
       />
+      <Stack.Screen name="ResetToRoot" />
     </Stack>
   );
 }
