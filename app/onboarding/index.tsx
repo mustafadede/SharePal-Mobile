@@ -2,7 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import React from "react";
-import { Dimensions, Image, Text, View } from "react-native";
+import { Dimensions, Text, View } from "react-native";
 import Animated, {
   Extrapolate,
   interpolate,
@@ -17,17 +17,14 @@ const SCREENS = [
     title: "Discover Your World",
     subtitle:
       "Explore movies, lists and creators.\nA cinematic universe for everyone.",
-    image: require("../../assets/onboarding1.png"),
   },
   {
     title: "Share & Follow",
     subtitle: "Build your profile.\nConnect through taste.",
-    image: require("../../assets/onboarding1.png"),
   },
   {
     title: "Experience SharePal",
     subtitle: "Your journey starts now.",
-    image: require("../../assets/onboarding1.png"),
   },
 ];
 
@@ -80,16 +77,6 @@ export default function Onboarding() {
                 ],
               }}
             >
-              <Image
-                source={screen.image}
-                style={{
-                  width: width * 0.7,
-                  height: width * 0.7,
-                  resizeMode: "contain",
-                  opacity: 0.95,
-                }}
-              />
-
               <Text className="text-white text-4xl font-bold text-center mt-6">
                 {screen.title}
               </Text>
