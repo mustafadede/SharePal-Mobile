@@ -29,7 +29,6 @@ const _layout = () => {
           headerShown: true,
           headerBackButtonMenuEnabled: true,
           headerBackVisible: true,
-          headerBackTitle: t("headerbacktitle.title"),
           headerBackButtonDisplayMode: "minimal",
           headerLeft: () =>
             Platform.OS === "ios" ? (

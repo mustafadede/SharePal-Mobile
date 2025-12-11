@@ -10,6 +10,7 @@ import useTop10 from "@/hooks/useTop10";
 import useUpcoming from "@/hooks/useUpcoming";
 import EvilIcons from "@expo/vector-icons/EvilIcons";
 import {
+  BottomSheetBackdrop,
   BottomSheetModal,
   BottomSheetModalProvider,
   BottomSheetView,
@@ -161,6 +162,14 @@ const Explore = () => {
           ref={bottomSheetModalRef}
           index={1}
           snapPoints={snapPoints}
+          backdropComponent={(props) => (
+            <BottomSheetBackdrop
+              {...props}
+              disappearsOnIndex={0}
+              appearsOnIndex={1}
+              opacity={0.7}
+            />
+          )}
           onChange={handleSheetChanges}
           keyboardBlurBehavior="none"
           handleIndicatorStyle={{ backgroundColor: "rgb(100 116 139)" }}

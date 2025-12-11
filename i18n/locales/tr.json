@@ -132,5 +132,6 @@
     }
   },
     "feedCard.spoiler": "Spoiler",
-    "feedCard.edited": "Düzenlendi"
+    "feedCard.edited": "Düzenlendi",
+    "feedCard.send": "Gönder"
 }

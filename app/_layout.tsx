@@ -55,7 +55,7 @@ function AppLayout() {
         }}
       />
       <Stack.Screen
-        name="/(tabs)"
+        name="(tabs)"
         options={{
           headerShown: false,
           headerStyle: {

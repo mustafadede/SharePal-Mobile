@@ -11,23 +11,24 @@ type ExploreBottomSheetProps = {
   poster_path: string;
   mediaType: string;
   id: number;
-  wanttoWatch?: boolean;
-  watched?: boolean;
-  unfinished?: boolean;
+  wanttowatch: boolean;
+  watched: boolean;
+  unfinished: boolean;
 };
 
 const ExploreBottomSheet = React.memo(
   ({ bottomSheetValues }: { bottomSheetValues: ExploreBottomSheetProps }) => {
     const thisYear = new Date().getFullYear();
     const { t } = useTranslation();
+    console.log(bottomSheetValues);
 
     return (
-      <View className="px-5 pb-6 border" style={{ gap: 24 }}>
+      <View className="px-5 pb-40" style={{ gap: 24 }}>
         {/* Title */}
         <View className="w-full">
-          <Text className="text-xl font-bold text-slate-100 leading-snug">
+          <Text className="text-3xl font-bold text-slate-100 leading-snug">
             {bottomSheetValues.title}{" "}
-            <Text className="font-medium text-slate-300">
+            <Text className="font-medium text-xl text-slate-300">
               {t("actions.title")}
             </Text>
           </Text>
@@ -62,10 +63,9 @@ const ExploreBottomSheet = React.memo(
           {/* Want to Watch */}
           <TouchableOpacity
             className={
-              "flex-row items-center justify-between rounded-xl bg-white/5 border border-white/10 px-4 py-3" +
-              (bottomSheetValues.wanttoWatch
-                ? " border-fuchsia-600 bg-fuchsia-600/20"
-                : "")
+              bottomSheetValues.wanttowatch
+                ? "flex-row items-center justify-between rounded-xl border px-4 py-3  border-fuchsia-600 bg-fuchsia-600/20"
+                : "flex-row items-center justify-between rounded-xl border px-4 py-3  border-white/10 bg-white/5"
             }
           >
             <Text className="text-slate-100 text-base">
@@ -77,10 +77,9 @@ const ExploreBottomSheet = React.memo(
           {/* Watched */}
           <TouchableOpacity
             className={
-              "flex-row items-center justify-between rounded-xl bg-white/5 border border-white/10 px-4 py-3" +
-              (bottomSheetValues.watched
-                ? " border-fuchsia-600 bg-fuchsia-600/20"
-                : "")
+              bottomSheetValues.watched
+                ? "flex-row items-center justify-between rounded-xl border px-4 py-3  border-fuchsia-600 bg-fuchsia-600/20"
+                : "flex-row items-center justify-between rounded-xl border px-4 py-3  border-white/10 bg-white/5"
             }
           >
             <Text className="text-slate-100 text-base">
@@ -90,7 +89,11 @@ const ExploreBottomSheet = React.memo(
           </TouchableOpacity>
 
           {/* Currently Watching */}
-          <TouchableOpacity className="flex-row items-center justify-between rounded-xl bg-white/5 border border-white/10 px-4 py-3">
+          <TouchableOpacity
+            className={
+              "flex-row items-center justify-between rounded-xl border px-4 py-3  border-white/10 bg-white/5"
+            }
+          >
             <Text className="text-slate-100 text-base">
               {t("actions.currentlywatching")}
             </Text>
@@ -100,10 +103,9 @@ const ExploreBottomSheet = React.memo(
           {/* Unfinished */}
           <TouchableOpacity
             className={
-              "flex-row items-center justify-between rounded-xl bg-white/5 border border-white/10 px-4 py-3" +
-              (bottomSheetValues.unfinished
-                ? " border-fuchsia-600 bg-fuchsia-600/20"
-                : "")
+              bottomSheetValues.unfinished
+                ? "flex-row items-center justify-between rounded-xl border px-4 py-3  border-fuchsia-600 bg-fuchsia-600/20"
+                : "flex-row items-center justify-between rounded-xl border px-4 py-3  border-white/10 bg-white/5"
             }
           >
             <Text className="text-slate-100 text-base">

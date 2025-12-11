@@ -14,6 +14,7 @@ import { shareSearchDetailAction } from "@/store/shareSearchDetail";
 import { DateFormatter } from "@/utils/formatter";
 import Feather from "@expo/vector-icons/Feather";
 import {
+  BottomSheetBackdrop,
   BottomSheetModal,
   BottomSheetModalProvider,
   BottomSheetView,
@@ -187,7 +188,7 @@ const searchdetail = () => {
 
   // BottomSheet Section
   const BottomSheetModalRef = useRef<BottomSheetModal>(null);
-  const SnapPoints = useMemo(() => ["20%", "25%", "45%"], []);
+  const SnapPoints = useMemo(() => ["25%", "45%"], []);
   const handlePresentModalPress = useCallback(() => {
     BottomSheetModalRef.current?.present();
   }, []);
@@ -370,6 +371,13 @@ const searchdetail = () => {
           <BottomSheetModal
             ref={BottomSheetModalRef}
             index={2}
+            backdropComponent={(props) => (
+              <BottomSheetBackdrop
+                {...props}
+                disappearsOnIndex={1}
+                appearsOnIndex={2}
+              />
+            )}
             snapPoints={SnapPoints}
             onChange={HandleSheetChanges}
             keyboardBlurBehavior="none"
@@ -395,7 +403,7 @@ const searchdetail = () => {
             <BottomSheetView
               style={{
                 flex: 1,
-                marginTop: 10,
+                marginTop: 24,
               }}
             >
               <ExploreBottomSheet bottomSheetValues={bottomSheetValues} />

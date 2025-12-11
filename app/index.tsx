@@ -76,7 +76,7 @@ export default function Home() {
       } else {
         setEmail(email);
         dispatch(profileActions.setUserId(user.user.uid));
-        router.push("/(tabs)");
+        router.push("(tabs)");
       }
     });
   };
