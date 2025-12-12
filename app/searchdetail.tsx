@@ -162,122 +162,125 @@ const searchdetail = () => {
       >
         {!isShared && (
           <ScrollView className="flex-1 dark:bg-cGradient2">
-            <View className="w-full h-96 dark:bg-cGradient2">
+            {/* BACKDROP + GRADIENT + POSTER */}
+            <View className="w-full h-96 mb-4 dark:bg-cGradient2">
               <ImageBackground
                 source={{
                   uri: `https://image.tmdb.org/t/p/original/${backdrop_path}`,
                 }}
-                className={"w-full h-96 absolute z-0"}
-                style={{
-                  height: 305,
-                }}
+                className="w-full h-[344px] absolute z-0"
                 resizeMode="cover"
-                blurRadius={7}
+                blurRadius={24} // daha yumuşak premium blur
               >
-                {colorScheme === "dark" ? (
-                  <LinearGradient
-                    colors={["rgba(0, 0, 0, 0.4)", "rgb(14, 11, 19)"]}
-                    style={{ flex: 1 }}
-                  />
-                ) : (
-                  <LinearGradient
-                    colors={["rgba(255, 255, 255, 0.6)", "rgb(245, 245, 245)"]}
-                    style={{ flex: 1 }}
-                  />
-                )}
+                <LinearGradient
+                  colors={
+                    colorScheme === "dark"
+                      ? ["rgba(0, 0, 0, 0.4)", "rgb(14, 11, 19)"]
+                      : ["rgba(255, 255, 255, 0.6)", "rgb(245, 245, 245)"]
+                  }
+                  style={{ flex: 1 }}
+                />
               </ImageBackground>
-              <View
-                className={"flex-1 relative justify-center items-center z-10"}
-              >
+
+              {/* POSTER */}
+              <View className="flex-1 relative justify-center items-center z-10 mt-6">
                 <Image
                   source={{
                     uri: `https://image.tmdb.org/t/p/original/${poster_path}`,
                   }}
-                  className={"w-40 h-64 mt-4 bg-cGradient1 rounded-2xl"}
-                  style={{ borderWidth: 2, borderColor: Colors.dark.text }}
+                  className="w-44 h-72 rounded-3xl"
+                  style={{
+                    shadowColor: "#000",
+                    shadowOpacity: colorScheme === "dark" ? 0.26 : 0.18,
+                    shadowRadius: 22,
+                    shadowOffset: { width: 0, height: 12 },
+                  }}
                 />
               </View>
-              <View>
-                <Text
-                  className={
-                    "text-xl text-center mb-3 text-slate-700 dark:text-fuchsia-600"
-                  }
-                >
+
+              {/* TITLE + DATE + MEDIATYPE */}
+              <View className="mt-4">
+                <Text className="text-2xl font-semibold text-center text-slate-800 dark:text-fuchsia-400 mb-1">
                   {title}
                 </Text>
-                <View className={"flex-row justify-center gap-1 items-center"}>
-                  <Text
-                    className={
-                      "text-lg text-center text-slate-600 dark:text-slate-300 mr-2"
-                    }
-                  >
+
+                <View className="flex-row justify-center items-center gap-2">
+                  <Text className="text-base text-slate-600 dark:text-slate-300">
                     {newDate}
                   </Text>
-                  <Text
-                    className={
-                      "text-lg text-center border border-slate-600 dark:border-slate-300 px-4 rounded-lg text-slate-600 dark:text-slate-300"
-                    }
+
+                  <View
+                    className="px-3 py-1 rounded-full 
+                   bg-slate-200/70 dark:bg-white/10"
                   >
-                    {mediaType === "movie"
-                      ? t("searchdetail.movie")
-                      : t("searchdetail.tv")}
-                  </Text>
+                    <Text className="text-sm text-slate-700 dark:text-slate-300">
+                      {mediaType === "movie"
+                        ? t("searchdetail.movie")
+                        : t("searchdetail.tv")}
+                    </Text>
+                  </View>
                 </View>
               </View>
             </View>
+
+            {/* GENRE TAGS (MODERN CHIP TASARIM) */}
             <Animated.View
               entering={FadeInUp.duration(400).delay(800)}
-              className={
-                "flex-row flex-wrap px-3 pt-2 mt-2 justify-center gap-1 items-center"
-              }
+              className="flex-row flex-wrap px-4 pt-3 justify-center gap-2"
             >
               {genre_ids ? (
-                genre_ids?.map((genre) => (
-                  <Text
+                genre_ids.map((genre) => (
+                  <View
                     key={genre}
-                    className={
-                      "text-sm  border border-slate-700 dark:border-slate-300 text-center px-3 rounded-lg text-black dark:text-slate-300"
-                    }
+                    className="px-3 py-1 rounded-full 
+                   bg-black/10 dark:bg-white/10"
                   >
-                    {mediaType === "movie"
-                      ? movieGenresJSON.find((item) => item.id === genre)?.name
-                      : tvGenresJSON.find((item) => item.id === genre)?.name}
-                  </Text>
+                    <Text className="text-sm text-slate-700 dark:text-slate-300">
+                      {mediaType === "movie"
+                        ? movieGenresJSON.find((item) => item.id === genre)
+                            ?.name
+                        : tvGenresJSON.find((item) => item.id === genre)?.name}
+                    </Text>
+                  </View>
                 ))
               ) : (
                 <StatusLabel />
               )}
             </Animated.View>
-            <View className="flex-col justify-around w-full px-6 mt-2">
+
+            {/* OVERVIEW */}
+            <View className="px-6 mt-4">
               <Animated.View entering={FadeInUp.duration(400).delay(1200)}>
-                <Text className="text-2xl mt-2 text-start text-dark dark:text-slate-200">
+                <Text className="text-2xl mt-1 text-start text-dark dark:text-slate-200">
                   {t("searchdetail.overview")}
                 </Text>
+
                 {overview ? (
-                  <>
-                    <Text
-                      className="text-md text-start my-2 text-slate-600 dark:text-slate-400"
-                      numberOfLines={isExpanded ? 0 : 3}
-                      onPress={() => setIsExpanded(!isExpanded)}
-                    >
-                      {overview}
-                    </Text>
-                  </>
+                  <Text
+                    className="text-md text-start my-3 text-slate-600 dark:text-slate-400 leading-[22px]"
+                    numberOfLines={isExpanded ? 0 : 3}
+                    onPress={() => setIsExpanded(!isExpanded)}
+                  >
+                    {overview}
+                  </Text>
                 ) : (
                   <StatusLabel />
                 )}
               </Animated.View>
+
+              {/* RATING */}
               <Animated.View
                 entering={FadeIn.duration(400).delay(1400)}
-                className="flex-row justify-between mt-2"
+                className="flex-row justify-between mt-4"
               >
                 <Text className="text-2xl text-black dark:text-slate-300 mt-1">
                   {t("searchdetail.rating")}
                 </Text>
-                <Text className="text-3xl min-h-fit text-start text-fuchsia-400">
-                  {`${vote_average}`[0]}{" "}
+
+                <Text className="text-3xl text-fuchsia-400">
+                  {`${vote_average}`[0]}
                   <Text className="text-lg text-black dark:text-slate-300">
-                    / 10
+                    /10
                   </Text>
                 </Text>
               </Animated.View>
