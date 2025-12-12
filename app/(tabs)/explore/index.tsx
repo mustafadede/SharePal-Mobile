@@ -12,7 +12,6 @@ import EvilIcons from "@expo/vector-icons/EvilIcons";
 import {
   BottomSheetBackdrop,
   BottomSheetModal,
-  BottomSheetModalProvider,
   BottomSheetView,
 } from "@gorhom/bottom-sheet";
 import React, {
@@ -50,7 +49,16 @@ const Explore = () => {
   const [top10Movies, setTop10Movies] = useState<Movie[]>([]);
   const [top10Series, setTop10Series] = useState<Movie[]>([]);
   const [results, setResults] = useState<object[]>([]);
-  const [bottomSheetValues, setBottomSheetValues] = useState<object>({});
+  const [bottomSheetValues, setBottomSheetValues] = useState<object>({
+    title: "",
+    release_date: "",
+    poster_path: "",
+    mediaType: "",
+    id: 0,
+    wanttowatch: false,
+    watched: false,
+    unfinished: false,
+  });
   const [search, setSearch] = useState("");
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const snapPoints = useMemo(() => ["20%", "25%", "45%"], []);
@@ -61,6 +69,10 @@ const Explore = () => {
   }, []);
 
   const handleSheetChanges = useCallback((index: number) => {}, []);
+
+  const handlePresentModalClose = useCallback(() => {
+    bottomSheetModalRef.current?.close();
+  }, []);
 
   useEffect(() => {
     useNowPlaying(setNowPlaying);
@@ -157,45 +169,48 @@ const Explore = () => {
           />
         </ScrollView>
       )}
-      <BottomSheetModalProvider>
-        <BottomSheetModal
-          ref={bottomSheetModalRef}
-          index={1}
-          snapPoints={snapPoints}
-          backdropComponent={(props) => (
-            <BottomSheetBackdrop
-              {...props}
-              disappearsOnIndex={0}
-              appearsOnIndex={1}
-              opacity={0.7}
-            />
-          )}
-          onChange={handleSheetChanges}
-          keyboardBlurBehavior="none"
-          handleIndicatorStyle={{ backgroundColor: "rgb(100 116 139)" }}
-          keyboardBehavior="interactive"
-          android_keyboardInputMode="adjustPan"
-          backgroundComponent={({ style }) => (
-            <View
-              style={[
-                style,
-                {
-                  backgroundColor: Colors.dark.cGradient2,
-                  borderTopLeftRadius: 20,
-                  borderTopRightRadius: 20,
-                  width: "100%",
-                  justifyContent: "center",
-                  alignItems: "center",
-                },
-              ]}
-            />
-          )}
-        >
-          <BottomSheetView style={{ flex: 1, marginTop: 10 }}>
-            <ExploreBottomSheet bottomSheetValues={bottomSheetValues} />
-          </BottomSheetView>
-        </BottomSheetModal>
-      </BottomSheetModalProvider>
+      <BottomSheetModal
+        ref={bottomSheetModalRef}
+        index={1}
+        snapPoints={snapPoints}
+        backdropComponent={(props) => (
+          <BottomSheetBackdrop
+            {...props}
+            disappearsOnIndex={0}
+            appearsOnIndex={1}
+            opacity={0.7}
+          />
+        )}
+        onChange={handleSheetChanges}
+        keyboardBlurBehavior="none"
+        handleIndicatorStyle={{ backgroundColor: "rgb(100 116 139)" }}
+        keyboardBehavior="interactive"
+        android_keyboardInputMode="adjustPan"
+        backgroundComponent={({ style }) => (
+          <View
+            style={[
+              style,
+              {
+                backgroundColor: Colors.dark.cGradient2,
+                borderTopLeftRadius: 20,
+                borderTopRightRadius: 20,
+                width: "100%",
+                justifyContent: "center",
+                alignItems: "center",
+              },
+            ]}
+          />
+        )}
+      >
+        <BottomSheetView style={{ flex: 1, marginTop: 10 }}>
+          <ExploreBottomSheet
+            handleSheetChanges={handleSheetChanges}
+            bottomSheetValues={bottomSheetValues}
+            setBottomSheetValues={setBottomSheetValues}
+            handlePresentModalClose={handlePresentModalClose}
+          />
+        </BottomSheetView>
+      </BottomSheetModal>
     </GestureHandlerRootView>
   );
 };

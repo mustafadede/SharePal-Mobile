@@ -50,7 +50,11 @@ const StatsCards = ({ user = false }: { user?: boolean }) => {
               }}
             />
             <View>
-              <Text className="text-lg text-slate-700 dark:text-white">
+              <Text
+                className="text-lg max-w-64 text-slate-700 dark:text-white"
+                ellipsizeMode="tail"
+                numberOfLines={2}
+              >
                 {profile.currentlyWatching.title}
               </Text>
               <Text className="text-lg text-slate-600 dark:text-slate-400">

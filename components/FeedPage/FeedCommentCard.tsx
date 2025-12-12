@@ -4,17 +4,18 @@ import { View } from "react-native";
 import FeedCardActions from "./FeedCardComponents/FeedCardActions";
 import FeedCardContent from "./FeedCardComponents/FeedCardContent";
 import FeedCardHeader from "./FeedCardComponents/FeedCardHeader";
-import FeedOptions from "./FeedOptions";
 
 const FeedCommentCard = ({
   data,
   index,
   postPage,
   handleModal,
+  handleOptions,
 }: {
   data: Post;
   index: number;
   handleModal: () => void;
+  handleOptions: () => void;
   postPage?: boolean;
 }) => {
   const [options, setOptions] = useState(false);
@@ -29,7 +30,7 @@ const FeedCommentCard = ({
           data={data}
           postPage={postPage}
           options={options}
-          setOptions={setOptions}
+          setOptions={handleOptions}
         />
         <FeedCardContent data={data} />
         <FeedCardActions
@@ -38,7 +39,6 @@ const FeedCommentCard = ({
           handleModal={handleModal}
         />
       </View>
-      {options && <FeedOptions postId={data.postId} />}
     </>
   );
 };

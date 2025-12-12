@@ -1,4 +1,3 @@
-import CustomBottomSheet from "@/common/CustomBottomSheet";
 import Tabs from "@/common/Tabs";
 import { Colors } from "@/constants/Colors";
 import { modalActions } from "@/store/modalSlice";
@@ -39,7 +38,7 @@ const Index = () => {
         width: "100%",
         height: "100%",
         backgroundColor:
-          colorScheme === "dark" ? Colors.dark.cGradient2 : "transparent",
+          colorScheme === "dark" ? Colors.dark.cGradient2 : "white",
         paddingTop: Platform.OS === "android" ? RNStatusBar.currentHeight : 40,
       }}
     >
@@ -58,17 +57,13 @@ const Index = () => {
             colorScheme === "dark" ? Colors.dark.cGradient2 : Colors.dark.cFuc6,
           borderRadius: 50,
           padding: 14,
-          elevation: 5,
+          elevation: 1,
+          zIndex: 1,
           borderWidth: 1,
         }}
       >
         <Feather name="plus" size={32} color={Colors.dark.cWhite} />
       </TouchableOpacity>
-      <CustomBottomSheet
-        handleSheetChanges={handleSheetChanges}
-        bottomSheetModalRef={bottomSheetModalRef}
-        snaps={["25%", "40%", "75%"]}
-      />
     </GestureHandlerRootView>
   );
 };

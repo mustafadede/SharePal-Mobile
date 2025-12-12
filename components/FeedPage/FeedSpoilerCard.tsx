@@ -5,18 +5,19 @@ import FeedCardActions from "./FeedCardComponents/FeedCardActions";
 import FeedCardAttachment from "./FeedCardComponents/FeedCardAttachment";
 import FeedCardContent from "./FeedCardComponents/FeedCardContent";
 import FeedCardHeader from "./FeedCardComponents/FeedCardHeader";
-import FeedOptions from "./FeedOptions";
 
 const FeedSpoilerCard = ({
   data,
   index,
   postPage,
   handleModal,
+  handleOptions,
 }: {
   data: Post;
   index: number;
   postPage?: boolean;
   handleModal: () => void;
+  handleOptions: () => void;
 }) => {
   const [options, setOptions] = useState(false);
   return (
@@ -30,7 +31,7 @@ const FeedSpoilerCard = ({
           data={data}
           postPage={postPage}
           options={options}
-          setOptions={setOptions}
+          setOptions={handleOptions}
         />
         <FeedCardContent data={data} haveSpoiler={true} />
         {data?.attachedFilm && (
@@ -42,7 +43,6 @@ const FeedSpoilerCard = ({
           handleModal={handleModal}
         />
       </View>
-      {options && <FeedOptions postId={data.postId} />}
     </>
   );
 };

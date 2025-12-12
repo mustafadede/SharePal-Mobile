@@ -2,14 +2,22 @@ import { Colors } from "@/constants/Colors";
 import { MaterialIcons } from "@expo/vector-icons";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Platform, TouchableOpacity, useColorScheme, View } from "react-native";
+import {
+  Keyboard,
+  Platform,
+  TouchableOpacity,
+  useColorScheme,
+  View,
+} from "react-native";
 import PrimaryButton from "./PrimaryButton";
 import PrimaryInput from "./PrimaryInput";
 
 const PostPageCommentFooter = ({
   isKeyboardVisible,
+  setIsKeyboardVisible,
 }: {
   isKeyboardVisible: boolean;
+  setIsKeyboardVisible: (value: boolean) => void;
 }) => {
   const colorScheme = useColorScheme();
   const BottomDetection =
@@ -104,7 +112,13 @@ const PostPageCommentFooter = ({
               </TouchableOpacity>
             </View>
             <View className="w-24">
-              <PrimaryButton title={t("feedCard.send")} />
+              <PrimaryButton
+                onClickHandler={() => {
+                  setIsKeyboardVisible(false);
+                  Keyboard.dismiss();
+                }}
+                title={t("feedCard.send")}
+              />
             </View>
           </View>
         </View>

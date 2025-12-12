@@ -1,16 +1,13 @@
 import { Colors } from "@/constants/Colors";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import { router, Stack, useLocalSearchParams } from "expo-router";
-import { getAuth } from "firebase/auth";
+import { router, Stack } from "expo-router";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Platform, Text, TouchableOpacity, useColorScheme } from "react-native";
 
 const _layout = () => {
   const colorScheme = useColorScheme();
-  const currentUserId = getAuth().currentUser?.uid;
-  const { userId } = useLocalSearchParams();
+
   const { t } = useTranslation();
 
   return (
@@ -48,22 +45,6 @@ const _layout = () => {
                 </Text>
               </TouchableOpacity>
             ) : null,
-          headerRight: () =>
-            currentUserId === userId && (
-              <TouchableOpacity className="flex flex-row gap-2">
-                <TouchableOpacity onPress={() => {}}>
-                  <MaterialCommunityIcons
-                    name="dots-horizontal"
-                    size={24}
-                    color={
-                      colorScheme === "dark"
-                        ? Colors.dark.cWhite
-                        : Colors.dark.cBlack
-                    }
-                  />
-                </TouchableOpacity>
-              </TouchableOpacity>
-            ),
         }}
       />
     </Stack>

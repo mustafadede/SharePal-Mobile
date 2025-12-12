@@ -2,11 +2,7 @@ import Marvel from "@/assets/collections/marvel-collection.json";
 import ExploreBottomSheet from "@/components/ExploreBottomSheet/ExploreBottomSheet";
 import ExploreListSection from "@/components/ExploreListSection/ExploreListSection";
 import { Colors } from "@/constants/Colors";
-import {
-  BottomSheetModal,
-  BottomSheetModalProvider,
-  BottomSheetView,
-} from "@gorhom/bottom-sheet";
+import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import { useLocalSearchParams } from "expo-router";
 import React, { useCallback, useMemo, useRef, useState } from "react";
 import { ScrollView, View } from "react-native";
@@ -23,6 +19,10 @@ const collection = () => {
 
   const handlePresentModalPress = useCallback(() => {
     bottomSheetModalRef.current?.present();
+  }, []);
+
+  const handlePresentModalClose = useCallback(() => {
+    bottomSheetModalRef.current?.close();
   }, []);
 
   const handleSheetChanges = useCallback((index: number) => {
@@ -71,37 +71,38 @@ const collection = () => {
             </View>
           </ScrollView>
         )}
-        <BottomSheetModalProvider>
-          <BottomSheetModal
-            ref={bottomSheetModalRef}
-            index={1}
-            snapPoints={snapPoints}
-            onChange={handleSheetChanges}
-            keyboardBlurBehavior="none"
-            handleIndicatorStyle={{ backgroundColor: "rgb(100 116 139)" }}
-            keyboardBehavior="interactive"
-            android_keyboardInputMode="adjustPan"
-            backgroundComponent={({ style }) => (
-              <View
-                style={[
-                  style,
-                  {
-                    backgroundColor: Colors.dark.cGradient1,
-                    borderTopLeftRadius: 20,
-                    borderTopRightRadius: 20,
-                    width: "100%",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  },
-                ]}
-              />
-            )}
-          >
-            <BottomSheetView style={{ flex: 1, marginTop: 10 }}>
-              <ExploreBottomSheet bottomSheetValues={bottomSheetValues} />
-            </BottomSheetView>
-          </BottomSheetModal>
-        </BottomSheetModalProvider>
+        <BottomSheetModal
+          ref={bottomSheetModalRef}
+          index={1}
+          snapPoints={snapPoints}
+          onChange={handleSheetChanges}
+          keyboardBlurBehavior="none"
+          handleIndicatorStyle={{ backgroundColor: "rgb(100 116 139)" }}
+          keyboardBehavior="interactive"
+          android_keyboardInputMode="adjustPan"
+          backgroundComponent={({ style }) => (
+            <View
+              style={[
+                style,
+                {
+                  backgroundColor: Colors.dark.cGradient1,
+                  borderTopLeftRadius: 20,
+                  borderTopRightRadius: 20,
+                  width: "100%",
+                  justifyContent: "center",
+                  alignItems: "center",
+                },
+              ]}
+            />
+          )}
+        >
+          <BottomSheetView style={{ flex: 1, marginTop: 10 }}>
+            <ExploreBottomSheet
+              bottomSheetValues={bottomSheetValues}
+              handlePresentModalClose={handlePresentModalClose}
+            />
+          </BottomSheetView>
+        </BottomSheetModal>
       </View>
     </GestureHandlerRootView>
   );

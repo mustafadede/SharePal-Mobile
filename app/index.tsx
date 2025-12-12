@@ -10,21 +10,16 @@ import "@/global.css";
 import i18n from "@/i18n/i18n";
 import { signInWithEmailAction } from "@/services/firebaseActions";
 import { profileActions } from "@/store/profileSlice";
-import { ToastConfig } from "@/utils/ToastConfig";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import {
-  BottomSheetModal,
-  BottomSheetModalProvider,
-  BottomSheetView,
-} from "@gorhom/bottom-sheet";
+import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import * as Haptics from "expo-haptics";
 import { router } from "expo-router";
 import { useCallback, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Platform, TouchableOpacity, useColorScheme, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import Toast from "react-native-toast-message";
 import { useDispatch } from "react-redux";
+import { toast } from "sonner-native";
 
 export default function Home() {
   const { t } = useTranslation();
@@ -66,11 +61,22 @@ export default function Home() {
 
           user = t("toaster.erroroccured");
         }
-        Toast.show({
-          type: "error",
-          text1: user,
-          visibilityTime: 3000,
-          autoHide: true,
+        toast.error(user, {
+          duration: 3000,
+          close: true,
+          style: {
+            backgroundColor: "rgba(255,255,255,0.05)",
+            borderWidth: 1,
+            borderColor: "rgba(255,255,255,0.1)",
+            paddingVertical: 10,
+            paddingHorizontal: 14,
+            borderRadius: 14,
+          },
+          textStyle: {
+            color: "#f8fafc",
+            fontSize: 15,
+            fontWeight: "500",
+          },
         });
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
       } else {
@@ -147,38 +153,35 @@ export default function Home() {
           </View>
         </View>
       </View>
-      <BottomSheetModalProvider>
-        <BottomSheetModal
-          ref={bottomSheetModalRef}
-          index={1}
-          snapPoints={snapPoints}
-          onChange={handleSheetChanges}
-          keyboardBlurBehavior="none"
-          handleIndicatorStyle={{ backgroundColor: "rgb(100 116 139)" }}
-          keyboardBehavior="interactive"
-          android_keyboardInputMode="adjustPan"
-          backgroundComponent={({ style }) => (
-            <View
-              style={[
-                style,
-                {
-                  borderTopLeftRadius: 20,
-                  borderTopRightRadius: 20,
-                  width: "100%",
-                  justifyContent: "center",
-                  alignItems: "center",
-                },
-              ]}
-              className="bg-[#f2f2f2] dark:bg-black"
-            />
-          )}
-        >
-          <BottomSheetView style={{ flex: 1, marginTop: 10 }}>
-            <SignUpContentComponent />
-          </BottomSheetView>
-        </BottomSheetModal>
-      </BottomSheetModalProvider>
-      <Toast config={ToastConfig} />
+      <BottomSheetModal
+        ref={bottomSheetModalRef}
+        index={1}
+        snapPoints={snapPoints}
+        onChange={handleSheetChanges}
+        keyboardBlurBehavior="none"
+        handleIndicatorStyle={{ backgroundColor: "rgb(100 116 139)" }}
+        keyboardBehavior="interactive"
+        android_keyboardInputMode="adjustPan"
+        backgroundComponent={({ style }) => (
+          <View
+            style={[
+              style,
+              {
+                borderTopLeftRadius: 20,
+                borderTopRightRadius: 20,
+                width: "100%",
+                justifyContent: "center",
+                alignItems: "center",
+              },
+            ]}
+            className="bg-[#f2f2f2] dark:bg-black"
+          />
+        )}
+      >
+        <BottomSheetView style={{ flex: 1, marginTop: 10 }}>
+          <SignUpContentComponent />
+        </BottomSheetView>
+      </BottomSheetModal>
     </GestureHandlerRootView>
   );
 }

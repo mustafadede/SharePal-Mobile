@@ -1,11 +1,7 @@
 import AttachModal from "@/components/CreatePost/AttachModal";
 import { Colors } from "@/constants/Colors";
 import { RootState } from "@/store";
-import {
-  BottomSheetModal,
-  BottomSheetModalProvider,
-  BottomSheetView,
-} from "@gorhom/bottom-sheet";
+import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Text, TouchableOpacity, useColorScheme, View } from "react-native";
@@ -29,51 +25,49 @@ const CustomBottomSheet = ({
   const { t } = useTranslation();
 
   return (
-    <BottomSheetModalProvider>
-      <BottomSheetModal
-        ref={bottomSheetModalRef}
-        index={1}
-        snapPoints={snapPoints}
-        onChange={handleSheetChanges}
-        detached={true}
-        bottomInset={46}
-        keyboardBlurBehavior="none"
-        handleIndicatorStyle={{ backgroundColor: "rgb(100 116 139)" }}
-        keyboardBehavior="interactive"
-        android_keyboardInputMode="adjustResize"
-        backgroundComponent={({ style }) => (
-          <View
-            style={[
-              style,
-              {
-                backgroundColor:
-                  colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
-                borderTopLeftRadius: 20,
-                borderTopRightRadius: 20,
-                width: "100%",
-                justifyContent: "center",
-                marginHorizontal: 24,
-                alignItems: "center",
-              },
-            ]}
-          />
+    <BottomSheetModal
+      ref={bottomSheetModalRef}
+      index={1}
+      snapPoints={snapPoints}
+      onChange={handleSheetChanges}
+      detached={true}
+      bottomInset={46}
+      keyboardBlurBehavior="none"
+      handleIndicatorStyle={{ backgroundColor: "rgb(100 116 139)" }}
+      keyboardBehavior="interactive"
+      android_keyboardInputMode="adjustResize"
+      backgroundComponent={({ style }) => (
+        <View
+          style={[
+            style,
+            {
+              backgroundColor:
+                colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
+              borderTopLeftRadius: 20,
+              borderTopRightRadius: 20,
+              width: "100%",
+              justifyContent: "center",
+              marginHorizontal: 24,
+              alignItems: "center",
+            },
+          ]}
+        />
+      )}
+    >
+      <BottomSheetView style={{ flex: 1 }}>
+        {modalType === "feedcardshare" && (
+          <InfoLabel status={t("modal.feedcardtitle")} />
         )}
-      >
-        <BottomSheetView style={{ flex: 1 }}>
-          {modalType === "feedcardshare" && (
-            <InfoLabel status={t("modal.feedcardtitle")} />
-          )}
-          {modalType === "feedcardoptions" && (
-            <View className="h-full w-full">
-              <TouchableOpacity className="bg-red-600 h-14 w-full">
-                <Text>{t("actions.delete")}</Text>
-              </TouchableOpacity>
-            </View>
-          )}
-          {modalType === "attach" && <AttachModal />}
-        </BottomSheetView>
-      </BottomSheetModal>
-    </BottomSheetModalProvider>
+        {modalType === "feedcardoptions" && (
+          <View className="h-full w-full">
+            <TouchableOpacity className="bg-red-600 h-14 w-full">
+              <Text>{t("actions.delete")}</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+        {modalType === "attach" && <AttachModal />}
+      </BottomSheetView>
+    </BottomSheetModal>
   );
 };
 

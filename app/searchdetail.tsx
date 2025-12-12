@@ -3,20 +3,13 @@ import ExploreBottomSheet from "@/components/ExploreBottomSheet/ExploreBottomShe
 import StatusLabel from "@/components/StatusLabel/StatusLabel";
 import { Colors } from "@/constants/Colors";
 import useSearchWithYear from "@/hooks/useSearchWithYear";
-import {
-  getSelectedUserUnfinished,
-  getSelectedUserWantToWatch,
-  getSelectedUserWatched,
-} from "@/services/firebaseActions";
 import { RootState } from "@/store";
 import { searchDetailActions } from "@/store/searchDetailSlice";
-import { shareSearchDetailAction } from "@/store/shareSearchDetail";
 import { DateFormatter } from "@/utils/formatter";
 import Feather from "@expo/vector-icons/Feather";
 import {
   BottomSheetBackdrop,
   BottomSheetModal,
-  BottomSheetModalProvider,
   BottomSheetView,
 } from "@gorhom/bottom-sheet";
 import { LinearGradient } from "expo-linear-gradient";
@@ -53,9 +46,7 @@ const searchdetail = () => {
   const [isShared, setIsShared] = useState(false);
   const [setStatus, setSetStatus] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
-  const [hasWatched, setHasWatched] = useState(false);
-  const [hasWantToWatch, setHasWantToWatch] = useState(false);
-  const [hasUnfinished, setHasUnfinished] = useState(false);
+
   const [blur, setBlur] = useState(7);
   const [color, setColor] = useState(0);
   const navigation = useNavigation();
@@ -64,16 +55,18 @@ const searchdetail = () => {
   const { nick, userId } = useSelector((state: RootState) => state.profile);
   const newDate = DateFormatter(release_date, "Search");
   const dispatch = useDispatch();
-  const [bottomSheetValues, setBottomSheetValues] = useState({
-    title: title,
-    release_date: release_date,
-    poster_path: poster_path,
-    mediaType: mediaType,
-    id: id,
-    wanttowatch: hasWantToWatch,
-    watched: hasWatched,
-    unfinished: hasUnfinished,
-  });
+  const [bottomSheetValues, setBottomSheetValues] =
+    useState<ExploreBottomSheetProps>({
+      title: title,
+      release_date: release_date,
+      poster_path: poster_path,
+      mediaType: mediaType,
+      id: id,
+      currentlywatching: false,
+      wanttowatch: false,
+      watched: false,
+      unfinished: false,
+    });
   const {
     adult,
     genre_ids,
@@ -101,43 +94,15 @@ const searchdetail = () => {
   );
 
   const { t } = useTranslation();
-
   useEffect(() => {
     setSetStatus(false);
     dispatch(searchDetailActions.clearSearchDetail());
     dispatch(searchDetailActions.setStatus("loading"));
-    useSearchWithYear(title, release_date)
-      .then((res) => {
-        dispatch(searchDetailActions.updateSearchDetail(res));
-        dispatch(searchDetailActions.setStatus("done"));
-        setSetStatus(true);
-      })
-      .then(() => {
-        getSelectedUserWatched(userId).then((res) => {
-          if (res.length > 0) {
-            const arr = res.find((item) => item.id.toString() === id);
-            arr && setHasWatched(true);
-            arr &&
-              setBottomSheetValues({ ...bottomSheetValues, watched: true });
-          }
-        });
-        getSelectedUserWantToWatch(userId).then((res) => {
-          if (res.length > 0) {
-            const arr = res.find((item) => item.id.toString() === id);
-            arr && setHasWantToWatch(true);
-            arr &&
-              setBottomSheetValues({ ...bottomSheetValues, wanttowatch: true });
-          }
-        });
-        getSelectedUserUnfinished(userId).then((res) => {
-          if (res.length > 0) {
-            const arr = res.find((item) => item.id.toString() === id);
-            arr && setHasUnfinished(true);
-            arr &&
-              setBottomSheetValues({ ...bottomSheetValues, unfinished: true });
-          }
-        });
-      });
+    useSearchWithYear(title, release_date).then((res) => {
+      dispatch(searchDetailActions.updateSearchDetail(res));
+      dispatch(searchDetailActions.setStatus("done"));
+      setSetStatus(true);
+    });
   }, []);
 
   useEffect(() => {
@@ -172,18 +137,6 @@ const searchdetail = () => {
         </View>
       ),
     });
-    dispatch(
-      shareSearchDetailAction.setLabel(
-        hasWatched
-          ? "watched"
-          : hasWantToWatch
-            ? "wanttowatch"
-            : hasUnfinished
-              ? "unfinished"
-              : ""
-      )
-    );
-    dispatch(shareSearchDetailAction.setStatus("done"));
   }, [isShared, setStatus, dispatch]);
 
   // BottomSheet Section
@@ -193,7 +146,11 @@ const searchdetail = () => {
     BottomSheetModalRef.current?.present();
   }, []);
 
-  const HandleSheetChanges = useCallback((index: number) => {}, []);
+  const handleSheetChanges = useCallback((index: number) => {}, []);
+
+  const handlePresentModalClose = useCallback(() => {
+    BottomSheetModalRef.current?.close();
+  }, []);
   return (
     <GestureHandlerRootView>
       <SafeAreaView
@@ -367,49 +324,54 @@ const searchdetail = () => {
             <Feather name="plus" size={32} color={Colors.dark.cWhite} />
           </TouchableOpacity>
         )}
-        <BottomSheetModalProvider>
-          <BottomSheetModal
-            ref={BottomSheetModalRef}
-            index={2}
-            backdropComponent={(props) => (
-              <BottomSheetBackdrop
-                {...props}
-                disappearsOnIndex={1}
-                appearsOnIndex={2}
-              />
-            )}
-            snapPoints={SnapPoints}
-            onChange={HandleSheetChanges}
-            keyboardBlurBehavior="none"
-            handleIndicatorStyle={{ backgroundColor: "rgb(100 116 139)" }}
-            keyboardBehavior="interactive"
-            android_keyboardInputMode="adjustPan"
-            backgroundComponent={({ style }) => (
-              <View
-                style={[
-                  style,
-                  {
-                    backgroundColor: Colors.dark.cGradient2,
-                    borderTopLeftRadius: 20,
-                    borderTopRightRadius: 20,
-                    width: "100%",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  },
-                ]}
-              />
-            )}
+        <BottomSheetModal
+          ref={BottomSheetModalRef}
+          index={2}
+          backdropComponent={(props) => (
+            <BottomSheetBackdrop
+              {...props}
+              disappearsOnIndex={1}
+              appearsOnIndex={2}
+            />
+          )}
+          snapPoints={SnapPoints}
+          onChange={handleSheetChanges}
+          keyboardBlurBehavior="none"
+          handleIndicatorStyle={{ backgroundColor: "rgb(100 116 139)" }}
+          keyboardBehavior="interactive"
+          android_keyboardInputMode="adjustPan"
+          backgroundComponent={({ style }) => (
+            <View
+              style={[
+                style,
+                {
+                  backgroundColor:
+                    colorScheme === "dark"
+                      ? Colors.dark.cGradient2
+                      : Colors.dark.cWhite,
+                  borderTopLeftRadius: 20,
+                  borderTopRightRadius: 20,
+                  width: "100%",
+                  justifyContent: "center",
+                  alignItems: "center",
+                },
+              ]}
+            />
+          )}
+        >
+          <BottomSheetView
+            style={{
+              flex: 1,
+              marginTop: 24,
+            }}
           >
-            <BottomSheetView
-              style={{
-                flex: 1,
-                marginTop: 24,
-              }}
-            >
-              <ExploreBottomSheet bottomSheetValues={bottomSheetValues} />
-            </BottomSheetView>
-          </BottomSheetModal>
-        </BottomSheetModalProvider>
+            <ExploreBottomSheet
+              bottomSheetValues={bottomSheetValues}
+              setBottomSheetValues={setBottomSheetValues}
+              handlePresentModalClose={handlePresentModalClose}
+            />
+          </BottomSheetView>
+        </BottomSheetModal>
       </SafeAreaView>
     </GestureHandlerRootView>
   );

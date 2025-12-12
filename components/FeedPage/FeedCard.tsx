@@ -8,10 +8,12 @@ const FeedCard = ({
   index,
   postPage = false,
   handleModal,
+  handleOptions,
 }: {
   data: Post;
   index: number;
   postPage?: boolean;
+  handleOptions: () => void;
   handleModal: () => void;
 }) => {
   return !data.attachedFilm && !data.spoiler && !data.actionName ? (
@@ -19,6 +21,7 @@ const FeedCard = ({
       data={data}
       index={index}
       postPage={postPage}
+      handleOptions={handleOptions}
       handleModal={handleModal}
     />
   ) : data.attachedFilm && !data.actionName && !data.spoiler ? (
@@ -27,6 +30,7 @@ const FeedCard = ({
       attachedData={data.attachedFilm}
       index={index}
       postPage={postPage}
+      handleOptions={handleOptions}
       handleModal={handleModal}
     />
   ) : data.spoiler && !data.actionName ? (
@@ -34,6 +38,7 @@ const FeedCard = ({
       data={data}
       index={index}
       postPage={postPage}
+      handleOptions={handleOptions}
       handleModal={handleModal}
     />
   ) : null;

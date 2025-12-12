@@ -51,6 +51,12 @@ const profileSlice = createSlice({
     setTotalFilms: (state, action) => {
       state.totalFilms = action.payload;
     },
+    incrementTotalFilms: (state, action) => {
+      state.totalFilms == action.payload;
+    },
+    incrementTotalSeries: (state, action) => {
+      state.totalSeries = action.payload;
+    },
     setStatus: (state, action) => {
       state.status = action.payload;
     },
@@ -62,6 +68,9 @@ const profileSlice = createSlice({
     },
     resetLists: (state) => {
       state.lists = [];
+    },
+    updateCurrentlyWatching: (state, action) => {
+      state.currentlyWatching = action.payload;
     },
   },
 });

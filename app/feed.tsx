@@ -1,5 +1,7 @@
 import InfoLabel from "@/common/InfoLabel";
 import FeedCard from "@/components/FeedPage/FeedCard";
+import PostOptionsBottomSheet from "@/components/PostOptions/PostOptionsBottomSheet";
+import { Colors } from "@/constants/Colors";
 import {
   getAllPosts,
   getPreviousPosts,
@@ -9,7 +11,18 @@ import { RootState } from "@/store";
 import { postsActions } from "@/store/postSlice";
 import { profileActions } from "@/store/profileSlice";
 import { scrollActions } from "@/store/scrollSlice";
-import React, { useEffect, useState } from "react";
+import {
+  BottomSheetBackdrop,
+  BottomSheetModal,
+  BottomSheetView,
+} from "@gorhom/bottom-sheet";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import {
   FlatList,
   NativeScrollEvent,
@@ -28,10 +41,16 @@ const Feed = ({ handleModal }) => {
   const { posts, status } = useSelector((state: RootState) => state.post);
   const [lastPostDate, setLastPostDate] = useState(null); // Son post tarihini tut
   const [loadingMore, setLoadingMore] = useState(false); // Ek yükleme durumunu takip et
-  const colorScheme = useColorScheme();
   const dispatch = useDispatch();
   const [isRefreshing, setIsRefreshing] = useState(false);
-
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+  const snapPoints = useMemo(() => ["37%"], []);
+  const [bottomSheetValues, setBottomSheetValues] = useState<object>({});
+  const colorScheme = useColorScheme();
+  const handlePresentModalPress = useCallback(() => {
+    bottomSheetModalRef.current?.present();
+  }, []);
+  const handleSheetChanges = useCallback((index: number) => {}, []);
   const onRefresh = () => {
     setIsRefreshing(true);
     dispatch(postsActions.setStatus("loading"));
@@ -92,7 +111,14 @@ const Feed = ({ handleModal }) => {
   };
 
   const renderItem = ({ item, index }) => {
-    return <FeedCard data={item} index={index} handleModal={handleModal} />;
+    return (
+      <FeedCard
+        data={item}
+        index={index}
+        handleModal={handleModal}
+        handleOptions={handlePresentModalPress}
+      />
+    );
   };
 
   return (
@@ -130,6 +156,59 @@ const Feed = ({ handleModal }) => {
           maxToRenderPerBatch={10}
         />
       )}
+      <BottomSheetModal
+        ref={bottomSheetModalRef}
+        index={1}
+        snapPoints={snapPoints}
+        backdropComponent={(props) => (
+          <BottomSheetBackdrop
+            {...props}
+            disappearsOnIndex={0}
+            appearsOnIndex={1}
+            opacity={0.7}
+          />
+        )}
+        onChange={handleSheetChanges}
+        enableDynamicSizing
+        containerComponent={({ children }) => (
+          <View
+            style={{
+              elevation: 9999,
+              zIndex: 9999,
+              position: "absolute",
+              width: "100%",
+              height: "100%",
+              bottom: 0,
+            }}
+          >
+            {children}
+          </View>
+        )}
+        keyboardBlurBehavior="none"
+        handleIndicatorStyle={{ backgroundColor: "gray" }}
+        keyboardBehavior="interactive"
+        backgroundComponent={({ style }) => (
+          <View
+            style={[
+              style,
+              {
+                backgroundColor:
+                  colorScheme === "dark"
+                    ? Colors.dark.cGradient2
+                    : Colors.dark.cWhite,
+                borderRadius: 30,
+                width: "100%",
+                justifyContent: "center",
+                alignItems: "center",
+              },
+            ]}
+          />
+        )}
+      >
+        <BottomSheetView style={{ flex: 1 }}>
+          <PostOptionsBottomSheet bottomSheetValues={bottomSheetValues} />
+        </BottomSheetView>
+      </BottomSheetModal>
     </GestureHandlerRootView>
   );
 };

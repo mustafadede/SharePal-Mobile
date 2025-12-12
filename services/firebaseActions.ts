@@ -404,8 +404,11 @@ const updateCurrentUserData = async (userId: string, data: any) => {
     const postsSnapshot = await get(postsRef);
 
     if (snapshot.exists()) {
-      await set(userRef, {
-        displayName: data.nick || snapshot.val().displayName,
+      const oldNick = snapshot.val().displayName;
+      const newNick = data.nick ?? oldNick;
+      const nickChanged = oldNick !== newNick;
+      await update(userRef, {
+        displayName: newNick,
         email: data.email || snapshot.val().email,
         following: data.following || snapshot.val().following,
         followers: data.followers || snapshot.val().followers,
@@ -435,10 +438,9 @@ const updateCurrentUserData = async (userId: string, data: any) => {
       if (postsSnapshot.exists()) {
         postsSnapshot.forEach((childSnapshot) => {
           const post = childSnapshot.val();
-          if (post.userId === userId) {
+          if (nickChanged && post.userId === userId) {
             update(ref(database, `posts/${childSnapshot.key}`), {
-              ...post,
-              nick: data.nick || snapshot.val().displayName,
+              nick: newNick,
             });
           }
         });
@@ -455,9 +457,166 @@ const updateCurrentUserData = async (userId: string, data: any) => {
   }
 };
 
+const updateWantToWatch = async (data: any) => {
+  try {
+    const userId = getAuth().currentUser?.uid;
+    if (!userId) return null;
+
+    const newWantToWatchRef = push(ref(database, `wanttowatch/${userId}`));
+    await set(newWantToWatchRef, data);
+    return true;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
+
+const deleteWantToWatch = async (data: any) => {
+  try {
+    const userId = getAuth().currentUser?.uid;
+    if (!userId) return null;
+
+    const wantToWatchRef = ref(database, `wanttowatch/${userId}`);
+    const snapshot = await get(wantToWatchRef);
+
+    if (snapshot.exists()) {
+      snapshot.forEach((childSnapshot) => {
+        if (childSnapshot.val().id === data.id) {
+          remove(ref(database, `wanttowatch/${userId}/${childSnapshot.key}`));
+        }
+      });
+    }
+
+    return true;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
+
+const updateWatched = async (data: any) => {
+  try {
+    const userId = getAuth().currentUser?.uid;
+    if (!userId) return null;
+
+    const newWatchedRef = push(ref(database, `watched/${userId}`));
+    await set(newWatchedRef, data);
+    return true;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
+
+const deleteWatched = async (data: any) => {
+  try {
+    const userId = getAuth().currentUser?.uid;
+    if (!userId) return null;
+
+    const watchedRef = ref(database, `watched/${userId}`);
+    const snapshot = await get(watchedRef);
+
+    if (snapshot.exists()) {
+      snapshot.forEach((childSnapshot) => {
+        if (childSnapshot.val().id === data.id) {
+          remove(ref(database, `watched/${userId}/${childSnapshot.key}`));
+        }
+      });
+    }
+
+    return true;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
+
+const updateUnfinished = async (data: {
+  additionDate: number;
+  id: number;
+  mediaType: string;
+  name: string;
+  photoURL: string;
+}) => {
+  try {
+    const userId = getAuth().currentUser?.uid;
+    if (!userId) return null;
+
+    const newUnfinishedRef = push(ref(database, `unfinished/${userId}`));
+    await set(newUnfinishedRef, data);
+    return true;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
+
+const deleteUnfinished = async (data: any) => {
+  try {
+    const userId = getAuth().currentUser?.uid;
+    if (!userId) return null;
+
+    const unfinishedRef = ref(database, `unfinished/${userId}`);
+    const snapshot = await get(unfinishedRef);
+
+    if (snapshot.exists()) {
+      snapshot.forEach((childSnapshot) => {
+        if (childSnapshot.val().id === data.id) {
+          remove(ref(database, `unfinished/${userId}/${childSnapshot.key}`));
+        }
+      });
+    }
+
+    return true;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
+
+const getSelectedUserSharedList = async (userId: string) => {
+  const sharedListRef = ref(database, `sharedList/${userId}`);
+  const snapshot = await get(sharedListRef);
+  const selectedUserSharedList: Array<{ id: string; referenceId: string }> = [];
+  if (snapshot.exists()) {
+    snapshot.forEach((childSnapshot) => {
+      selectedUserSharedList.push({
+        id: childSnapshot.val().id,
+        referenceId: childSnapshot.val().referenceId,
+      });
+    });
+  }
+  return selectedUserSharedList;
+};
+
+const deleteSelectedSharedList = async (
+  userId: string,
+  referenceId: string
+) => {
+  try {
+    const sharedListRef = ref(database, `sharedList/${userId}`);
+    const snapshot = await get(sharedListRef);
+    if (snapshot.exists()) {
+      snapshot.forEach((childSnapshot) => {
+        if (childSnapshot.val().referenceId === referenceId) {
+          remove(ref(database, `sharedList/${userId}/${childSnapshot.key}`));
+        }
+      });
+    }
+    return true;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
+
 export {
   createPostAction,
   deleteSelectedPost,
+  deleteSelectedSharedList,
+  deleteUnfinished,
+  deleteWantToWatch,
+  deleteWatched,
   getAllPosts,
   getNotifications,
   getPreviousPosts,
@@ -467,10 +626,14 @@ export {
   getSelectedUserLists,
   getSelectedUserPosts,
   getSelectedUserPostsList,
+  getSelectedUserSharedList,
   getSelectedUserUnfinished,
   getSelectedUserWantToWatch,
   getSelectedUserWatched,
   getSpecificPost,
   signInWithEmailAction,
   updateCurrentUserData,
+  updateUnfinished,
+  updateWantToWatch,
+  updateWatched,
 };

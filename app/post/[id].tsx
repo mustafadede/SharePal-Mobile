@@ -1,6 +1,7 @@
 import CommentCards from "@/common/CommentCards";
 import PostPageCommentFooter from "@/common/PostPageCommentFooter";
 import FeedCard from "@/components/FeedPage/FeedCard";
+import PostOptionsBottomSheet from "@/components/PostOptions/PostOptionsBottomSheet";
 import StatusLabel from "@/components/StatusLabel/StatusLabel";
 import { Colors } from "@/constants/Colors";
 import { Post } from "@/constants/Post";
@@ -9,20 +10,36 @@ import {
   getSelectedUser,
   getSpecificPost,
 } from "@/services/firebaseActions";
-import { useLocalSearchParams } from "expo-router";
-import React, { useEffect, useState } from "react";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import {
+  BottomSheetBackdrop,
+  BottomSheetModal,
+  BottomSheetView,
+} from "@gorhom/bottom-sheet";
+import { useLocalSearchParams, useNavigation } from "expo-router";
+import { getAuth } from "firebase/auth";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import {
   FlatList,
   Keyboard,
   KeyboardAvoidingView,
   Platform,
   Text,
+  TouchableOpacity,
   useColorScheme,
   View,
 } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 const index = () => {
+  const currentUserId = getAuth().currentUser?.uid;
+  const { userId } = useLocalSearchParams();
   const [post, setPost] = useState<Post>();
   const [comments, setComments] = useState<
     Array<{
@@ -40,7 +57,14 @@ const index = () => {
   const { id } = useLocalSearchParams();
   const colorScheme = useColorScheme();
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
-
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+  const snapPoints = useMemo(() => ["40%"], []);
+  const [bottomSheetValues, setBottomSheetValues] = useState<object>({});
+  const handlePresentModalPress = useCallback(() => {
+    bottomSheetModalRef.current?.present();
+  }, []);
+  const handleSheetChanges = useCallback((index: number) => {}, []);
+  const navigation = useNavigation();
   useEffect(() => {
     setLoading(true);
     getSpecificPost(String(id))
@@ -79,6 +103,25 @@ const index = () => {
   }, [id]);
 
   useEffect(() => {
+    navigation.setOptions({
+      headerRight: () =>
+        currentUserId === userId && (
+          <TouchableOpacity
+            onPress={() => {
+              Keyboard.dismiss();
+              handlePresentModalPress();
+            }}
+          >
+            <MaterialCommunityIcons
+              name="dots-horizontal"
+              size={26}
+              color={
+                colorScheme === "dark" ? Colors.dark.cWhite : Colors.dark.cBlack
+              }
+            />
+          </TouchableOpacity>
+        ),
+    });
     const platformSpecificShowHandlerName =
       Platform.OS === "ios" ? "keyboardWillShow" : "keyboardDidShow";
 
@@ -127,7 +170,7 @@ const index = () => {
         ) : (
           post && (
             <FlatList
-              style={{ flex: 1 }}
+              style={{ flex: 1, paddingTop: 20 }}
               data={comments}
               keyExtractor={(item, index) => item.date + item.userId + index}
               renderItem={({ item, index }) => (
@@ -179,8 +222,48 @@ const index = () => {
             />
           )
         )}
-        <PostPageCommentFooter isKeyboardVisible={isKeyboardVisible} />
+        <PostPageCommentFooter
+          isKeyboardVisible={isKeyboardVisible}
+          setIsKeyboardVisible={setIsKeyboardVisible}
+        />
       </KeyboardAvoidingView>
+      <BottomSheetModal
+        ref={bottomSheetModalRef}
+        index={1}
+        snapPoints={snapPoints}
+        backdropComponent={(props) => (
+          <BottomSheetBackdrop
+            {...props}
+            disappearsOnIndex={0}
+            appearsOnIndex={1}
+            opacity={0.7}
+          />
+        )}
+        onChange={handleSheetChanges}
+        keyboardBlurBehavior="none"
+        handleIndicatorStyle={{ backgroundColor: "rgb(100 116 139)" }}
+        keyboardBehavior="interactive"
+        android_keyboardInputMode="adjustPan"
+        backgroundComponent={({ style }) => (
+          <View
+            style={[
+              style,
+              {
+                backgroundColor: Colors.dark.cGradient2,
+                borderTopLeftRadius: 20,
+                borderTopRightRadius: 20,
+                width: "100%",
+                justifyContent: "center",
+                alignItems: "center",
+              },
+            ]}
+          />
+        )}
+      >
+        <BottomSheetView style={{ flex: 1, marginTop: 10 }}>
+          <PostOptionsBottomSheet bottomSheetValues={bottomSheetValues} />
+        </BottomSheetView>
+      </BottomSheetModal>
     </GestureHandlerRootView>
   );
 };

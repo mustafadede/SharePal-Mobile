@@ -1,17 +1,31 @@
 import { Colors } from "@/constants/Colors";
 import "@/i18n/i18n";
 import { store } from "@/store";
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { Stack, useGlobalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useColorScheme } from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Provider } from "react-redux";
+import { Toaster } from "sonner-native";
 import SplashScreen from "./SplashScreen";
 
 export default function RootLayout() {
   return (
     <Provider store={store}>
-      <AppLayout />
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <BottomSheetModalProvider>
+          <AppLayout />
+        </BottomSheetModalProvider>
+        <Toaster
+          swipeToDismissDirection="left"
+          style={{
+            marginTop: 10,
+            backdropFilter: "blur(20px)",
+          }}
+        />
+      </GestureHandlerRootView>
     </Provider>
   );
 }

@@ -2,8 +2,19 @@ import { Movie } from "@/constants/Movie";
 import * as Haptics from "expo-haptics";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
+
+type ExploreBottomSheetProps = {
+  title: string;
+  release_date: string;
+  poster_path: string;
+  mediaType: string;
+  id: number;
+  wanttowatch: boolean;
+  watched: boolean;
+  unfinished: boolean;
+};
 
 const ExploreCard = React.memo(
   ({
@@ -18,7 +29,7 @@ const ExploreCard = React.memo(
     loading?: boolean;
     sliderType: string;
     setBottomSheetVisible: () => void;
-    setBottomSheetValues?: (value: object) => void;
+    setBottomSheetValues: Dispatch<SetStateAction<ExploreBottomSheetProps>>;
     explore?: boolean;
   }) => {
     const router = useRouter();

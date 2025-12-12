@@ -5,7 +5,6 @@ import FeedCardActions from "./FeedCardComponents/FeedCardActions";
 import FeedCardAttachment from "./FeedCardComponents/FeedCardAttachment";
 import FeedCardContent from "./FeedCardComponents/FeedCardContent";
 import FeedCardHeader from "./FeedCardComponents/FeedCardHeader";
-import FeedOptions from "./FeedOptions";
 
 const FeedAttachmentCard = ({
   data,
@@ -13,12 +12,14 @@ const FeedAttachmentCard = ({
   index,
   postPage,
   handleModal,
+  handleOptions,
 }: {
   data: Post;
   attachedData: PostAttachment;
   index: number;
   postPage?: boolean;
   handleModal: () => void;
+  handleOptions: () => void;
 }) => {
   const [options, setOptions] = useState(false);
 
@@ -33,7 +34,7 @@ const FeedAttachmentCard = ({
           data={data}
           postPage={postPage}
           options={options}
-          setOptions={setOptions}
+          setOptions={handleOptions}
         />
         <FeedCardContent data={data} haveSpoiler={false} />
         <FeedCardAttachment attachedData={attachedData} />
@@ -43,7 +44,6 @@ const FeedAttachmentCard = ({
           handleModal={handleModal}
         />
       </View>
-      {options && <FeedOptions postId={data.postId} />}
     </>
   );
 };
