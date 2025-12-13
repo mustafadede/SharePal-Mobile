@@ -51,6 +51,7 @@ const ExploreBottomSheet = React.memo(
     const colorScheme = useColorScheme();
 
     const userId = profile.userId;
+    console.log(profile.currentlyWatching);
 
     useEffect(() => {
       if (!bottomSheetValues.id) return;
@@ -118,7 +119,7 @@ const ExploreBottomSheet = React.memo(
                   additionDate: Date.now(),
                   id: bottomSheetValues.id,
                   mediaType: bottomSheetValues.mediaType,
-                  name: profile.displayName,
+                  name: profile.nick,
                   photoURL: profile.photoURL,
                 }).then((res) => {
                   setBottomSheetValues((prev) => ({
@@ -181,7 +182,7 @@ const ExploreBottomSheet = React.memo(
                   additionDate: Date.now(),
                   id: bottomSheetValues.id,
                   mediaType: bottomSheetValues.mediaType,
-                  name: profile.displayName,
+                  name: profile.nick,
                   photoURL: profile.photoURL,
                 }).then((res) => {
                   setBottomSheetValues((prev) => ({
@@ -271,9 +272,9 @@ const ExploreBottomSheet = React.memo(
                         />
                       ),
                       style: {
-                        backgroundColor: "transparent", // bg-white/5
+                        backgroundColor: "transparent",
                         borderWidth: 1,
-                        borderColor: "rgba(255,255,255,0.1)", // border-black dark:border-white/10
+                        borderColor: "rgba(255,255,255,0.1)",
                         paddingVertical: 10,
                         paddingHorizontal: 14,
                         borderRadius: 14,
@@ -283,7 +284,12 @@ const ExploreBottomSheet = React.memo(
                 })
               }
               className={
-                "flex-row items-center justify-between rounded-xl border px-4 py-3  border-black dark:border-white/10 bg-white dark:bg-white/5"
+                profile.currentlyWatching &&
+                profile.currentlyWatching.title === bottomSheetValues.title &&
+                profile.currentlyWatching.releaseDate ===
+                  bottomSheetValues.release_date
+                  ? "flex-row items-center justify-between rounded-xl border px-4 py-3 border-fuchsia-600 bg-fuchsia-600/20"
+                  : "flex-row items-center justify-between rounded-xl border px-4 py-3 border-black dark:border-white/10 bg-white dark:bg-white/5"
               }
             >
               <Text className="text-black dark:text-slate-100 text-base">
@@ -303,7 +309,7 @@ const ExploreBottomSheet = React.memo(
                   additionDate: Date.now(),
                   id: bottomSheetValues.id,
                   mediaType: bottomSheetValues.mediaType,
-                  name: profile.displayName,
+                  name: profile.nick,
                   photoURL: profile.photoURL,
                 }).then((res) => {
                   setBottomSheetValues((prev) => ({
