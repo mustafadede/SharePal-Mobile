@@ -13,16 +13,20 @@ import {
 import { useDispatch } from "react-redux";
 
 const AttachItem = ({
+  id,
   backdrop,
   poster,
   title,
+  mediaType,
   release_date,
   attached = false,
   hasUser = false,
 }: {
+  id: number;
   backdrop?: string;
   poster?: string;
   title?: string;
+  mediaType: string;
   release_date?: string;
   attached?: boolean;
   hasUser?: boolean;
@@ -34,9 +38,11 @@ const AttachItem = ({
   const handleAttachment = () => {
     dispatch(
       createPostsActions.createPostAttachment({
+        id: id,
         backdrop: backdrop,
         poster: poster,
         title: title,
+        mediaType: mediaType.toLocaleLowerCase(),
         releaseDate: release_date,
       })
     );

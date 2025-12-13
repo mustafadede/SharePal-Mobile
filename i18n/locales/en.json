@@ -64,6 +64,7 @@
    "searchdetail.movie": "Movie",
    "searchdetail.tv": "TV",
    "searchdetail.rating": "Rating",
+   "searchdetail.providers": "Providers",
    "searchdetail.readmore": "Read More",
    "searchdetail.close": "Close",
    "share.sharewithspoiler": "Share with spoiler",
@@ -139,5 +140,9 @@
     },
     "feedCard.spoiler": "Spoiler",
     "feedCard.edited": "Edited",     
-    "feedCard.send": "Send"
+    "feedCard.send": "Send",
+    "providers.flatrate": "Streaming",
+    "providers.rent": "Rent",
+    "providers.buy": "Buy",
+    "providers.notfound": "Nothing Found"
 }

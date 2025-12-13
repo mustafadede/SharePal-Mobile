@@ -180,6 +180,24 @@ function AppLayout() {
           headerShown: false,
         }}
       />
+      <Stack.Screen
+        name="providers"
+        options={{
+          headerStyle: {
+            backgroundColor:
+              colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
+          },
+          title: t("searchdetail.providers"),
+          animation: "slide_from_right",
+          headerTintColor:
+            colorScheme === "dark" ? Colors.dark.cWhite : "black",
+          headerShown: true,
+          headerBackButtonMenuEnabled: true,
+          headerBackVisible: true,
+          headerTransparent: true,
+          headerBackButtonDisplayMode: "minimal",
+        }}
+      />
       <Stack.Screen name="ResetToRoot" />
     </Stack>
   );

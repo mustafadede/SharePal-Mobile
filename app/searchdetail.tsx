@@ -14,7 +14,7 @@ import {
   BottomSheetView,
 } from "@gorhom/bottom-sheet";
 import { LinearGradient } from "expo-linear-gradient";
-import { useLocalSearchParams, useNavigation } from "expo-router";
+import { router, useLocalSearchParams, useNavigation } from "expo-router";
 import React, {
   useCallback,
   useEffect,
@@ -188,6 +188,7 @@ const searchdetail = () => {
   const handlePresentModalClose = useCallback(() => {
     BottomSheetModalRef.current?.close();
   }, []);
+
   return (
     <GestureHandlerRootView>
       {!isShared && (
@@ -312,6 +313,27 @@ const searchdetail = () => {
                   /10
                 </Text>
               </Text>
+            </Animated.View>
+            {/* PROVIDERS */}
+            <Animated.View entering={FadeInUp.duration(400).delay(1600)}>
+              <TouchableOpacity
+                onPress={() => {
+                  router.push({
+                    pathname: "/providers/[id]",
+                    params: { id: id, mediaType: mediaType },
+                  });
+                }}
+                className="mt-4 rounded-full  flex-1 flex-row items-center py-2 justify-between"
+              >
+                <Text className="text-lg text-black dark:text-slate-300 mt-1">
+                  {t("searchdetail.providers")}
+                </Text>
+                <Feather
+                  name="chevron-right"
+                  size={24}
+                  color={colorScheme === "dark" ? "white" : "black"}
+                />
+              </TouchableOpacity>
             </Animated.View>
           </View>
         </ScrollView>

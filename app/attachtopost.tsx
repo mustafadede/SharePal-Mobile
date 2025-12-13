@@ -27,6 +27,7 @@ const attachtopost = () => {
   const handleSearch = (text: string) => setSearch(text);
   const performSearch = () => {
     const type = filters[selectedFilter].label.toLowerCase();
+
     useSearch(search, setResults, type);
   };
 
@@ -84,9 +85,11 @@ const attachtopost = () => {
               keyExtractor={(_, index) => String(index)}
               renderItem={({ item, index }) => (
                 <AttachItem
+                  id={item.id}
                   backdrop={item.backdrop_path || item.poster_path}
                   poster={item.poster_path || item.backdrop_path}
                   title={item.title || item.name}
+                  mediaType={item.mediaType || filters[selectedFilter].label}
                   release_date={item.release_date || item.first_air_date}
                   key={index}
                   attached={true}

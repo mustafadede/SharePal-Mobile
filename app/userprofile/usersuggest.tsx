@@ -84,8 +84,10 @@ const usersuggest = () => {
               keyExtractor={(_, index) => String(index)}
               renderItem={({ item, index }) => (
                 <AttachItem
+                  id={item.id}
                   hasUser={true}
                   backdrop={item.backdrop_path || item.poster_path}
+                  mediaType={item.mediaType}
                   poster={item.poster_path || item.backdrop_path}
                   title={item.title || item.name}
                   release_date={item.release_date || item.first_air_date}

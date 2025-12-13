@@ -65,6 +65,7 @@
   "searchdetail.movie": "Film",
   "searchdetail.tv": "Dizi",
   "searchdetail.rating": "Derecelendirme",
+  "searchdetail.providers": " İzleme Sağlayıcıları",
   "searchdetail.readmore": "Daha fazla",
   "searchdetail.close": "Kapat",
   "share.sharewithspoiler": "Spoiler ile paylaş",
@@ -139,5 +140,9 @@
   },
     "feedCard.spoiler": "Spoiler",
     "feedCard.edited": "Düzenlendi",
-    "feedCard.send": "Gönder"
+    "feedCard.send": "Gönder",
+    "providers.flatrate": "Abonelik",
+    "providers.rent": "Kirala",
+    "providers.buy": "Satın Al",    
+    "providers.notfound": "Herhangi bir veri bulunamadı"
 }

@@ -141,7 +141,9 @@ const CreatePost = () => {
           {Object.keys(createdPost.attachedFilm).length > 0 && (
             <View className="px-4">
               <AttachItem
+                id={createPostAction.attachedFilm?.id}
                 backdrop={createdPost.attachedFilm?.backdrop}
+                mediaType={createdPost.attachedFilm?.mediaType}
                 poster={createdPost.attachedFilm?.poster}
                 title={createdPost.attachedFilm?.title}
                 release_date={createdPost.attachedFilm?.releaseDate}
