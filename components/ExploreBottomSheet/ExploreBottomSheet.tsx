@@ -9,7 +9,7 @@ import {
 } from "@/services/firebaseActions";
 import { RootState } from "@/store";
 import { profileActions } from "@/store/profileSlice";
-import { shareSearchDetailAction } from "@/store/shareSearchDetail";
+import { shareSearchDetailActions } from "@/store/shareSearchDetail";
 import Entypo from "@expo/vector-icons/Entypo";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -54,7 +54,7 @@ const ExploreBottomSheet = React.memo(
 
     useEffect(() => {
       if (!bottomSheetValues.id) return;
-      dispatch(shareSearchDetailAction.setStatus("pending"));
+      dispatch(shareSearchDetailActions.setStatus("loading"));
       Promise.all([
         getSelectedUserWatched(userId),
         getSelectedUserWantToWatch(userId),
@@ -70,7 +70,7 @@ const ExploreBottomSheet = React.memo(
             (item) => item.id.toString() === idString
           ),
         }));
-        dispatch(shareSearchDetailAction.setStatus("done"));
+        dispatch(shareSearchDetailActions.setStatus("done"));
       });
     }, []);
 
@@ -89,7 +89,7 @@ const ExploreBottomSheet = React.memo(
         {bottomSheetValues.mediaType === "movie" &&
           bottomSheetValues.release_date.slice(0, 4) ===
             thisYear.toString() && (
-            <TouchableOpacity className="flex-row items-center justify-between dark:bg-slate-600 rounded-xl px-4 py-3">
+            <TouchableOpacity className="flex-row items-center justify-between bg-slate-600 rounded-xl px-4 py-3">
               <Text className="text-slate-100 text-base">
                 {t("actions.bestmovies")}
               </Text>
@@ -101,14 +101,14 @@ const ExploreBottomSheet = React.memo(
         {bottomSheetValues.mediaType === "tv" &&
           bottomSheetValues.release_date.slice(0, 4) ===
             thisYear.toString() && (
-            <TouchableOpacity className="flex-row items-center justify-between dark:bg-slate-600 rounded-xl px-4 py-3">
+            <TouchableOpacity className="flex-row items-center justify-between bg-slate-600 rounded-xl px-4 py-3">
               <Text className="text-slate-100 text-base">
                 {t("actions.bestseries")}
               </Text>
               <Entypo name="star" size={22} color="yellow" />
             </TouchableOpacity>
           )}
-        {shareSearchDetail.shareStatus === "pending" && <StatusLabel />}
+        {shareSearchDetail.shareStatus === "loading" && <StatusLabel />}
         {shareSearchDetail.shareStatus === "done" && (
           <View className="w-full flex flex-col gap-3">
             {/* Want to Watch */}

@@ -53,69 +53,114 @@ const SharePostComponent = ({ switchValue }: { switchValue: boolean }) => {
     modal &&
     modal.modalProps[0] && (
       <View
-        className=" dark:bg-slate-900 mb-4"
+        className="mb-4"
         style={{
-          height: 630,
+          height: 640,
           width: 360,
           position: "relative",
+          borderRadius: 28,
+          overflow: "hidden",
+          backgroundColor: colorScheme === "dark" ? "#0E0B13" : "#f8fafc",
         }}
       >
         {modal && (
           <ImageBackground
-            source={
-              modal
-                ? {
-                    uri: `https://image.tmdb.org/t/p/original/${modal.modalProps[0].modalProps.attachedFilm.poster}`,
-                  }
-                : require("@/assets/images/react-logo.png")
-            }
+            source={{
+              uri: `https://image.tmdb.org/t/p/original/${modal.modalProps[0].modalProps.attachedFilm.poster}`,
+              cache: "force-cache",
+            }}
             className="w-full h-full absolute z-0 bg-slate-900"
             resizeMode="cover"
-            blurRadius={7}
+            blurRadius={6}
           >
-            {colorScheme === "dark" ? (
-              <LinearGradient
-                colors={["rgba(0, 0, 0, 0.4)", "rgb(14, 11, 19)"]}
-                style={{ flex: 1 }}
+            <View style={[StyleSheet.absoluteFill]} pointerEvents="none">
+              <BlurView
+                intensity={Platform.OS === "android" ? 12 : 18}
+                tint={colorScheme === "dark" ? "dark" : "light"}
+                style={[
+                  StyleSheet.absoluteFill,
+                  {
+                    backgroundColor:
+                      colorScheme === "dark"
+                        ? "rgba(0,0,0,0.25)"
+                        : "rgba(255,255,255,0.35)",
+                  },
+                ]}
+                experimentalBlurMethod="dimezisBlurView"
               />
-            ) : (
-              <LinearGradient
-                colors={["rgba(255, 255, 255, 0.6)", "rgb(245, 245, 245)"]}
-                style={{ flex: 1 }}
-              />
-            )}
+            </View>
+            <LinearGradient
+              colors={
+                colorScheme === "dark"
+                  ? ["rgba(0,0,0,0.30)", "rgba(0,0,0,0.9)", "rgba(0,0,0,0.9)"]
+                  : [
+                      "rgba(255,255,255,0.00)",
+                      "rgba(255,255,255,1)",
+                      "rgba(255,255,255,0.9)",
+                    ]
+              }
+              locations={[0, 0.6, 1]}
+              style={StyleSheet.absoluteFill}
+            />
           </ImageBackground>
         )}
-        <View className="flex-1 p-4 mt-2 items-center">
-          <Text className="font-bold text-fuchsia-600" style={{ fontSize: 42 }}>
-            SharePal
-          </Text>
-          <View className="justify-center items-center z-10">
-            <Image
-              source={
-                modal
-                  ? {
-                      uri: `https://image.tmdb.org/t/p/original/${modal.modalProps[0].modalProps.attachedFilm.poster}`,
-                    }
-                  : require("@/assets/images/react-logo.png")
-              }
-              className="w-40 h-64 mt-4 rounded-2xl"
-              style={{ borderWidth: 1, borderColor: "rgb(241, 245, 249)" }}
-            />
+        <View className="flex-1 px-6 pt-24 items-center">
+          <View
+            className="items-center"
+            style={{
+              position: "absolute",
+              top: 20,
+            }}
+          >
+            <Text
+              className="font-semibold text-fuchsia-600"
+              style={{ fontSize: 48, opacity: 0.9 }}
+            >
+              SharePal
+            </Text>
+            <View
+              className="mt-6 mb-8"
+              style={{
+                padding: 4,
+                borderRadius: 16,
+                backgroundColor:
+                  colorScheme === "dark"
+                    ? "rgba(255,255,255,0.06)"
+                    : "rgba(0,0,0,0.05)",
+              }}
+            >
+              <Image
+                source={{
+                  uri: `https://image.tmdb.org/t/p/original/${modal.modalProps[0].modalProps.attachedFilm.poster}`,
+                  cache: "force-cache",
+                }}
+                className="rounded-xl "
+                resizeMode="cover"
+                fadeDuration={0}
+                style={{
+                  width: 160,
+                  height: 256,
+                  shadowColor: "#000",
+                  shadowOpacity: colorScheme === "dark" ? 0.26 : 0.18,
+                  shadowRadius: 48,
+                  shadowOffset: { width: 0, height: 12 },
+                }}
+              />
+            </View>
+            <Text className="text-white text-xl mt-2 text-center">
+              {modal &&
+                modal.modalProps &&
+                modal.modalProps[0].modalProps.attachedFilm.title}
+            </Text>
           </View>
-          <Text className="text-fuchsia-600 text-xl mt-2 align-middle">
-            {modal &&
-              modal.modalProps &&
-              modal.modalProps[0].modalProps.attachedFilm.title}
-          </Text>
           <View className="absolute left-4 gap-2" style={{ bottom: 100 }}>
             {modal && modal.modalProps[0]?.modalProps.spoiler && switchValue ? (
               <View className="relative items-center justify-center">
                 <Text
-                  className={`text-slate-700 dark:text-white ${
+                  className={`text-slate-300 dark:text-white ${
                     contentLenght > 187 ? "text-base" : "text-xl"
                   } italic ${
-                    modal.modalProps[0]?.modalProps.spoiler ? "px-3" : "px-0"
+                    modal.modalProps[0]?.modalProps.spoiler ? "px-2" : "px-0"
                   }`}
                 >
                   "
@@ -137,16 +182,24 @@ const SharePostComponent = ({ switchValue }: { switchValue: boolean }) => {
                 </Text>
                 <View style={[StyleSheet.absoluteFill]} pointerEvents="none">
                   <BlurView
-                    intensity={Platform.OS === "android" ? 15 : 20}
-                    tint={"dark"}
-                    style={StyleSheet.absoluteFill}
+                    intensity={Platform.OS === "android" ? 12 : 18}
+                    tint={colorScheme === "dark" ? "dark" : "light"}
+                    style={[
+                      StyleSheet.absoluteFill,
+                      {
+                        backgroundColor:
+                          colorScheme === "dark"
+                            ? "rgba(0,0,0,0.25)"
+                            : "rgba(255,255,255,0.35)",
+                      },
+                    ]}
                     experimentalBlurMethod="dimezisBlurView"
                   />
                 </View>
               </View>
             ) : (
               <Text
-                className={`text-slate-700 dark:text-white text-left ${
+                className={`text-slate-300 dark:text-white text-left ${
                   contentLenght > 187 ? "text-base" : "text-xl"
                 } italic`}
               >
@@ -160,7 +213,7 @@ const SharePostComponent = ({ switchValue }: { switchValue: boolean }) => {
           </View>
           <View
             className="flex-row items-center absolute"
-            style={{ bottom: 48, left: 12 }}
+            style={{ bottom: 32, left: 12 }}
           >
             <Image
               className="rounded-full"
@@ -169,10 +222,15 @@ const SharePostComponent = ({ switchValue }: { switchValue: boolean }) => {
                   ? { uri: `${modal.modalProps[0].modalProps.photoURL}` }
                   : require("@/assets/images/react-logo.png")
               }
-              style={{ width: 42, height: 42 }}
+              style={{
+                width: 42,
+                height: 42,
+                borderWidth: 1,
+                borderColor: "rgba(255,255,255,0.2)",
+              }}
             />
             <View className="flex-col ml-2">
-              <Text className="text-lg text-slate-700 dark:text-white">
+              <Text className="text-lg text-slate-300 dark:text-slate-200">
                 @
                 {modal &&
                   modal.modalProps &&

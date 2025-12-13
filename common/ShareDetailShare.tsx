@@ -101,132 +101,140 @@ const ShareDetailShare = ({
 
   return (
     <View
-      className={"flex-1 w-full h-full pt-10 z-50"}
+      className="flex-1 w-full items-center justify-center"
       style={{
-        backgroundColor: colorScheme === "dark" ? "#0E0B13" : "transparent",
+        backgroundColor: colorScheme === "dark" ? "#0E0B13" : "#F8FAFC",
       }}
     >
-      <View className="items-center justify-center w-full h-full rounded-3xl">
-        <View className="relative">
-          {captureShot(
-            viewRef,
-            handleShare,
-            shareStatus,
-            nick,
-            title,
-            mediaType,
-            backdrop_path,
-            poster_path,
-            color
-          )}
-        </View>
-        {shareStatus === "done" && (
-          <Animated.View
-            entering={FadeInUp.duration(300).delay(300)}
-            className="flex flex-row items-center justify-center gap-4"
-            style={{
-              position: "absolute",
-              bottom: 80,
-              paddingVertical: 10,
-              paddingHorizontal: 16,
-              backgroundColor: colorScheme === "dark" ? "#1E1B22" : "#f1f5f9",
-              borderRadius: 20,
-              shadowColor: "#000",
-              shadowOpacity: 0.1,
-              shadowRadius: 6,
-              shadowOffset: { width: 0, height: 3 },
-              elevation: 3,
-            }}
-          >
-            <TouchableOpacity onPress={() => setColor(0)}>
-              <Image
-                source={{
-                  uri: `https://image.tmdb.org/t/p/original/${poster_path}`,
-                }}
-                className="rounded-full"
-                style={{
-                  width: 44,
-                  height: 44,
-                  borderWidth: color === 0 ? 2 : 1,
-                  borderColor: color === 0 ? "#c026d3" : "rgb(148, 163, 184)",
-                }}
-              />
-            </TouchableOpacity>
-
-            <TouchableOpacity onPress={() => setColor(1)}>
-              <Image
-                source={{
-                  uri: `https://image.tmdb.org/t/p/original/${backdrop_path}`,
-                }}
-                className="rounded-full"
-                style={{
-                  width: 44,
-                  height: 44,
-                  borderWidth: color === 1 ? 2 : 1,
-                  borderColor: color === 1 ? "#c026d3" : "rgb(148, 163, 184)",
-                }}
-              />
-            </TouchableOpacity>
-
-            <TouchableOpacity onPress={() => setColor(2)}>
-              <View
-                style={{
-                  width: 44,
-                  height: 44,
-                  borderRadius: 22,
-                  backgroundColor: "#020617",
-                  borderWidth: color === 2 ? 2 : 1,
-                  borderColor: color === 2 ? "#c026d3" : "rgb(148, 163, 184)",
-                }}
-              />
-            </TouchableOpacity>
-
-            <TouchableOpacity onPress={() => setColor(3)}>
-              <View
-                style={{
-                  width: 44,
-                  height: 44,
-                  borderRadius: 22,
-                  backgroundColor: "#86198f",
-                  borderWidth: color === 3 ? 2 : 1,
-                  borderColor: color === 3 ? "#c026d3" : "rgb(148, 163, 184)",
-                }}
-              />
-            </TouchableOpacity>
-          </Animated.View>
+      <ViewShot
+        ref={viewRef}
+        options={{ format: "png", quality: 1 }}
+        style={{
+          width: 360,
+          height: 640,
+          borderRadius: 28,
+          overflow: "hidden",
+          backgroundColor: "#000",
+        }}
+      >
+        {shareStatus === "done" ? (
+          <SearchDetailPageShareWantToWatch
+            backdrop_path={backdrop_path}
+            poster_path={poster_path}
+            title={title}
+            username={nick}
+            mediaType={mediaType}
+            color={color}
+          />
+        ) : (
+          <View className="flex-1 items-center justify-center">
+            <StatusLabel />
+          </View>
         )}
+      </ViewShot>
 
-        {/* Share button */}
+      {shareStatus === "done" && (
         <Animated.View
-          entering={FadeInUp.duration(300).delay(400)}
+          entering={FadeInUp.duration(300).delay(200)}
           style={{
-            position: "absolute",
-            bottom: 4,
-            alignSelf: "center",
+            marginTop: 20,
+            paddingVertical: 10,
+            paddingHorizontal: 16,
+            borderRadius: 999,
+            backgroundColor:
+              colorScheme === "dark"
+                ? "rgba(30,27,34,0.85)"
+                : "rgba(241,245,249,0.9)",
+            flexDirection: "row",
+            gap: 12,
           }}
         >
-          <TouchableOpacity
-            onPress={handleShare}
-            style={{
-              paddingHorizontal: 32,
-              paddingVertical: 12,
-              borderRadius: 9999,
-              borderWidth: 2,
-              borderColor: colorScheme === "dark" ? "#fff" : "#000",
-              backgroundColor: colorScheme === "dark" ? "#0E0B13" : "#f8fafc",
-            }}
-          >
-            <Text
-              className="text-md font-semibold"
-              style={{
-                color: colorScheme === "dark" ? "#fff" : "#0E0B13",
+          <TouchableOpacity onPress={() => setColor(0)}>
+            <Image
+              source={{
+                uri: `https://image.tmdb.org/t/p/original/${poster_path}`,
               }}
-            >
-              {t("searchdetail.share")}
-            </Text>
+              resizeMode="cover"
+              fadeDuration={0}
+              style={{
+                width: 36,
+                height: 36,
+                borderRadius: 18,
+                borderWidth: color === 0 ? 2 : 1,
+                borderColor: color === 0 ? "#d946ef" : "rgba(148,163,184,0.6)",
+              }}
+            />
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => setColor(1)}>
+            <Image
+              source={{
+                uri: `https://image.tmdb.org/t/p/original/${backdrop_path}`,
+              }}
+              resizeMode="cover"
+              style={{
+                width: 36,
+                height: 36,
+                borderRadius: 18,
+                borderWidth: color === 1 ? 2 : 1,
+                borderColor: color === 1 ? "#d946ef" : "rgba(148,163,184,0.6)",
+              }}
+            />
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => setColor(2)}>
+            <View
+              style={{
+                width: 36,
+                height: 36,
+                borderRadius: 18,
+                backgroundColor: "#020617",
+                borderWidth: color === 2 ? 2 : 1,
+                borderColor: color === 2 ? "#d946ef" : "rgba(148,163,184,0.6)",
+              }}
+            />
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => setColor(3)}>
+            <View
+              style={{
+                width: 36,
+                height: 36,
+                borderRadius: 18,
+                backgroundColor: "#86198f",
+                borderWidth: color === 3 ? 2 : 1,
+                borderColor: color === 3 ? "#d946ef" : "rgba(148,163,184,0.6)",
+              }}
+            />
           </TouchableOpacity>
         </Animated.View>
-      </View>
+      )}
+
+      <Animated.View
+        entering={FadeInUp.duration(300).delay(400)}
+        style={{ marginTop: 24 }}
+      >
+        <TouchableOpacity
+          onPress={handleShare}
+          style={{
+            paddingHorizontal: 40,
+            paddingVertical: 14,
+            borderRadius: 999,
+            borderWidth: 1.5,
+            borderColor: colorScheme === "dark" ? "#fff" : "#020617",
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 16,
+              fontWeight: "600",
+              color: colorScheme === "dark" ? "#fff" : "#020617",
+            }}
+          >
+            {t("searchdetail.share")}
+          </Text>
+        </TouchableOpacity>
+      </Animated.View>
     </View>
   );
 };

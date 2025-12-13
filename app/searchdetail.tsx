@@ -5,6 +5,7 @@ import { Colors } from "@/constants/Colors";
 import useSearchWithYear from "@/hooks/useSearchWithYear";
 import { RootState } from "@/store";
 import { searchDetailActions } from "@/store/searchDetailSlice";
+import { shareSearchDetailActions } from "@/store/shareSearchDetail";
 import { DateFormatter } from "@/utils/formatter";
 import Feather from "@expo/vector-icons/Feather";
 import {
@@ -37,6 +38,27 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
 import { movieGenresJSON, tvGenresJSON } from "../assets/genre/genreData";
 
+type ExploreBottomSheetProps = {
+  title: string;
+  release_date: string;
+  poster_path: string;
+  mediaType: string;
+  id: number;
+  currentlywatching: boolean;
+  wanttowatch: boolean;
+  watched: boolean;
+  unfinished: boolean;
+};
+
+type SearchDetailParams = {
+  id: string;
+  title: string;
+  release_date: string;
+  poster_path: string;
+  backdrop_path: string;
+  mediaType: "movie" | "tv";
+};
+
 const searchdetail = () => {
   const viewRef = useRef(null);
   const { displayName, email } = useSelector(
@@ -51,7 +73,8 @@ const searchdetail = () => {
   const [color, setColor] = useState(0);
   const navigation = useNavigation();
   const { id, title, release_date, poster_path, mediaType, backdrop_path } =
-    useLocalSearchParams();
+    useLocalSearchParams() as SearchDetailParams;
+
   const { nick, userId } = useSelector((state: RootState) => state.profile);
   const newDate = DateFormatter(release_date, "Search");
   const dispatch = useDispatch();
@@ -61,7 +84,7 @@ const searchdetail = () => {
       release_date: release_date,
       poster_path: poster_path,
       mediaType: mediaType,
-      id: id,
+      id: Number(id),
       currentlywatching: false,
       wanttowatch: false,
       watched: false,
@@ -96,11 +119,18 @@ const searchdetail = () => {
   const { t } = useTranslation();
   useEffect(() => {
     setSetStatus(false);
+
     dispatch(searchDetailActions.clearSearchDetail());
     dispatch(searchDetailActions.setStatus("loading"));
+
+    dispatch(shareSearchDetailActions.setStatus("loading"));
+
     useSearchWithYear(title, release_date).then((res) => {
       dispatch(searchDetailActions.updateSearchDetail(res));
       dispatch(searchDetailActions.setStatus("done"));
+
+      dispatch(shareSearchDetailActions.setStatus("done"));
+
       setSetStatus(true);
     });
   }, []);
@@ -114,7 +144,15 @@ const searchdetail = () => {
           </TouchableOpacity> */}
           {!setStatus && <StatusLabel />}
           {setStatus && (
-            <TouchableOpacity onPress={() => setIsShared(!isShared)}>
+            <TouchableOpacity
+              onPress={() => {
+                setIsShared(!isShared);
+                dispatch(shareSearchDetailActions.setStatus("loading"));
+                setTimeout(() => {
+                  dispatch(shareSearchDetailActions.setStatus("done"));
+                }, 300);
+              }}
+            >
               {isShared ? (
                 <Feather
                   name="x"

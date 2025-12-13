@@ -31,6 +31,7 @@ const SearchDetailPageShareWantToWatch = ({
   const profile = useSelector((state: RootState) => state.profile);
   const { label } = useSelector((state: RootState) => state.shareSearchDetail);
   const colorScheme = useColorScheme();
+  console.log(poster_path);
 
   return (
     <Animated.View
@@ -39,6 +40,8 @@ const SearchDetailPageShareWantToWatch = ({
       style={{
         height: 640,
         width: 360,
+        borderRadius: 28,
+        overflow: "hidden",
       }}
     >
       {/* Backgrounds */}
@@ -47,10 +50,11 @@ const SearchDetailPageShareWantToWatch = ({
           uri: `https://image.tmdb.org/t/p/original/${
             color === 0 ? poster_path : color === 1 ? backdrop_path : null
           }`,
+          cache: "force-cache",
         }}
         className="w-full h-full absolute z-0 bg-slate-900"
         resizeMode="cover"
-        blurRadius={7}
+        blurRadius={6}
       >
         {colorScheme === "dark" ? (
           <LinearGradient
@@ -85,47 +89,72 @@ const SearchDetailPageShareWantToWatch = ({
       )}
 
       {/* Content */}
-      <View className="flex-1 p-4 mt-20 items-center">
+      <View className="flex-1 px-6 pt-24 items-center">
         <Text
-          className="font-bold text-fuchsia-600"
-          style={{ fontSize: 42, marginTop: 24 }}
+          className="font-semibold text-fuchsia-500"
+          style={{ fontSize: 28, opacity: 0.9 }}
         >
           SharePal
         </Text>
 
-        <View className="mb-6 justify-center items-center z-10">
+        <View
+          className="mt-6 mb-8 items-center justify-center"
+          style={{
+            padding: 6,
+            borderRadius: 28,
+            backgroundColor:
+              colorScheme === "dark"
+                ? "rgba(255,255,255,0.06)"
+                : "rgba(0,0,0,0.05)",
+          }}
+        >
           <Image
             source={{
               uri: `https://image.tmdb.org/t/p/original/${poster_path}`,
+              cache: "force-cache",
             }}
-            className="w-40 h-64 mt-4 rounded-2xl shadow-lg"
+            className="w-44 h-72 rounded-3xl"
+            resizeMode="cover"
+            fadeDuration={0}
+            style={{
+              shadowColor: "#000",
+              shadowOpacity: colorScheme === "dark" ? 0.26 : 0.18,
+              shadowRadius: 22,
+              shadowOffset: { width: 0, height: 12 },
+            }}
           />
         </View>
 
         {label !== "" &&
           (i18n.language === "tr" ? (
             <View className="items-center justify-center w-full text-center">
-              <Text className="text-center text-2xl mt-4 text-white">
-                {username}
-                <Text className="text-center text-fuchsia-600"> {title} </Text>
+              <Text className="text-center text-xl dark:text-white mt-2">
+                {title}
               </Text>
-              <Text className="text-center text-2xl text-slate-700 dark:text-white">
-                adlı {mediaType === "movie" ? "filmi " : "diziyi "}
+              <Text className="text-center text-base font-normal text-slate-300 dark:text-slate-300">
+                {username}{" "}
+                <Text className="text-fuchsia-600">
+                  {mediaType === "movie" ? "filmi" : "diziyi"}
+                </Text>{" "}
                 {label === "watched" && "izledi"}
                 {label === "wanttowatch" && "izlemek istiyor"}
               </Text>
             </View>
           ) : (
-            <Text className="text-center text-2xl mt-4 text-slate-700 dark:text-white">
-              {username}
-              {label === "watched" && " watched"}
-              {label === "wanttowatch" && " wants to watch"}
-              <Text className="text-center text-fuchsia-600"> {title} </Text>
-            </Text>
+            <View className="items-center justify-center w-full text-center">
+              <Text className="text-center text-xl dark:text-white mt-2">
+                {title}
+              </Text>
+              <Text className="text-center text-base font-normal text-slate-300 dark:text-slate-300">
+                {username}
+                {label === "watched" && " watched"}
+                {label === "wanttowatch" && " wants to watch"}
+              </Text>
+            </View>
           ))}
 
         {label === "" && (
-          <Text className="text-center text-lg text-white">{title}</Text>
+          <Text className="text-center text-xl text-white mt-2">{title}</Text>
         )}
 
         {label !== "" && (
@@ -133,7 +162,7 @@ const SearchDetailPageShareWantToWatch = ({
             className="flex-row justif items-center"
             style={{
               position: "relative",
-              top: 140,
+              top: 96,
             }}
           >
             <Image
@@ -145,7 +174,7 @@ const SearchDetailPageShareWantToWatch = ({
               }
               style={{ width: 42, height: 42 }}
             />
-            <Text className="ml-2 text-lg font-semibold text-slate-700 dark:text-white">
+            <Text className="ml-2 text-lg font-semibold text-slate-300">
               @{username}
             </Text>
           </View>
