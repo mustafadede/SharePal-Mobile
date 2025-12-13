@@ -1,7 +1,4 @@
-interface WatchProviderResponse {
-  id: number;
-  results: Record<string, any>;
-}
+import { WatchProviderResponse } from "@/constants/Videos";
 
 const useWatchProvider = async (
   id: string,

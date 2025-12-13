@@ -165,6 +165,11 @@ const ProvidersList = ({ movieId, selectedCountry, mediaType }: Props) => {
       {renderCategory(t("providers.flatrate"), flatrateProviders)}
       {renderCategory(t("providers.rent"), rentProviders)}
       {renderCategory(t("providers.buy"), buyProviders)}
+      <View className="px-4 mt-2">
+        <Text className="text-xs text-slate-500 dark:text-slate-400 text-center">
+          {t("providers.attribution")}
+        </Text>
+      </View>
     </View>
   );
 };

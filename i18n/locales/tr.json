@@ -144,5 +144,10 @@
     "providers.flatrate": "Abonelik",
     "providers.rent": "Kirala",
     "providers.buy": "Satın Al",    
-    "providers.notfound": "Herhangi bir veri bulunamadı"
-}
+    "providers.notfound": "Herhangi bir veri bulunamadı",
+    "providers.attribution": "İzleme bilgileri JustWatch tarafından sağlanmaktadır",
+    "trailer.title": "Fragmanlar",
+    "trailer.notrailer": "Fragman bulunamadı",
+    "bloopers.title": "Sahne arkası"
+
+  }

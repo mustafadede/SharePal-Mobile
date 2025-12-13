@@ -1,5 +1,7 @@
 import ShareDetailShare from "@/common/ShareDetailShare";
 import ExploreBottomSheet from "@/components/ExploreBottomSheet/ExploreBottomSheet";
+import BlooperSection from "@/components/SearchDetail/BloopersSection";
+import TrailerSection from "@/components/SearchDetail/TrailerSection";
 import StatusLabel from "@/components/StatusLabel/StatusLabel";
 import { Colors } from "@/constants/Colors";
 import useSearchWithYear from "@/hooks/useSearchWithYear";
@@ -33,7 +35,7 @@ import {
   View,
 } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import Animated, { FadeIn, FadeInUp } from "react-native-reanimated";
+import Animated, { FadeInUp } from "react-native-reanimated";
 import { useDispatch, useSelector } from "react-redux";
 import { movieGenresJSON, tvGenresJSON } from "../assets/genre/genreData";
 
@@ -60,9 +62,6 @@ type SearchDetailParams = {
 
 const searchdetail = () => {
   const viewRef = useRef(null);
-  const { displayName, email } = useSelector(
-    (state: RootState) => state.profile
-  );
   const colorScheme = useColorScheme();
   const [isShared, setIsShared] = useState(false);
   const [setStatus, setSetStatus] = useState(false);
@@ -192,9 +191,16 @@ const searchdetail = () => {
   return (
     <GestureHandlerRootView>
       {!isShared && (
-        <ScrollView className="flex-1 dark:bg-cGradient2">
+        <ScrollView
+          className="flex-1 dark:bg-cGradient2"
+          contentContainerStyle={{
+            paddingBottom: 120,
+          }}
+        >
           {/* BACKDROP + GRADIENT + POSTER */}
-          <View className="w-full h-96 mb-4 dark:bg-cGradient2 gap-14">
+          <View
+            className={`"w-full h-96 dark:bg-cGradient2 gap-14 ${title.length > 32 ? "mb-12" : "mb-6"}`}
+          >
             <ImageBackground
               source={{
                 uri: `https://image.tmdb.org/t/p/original/${backdrop_path}`,
@@ -278,8 +284,8 @@ const searchdetail = () => {
             )}
           </Animated.View>
 
-          {/* OVERVIEW */}
           <View className="px-6 mt-4">
+            {/* OVERVIEW */}
             <Animated.View entering={FadeInUp.duration(400).delay(1200)}>
               <Text className="text-2xl mt-1 text-start text-dark dark:text-slate-200">
                 {t("searchdetail.overview")}
@@ -297,10 +303,9 @@ const searchdetail = () => {
                 <StatusLabel />
               )}
             </Animated.View>
-
             {/* RATING */}
             <Animated.View
-              entering={FadeIn.duration(400).delay(1400)}
+              entering={FadeInUp.duration(400).delay(1400)}
               className="flex-row justify-between mt-4"
             >
               <Text className="text-2xl text-black dark:text-slate-300 mt-1">
@@ -314,6 +319,8 @@ const searchdetail = () => {
                 </Text>
               </Text>
             </Animated.View>
+            {/* TRAILERS */}
+            <TrailerSection id={id as string} mediaType={mediaType} />
             {/* PROVIDERS */}
             <Animated.View entering={FadeInUp.duration(400).delay(1600)}>
               <TouchableOpacity
@@ -323,9 +330,9 @@ const searchdetail = () => {
                     params: { id: id, mediaType: mediaType },
                   });
                 }}
-                className="mt-4 rounded-full  flex-1 flex-row items-center py-2 justify-between"
+                className="mt-4 rounded-full flex-1 flex-row items-center py-2 justify-between"
               >
-                <Text className="text-lg text-black dark:text-slate-300 mt-1">
+                <Text className="text-2xl text-black dark:text-slate-300 mt-1">
                   {t("searchdetail.providers")}
                 </Text>
                 <Feather
@@ -335,6 +342,8 @@ const searchdetail = () => {
                 />
               </TouchableOpacity>
             </Animated.View>
+            {/* BLOOPERS */}
+            <BlooperSection id={id as string} mediaType={mediaType} />
           </View>
         </ScrollView>
       )}

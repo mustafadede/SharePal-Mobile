@@ -144,5 +144,9 @@
     "providers.flatrate": "Streaming",
     "providers.rent": "Rent",
     "providers.buy": "Buy",
-    "providers.notfound": "Nothing Found"
+    "providers.notfound": "Nothing Found",
+    "providers.attribution": "Streaming availability powered by JustWatch",
+    "trailer.title": "Trailers",
+    "trailer.notrailer": "Not found",
+    "bloopers.title": "Bloppers"
 }
