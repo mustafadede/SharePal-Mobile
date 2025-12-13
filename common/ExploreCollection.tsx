@@ -1,7 +1,7 @@
 import { useRouter } from "expo-router";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { ImageBackground, Text, TouchableOpacity } from "react-native";
+import { ImageBackground, TouchableOpacity } from "react-native";
 
 const ExploreCollection = ({
   photo,
@@ -43,11 +43,7 @@ const ExploreCollection = ({
           alignItems: "center",
           justifyContent: "center",
         }}
-      >
-        <Text className="text-xl w-full font-bold text-center text-slate-200">
-          {t(title)}
-        </Text>
-      </ImageBackground>
+      ></ImageBackground>
     </TouchableOpacity>
   );
 };

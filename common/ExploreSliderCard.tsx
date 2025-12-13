@@ -88,20 +88,17 @@ const ExploreSliderCard = ({
             </Animated.Text>
             <Animated.Text
               entering={FadeInDown.duration(400).delay(400)}
-              style={{
-                borderColor: "#e2e8f0",
-                color: "#d946ef",
-                backgroundColor: "rgba(15 23 42 / 0.6)",
-              }}
-              className={"text-sm border rounded-lg px-3 text-fuchsia-500"}
+              className="px-3 py-1 rounded-full bg-black/10 dark:bg-white/10 text-sm text-slate-700 dark:text-slate-300"
             >
               {newYear}
             </Animated.Text>
             <Animated.Text
               entering={FadeInDown.duration(400).delay(400)}
               className={"text-sm text-white w-10"}
+              numberOfLines={3}
+              ellipsizeMode={"tail"}
             >
-              {overview.slice(0, 40) + (overview.length > 40 ? "..." : "")}
+              {overview}
             </Animated.Text>
           </View>
         </View>

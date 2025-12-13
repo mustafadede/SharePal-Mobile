@@ -52,16 +52,20 @@ const ExploreBottomSheet = React.memo(
 
     const userId = profile.userId;
 
-    useEffect(() => {
-      if (!bottomSheetValues.id) return;
-      dispatch(shareSearchDetailActions.setStatus("loading"));
-      Promise.all([
-        getSelectedUserWatched(userId),
-        getSelectedUserWantToWatch(userId),
-        getSelectedUserUnfinished(userId),
-      ]).then(([watchedList, wantList, unfinishedList]) => {
-        const idString = bottomSheetValues.id.toString();
+    const [loadingSheetData, setLoadingSheetData] = React.useState(true);
 
+    const fetchSheetData = async () => {
+      if (!bottomSheetValues.id) return;
+      setLoadingSheetData(true);
+      dispatch(shareSearchDetailActions.setStatus("loading"));
+      try {
+        const [watchedList, wantList, unfinishedList] = await Promise.all([
+          getSelectedUserWatched(userId),
+          getSelectedUserWantToWatch(userId),
+          getSelectedUserUnfinished(userId),
+        ]);
+
+        const idString = bottomSheetValues.id.toString();
         setBottomSheetValues((prev) => ({
           ...prev,
           watched: watchedList.some((item) => item.id.toString() === idString),
@@ -71,8 +75,17 @@ const ExploreBottomSheet = React.memo(
           ),
         }));
         dispatch(shareSearchDetailActions.setStatus("done"));
-      });
-    }, []);
+      } catch (error) {
+        console.error("Error fetching bottom sheet data:", error);
+        dispatch(shareSearchDetailActions.setStatus("error"));
+      } finally {
+        setLoadingSheetData(false);
+      }
+    };
+
+    useEffect(() => {
+      fetchSheetData();
+    }, [bottomSheetValues.id]);
 
     return (
       <View className="px-5 pb-40" style={{ gap: 24 }}>
