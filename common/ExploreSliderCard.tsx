@@ -74,12 +74,17 @@ const ExploreSliderCard = ({
             }}
             resizeMode="cover"
           />
-          <View className="flex items-start gap-2 ml-4">
+          <View
+            className="flex items-start gap-2 ml-4"
+            style={{ maxWidth: 180 }}
+          >
             <Animated.Text
               entering={FadeInDown.duration(400).delay(200)}
-              className={"text-lg text-center mt-2 text-white"}
+              className={"text-lg text-start w-full mt-2 text-white"}
+              numberOfLines={2}
+              ellipsizeMode={"tail"}
             >
-              {title?.slice(0, 18) + (title.length > 18 ? "..." : "")}
+              {title}
             </Animated.Text>
             <Animated.Text
               entering={FadeInDown.duration(400).delay(400)}
@@ -94,7 +99,7 @@ const ExploreSliderCard = ({
             </Animated.Text>
             <Animated.Text
               entering={FadeInDown.duration(400).delay(400)}
-              className={"text-sm text-white w-40"}
+              className={"text-sm text-white w-10"}
             >
               {overview.slice(0, 40) + (overview.length > 40 ? "..." : "")}
             </Animated.Text>

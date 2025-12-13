@@ -1,9 +1,39 @@
 import ExploreCard from "@/components/ExploreCard/ExploreCard";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ScrollView, Text, useColorScheme, View } from "react-native";
 
-const Recommendation = ({ title }: { title: string }) => {
+const Recommendation = ({
+  title,
+  mediaType,
+}: {
+  title: string;
+  mediaType: string;
+}) => {
   const colorScheme = useColorScheme();
+  const [data, setData] = useState<any[]>([]);
+
+  useEffect(() => {
+    if (!title.toLowerCase().includes("trending")) return;
+
+    const fetchData = async () => {
+      try {
+        const url = `https://api.themoviedb.org/3/trending/${mediaType}/day`;
+        const response = await fetch(url, {
+          headers: {
+            accept: "application/json",
+            Authorization: `Bearer ${process.env.EXPO_PUBLIC_APP_ACCESS_TOKEN}`,
+          },
+        });
+        const json = await response.json();
+        setData(json.results.slice(0, 10));
+      } catch (error) {
+        console.error("usePopular error:", error);
+      }
+    };
+
+    fetchData();
+  }, [mediaType, title]);
+
   return (
     <View className="py-2 h-max">
       <Text
@@ -27,54 +57,23 @@ const Recommendation = ({ title }: { title: string }) => {
           paddingLeft: 12,
         }}
       >
-        <ExploreCard
-          item={{
-            poster_path: "/r6q9wZK5a2K51KFj4LWVID6Ja1r.jpg",
-            id: 207703,
-            original_title: "Kingsman: The Secret Service",
-            name: "Kingsman: The Secret Service",
-            media_type: "movie",
-            original_language: "en",
-            genres: [28, 12, 35],
-            first_air_date: "2015-01-24",
-          }}
-        />
-        <ExploreCard
-          item={{
-            poster_path: "/34xBL6BXNYFqtHO9zhcgoakS4aP.jpg",
-            id: 343668,
-            original_title: "Kingsman: The Golden Circle",
-            name: "Kingsman: The Golden Circle",
-            media_type: "tv",
-            original_language: "en",
-            genres: [28, 12, 35],
-            first_air_date: "2017-09-20",
-          }}
-        />
-        <ExploreCard
-          item={{
-            poster_path: "/dMOpdkrDC5dQxqNydgKxXjBKyAc.jpg",
-            id: 95557,
-            original_title: "INVINCIBLE",
-            name: "INVINCIBLE",
-            media_type: "tv",
-            original_language: "en",
-            genres: [16, 10765, 10759, 18],
-            first_air_date: "2021-03-25",
-          }}
-        />
-        <ExploreCard
-          item={{
-            poster_path: "/xXKcfZE7ulYxgjjYv51s0zDG69s.jpg",
-            id: 46786,
-            original_title: "Bates Motel",
-            name: "Bates Motel",
-            media_type: "tv",
-            original_language: "en",
-            genres: [16, 10765, 10759, 18],
-            first_air_date: "2013-03-18",
-          }}
-        />
+        {React.useMemo(() => {
+          return data.map((item) => (
+            <ExploreCard
+              key={item.id}
+              item={{
+                poster_path: item.poster_path,
+                id: item.id,
+                original_title: item.original_title || item.name,
+                name: item.name || item.original_title,
+                media_type: item.media_type || mediaType,
+                original_language: item.original_language,
+                genres: item.genre_ids,
+                first_air_date: item.first_air_date || item.release_date,
+              }}
+            />
+          ));
+        }, [data, mediaType])}
       </ScrollView>
     </View>
   );

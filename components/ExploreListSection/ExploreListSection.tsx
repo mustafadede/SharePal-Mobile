@@ -11,15 +11,14 @@ const renderExploreItem =
     setBottomSheetVisible: () => void,
     setBottomSheetValues: (value: object) => void
   ) =>
-  ({ item }: { item: Movie }) =>
-    (
-      <ExploreCard
-        item={item}
-        sliderType={sliderType}
-        setBottomSheetVisible={setBottomSheetVisible}
-        setBottomSheetValues={setBottomSheetValues}
-      />
-    );
+  ({ item }: { item: Movie }) => (
+    <ExploreCard
+      item={item}
+      sliderType={sliderType}
+      setBottomSheetVisible={setBottomSheetVisible}
+      setBottomSheetValues={setBottomSheetValues}
+    />
+  );
 
 const ExploreListSection = ({
   exploreTitle,
@@ -60,6 +59,7 @@ const ExploreListSection = ({
           data={data}
           key={exploreTitle}
           horizontal
+          removeClippedSubviews
           showsHorizontalScrollIndicator={false}
           initialNumToRender={5}
           maxToRenderPerBatch={5}

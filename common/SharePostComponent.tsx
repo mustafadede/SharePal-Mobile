@@ -63,10 +63,12 @@ const SharePostComponent = ({ switchValue }: { switchValue: boolean }) => {
           backgroundColor: colorScheme === "dark" ? "#0E0B13" : "#f8fafc",
         }}
       >
-        {modal && (
+        {modal && modal.modalProps[0].modalProps.attachedFilm ? (
           <ImageBackground
             source={{
-              uri: `https://image.tmdb.org/t/p/original/${modal.modalProps[0].modalProps.attachedFilm.poster}`,
+              uri: modal.modalProps[0].modalProps.attachedFilm
+                ? `https://image.tmdb.org/t/p/original/${modal.modalProps[0].modalProps.attachedFilm.poster}`
+                : undefined,
               cache: "force-cache",
             }}
             className="w-full h-full absolute z-0 bg-slate-900"
@@ -103,15 +105,9 @@ const SharePostComponent = ({ switchValue }: { switchValue: boolean }) => {
               style={StyleSheet.absoluteFill}
             />
           </ImageBackground>
-        )}
-        <View className="flex-1 px-6 pt-24 items-center">
-          <View
-            className="items-center"
-            style={{
-              position: "absolute",
-              top: 20,
-            }}
-          >
+        ) : null}
+        <View className="flex-1 px-6 pt-18 items-center">
+          <View className="items-center">
             <Text
               className="font-semibold text-fuchsia-600"
               style={{ fontSize: 48, opacity: 0.9 }}
@@ -129,37 +125,47 @@ const SharePostComponent = ({ switchValue }: { switchValue: boolean }) => {
                     : "rgba(0,0,0,0.05)",
               }}
             >
-              <Image
-                source={{
-                  uri: `https://image.tmdb.org/t/p/original/${modal.modalProps[0].modalProps.attachedFilm.poster}`,
-                  cache: "force-cache",
-                }}
-                className="rounded-xl "
-                resizeMode="cover"
-                fadeDuration={0}
-                style={{
-                  width: 160,
-                  height: 256,
-                  shadowColor: "#000",
-                  shadowOpacity: colorScheme === "dark" ? 0.26 : 0.18,
-                  shadowRadius: 48,
-                  shadowOffset: { width: 0, height: 12 },
-                }}
-              />
+              {modal.modalProps[0]?.modalProps?.attachedFilm?.poster ? (
+                <Image
+                  source={{
+                    uri: `https://image.tmdb.org/t/p/original/${modal.modalProps[0].modalProps.attachedFilm.poster}`,
+                    cache: "force-cache",
+                  }}
+                  className="rounded-xl"
+                  resizeMode="cover"
+                  fadeDuration={0}
+                  style={{
+                    width: 160,
+                    height: 256,
+                    shadowColor: "#000",
+                    shadowOpacity: colorScheme === "dark" ? 0.26 : 0.18,
+                    shadowRadius: 48,
+                    shadowOffset: { width: 0, height: 12 },
+                  }}
+                />
+              ) : (
+                <View
+                  className="rounded-xl bg-transparent"
+                  style={{
+                    width: 0,
+                    height: 0,
+                    shadowColor: "#000",
+                    shadowOpacity: colorScheme === "dark" ? 0.26 : 0.18,
+                    shadowRadius: 48,
+                    shadowOffset: { width: 0, height: 12 },
+                  }}
+                />
+              )}
             </View>
             <Text className="text-white text-xl mt-2 text-center">
-              {modal &&
-                modal.modalProps &&
-                modal.modalProps[0].modalProps.attachedFilm.title}
+              {modal?.modalProps?.[0]?.modalProps?.attachedFilm?.title || ""}
             </Text>
           </View>
           <View className="absolute left-4 gap-2" style={{ bottom: 100 }}>
             {modal && modal.modalProps[0]?.modalProps.spoiler && switchValue ? (
               <View className="relative items-center justify-center">
                 <Text
-                  className={`text-slate-300 dark:text-white ${
-                    contentLenght > 187 ? "text-base" : "text-xl"
-                  } italic ${
+                  className={`text-slate-300 dark:text-white text-base italic ${
                     modal.modalProps[0]?.modalProps.spoiler ? "px-2" : "px-0"
                   }`}
                 >
@@ -187,6 +193,7 @@ const SharePostComponent = ({ switchValue }: { switchValue: boolean }) => {
                     style={[
                       StyleSheet.absoluteFill,
                       {
+                        height: "120%",
                         backgroundColor:
                           colorScheme === "dark"
                             ? "rgba(0,0,0,0.25)"
@@ -199,9 +206,7 @@ const SharePostComponent = ({ switchValue }: { switchValue: boolean }) => {
               </View>
             ) : (
               <Text
-                className={`text-slate-300 dark:text-white text-left ${
-                  contentLenght > 187 ? "text-base" : "text-xl"
-                } italic`}
+                className={`text-slate-300 dark:text-white text-left text-base italic`}
               >
                 "
                 {modal && modal.modalProps[0]?.modalProps.content

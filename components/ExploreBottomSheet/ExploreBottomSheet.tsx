@@ -51,7 +51,6 @@ const ExploreBottomSheet = React.memo(
     const colorScheme = useColorScheme();
 
     const userId = profile.userId;
-    console.log(profile.currentlyWatching);
 
     useEffect(() => {
       if (!bottomSheetValues.id) return;

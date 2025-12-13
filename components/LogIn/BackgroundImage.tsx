@@ -14,7 +14,6 @@ const BackgroundImage = () => {
         onError={(error) =>
           console.error("Image loading error:", error.nativeEvent?.error)
         }
-        onLoad={() => console.log("Image loaded successfully")}
       />
       <LinearGradient
         colors={

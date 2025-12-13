@@ -62,7 +62,7 @@ function AppLayout() {
           },
           headerTintColor:
             colorScheme === "dark" ? Colors.dark.cWhite : "black",
-          animation: "slide_from_right",
+          animation: "ios_from_right",
           title: t("reset.title"),
           headerShown: true,
           headerBackTitle: t("headerbacktitle.title"),
@@ -77,7 +77,7 @@ function AppLayout() {
               colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
           },
           headerBackVisible: false,
-          animation: "slide_from_right",
+          animation: "ios_from_right",
           headerTintColor:
             colorScheme === "dark" ? Colors.dark.cWhite : "black",
           headerTransparent: true,
@@ -96,7 +96,7 @@ function AppLayout() {
             backgroundColor:
               colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
           },
-          animation: "slide_from_right",
+          animation: "ios_from_right",
           headerTintColor:
             colorScheme === "dark" ? Colors.dark.cWhite : "black",
           headerTitle: t("createpost.title"),
@@ -117,7 +117,7 @@ function AppLayout() {
           headerTintColor:
             colorScheme === "dark" ? Colors.dark.cWhite : "black",
           headerTitle: "",
-          animation: "slide_from_right",
+          animation: "ios_from_right",
           headerBackTitle: t("headerbacktitle.title"),
         }}
       />
@@ -138,7 +138,7 @@ function AppLayout() {
                 ? t(related.dir.join(", "))
                 : t(related.dir)
               : "",
-          animation: "slide_from_right",
+          animation: "ios_from_right",
           headerBackTitle: t("headerbacktitle.title"),
         }}
       />
@@ -149,7 +149,7 @@ function AppLayout() {
             backgroundColor:
               colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
           },
-          animation: "slide_from_right",
+          animation: "ios_from_right",
           headerTintColor:
             colorScheme === "dark" ? Colors.dark.cWhite : "black",
           headerTitle: t("share.title"),
@@ -165,7 +165,7 @@ function AppLayout() {
             backgroundColor:
               colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
           },
-          animation: "slide_from_right",
+          animation: "ios_from_right",
           headerTintColor:
             colorScheme === "dark" ? Colors.dark.cWhite : "black",
           headerTitle: t("attachtopost.title"),

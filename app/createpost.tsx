@@ -198,8 +198,8 @@ const CreatePost = () => {
 
         {/* Recommendations */}
         <View className="mt-6">
-          <Recommendation title="Search History" />
-          <Recommendation title="Suggestions" />
+          <Recommendation title="Trending" mediaType="movie" />
+          <Recommendation title="Search History" mediaType="" />
         </View>
       </ScrollView>
     </GestureHandlerRootView>
