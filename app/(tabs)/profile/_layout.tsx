@@ -33,12 +33,11 @@ export default function ProfileLayout() {
               ? Colors.dark.cWhite
               : Colors.dark.cGradient2,
           headerRight: () => (
-            <View className="flex flex-row gap-2">
+            <View className="flex flex-row items-center gap-6">
               <TouchableOpacity
                 onPress={() => {
                   router.push("/createpost");
                 }}
-                style={{ marginRight: 16 }}
               >
                 <Ionicons
                   name="create-outline"
@@ -54,7 +53,6 @@ export default function ProfileLayout() {
                 onPress={() => {
                   router.push("/profile/settings");
                 }}
-                style={{ marginRight: 16 }}
               >
                 <Entypo
                   name="menu"

@@ -12,65 +12,62 @@ import {
   useColorScheme,
   View,
 } from "react-native";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Swipeable from "react-native-gesture-handler/ReanimatedSwipeable";
 
 const NotificationFollowCard = () => {
   const colorScheme = useColorScheme();
   return (
-    <GestureHandlerRootView>
-      <Swipeable
-        onSwipeableWillOpen={() => {
-          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
+    <Swipeable
+      onSwipeableWillOpen={() => {
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
+      }}
+      renderRightActions={() => (
+        <>
+          <TouchableOpacity
+            onPress={() => {}}
+            className="justify-center px-6 items-center rounded-xl"
+          >
+            <MaterialIcons name="delete" size={23} color="#b91c1c" />
+          </TouchableOpacity>
+        </>
+      )}
+      friction={2}
+      rightThreshold={40}
+    >
+      <Pressable
+        className="h-24 flex-row rounded-2xl mx-4 items-center border justify-between px-4 max-w-full bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-200/10 mb-4"
+        onPress={() => {
+          console.log("pressed");
         }}
-        renderRightActions={() => (
-          <>
-            <TouchableOpacity
-              onPress={() => {}}
-              className="justify-center px-6 items-center rounded-xl"
-            >
-              <MaterialIcons name="delete" size={23} color="#b91c1c" />
-            </TouchableOpacity>
-          </>
-        )}
-        friction={2}
-        rightThreshold={40}
+        style={({ pressed }) => ({
+          opacity: pressed ? 0.5 : 1,
+        })}
       >
-        <Pressable
-          className="h-24 flex-row rounded-2xl mx-4 items-center border justify-between px-4 w-96 bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-200/10 mb-4"
-          onPress={() => {
-            console.log("pressed");
-          }}
-          style={({ pressed }) => ({
-            opacity: pressed ? 0.5 : 1,
-          })}
-        >
-          <View className="flex-row justify-center items-center">
-            <TouchableOpacity>
-              <Image
-                src="https://avatars.githubusercontent.com/u/95627279?v=4"
-                className="w-16 h-16 rounded-full bg-cGradient2"
-              />
-            </TouchableOpacity>
-            <Text className="text-slate-700 dark:text-white ml-4">
-              Mustafa sizi takip etmeye başladı
-            </Text>
-          </View>
-          <View className="flex-row justify-center items-center">
-            <Octicons
-              name="person"
-              size={18}
-              color={colorScheme === "dark" ? Colors.dark.tColor1 : "black"}
+        <View className="flex-row justify-center items-center">
+          <TouchableOpacity>
+            <Image
+              src="https://avatars.githubusercontent.com/u/95627279?v=4"
+              className="w-16 h-16 rounded-full bg-cGradient2"
             />
-            <Feather
-              name="chevron-right"
-              size={24}
-              color={colorScheme === "dark" ? Colors.dark.tColor1 : "black"}
-            />
-          </View>
-        </Pressable>
-      </Swipeable>
-    </GestureHandlerRootView>
+          </TouchableOpacity>
+          <Text className="text-slate-700 dark:text-white ml-4">
+            Mustafa sizi takip etmeye başladı
+          </Text>
+        </View>
+        <View className="flex-row justify-center items-center">
+          <Octicons
+            name="person"
+            size={18}
+            color={colorScheme === "dark" ? Colors.dark.tColor1 : "black"}
+          />
+          <Feather
+            name="chevron-right"
+            size={24}
+            color={colorScheme === "dark" ? Colors.dark.tColor1 : "black"}
+          />
+        </View>
+      </Pressable>
+    </Swipeable>
   );
 };
 
