@@ -17,7 +17,7 @@ const FeedCardLikeAction = ({ data }) => {
   }, []);
   return (
     <TouchableOpacity
-      className={"flex flex-row items-center gap-2"}
+      className={"flex flex-row flex-1 ml-4 items-center justify-center gap-2"}
       onPress={() => setIsLiked(!isLiked)}
     >
       {!isLiked && (

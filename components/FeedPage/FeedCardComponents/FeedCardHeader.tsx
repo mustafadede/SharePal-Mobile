@@ -64,7 +64,7 @@ const FeedCardHeader = ({
       </View>
       <View className="flex-row-reverse items-center gap-1">
         {data.userId === userId && !postPage && (
-          <TouchableOpacity onPress={handleOptions}>
+          <TouchableOpacity onPress={handleOptions} className="py-4 px-2">
             <Text
               className={"text-black dark:text-slate-400 text-xl mb-3 ml-1"}
             >

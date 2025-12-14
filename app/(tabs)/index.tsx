@@ -1,49 +1,39 @@
 import Tabs from "@/common/Tabs";
 import { Colors } from "@/constants/Colors";
-import { modalActions } from "@/store/modalSlice";
 import Feather from "@expo/vector-icons/Feather";
 import { BottomSheetModal, TouchableOpacity } from "@gorhom/bottom-sheet";
 import { router } from "expo-router";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import {
   Platform,
   StatusBar as RNStatusBar,
   useColorScheme,
+  View,
 } from "react-native";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { useDispatch } from "react-redux";
 import Feed from "../feed";
 
 const Index = () => {
-  const dispatch = useDispatch();
   const colorScheme = useColorScheme();
   const [tab, setTab] = useState(0);
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const handlePresentModalPress = useCallback(() => {
-    bottomSheetModalRef.current?.present();
+    requestAnimationFrame(() => {
+      bottomSheetModalRef.current?.present();
+    });
   }, []);
-  const handleSheetChanges = useCallback(
-    (index: number) => {
-      if (index < 0) {
-        dispatch(modalActions.closeModal());
-      }
-    },
-    [dispatch]
+
+  const containerStyle = useMemo(
+    () => ({
+      flex: 1,
+      backgroundColor:
+        colorScheme === "dark" ? Colors.dark.cGradient2 : "white",
+      paddingTop: Platform.OS === "android" ? RNStatusBar.currentHeight : 40,
+    }),
+    [colorScheme]
   );
 
-  return (
-    <GestureHandlerRootView
-      style={{
-        flex: 1,
-        width: "100%",
-        height: "100%",
-        backgroundColor:
-          colorScheme === "dark" ? Colors.dark.cGradient2 : "white",
-        paddingTop: Platform.OS === "android" ? RNStatusBar.currentHeight : 40,
-      }}
-    >
-      <Tabs tab={tab} setTab={setTab} />
-      {tab === 0 && <Feed handleModal={handlePresentModalPress} />}
+  const floatingActionButton = useMemo(
+    () => (
       <TouchableOpacity
         onPress={() => router.push("/createpost")}
         activeOpacity={0.8}
@@ -64,7 +54,16 @@ const Index = () => {
       >
         <Feather name="plus" size={32} color={Colors.dark.cWhite} />
       </TouchableOpacity>
-    </GestureHandlerRootView>
+    ),
+    [colorScheme]
+  );
+
+  return (
+    <View style={containerStyle}>
+      <Tabs tab={tab} setTab={setTab} />
+      {tab === 0 && <Feed handleModal={handlePresentModalPress} />}
+      {floatingActionButton}
+    </View>
   );
 };
 

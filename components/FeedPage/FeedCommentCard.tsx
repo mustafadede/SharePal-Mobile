@@ -7,7 +7,6 @@ import FeedCardHeader from "./FeedCardComponents/FeedCardHeader";
 
 const FeedCommentCard = ({
   data,
-  index,
   postPage,
   handleModal,
   handleOptions,

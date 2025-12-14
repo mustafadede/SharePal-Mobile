@@ -15,7 +15,9 @@ const FeedCardShareAction = ({ data }) => {
   };
   return (
     <TouchableOpacity
-      className={"flex flex-row items-center gap-2"}
+      className={
+        "flex flex-1 max-h-full py-2 justify-center flex-row items-center gap-2"
+      }
       onPress={handlePress}
     >
       <Octicons

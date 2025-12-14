@@ -18,14 +18,16 @@ const FeedCardActions = ({
 }) => {
   const colorScheme = useColorScheme();
   return (
-    <View className={"flex-row items-center justify-around mt-4"}>
+    <View className={"flex-row items-center justify-evenly mt-4"}>
       <FeedCardLikeAction data={data} />
       <FeedCardCommentAction
         data={data}
         postPage={postPage}
         handleModal={handleModal}
       />
-      <TouchableOpacity className={"flex flex-row items-center gap-2"}>
+      <TouchableOpacity
+        className={"flex flex-row flex-1 items-center justify-center gap-2"}
+      >
         <EvilIcons
           name="retweet"
           size={32}

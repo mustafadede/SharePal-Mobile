@@ -23,15 +23,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import {
-  FlatList,
-  NativeScrollEvent,
-  NativeSyntheticEvent,
-  RefreshControl,
-  useColorScheme,
-  View,
-} from "react-native";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { FlatList, RefreshControl, useColorScheme, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { flatListRef } from "./(tabs)/_layout";
 
@@ -47,6 +39,7 @@ const Feed = ({ handleModal }) => {
   const snapPoints = useMemo(() => ["37%"], []);
   const [bottomSheetValues, setBottomSheetValues] = useState<object>({});
   const colorScheme = useColorScheme();
+  const scrollY = useRef(0);
   const handlePresentModalPress = useCallback(() => {
     bottomSheetModalRef.current?.present();
   }, []);
@@ -89,9 +82,12 @@ const Feed = ({ handleModal }) => {
     }
   }, [userId, isRefreshing]);
 
-  const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-    const scrollPosition = event.nativeEvent.contentOffset.y;
-    dispatch(scrollActions.updateScrollPosition(scrollPosition));
+  const handleScroll = (e) => {
+    scrollY.current = e.nativeEvent.contentOffset.y;
+  };
+
+  const handleScrollEnd = () => {
+    dispatch(scrollActions.updateScrollPosition(scrollY.current));
   };
 
   // Yeni postları yüklemek için fonksiyon
@@ -110,52 +106,8 @@ const Feed = ({ handleModal }) => {
     }
   };
 
-  const renderItem = ({ item, index }) => {
-    return (
-      <FeedCard
-        data={item}
-        index={index}
-        handleModal={handleModal}
-        handleOptions={handlePresentModalPress}
-      />
-    );
-  };
-
-  return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      {status === "loading" && (
-        <View className={"pt-20"}>
-          <InfoLabel status="feed.loading" />
-        </View>
-      )}
-      {status === "done" && (
-        <FlatList
-          ref={flatListRef}
-          className="px-2 h-full w-full"
-          contentContainerStyle={{ paddingTop: 65 }}
-          keyExtractor={(item, index) => item.postId + index.toString()}
-          refreshControl={
-            <RefreshControl
-              colors={["#9F23B3"]}
-              refreshing={isRefreshing}
-              progressBackgroundColor={"#0E0B13"}
-              onRefresh={onRefresh}
-              progressViewOffset={60}
-              tintColor={"#9F23B3"}
-            />
-          }
-          data={posts}
-          showsVerticalScrollIndicator={true}
-          refreshing={isRefreshing}
-          onRefresh={onRefresh}
-          onScroll={handleScroll}
-          scrollEventThrottle={0}
-          renderItem={renderItem}
-          onEndReached={fetchMorePosts}
-          onEndReachedThreshold={0.5}
-          maxToRenderPerBatch={10}
-        />
-      )}
+  const memoBottomSheet = useMemo(
+    () => (
       <BottomSheetModal
         ref={bottomSheetModalRef}
         index={1}
@@ -165,25 +117,10 @@ const Feed = ({ handleModal }) => {
             {...props}
             disappearsOnIndex={0}
             appearsOnIndex={1}
-            opacity={0.7}
+            opacity={0.5}
           />
         )}
         onChange={handleSheetChanges}
-        enableDynamicSizing
-        containerComponent={({ children }) => (
-          <View
-            style={{
-              elevation: 9999,
-              zIndex: 9999,
-              position: "absolute",
-              width: "100%",
-              height: "100%",
-              bottom: 0,
-            }}
-          >
-            {children}
-          </View>
-        )}
         keyboardBlurBehavior="none"
         handleIndicatorStyle={{ backgroundColor: "gray" }}
         keyboardBehavior="interactive"
@@ -209,7 +146,60 @@ const Feed = ({ handleModal }) => {
           <PostOptionsBottomSheet bottomSheetValues={bottomSheetValues} />
         </BottomSheetView>
       </BottomSheetModal>
-    </GestureHandlerRootView>
+    ),
+    [colorScheme]
+  );
+
+  const renderItem = useCallback(
+    ({ item, index }) => (
+      <FeedCard
+        data={item}
+        index={index}
+        handleModal={handleModal}
+        handleOptions={handlePresentModalPress}
+      />
+    ),
+    [handleModal, handlePresentModalPress]
+  );
+
+  return (
+    <View className="flex-1">
+      {status === "loading" && (
+        <View className={"pt-20"}>
+          <InfoLabel status="feed.loading" />
+        </View>
+      )}
+      {status === "done" && (
+        <FlatList
+          ref={flatListRef}
+          className="px-2"
+          contentContainerStyle={{ paddingTop: 65 }}
+          keyExtractor={(item, index) => item.postId}
+          refreshControl={
+            <RefreshControl
+              colors={["#9F23B3"]}
+              refreshing={isRefreshing}
+              progressBackgroundColor={"#0E0B13"}
+              onRefresh={onRefresh}
+              progressViewOffset={60}
+              tintColor={"#9F23B3"}
+            />
+          }
+          data={posts}
+          showsVerticalScrollIndicator={true}
+          refreshing={isRefreshing}
+          onRefresh={onRefresh}
+          onScroll={handleScroll}
+          onMomentumScrollEnd={handleScrollEnd}
+          scrollEventThrottle={16}
+          renderItem={renderItem}
+          onEndReached={fetchMorePosts}
+          onEndReachedThreshold={0.5}
+          maxToRenderPerBatch={10}
+        />
+      )}
+      {memoBottomSheet}
+    </View>
   );
 };
 

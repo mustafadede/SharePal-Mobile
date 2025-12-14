@@ -1,4 +1,5 @@
 import { Post } from "@/constants/Post";
+import React from "react";
 import FeedAttachmentCard from "./FeedAttachmentCard";
 import FeedCommentCard from "./FeedCommentCard";
 import FeedSpoilerCard from "./FeedSpoilerCard";
@@ -44,4 +45,4 @@ const FeedCard = ({
   ) : null;
 };
 
-export default FeedCard;
+export default React.memo(FeedCard);
