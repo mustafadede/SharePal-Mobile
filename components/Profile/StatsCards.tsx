@@ -1,9 +1,10 @@
 import useSearchWithYear from "@/hooks/useSearchWithYear";
 import { RootState } from "@/store";
+import { Image } from "expo-image";
 import { router } from "expo-router";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Image, Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import { useSelector } from "react-redux";
 import StatusLabel from "../StatusLabel/StatusLabel";
 
@@ -44,10 +45,9 @@ const StatsCards = ({ user = false }: { user?: boolean }) => {
             onPress={() => handleCurrentlyWatching()}
           >
             <Image
-              className="rounded-lg w-28 h-36"
-              source={{
-                uri: `https://image.tmdb.org/t/p/original/${profile.currentlyWatching.poster}`,
-              }}
+              style={{ width: 122, height: 156, borderRadius: 16 }}
+              contentFit="cover"
+              source={`https://image.tmdb.org/t/p/original/${profile.currentlyWatching.poster}`}
             />
             <View>
               <Text

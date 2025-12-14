@@ -1,15 +1,9 @@
 import InfoLabel from "@/common/InfoLabel";
 import { Movie } from "@/constants/Movie";
+import { Image } from "expo-image";
 import { useRouter } from "expo-router";
 import React from "react";
-import {
-  FlatList,
-  Image,
-  ImageBackground,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { ImageBackground, Text, TouchableOpacity, View } from "react-native";
 import Animated, { FadeIn } from "react-native-reanimated";
 import StatusLabel from "../StatusLabel/StatusLabel";
 
@@ -49,10 +43,9 @@ const Results = ({
       {loading && results?.length < 1 && <StatusLabel />}
       {!loading && !results && <InfoLabel status="explore.searchNotFound" />}
       {!loading && (
-        <FlatList
+        <Animated.FlatList
           className="flex-col flex-1 w-full h-full pl-2 mt-2 mb-2"
           data={results}
-          key={"results"}
           renderItem={({ item }: { item: Movie }) =>
             item?.poster_path &&
             (item?.release_date || item?.first_air_date) && (
@@ -81,7 +74,7 @@ const Results = ({
                       item.backdrop_path || item.poster_path
                     }`,
                   }}
-                  imageStyle={{ borderRadius: 16 }} // Optional: to ensure the image corners are rounded
+                  imageStyle={{ borderRadius: 16 }}
                   className="absolute w-full h-full opacity-80 bg-black dark:opacity-20 rounded-2xl"
                   style={{
                     borderTopRightRadius: 16,
@@ -89,12 +82,11 @@ const Results = ({
                     borderTopLeftRadius: 16,
                     borderBottomRightRadius: 16,
                   }}
-                  blurRadius={10}
                 ></ImageBackground>
                 <Image
-                  source={{
-                    uri: `https://image.tmdb.org/t/p/original${item.poster_path}`,
-                  }}
+                  source={`https://image.tmdb.org/t/p/original${item.poster_path}`}
+                  contentFit="cover"
+                  transition={100}
                   className="w-12 h-12 rounded-full"
                 />
                 <View className="pl-4">

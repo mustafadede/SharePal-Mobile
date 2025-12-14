@@ -1,12 +1,7 @@
 import { Feather } from "@expo/vector-icons";
+import { Image } from "expo-image";
 import React from "react";
-import {
-  Image,
-  Text,
-  TouchableOpacity,
-  useColorScheme,
-  View,
-} from "react-native";
+import { Text, TouchableOpacity, useColorScheme, View } from "react-native";
 
 type TrailerCardProps = {
   thumbnailUrl: string;
@@ -27,9 +22,10 @@ const TrailerCard: React.FC<TrailerCardProps> = ({
       className="w-40 h-24 mr-3 rounded-xl overflow-hidden"
     >
       <Image
-        source={{ uri: thumbnailUrl }}
-        className="w-full h-full"
-        resizeMode="cover"
+        source={thumbnailUrl}
+        className="flex-1 w-full"
+        contentFit="cover"
+        transition={1000}
       />
 
       <View

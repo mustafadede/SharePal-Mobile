@@ -1,39 +1,34 @@
 import { Movie } from "@/constants/Movie";
-import React from "react";
+import React, { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { FlatList } from "react-native";
 import ExploreCard from "../ExploreCard/ExploreCard";
 import PrimaryTitle from "../Registration/PrimaryTitle";
 
-const renderExploreItem =
-  (
-    sliderType: string,
-    setBottomSheetVisible: () => void,
-    setBottomSheetValues: (value: object) => void
-  ) =>
-  ({ item }: { item: Movie }) => (
-    <ExploreCard
-      item={item}
-      sliderType={sliderType}
-      setBottomSheetVisible={setBottomSheetVisible}
-      setBottomSheetValues={setBottomSheetValues}
-    />
-  );
-
 const ExploreListSection = ({
   exploreTitle,
   data,
   sliderType,
-  setBottomSheetVisible,
-  setBottomSheetValues,
+  openBottomSheet,
 }: {
   exploreTitle: string;
   data: object[];
   sliderType: string;
-  setBottomSheetVisible: () => void;
-  setBottomSheetValues: (value: object) => void;
+  openBottomSheet: (values: any) => void;
 }) => {
   const { t } = useTranslation();
+
+  const renderItem = useCallback(
+    ({ item }: { item: Movie }) => (
+      <ExploreCard
+        item={item}
+        sliderType={sliderType}
+        openBottomSheet={openBottomSheet}
+      />
+    ),
+    [sliderType, openBottomSheet]
+  );
+
   return (
     <>
       <PrimaryTitle title={t(exploreTitle)} additionalClassnames="pl-4" />
@@ -48,9 +43,13 @@ const ExploreListSection = ({
           maxToRenderPerBatch={5}
           windowSize={5}
           renderItem={({ item }: { item: number }) => (
-            <ExploreCard loading={true} />
+            <ExploreCard
+              loading={true}
+              sliderType={sliderType}
+              openBottomSheet={openBottomSheet}
+            />
           )}
-          keyExtractor={(item) => item}
+          keyExtractor={(item) => item.toString()}
         />
       )}
       {data && (
@@ -64,11 +63,7 @@ const ExploreListSection = ({
           initialNumToRender={5}
           maxToRenderPerBatch={5}
           windowSize={5}
-          renderItem={renderExploreItem(
-            sliderType,
-            setBottomSheetVisible,
-            setBottomSheetValues
-          )}
+          renderItem={renderItem}
           keyExtractor={(item: Movie) => item.id.toString()}
         />
       )}

@@ -2,13 +2,7 @@ import { Movie } from "@/constants/Movie";
 import * as Haptics from "expo-haptics";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
-import React, {
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Animated, Text, TouchableOpacity } from "react-native";
 
 type ExploreBottomSheetProps = {
@@ -27,15 +21,13 @@ const ExploreCard = React.memo(
     item,
     loading = false,
     sliderType,
-    setBottomSheetVisible,
-    setBottomSheetValues,
+    openBottomSheet,
     explore,
   }: {
     item: Movie;
     loading?: boolean;
     sliderType: string;
-    setBottomSheetVisible: () => void;
-    setBottomSheetValues: Dispatch<SetStateAction<ExploreBottomSheetProps>>;
+    openBottomSheet: (values: ExploreBottomSheetProps) => void;
     explore?: boolean;
   }) => {
     const router = useRouter();
@@ -44,7 +36,9 @@ const ExploreCard = React.memo(
     const [imageLoaded, setImageLoaded] = useState(false);
 
     useEffect(() => {
-      Animated.loop(
+      if (!loading) return;
+
+      const loop = Animated.loop(
         Animated.sequence([
           Animated.timing(shimmerAnim, {
             toValue: 1,
@@ -57,7 +51,11 @@ const ExploreCard = React.memo(
             useNativeDriver: false,
           }),
         ])
-      ).start();
+      );
+
+      loop.start();
+
+      return () => loop.stop();
     }, []);
 
     return (
@@ -68,20 +66,18 @@ const ExploreCard = React.memo(
             : "relative w-48 rounded-2xl mr-4"
         }
         onLongPress={() => {
-          if (setBottomSheetVisible) {
-            setBottomSheetValues({
-              title: item.title || item.name,
-              release_date: item.release_date || item.first_air_date,
-              poster_path: item.poster_path || item.backdrop_path,
-              mediaType: sliderType || item.media_type,
-              id: item.id,
-              wanttowatch: false,
-              watched: false,
-              unfinished: false,
-            });
-            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
-            setBottomSheetVisible();
-          }
+          openBottomSheet({
+            title: item.title || item.name,
+            release_date: item.release_date || item.first_air_date,
+            poster_path: item.poster_path || item.backdrop_path,
+            mediaType: sliderType || item.media_type,
+            id: item.id,
+            wanttowatch: false,
+            watched: false,
+            unfinished: false,
+          });
+
+          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
         }}
         onPress={() => {
           router.navigate({
@@ -120,7 +116,7 @@ const ExploreCard = React.memo(
                 borderTopRightRadius: 16,
                 opacity: opacityAnim,
               }}
-              blurRadius={imageLoaded ? 0 : 10}
+              blurRadius={0}
               onLoad={() => {
                 setImageLoaded(true);
                 Animated.timing(opacityAnim, {

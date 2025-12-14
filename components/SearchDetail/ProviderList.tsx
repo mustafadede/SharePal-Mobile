@@ -1,7 +1,8 @@
 import useWatchProvider from "@/hooks/useWatchProvider";
+import { Image } from "expo-image";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { FlatList, Image, Text, View, useColorScheme } from "react-native";
+import { FlatList, Text, View, useColorScheme } from "react-native";
 
 interface Provider {
   provider_id: number;
@@ -108,16 +109,13 @@ const ProvidersList = ({ movieId, selectedCountry, mediaType }: Props) => {
       }}
     >
       <Image
-        source={{
-          uri: `https://image.tmdb.org/t/p/original${item.logo_path}`,
-        }}
+        source={`https://image.tmdb.org/t/p/original${item.logo_path}`}
+        contentFit="contain"
         style={{
-          width: 64,
-          height: 64,
+          width: "100%",
+          height: 120,
           borderRadius: 12,
-          marginBottom: 6,
         }}
-        resizeMode="contain"
       />
       <Text
         style={{

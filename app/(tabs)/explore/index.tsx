@@ -1,7 +1,10 @@
-import Discover from "@/components/Explore/Discover";
+import ExploreBanner from "@/common/ExploreBanner";
 import Results from "@/components/Explore/Results";
 import ExploreBottomSheet from "@/components/ExploreBottomSheet/ExploreBottomSheet";
+import ExploreCollections from "@/components/ExploreCollections/ExploreCollections";
+import ExploreListSection from "@/components/ExploreListSection/ExploreListSection";
 import { Colors } from "@/constants/Colors";
+import { ExploreSection } from "@/constants/Explore";
 import { Movie } from "@/constants/MovieTypes";
 import useNextYear from "@/hooks/useNextYear";
 import useNowPlaying from "@/hooks/useNowPlaying";
@@ -23,15 +26,14 @@ import React, {
 } from "react";
 import { useTranslation } from "react-i18next";
 import {
+  FlatList,
   Platform,
   StatusBar as RNStatusBar,
-  ScrollView,
   TextInput,
   TouchableOpacity,
   useColorScheme,
   View,
 } from "react-native";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 const filters = [
   { label: "Movie", id: 0 },
@@ -64,6 +66,7 @@ const Explore = () => {
   const snapPoints = useMemo(() => ["20%", "25%", "45%"], []);
   const [selectedFilter, setSelectedFilter] = useState(0);
   const [loading, setLoading] = useState(false);
+
   const handlePresentModalPress = useCallback(() => {
     bottomSheetModalRef.current?.present();
   }, []);
@@ -73,6 +76,26 @@ const Explore = () => {
   const handlePresentModalClose = useCallback(() => {
     bottomSheetModalRef.current?.close();
   }, []);
+
+  const openBottomSheet = useCallback(
+    (values: {
+      title: string;
+      release_date: string;
+      poster_path: string;
+      mediaType: string;
+      id: number;
+      wanttowatch: boolean;
+      watched: boolean;
+      unfinished: boolean;
+    }) => {
+      setBottomSheetValues(values);
+
+      requestAnimationFrame(() => {
+        handlePresentModalPress();
+      });
+    },
+    [handlePresentModalPress]
+  );
 
   useEffect(() => {
     useNowPlaying(setNowPlaying);
@@ -109,69 +132,28 @@ const Explore = () => {
     handleSearch(search);
   }, [selectedFilter]);
 
-  return (
-    <GestureHandlerRootView
-      style={{
-        flex: 1,
-        backgroundColor:
-          colorScheme === "dark" ? Colors.dark.cGradient2 : "transparent",
-        paddingTop: Platform.OS === "android" ? RNStatusBar.currentHeight : 60, // Sadece Android için padding ekler
-      }}
-    >
-      <View className="flex-row">
-        <TextInput
-          placeholder={t("explore.search")}
-          className="flex-1 px-4 pb-4 mt-2 mb-2 ml-2 h-12 mr-2 text-lg bg-white dark:bg-slate-800 dark:text-slate-400 rounded-2xl"
-          placeholderTextColor={Colors.dark.slate600}
-          value={search}
-          style={{
-            borderWidth: colorScheme === "dark" ? 0.5 : 0,
-            textAlign: "center",
-          }}
-          onChange={(e) => handleSearch(e.nativeEvent.text)}
-        />
-        {search.length > 0 && (
-          <TouchableOpacity
-            onPress={() => setSearch("")}
-            className="items-center justify-center mx-2"
-          >
-            <EvilIcons
-              name="close"
-              size={34}
-              style={{ color: colorScheme === "dark" ? "#94a3b8" : "black" }}
-            />
-          </TouchableOpacity>
-        )}
-      </View>
-      {search.length > 0 ? (
-        <Results
-          results={results}
-          filters={filters}
-          selectedFilter={selectedFilter}
-          setSelectedFilter={setSelectedFilter}
-          loading={loading}
-          setLoading={setLoading}
-        />
-      ) : (
-        <ScrollView
-          className="flex-1 dark:bg-cGradient2"
-          keyboardDismissMode="on-drag"
-          contentInsetAdjustmentBehavior="automatic"
-          contentContainerStyle={{
-            paddingBottom: 40,
-          }}
-        >
-          <Discover
-            nowPlaying={nowPlaying}
-            upcoming={upcoming}
-            nextYear={nextYear}
-            top10Movies={top10Movies}
-            top10Series={top10Series}
-            setBottomSheetVisible={handlePresentModalPress}
-            setBottomSheetValues={setBottomSheetValues}
-          />
-        </ScrollView>
-      )}
+  const sections: ExploreSection[] = useMemo(
+    () => [
+      { type: "banner" },
+      { type: "collections" },
+      {
+        type: "list",
+        title: "explore.nowplaying",
+        data: nowPlaying,
+        sliderType: "movie",
+      },
+      {
+        type: "list",
+        title: "explore.upcoming",
+        data: upcoming,
+        sliderType: "movie",
+      },
+    ],
+    [nowPlaying, upcoming]
+  );
+
+  const memoBottomSheet = useMemo(
+    () => (
       <BottomSheetModal
         ref={bottomSheetModalRef}
         index={1}
@@ -214,7 +196,91 @@ const Explore = () => {
           />
         </BottomSheetView>
       </BottomSheetModal>
-    </GestureHandlerRootView>
+    ),
+    [colorScheme, bottomSheetValues]
+  );
+
+  const renderSection = useCallback(({ item }: { item: ExploreSection }) => {
+    switch (item.type) {
+      case "banner":
+        return <ExploreBanner />;
+
+      case "collections":
+        return <ExploreCollections />;
+
+      case "list":
+        return (
+          <ExploreListSection
+            exploreTitle={item.title}
+            data={item.data}
+            sliderType={item.sliderType}
+            openBottomSheet={openBottomSheet}
+          />
+        );
+
+      default:
+        return null;
+    }
+  }, []);
+
+  return (
+    <View
+      style={{
+        flex: 1,
+        backgroundColor:
+          colorScheme === "dark" ? Colors.dark.cGradient2 : "transparent",
+        paddingTop: Platform.OS === "android" ? RNStatusBar.currentHeight : 60,
+      }}
+    >
+      <View className="flex-row">
+        <TextInput
+          placeholder={t("explore.search")}
+          className="flex-1 px-4 pb-4 mt-2 mb-2 ml-2 h-12 mr-2 text-lg bg-white dark:bg-slate-800 dark:text-slate-400 rounded-2xl"
+          placeholderTextColor={Colors.dark.slate600}
+          value={search}
+          style={{
+            borderWidth: colorScheme === "dark" ? 0.5 : 0,
+            textAlign: "center",
+          }}
+          onChange={(e) => handleSearch(e.nativeEvent.text)}
+        />
+        {search.length > 0 && (
+          <TouchableOpacity
+            onPress={() => setSearch("")}
+            className="items-center justify-center mx-2"
+          >
+            <EvilIcons
+              name="close"
+              size={34}
+              style={{ color: colorScheme === "dark" ? "#94a3b8" : "black" }}
+            />
+          </TouchableOpacity>
+        )}
+      </View>
+      {search.length > 0 ? (
+        <Results
+          results={results}
+          filters={filters}
+          selectedFilter={selectedFilter}
+          setSelectedFilter={setSelectedFilter}
+          loading={loading}
+          setLoading={setLoading}
+        />
+      ) : (
+        <FlatList
+          data={sections}
+          renderItem={renderSection}
+          keyExtractor={(_, index) => index.toString()}
+          showsVerticalScrollIndicator={false}
+          removeClippedSubviews
+          maxToRenderPerBatch={5}
+          updateCellsBatchingPeriod={50}
+          windowSize={5}
+          initialNumToRender={5}
+        />
+      )}
+      {memoBottomSheet}
+    </View>
   );
 };
 
