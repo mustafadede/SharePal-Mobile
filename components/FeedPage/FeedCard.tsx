@@ -1,4 +1,4 @@
-import { Post } from "@/constants/Post";
+import { Post, PostAttachment } from "@/constants/Post";
 import React from "react";
 import FeedAttachmentCard from "./FeedAttachmentCard";
 import FeedCommentCard from "./FeedCommentCard";
@@ -28,7 +28,7 @@ const FeedCard = ({
   ) : data.attachedFilm && !data.actionName && !data.spoiler ? (
     <FeedAttachmentCard
       data={data}
-      attachedData={data.attachedFilm}
+      attachedData={data.attachedFilm as PostAttachment}
       index={index}
       postPage={postPage}
       handleOptions={handleOptions}

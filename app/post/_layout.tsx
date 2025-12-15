@@ -19,7 +19,6 @@ const _layout = () => {
             backgroundColor:
               colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
           },
-          animation: "slide_from_right",
           headerTitle: "",
           headerTintColor:
             colorScheme === "dark" ? Colors.dark.cWhite : "black",

@@ -4,7 +4,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { Text, TouchableOpacity, View, useColorScheme } from "react-native";
 
-type PostOptionsBottomSheetProps = {
+export type PostOptionsValues = {
   title: string;
   release_date: string;
   poster_path: string;
@@ -15,14 +15,12 @@ type PostOptionsBottomSheetProps = {
   unfinished: boolean;
 };
 
+type PostOptionsBottomSheetProps = {
+  bottomSheetValues: PostOptionsValues;
+};
+
 const PostOptionsBottomSheet = React.memo(
-  ({
-    bottomSheetValues,
-    setBottomSheetValues,
-  }: {
-    bottomSheetValues: PostOptionsBottomSheetProps;
-    setBottomSheetValues: ({}) => void;
-  }) => {
+  ({ bottomSheetValues }: PostOptionsBottomSheetProps) => {
     const thisYear = new Date().getFullYear();
     const { t } = useTranslation();
     const colorScheme = useColorScheme();

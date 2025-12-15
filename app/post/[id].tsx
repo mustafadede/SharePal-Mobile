@@ -1,7 +1,9 @@
 import CommentCards from "@/common/CommentCards";
 import PostPageCommentFooter from "@/common/PostPageCommentFooter";
 import FeedCard from "@/components/FeedPage/FeedCard";
-import PostOptionsBottomSheet from "@/components/PostOptions/PostOptionsBottomSheet";
+import PostOptionsBottomSheet, {
+  PostOptionsValues,
+} from "@/components/PostOptions/PostOptionsBottomSheet";
 import StatusLabel from "@/components/StatusLabel/StatusLabel";
 import { Colors } from "@/constants/Colors";
 import { Post } from "@/constants/Post";
@@ -59,7 +61,19 @@ const index = () => {
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const snapPoints = useMemo(() => ["40%"], []);
-  const [bottomSheetValues, setBottomSheetValues] = useState<object>({});
+  const defaultBottomSheetValues: PostOptionsValues = {
+    title: "",
+    release_date: "",
+    poster_path: "",
+    mediaType: "",
+    id: 0,
+    wanttowatch: false,
+    watched: false,
+    unfinished: false,
+  };
+  const [bottomSheetValues] = useState<PostOptionsValues>(
+    defaultBottomSheetValues
+  );
   const handlePresentModalPress = useCallback(() => {
     bottomSheetModalRef.current?.present();
   }, []);
@@ -183,6 +197,7 @@ const index = () => {
                     index={0}
                     postPage
                     handleModal={handleModal}
+                    handleOptions={handlePresentModalPress}
                   />
 
                   {commentsLoading && (

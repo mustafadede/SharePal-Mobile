@@ -12,7 +12,6 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import Animated, { FadeInUp } from "react-native-reanimated";
 import YoutubePlayer from "react-native-youtube-iframe";
 import TrailerCard from "./TrailerCard";
 
@@ -43,10 +42,7 @@ const BlooperSection: React.FC<Props> = ({ id, mediaType }) => {
   if (bloopers.length === 0) return null;
 
   return (
-    <Animated.View
-      entering={FadeInUp.duration(400).delay(1700)}
-      className={"mt-4"}
-    >
+    <View className={"mt-4"}>
       <Text className="text-2xl mb-4 text-black dark:text-slate-300 mt-1">
         {t("bloopers.title")}
       </Text>
@@ -116,7 +112,7 @@ const BlooperSection: React.FC<Props> = ({ id, mediaType }) => {
           )}
         </View>
       </Modal>
-    </Animated.View>
+    </View>
   );
 };
 

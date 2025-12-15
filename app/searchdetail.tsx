@@ -1,24 +1,32 @@
 import ShareDetailShare from "@/common/ShareDetailShare";
 import ExploreBottomSheet from "@/components/ExploreBottomSheet/ExploreBottomSheet";
 import BlooperSection from "@/components/SearchDetail/BloopersSection";
+import ContentSwitcher from "@/components/SearchDetail/ContentSwitcher";
+import GenreBadges from "@/components/SearchDetail/GenreBadges";
+import Overview from "@/components/SearchDetail/Overview";
+import PeopleActivitySection from "@/components/SearchDetail/PeopleActivitySection/PeopleActivitySection";
+import Providers from "@/components/SearchDetail/Providers";
+import Rating from "@/components/SearchDetail/Rating";
+import SearchDetailHeader from "@/components/SearchDetail/SearchDetailHeader";
 import TrailerSection from "@/components/SearchDetail/TrailerSection";
 import StatusLabel from "@/components/StatusLabel/StatusLabel";
 import { Colors } from "@/constants/Colors";
+import {
+  ExploreBottomSheetProps,
+  SearchDetailParams,
+} from "@/constants/SearchDetail";
 import useSearchWithYear from "@/hooks/useSearchWithYear";
 import i18n from "@/i18n/i18n";
 import { RootState } from "@/store";
 import { searchDetailActions } from "@/store/searchDetailSlice";
 import { shareSearchDetailActions } from "@/store/shareSearchDetail";
-import { DateFormatter } from "@/utils/formatter";
 import Feather from "@expo/vector-icons/Feather";
 import {
   BottomSheetBackdrop,
   BottomSheetModal,
   BottomSheetView,
 } from "@gorhom/bottom-sheet";
-import { Image } from "expo-image";
-import { LinearGradient } from "expo-linear-gradient";
-import { router, useLocalSearchParams, useNavigation } from "expo-router";
+import { useLocalSearchParams, useNavigation } from "expo-router";
 import React, {
   useCallback,
   useEffect,
@@ -26,62 +34,32 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { useTranslation } from "react-i18next";
-import {
-  ImageBackground,
-  Text,
-  TouchableOpacity,
-  useColorScheme,
-  View,
-} from "react-native";
+import { TouchableOpacity, useColorScheme, View } from "react-native";
 import Animated, {
-  Extrapolation,
-  FadeInUp,
-  interpolate,
+  FadeInDown,
+  FadeOutDown,
+  interpolateColor,
   useAnimatedScrollHandler,
   useAnimatedStyle,
   useSharedValue,
 } from "react-native-reanimated";
 import { useDispatch, useSelector } from "react-redux";
-import { movieGenresJSON, tvGenresJSON } from "../assets/genre/genreData";
-
-type ExploreBottomSheetProps = {
-  title: string;
-  release_date: string;
-  poster_path: string;
-  mediaType: string;
-  id: number;
-  currentlywatching: boolean;
-  wanttowatch: boolean;
-  watched: boolean;
-  unfinished: boolean;
-};
-
-type SearchDetailParams = {
-  id: string;
-  title: string;
-  release_date: string;
-  poster_path: string;
-  backdrop_path: string;
-  mediaType: "movie" | "tv";
-};
 
 const searchdetail = () => {
   const viewRef = useRef(null);
   const colorScheme = useColorScheme();
   const [isShared, setIsShared] = useState(false);
   const [setStatus, setSetStatus] = useState(false);
-  const [isExpanded, setIsExpanded] = useState(false);
-
+  const scrollY = useSharedValue(0);
   const [blur, setBlur] = useState(7);
   const [color, setColor] = useState(0);
   const navigation = useNavigation();
   const { id, title, release_date, poster_path, mediaType, backdrop_path } =
     useLocalSearchParams() as SearchDetailParams;
-
-  const { nick, userId } = useSelector((state: RootState) => state.profile);
-  const newDate = DateFormatter(release_date, "Search");
+  const { nick } = useSelector((state: RootState) => state.profile);
   const dispatch = useDispatch();
+  const [activeTab, setActiveTab] = useState<"overview" | "social">("overview");
+  const [socialFetched, setSocialFetched] = useState(false);
   const [bottomSheetValues, setBottomSheetValues] =
     useState<ExploreBottomSheetProps>({
       title: title,
@@ -120,24 +98,27 @@ const searchdetail = () => {
     (state: RootState) => state.shareSearchDetail
   );
 
-  const { t } = useTranslation();
+  const handleTabChange = (tab: "overview" | "social") => {
+    if (tab === "social") {
+      // 🔥 SADECE BURADA FETCH
+    }
+  };
 
-  const scrollY = useSharedValue(0);
+  const headerBgAnimatedStyle = useAnimatedStyle(() => {
+    const backgroundColor = interpolateColor(
+      scrollY.value,
+      [0, 120],
+      ["rgba(0,0,0,0)", Colors.dark.cGradient2]
+    );
+    return {
+      backgroundColor,
+    };
+  });
 
   const scrollHandler = useAnimatedScrollHandler({
     onScroll: (event) => {
       scrollY.value = event.contentOffset.y;
     },
-  });
-
-  const backdropAnimatedStyle = useAnimatedStyle(() => {
-    const height = interpolate(
-      scrollY.value,
-      [0, 180],
-      [344, 120],
-      Extrapolation.CLAMP
-    );
-    return { height };
   });
 
   useEffect(() => {
@@ -165,11 +146,19 @@ const searchdetail = () => {
 
   useEffect(() => {
     navigation.setOptions({
+      headerBackground: () => (
+        <Animated.View
+          pointerEvents="none"
+          style={[
+            {
+              flex: 1,
+            },
+            headerBgAnimatedStyle,
+          ]}
+        />
+      ),
       headerRight: () => (
-        <View className="flex-row items-center w-8 h-8">
-          {/* <TouchableOpacity onPress={() => {}} className="mr-4">
-            <Feather name="plus" size={28} color="white" />
-          </TouchableOpacity> */}
+        <View className="flex-row items-center w-8 h-8 rounded-full mb-2">
           {!setStatus && <StatusLabel />}
           {setStatus && (
             <TouchableOpacity
@@ -224,168 +213,43 @@ const searchdetail = () => {
         <Animated.ScrollView
           onScroll={scrollHandler}
           scrollEventThrottle={16}
-          className="flex-1 dark:bg-cGradient2"
+          className="flex-1 px-4 dark:bg-cGradient2"
           contentContainerStyle={{
             paddingBottom: 120,
           }}
         >
           {/* BACKDROP + GRADIENT + POSTER */}
-          <View
-            className={`"w-full h-96 dark:bg-cGradient2 gap-14 ${title.length > 32 ? "mb-12" : "mb-6"}`}
-          >
-            <Animated.View
-              className="w-full absolute z-0 overflow-hidden"
-              style={backdropAnimatedStyle}
-            >
-              <ImageBackground
-                source={{
-                  uri: `https://image.tmdb.org/t/p/original/${backdrop_path}`,
-                }}
-                className="w-full h-full"
-                resizeMode="cover"
-                blurRadius={8}
-              >
-                <LinearGradient
-                  colors={
-                    colorScheme === "dark"
-                      ? ["rgba(0, 0, 0, 0.4)", "rgb(14, 11, 19)"]
-                      : ["rgba(255, 255, 255, 0.6)", "rgb(245, 245, 245)"]
-                  }
-                  style={{ flex: 1 }}
-                />
-              </ImageBackground>
-            </Animated.View>
+          <SearchDetailHeader
+            title={title}
+            backdrop_path={backdrop_path}
+            poster_path={poster_path}
+            release_date={release_date}
+            mediaType={mediaType}
+            sharedValue={scrollY}
+          />
+          <GenreBadges genre_ids={genre_ids} mediaType={mediaType} />
+          <ContentSwitcher
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
+            onTabChange={handleTabChange}
+          />
+          {activeTab === "overview" && (
+            <View className="mt-4">
+              <Overview overview={overview} />
+              <Rating vote_average={vote_average} />
+              <TrailerSection id={id} mediaType={mediaType} />
+              <Providers id={id} mediaType={mediaType} />
+              <BlooperSection id={id} mediaType={mediaType} />
+            </View>
+          )}
 
-            {/* POSTER */}
-            <Animated.View className="flex-1 relative justify-center items-center mt-52 z-10">
-              <Image
-                source={{
-                  uri: `https://image.tmdb.org/t/p/original/${poster_path}`,
-                }}
-                style={{
-                  width: 186,
-                  height: 248,
-                  borderRadius: 24,
-                  shadowColor: "#000",
-                  shadowOpacity: colorScheme === "dark" ? 0.26 : 0.18,
-                  shadowRadius: 22,
-                  shadowOffset: { width: 0, height: 12 },
-                }}
-                contentFit="cover"
-                transition={300}
-              />
-            </Animated.View>
-
-            {/* TITLE + DATE + MEDIATYPE */}
-            <Animated.View className="pt-24 items-center">
-              <Text className="text-2xl w-96 font-semibold text-center text-slate-800 dark:text-fuchsia-400 mb-1">
-                {title}
-              </Text>
-
-              <View className="flex-row justify-center items-center gap-2">
-                <Text className="text-base text-slate-600 dark:text-slate-300">
-                  {newDate}
-                </Text>
-
-                <View
-                  className="px-3 py-1 rounded-full 
-                   bg-slate-200/70 dark:bg-white/10"
-                >
-                  <Text className="text-sm text-slate-700 dark:text-slate-300">
-                    {mediaType === "movie"
-                      ? t("searchdetail.movie")
-                      : t("searchdetail.tv")}
-                  </Text>
-                </View>
-              </View>
-            </Animated.View>
-          </View>
-
-          {/* GENRE TAGS */}
-          <Animated.View
-            entering={FadeInUp.duration(400).delay(800)}
-            className="flex-row flex-wrap px-4 pt-10 justify-center gap-2"
-          >
-            {genre_ids ? (
-              genre_ids.map((genre) => (
-                <View
-                  key={genre}
-                  className="px-3 py-1 rounded-full 
-                   bg-black/10 dark:bg-white/10"
-                >
-                  <Text className="text-sm text-slate-700 dark:text-slate-300">
-                    {mediaType === "movie"
-                      ? movieGenresJSON.find((item) => item.id === genre)?.name
-                      : tvGenresJSON.find((item) => item.id === genre)?.name}
-                  </Text>
-                </View>
-              ))
-            ) : (
-              <StatusLabel />
-            )}
-          </Animated.View>
-
-          <View className="px-6 mt-4">
-            {/* OVERVIEW */}
-            <Animated.View entering={FadeInUp.duration(400).delay(1200)}>
-              <Text className="text-2xl mt-1 text-start text-dark dark:text-slate-200">
-                {t("searchdetail.overview")}
-              </Text>
-
-              {overview ? (
-                <Text
-                  className="text-md text-start my-3 text-slate-600 dark:text-slate-400 leading-[22px]"
-                  numberOfLines={isExpanded ? 0 : 3}
-                  onPress={() => setIsExpanded(!isExpanded)}
-                >
-                  {overview}
-                </Text>
-              ) : (
-                <StatusLabel />
-              )}
-            </Animated.View>
-            {/* RATING */}
-            <Animated.View
-              entering={FadeInUp.duration(400).delay(1400)}
-              className="flex-row justify-between mt-4"
-            >
-              <Text className="text-2xl text-black dark:text-slate-300 mt-1">
-                {t("searchdetail.rating")}
-              </Text>
-
-              <Text className="text-3xl text-fuchsia-400">
-                {`${vote_average}`[0]}
-                <Text className="text-lg text-black dark:text-slate-300">
-                  /10
-                </Text>
-              </Text>
-            </Animated.View>
-            {/* TRAILERS */}
-            <TrailerSection id={id as string} mediaType={mediaType} />
-            {/* PROVIDERS */}
-            <Animated.View entering={FadeInUp.duration(400).delay(1600)}>
-              <TouchableOpacity
-                onPress={() => {
-                  router.push({
-                    pathname: "/providers/[id]",
-                    params: { id: id, mediaType: mediaType },
-                  });
-                }}
-                className="mt-4 rounded-full flex-1 flex-row items-center py-2 justify-between"
-              >
-                <Text className="text-2xl text-black dark:text-slate-300 mt-1">
-                  {t("searchdetail.providers")}
-                </Text>
-                <Feather
-                  name="chevron-right"
-                  size={24}
-                  color={colorScheme === "dark" ? "white" : "black"}
-                />
-              </TouchableOpacity>
-            </Animated.View>
-            {/* BLOOPERS */}
-            <BlooperSection id={id as string} mediaType={mediaType} />
-          </View>
+          {activeTab === "social" && (
+            <>
+              <PeopleActivitySection />
+              {/* ileride */}
+              {/* <CommentsSection /> */}
+            </>
+          )}
         </Animated.ScrollView>
       )}
       {isShared && (
@@ -404,29 +268,34 @@ const searchdetail = () => {
         />
       )}
       {!isShared && (
-        <TouchableOpacity
-          onPress={handlePresentModalPress}
-          activeOpacity={0.8}
-          style={{
-            position: "absolute",
-            borderColor:
-              colorScheme === "dark"
-                ? Colors.dark.cDarkGray
-                : Colors.dark.cFuc6,
-            bottom: 64,
-            right: 10,
-            backgroundColor:
-              colorScheme === "dark"
-                ? Colors.dark.cGradient2
-                : Colors.dark.cFuc6,
-            borderRadius: 50,
-            padding: 14,
-            elevation: 5,
-            borderWidth: 1,
-          }}
+        <Animated.View
+          entering={FadeInDown.springify().delay(700)}
+          exiting={FadeOutDown.springify().delay(700)}
         >
-          <Feather name="plus" size={32} color={Colors.dark.cWhite} />
-        </TouchableOpacity>
+          <TouchableOpacity
+            onPress={handlePresentModalPress}
+            activeOpacity={0.8}
+            style={{
+              position: "absolute",
+              borderColor:
+                colorScheme === "dark"
+                  ? Colors.dark.cDarkGray
+                  : Colors.dark.cFuc6,
+              bottom: 64,
+              right: 10,
+              backgroundColor:
+                colorScheme === "dark"
+                  ? Colors.dark.cGradient2
+                  : Colors.dark.cFuc6,
+              borderRadius: 50,
+              padding: 14,
+              elevation: 5,
+              borderWidth: 1,
+            }}
+          >
+            <Feather name="plus" size={32} color={Colors.dark.cWhite} />
+          </TouchableOpacity>
+        </Animated.View>
       )}
       <BottomSheetModal
         ref={BottomSheetModalRef}

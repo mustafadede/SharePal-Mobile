@@ -235,7 +235,7 @@ const Explore = () => {
       <View className="flex-row">
         <TextInput
           placeholder={t("explore.search")}
-          className="flex-1 px-4 pb-4 mt-2 mb-2 ml-2 h-12 mr-2 text-lg bg-white dark:bg-slate-800 dark:text-slate-400 rounded-2xl"
+          className="flex-1 px-4 mt-2 mb-2 ml-2 h-12 mr-2 text-lg bg-white dark:bg-slate-800 dark:text-slate-400 rounded-2xl"
           placeholderTextColor={Colors.dark.slate600}
           value={search}
           style={{

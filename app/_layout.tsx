@@ -143,6 +143,13 @@ function AppLayout() {
         }}
       />
       <Stack.Screen
+        name="post"
+        options={{
+          headerShown: false,
+          animation: "ios_from_right",
+        }}
+      />
+      <Stack.Screen
         name="postshare"
         options={{
           headerStyle: {
@@ -178,6 +185,7 @@ function AppLayout() {
         name="userprofile"
         options={{
           headerShown: false,
+          animation: "slide_from_right",
         }}
       />
       <Stack.Screen

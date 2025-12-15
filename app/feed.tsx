@@ -1,7 +1,10 @@
 import InfoLabel from "@/common/InfoLabel";
 import FeedCard from "@/components/FeedPage/FeedCard";
-import PostOptionsBottomSheet from "@/components/PostOptions/PostOptionsBottomSheet";
+import PostOptionsBottomSheet, {
+  PostOptionsValues,
+} from "@/components/PostOptions/PostOptionsBottomSheet";
 import { Colors } from "@/constants/Colors";
+import { Post } from "@/constants/Post";
 import {
   getAllPosts,
   getPreviousPosts,
@@ -23,11 +26,18 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { FlatList, RefreshControl, useColorScheme, View } from "react-native";
+import {
+  FlatList,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  RefreshControl,
+  useColorScheme,
+  View,
+} from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { flatListRef } from "./(tabs)/_layout";
 
-const Feed = ({ handleModal }) => {
+const Feed = ({ handleModal }: { handleModal: () => void }) => {
   const profile = useSelector((state: RootState) => state.profile);
   const { userId } = useSelector((state: RootState) => state.profile);
   const { posts, status } = useSelector((state: RootState) => state.post);
@@ -37,7 +47,19 @@ const Feed = ({ handleModal }) => {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const snapPoints = useMemo(() => ["37%"], []);
-  const [bottomSheetValues, setBottomSheetValues] = useState<object>({});
+  const defaultBottomSheetValues: PostOptionsValues = {
+    title: "",
+    release_date: "",
+    poster_path: "",
+    mediaType: "",
+    id: 0,
+    wanttowatch: false,
+    watched: false,
+    unfinished: false,
+  };
+  const [bottomSheetValues] = useState<PostOptionsValues>(
+    defaultBottomSheetValues
+  );
   const colorScheme = useColorScheme();
   const scrollY = useRef(0);
   const handlePresentModalPress = useCallback(() => {
@@ -82,7 +104,7 @@ const Feed = ({ handleModal }) => {
     }
   }, [userId, isRefreshing]);
 
-  const handleScroll = (e) => {
+  const handleScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
     scrollY.current = e.nativeEvent.contentOffset.y;
   };
 
@@ -147,11 +169,11 @@ const Feed = ({ handleModal }) => {
         </BottomSheetView>
       </BottomSheetModal>
     ),
-    [colorScheme]
+    [colorScheme, bottomSheetValues]
   );
 
   const renderItem = useCallback(
-    ({ item, index }) => (
+    ({ item, index }: { item: Post; index: number }) => (
       <FeedCard
         data={item}
         index={index}

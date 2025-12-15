@@ -16,63 +16,72 @@ const Results = ({
   setLoading,
 }) => {
   const router = useRouter();
-  const renderItem = useCallback(({ item }: { item: Movie }) => {
-    item?.poster_path && (item?.release_date || item?.first_air_date) && (
-      <TouchableOpacity
-        className="relative flex-row items-center flex-grow h-16 pl-2 m-2 rounded-2xl"
-        onPress={() =>
-          router.navigate({
-            pathname: "/searchdetail",
-            params: {
-              title: item.title || item.name,
-              release_date: item.release_date || item.first_air_date,
-              poster_path: item.poster_path || item.backdrop_path,
-              mediaType: item.media_type,
-              id: item.id,
-              backdrop_path:
-                item.backdrop_path || item.poster_path || item.backdrop_path,
-            },
-          })
-        }
-      >
-        <ImageBackground
-          source={{
-            uri: `https://image.tmdb.org/t/p/original${
-              item.backdrop_path || item.poster_path
-            }`,
-          }}
-          imageStyle={{ borderRadius: 16 }}
-          className="absolute w-full h-full opacity-80 bg-black dark:opacity-20 rounded-2xl"
-          style={{
-            borderTopRightRadius: 16,
-            borderBottomLeftRadius: 16,
-            borderTopLeftRadius: 16,
-            borderBottomRightRadius: 16,
-          }}
-        ></ImageBackground>
-        <Image
-          source={`https://image.tmdb.org/t/p/original${item.poster_path}`}
-          contentFit="cover"
-          transition={100}
-          className="w-12 h-12 rounded-full"
-        />
-        <View className="pl-4">
-          <Text
-            className="overflow-visible text-white w-72"
-            ellipsizeMode="tail"
-            numberOfLines={1}
-          >
-            {item.title || item.name}
-          </Text>
-          <Text className="text-slate-200 dark:text-fuchsia-600">
-            (
-            {item.release_date?.slice(0, 4) || item.first_air_date?.slice(0, 4)}
-            )
-          </Text>
-        </View>
-      </TouchableOpacity>
-    );
-  }, []);
+  const renderItem = useCallback(
+    ({ item }: { item: Movie }) =>
+      item?.poster_path &&
+      (item?.release_date || item?.first_air_date) && (
+        <TouchableOpacity
+          className="relative flex-row items-center flex-grow h-28 pl-2 m-2 rounded-3xl"
+          onPress={() =>
+            router.navigate({
+              pathname: "/searchdetail",
+              params: {
+                title: item.title || item.name,
+                release_date: item.release_date || item.first_air_date,
+                poster_path: item.poster_path || item.backdrop_path,
+                mediaType: item.media_type,
+                id: item.id,
+                backdrop_path:
+                  item.backdrop_path || item.poster_path || item.backdrop_path,
+              },
+            })
+          }
+        >
+          <ImageBackground
+            source={{
+              uri: `https://image.tmdb.org/t/p/original${
+                item.backdrop_path || item.poster_path
+              }`,
+            }}
+            imageStyle={{ borderRadius: 16 }}
+            className="absolute w-full h-full opacity-80 bg-black dark:opacity-20 rounded-2xl"
+            style={{
+              borderTopRightRadius: 16,
+              borderBottomLeftRadius: 16,
+              borderTopLeftRadius: 16,
+              borderBottomRightRadius: 16,
+            }}
+          ></ImageBackground>
+          <Image
+            source={`https://image.tmdb.org/t/p/original${item.poster_path}`}
+            contentFit="cover"
+            transition={100}
+            style={{
+              width: 64,
+              height: 64,
+              borderRadius: 100,
+              marginLeft: 12,
+            }}
+          />
+          <View className="pl-4">
+            <Text
+              className="overflow-visible text-white w-72"
+              ellipsizeMode="tail"
+              numberOfLines={1}
+            >
+              {item.title || item.name}
+            </Text>
+            <Text className="text-slate-200 dark:text-fuchsia-600">
+              (
+              {item.release_date?.slice(0, 4) ||
+                item.first_air_date?.slice(0, 4)}
+              )
+            </Text>
+          </View>
+        </TouchableOpacity>
+      ),
+    []
+  );
   return (
     <View className="flex-col flex-1 mt-2">
       <Animated.View

@@ -1,4 +1,5 @@
 import { Colors } from "@/constants/Colors";
+import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import React from "react";
@@ -62,17 +63,18 @@ const ExploreSliderCard = ({
       </ImageBackground>
       <View className="flex items-center justify-center h-full overflow-hidden">
         <View className="flex flex-row items-center">
-          <Animated.Image
-            entering={FadeInDown.duration(400).delay(100)}
+          <Image
             source={{ uri: `https://image.tmdb.org/t/p/original/${photo}` }}
-            className={"w-40 h-60 bg-cGradient1 rounded-2xl"}
             style={{
+              height: 240,
+              width: 160,
               borderWidth: 0.5,
               borderColor: Colors.dark.text,
-              width: 160,
-              height: 240,
+              borderRadius: 24,
+              backgroundColor: Colors.dark.cGradient1,
             }}
-            resizeMode="cover"
+            cachePolicy={"memory-disk"}
+            contentFit="cover"
           />
           <View
             className="flex items-start gap-2 ml-4"

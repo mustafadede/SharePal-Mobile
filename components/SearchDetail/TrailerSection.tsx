@@ -4,7 +4,6 @@ import { filterTrailers } from "@/utils/videos";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
-  ActivityIndicator,
   Dimensions,
   Modal,
   Pressable,
@@ -13,8 +12,8 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import Animated, { FadeInUp } from "react-native-reanimated";
 import YoutubePlayer from "react-native-youtube-iframe";
+import StatusLabel from "../StatusLabel/StatusLabel";
 import TrailerCard from "./TrailerCard";
 
 const screenWidth = Dimensions.get("window").width;
@@ -48,14 +47,11 @@ const TrailerSection: React.FC<TrailerSectionProps> = ({ id, mediaType }) => {
   }, [id, mediaType, tmdbLanguage]);
 
   if (loading) {
-    return <ActivityIndicator size="large" color="#888" />;
+    return <StatusLabel />;
   }
 
   return (
-    <Animated.View
-      entering={FadeInUp.duration(400).delay(1600)}
-      className={"mt-4"}
-    >
+    <View className={"mt-4"}>
       <Text className="text-2xl mb-4 text-black dark:text-slate-300 mt-1">
         {t("trailer.title")}
       </Text>
@@ -124,7 +120,7 @@ const TrailerSection: React.FC<TrailerSectionProps> = ({ id, mediaType }) => {
           )}
         </View>
       </Modal>
-    </Animated.View>
+    </View>
   );
 };
 
