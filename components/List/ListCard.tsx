@@ -1,14 +1,9 @@
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import * as Haptics from "expo-haptics";
+import { Image } from "expo-image";
 import { router } from "expo-router";
-import React from "react";
-import {
-  Image,
-  ImageBackground,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import React, { useCallback } from "react";
+import { Platform, Text, TouchableOpacity, View } from "react-native";
 import Swipeable from "react-native-gesture-handler/ReanimatedSwipeable";
 
 const ListCard = ({
@@ -27,58 +22,83 @@ const ListCard = ({
   index: number;
   itemKey: string;
 }) => {
+  const renderRightActions = useCallback(
+    () => (
+      <View className="relative">
+        <TouchableOpacity
+          onPress={() => {
+            // Handle delete action here
+          }}
+          className="justify-center mr-4 px-6 top-12 items-center rounded-xl"
+        >
+          <MaterialIcons name="delete" size={28} color="#b91c1c" />
+        </TouchableOpacity>
+      </View>
+    ),
+    []
+  );
+
+  const onPress = useCallback(
+    () =>
+      router.navigate({
+        pathname: "/searchdetail",
+        params: {
+          title: movie.title,
+          release_date: movie.releaseDate,
+          poster_path: movie.poster,
+          mediaType: movie.media_type,
+          id: itemKey,
+          backdrop_path: movie.backdrop,
+        },
+      }),
+    [movie, itemKey]
+  );
   return (
     <Swipeable
       key={index}
+      enabled={false}
       friction={2}
       rightThreshold={28}
       onSwipeableWillOpen={() => {
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
       }}
-      renderRightActions={() => (
-        <View className="relative">
-          <TouchableOpacity
-            onPress={() => {
-              // Handle delete action here
-            }}
-            className="justify-center mr-4 px-6 top-12 items-center rounded-xl"
-          >
-            <MaterialIcons name="delete" size={28} color="#b91c1c" />
-          </TouchableOpacity>
-        </View>
-      )}
+      renderRightActions={renderRightActions}
     >
       <View className="px-4">
         <TouchableOpacity
+          onLongPress={() => setSwipeEnabled(true)}
           activeOpacity={1}
           className="relative flex-row items-center flex-grow h-24 mt-4 w-full rounded-2xl"
-          onPress={() =>
-            router.navigate({
-              pathname: "/searchdetail",
-              params: {
-                title: movie.title,
-                release_date: movie.releaseDate,
-                poster_path: movie.poster,
-                mediaType: movie.media_type,
-                id: itemKey, // use the firebase key here
-                backdrop_path: movie.backdrop,
-              },
-            })
-          }
+          onPress={onPress}
         >
-          <ImageBackground
+          <Image
+            contentFit="cover"
+            cachePolicy="memory-disk"
+            blurRadius={Platform.OS === "ios" ? 10 : 0}
             source={{
               uri: `https://image.tmdb.org/t/p/original${movie.backdrop}`,
             }}
-            imageStyle={{ borderRadius: 16 }}
-            className="absolute w-full h-full opacity-85 bg-black dark:opacity-20 rounded-2xl"
-            blurRadius={10}
+            style={{
+              borderRadius: 16,
+              opacity: 0.2,
+              flex: 1,
+              height: 86,
+              position: "absolute",
+              inset: 0,
+            }}
           />
           <Image
             source={{
               uri: `https://image.tmdb.org/t/p/original${movie.poster}`,
             }}
-            className="w-16 h-16 rounded-full ml-4"
+            cachePolicy="memory-disk"
+            contentFit="cover"
+            style={{
+              width: 64,
+              height: 64,
+              borderRadius: 100,
+              marginLeft: 16,
+            }}
           />
           <View className="pl-4">
             <Text

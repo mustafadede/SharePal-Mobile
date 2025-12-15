@@ -5,6 +5,7 @@ import TrailerSection from "@/components/SearchDetail/TrailerSection";
 import StatusLabel from "@/components/StatusLabel/StatusLabel";
 import { Colors } from "@/constants/Colors";
 import useSearchWithYear from "@/hooks/useSearchWithYear";
+import i18n from "@/i18n/i18n";
 import { RootState } from "@/store";
 import { searchDetailActions } from "@/store/searchDetailSlice";
 import { shareSearchDetailActions } from "@/store/shareSearchDetail";
@@ -15,6 +16,7 @@ import {
   BottomSheetModal,
   BottomSheetView,
 } from "@gorhom/bottom-sheet";
+import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { router, useLocalSearchParams, useNavigation } from "expo-router";
 import React, {
@@ -26,16 +28,20 @@ import React, {
 } from "react";
 import { useTranslation } from "react-i18next";
 import {
-  Image,
   ImageBackground,
-  ScrollView,
   Text,
   TouchableOpacity,
   useColorScheme,
   View,
 } from "react-native";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
-import Animated, { FadeInUp } from "react-native-reanimated";
+import Animated, {
+  Extrapolation,
+  FadeInUp,
+  interpolate,
+  useAnimatedScrollHandler,
+  useAnimatedStyle,
+  useSharedValue,
+} from "react-native-reanimated";
 import { useDispatch, useSelector } from "react-redux";
 import { movieGenresJSON, tvGenresJSON } from "../assets/genre/genreData";
 
@@ -115,6 +121,25 @@ const searchdetail = () => {
   );
 
   const { t } = useTranslation();
+
+  const scrollY = useSharedValue(0);
+
+  const scrollHandler = useAnimatedScrollHandler({
+    onScroll: (event) => {
+      scrollY.value = event.contentOffset.y;
+    },
+  });
+
+  const backdropAnimatedStyle = useAnimatedStyle(() => {
+    const height = interpolate(
+      scrollY.value,
+      [0, 180],
+      [344, 120],
+      Extrapolation.CLAMP
+    );
+    return { height };
+  });
+
   useEffect(() => {
     setSetStatus(false);
 
@@ -122,8 +147,13 @@ const searchdetail = () => {
     dispatch(searchDetailActions.setStatus("loading"));
 
     dispatch(shareSearchDetailActions.setStatus("loading"));
-
-    useSearchWithYear(title, release_date).then((res) => {
+    const tmdbLanguage =
+      i18n.language === "tr"
+        ? "tr-TR"
+        : i18n.language === "en"
+          ? "en-US"
+          : "en-US";
+    useSearchWithYear(title, release_date, tmdbLanguage).then((res) => {
       dispatch(searchDetailActions.updateSearchDetail(res));
       dispatch(searchDetailActions.setStatus("done"));
 
@@ -189,9 +219,11 @@ const searchdetail = () => {
   }, []);
 
   return (
-    <GestureHandlerRootView>
+    <View className="flex-1">
       {!isShared && (
-        <ScrollView
+        <Animated.ScrollView
+          onScroll={scrollHandler}
+          scrollEventThrottle={16}
           className="flex-1 dark:bg-cGradient2"
           contentContainerStyle={{
             paddingBottom: 120,
@@ -201,42 +233,51 @@ const searchdetail = () => {
           <View
             className={`"w-full h-96 dark:bg-cGradient2 gap-14 ${title.length > 32 ? "mb-12" : "mb-6"}`}
           >
-            <ImageBackground
-              source={{
-                uri: `https://image.tmdb.org/t/p/original/${backdrop_path}`,
-              }}
-              className="w-full h-[344px] absolute z-0"
-              resizeMode="cover"
-              blurRadius={24}
+            <Animated.View
+              className="w-full absolute z-0 overflow-hidden"
+              style={backdropAnimatedStyle}
             >
-              <LinearGradient
-                colors={
-                  colorScheme === "dark"
-                    ? ["rgba(0, 0, 0, 0.4)", "rgb(14, 11, 19)"]
-                    : ["rgba(255, 255, 255, 0.6)", "rgb(245, 245, 245)"]
-                }
-                style={{ flex: 1 }}
-              />
-            </ImageBackground>
+              <ImageBackground
+                source={{
+                  uri: `https://image.tmdb.org/t/p/original/${backdrop_path}`,
+                }}
+                className="w-full h-full"
+                resizeMode="cover"
+                blurRadius={8}
+              >
+                <LinearGradient
+                  colors={
+                    colorScheme === "dark"
+                      ? ["rgba(0, 0, 0, 0.4)", "rgb(14, 11, 19)"]
+                      : ["rgba(255, 255, 255, 0.6)", "rgb(245, 245, 245)"]
+                  }
+                  style={{ flex: 1 }}
+                />
+              </ImageBackground>
+            </Animated.View>
 
             {/* POSTER */}
-            <View className="flex-1 relative justify-center items-center mt-56 z-10">
+            <Animated.View className="flex-1 relative justify-center items-center mt-52 z-10">
               <Image
                 source={{
                   uri: `https://image.tmdb.org/t/p/original/${poster_path}`,
                 }}
-                className="w-44 h-72 rounded-3xl"
                 style={{
+                  width: 186,
+                  height: 248,
+                  borderRadius: 24,
                   shadowColor: "#000",
                   shadowOpacity: colorScheme === "dark" ? 0.26 : 0.18,
                   shadowRadius: 22,
                   shadowOffset: { width: 0, height: 12 },
                 }}
+                contentFit="cover"
+                transition={300}
               />
-            </View>
+            </Animated.View>
 
             {/* TITLE + DATE + MEDIATYPE */}
-            <View className="pt-24 items-center">
+            <Animated.View className="pt-24 items-center">
               <Text className="text-2xl w-96 font-semibold text-center text-slate-800 dark:text-fuchsia-400 mb-1">
                 {title}
               </Text>
@@ -257,13 +298,13 @@ const searchdetail = () => {
                   </Text>
                 </View>
               </View>
-            </View>
+            </Animated.View>
           </View>
 
           {/* GENRE TAGS */}
           <Animated.View
             entering={FadeInUp.duration(400).delay(800)}
-            className="flex-row flex-wrap px-4 pt-14 justify-center gap-2"
+            className="flex-row flex-wrap px-4 pt-10 justify-center gap-2"
           >
             {genre_ids ? (
               genre_ids.map((genre) => (
@@ -345,7 +386,7 @@ const searchdetail = () => {
             {/* BLOOPERS */}
             <BlooperSection id={id as string} mediaType={mediaType} />
           </View>
-        </ScrollView>
+        </Animated.ScrollView>
       )}
       {isShared && (
         <ShareDetailShare
@@ -435,7 +476,7 @@ const searchdetail = () => {
           />
         </BottomSheetView>
       </BottomSheetModal>
-    </GestureHandlerRootView>
+    </View>
   );
 };
 

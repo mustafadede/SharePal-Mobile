@@ -1,7 +1,11 @@
-const useSearchWithYear = async (title: string, year: string) => {
+const useSearchWithYear = async (
+  title: string,
+  year: string,
+  language: string
+) => {
   try {
     const response = await fetch(
-      `https://api.themoviedb.org/3/search/multi?query=${title}&include_adult=false&language=en-US&append_to_response=videos,credits,images&page=1`,
+      `https://api.themoviedb.org/3/search/multi?query=${title}&include_adult=false&language=${language}&append_to_response=videos,credits,images&page=1`,
       {
         method: "GET",
         headers: {

@@ -10,10 +10,15 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import * as Haptics from "expo-haptics";
 import { router } from "expo-router";
 import { useLocalSearchParams } from "expo-router/build/hooks";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Text, TouchableOpacity, useColorScheme, View } from "react-native";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
+import {
+  FlatList,
+  Text,
+  TouchableOpacity,
+  useColorScheme,
+  View,
+} from "react-native";
 import Swipeable from "react-native-gesture-handler/ReanimatedSwipeable";
 import { useDispatch, useSelector } from "react-redux";
 import StatusLabel from "../StatusLabel/StatusLabel";
@@ -61,8 +66,73 @@ const ListsCard = ({ user = false }: { user?: boolean }) => {
     fetch();
   }, []);
 
+  const renderItem = useCallback(({ item }: { item: ListItem }) => {
+    return (
+      <Swipeable
+        onSwipeableWillOpen={() => {
+          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
+        }}
+        renderRightActions={() => (
+          <>
+            <TouchableOpacity
+              onPress={() => {
+                // Handle delete action here
+              }}
+              className="ml-4 justify-center px-6 items-center rounded-xl"
+            >
+              <MaterialIcons name="delete" size={23} color="#b91c1c" />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                // Handle edit action here
+              }}
+              className="ml-4 justify-center px-6 items-center rounded-xl"
+            >
+              <Feather name="edit-3" size={21} color={Colors.dark.cFuc6} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                router.navigate("/explore");
+              }}
+              className="ml-4 justify-center px-6 items-center rounded-xl"
+            >
+              <Ionicons
+                name="add-outline"
+                size={28}
+                color={Colors.dark.cFuc6}
+              />
+            </TouchableOpacity>
+          </>
+        )}
+        friction={2}
+        rightThreshold={40}
+      >
+        <TouchableOpacity
+          activeOpacity={1}
+          onPress={() =>
+            router.push({
+              pathname: "/profile/[list]",
+              params: { list: item.title, id: item.id },
+            })
+          }
+          className="py-2 border bg-white dark:bg-slate-900 flex-row justify-between border-slate-200 dark:border-slate-200/10 rounded-xl my-1 px-4 pt-4 pb-4"
+        >
+          <Text className="text-slate-700 dark:text-white">{item.title}</Text>
+          {item.isPinned && (
+            <MaterialIcons
+              name="push-pin"
+              size={18}
+              color={Colors.dark.cFuc6}
+              style={{ transform: [{ rotate: "45deg" }] }}
+            />
+          )}
+        </TouchableOpacity>
+      </Swipeable>
+    );
+  }, []);
+
   return (
-    <GestureHandlerRootView>
+    <View className="flex-1 h-full">
       {user && (
         <TouchableOpacity
           activeOpacity={1}
@@ -79,83 +149,15 @@ const ListsCard = ({ user = false }: { user?: boolean }) => {
               <StatusLabel />
             </View>
           ) : (
-            <>
-              {profile?.lists?.map((list: ListItem, index: number) => (
-                <Swipeable
-                  key={index}
-                  onSwipeableWillOpen={() => {
-                    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
-                  }}
-                  renderRightActions={() => (
-                    <>
-                      <TouchableOpacity
-                        onPress={() => {
-                          // Handle delete action here
-                        }}
-                        className="ml-4 justify-center px-6 items-center rounded-xl"
-                      >
-                        <MaterialIcons
-                          name="delete"
-                          size={23}
-                          color="#b91c1c"
-                        />
-                      </TouchableOpacity>
-                      <TouchableOpacity
-                        onPress={() => {
-                          // Handle delete action here
-                        }}
-                        className="ml-4 justify-center px-6 items-center rounded-xl"
-                      >
-                        <Feather
-                          name="edit-3"
-                          size={21}
-                          color={Colors.dark.cFuc6}
-                        />
-                      </TouchableOpacity>
-                      <TouchableOpacity
-                        onPress={() => {
-                          router.navigate("/explore");
-                        }}
-                        className="ml-4 justify-center px-6 items-center rounded-xl"
-                      >
-                        <Ionicons
-                          name="add-outline"
-                          size={28}
-                          color={Colors.dark.cFuc6}
-                        />
-                      </TouchableOpacity>
-                    </>
-                  )}
-                  friction={2}
-                  rightThreshold={40}
-                >
-                  <TouchableOpacity
-                    activeOpacity={1}
-                    onPress={() =>
-                      router.push({
-                        pathname: "/profile/[list]",
-                        params: { list: list.title, id: list.id },
-                      })
-                    }
-                    className="py-2 border bg-white dark:bg-slate-900 flex-row justify-between border-slate-200 dark:border-slate-200/10 rounded-xl my-1 px-4 pt-4 pb-4"
-                  >
-                    <Text className="text-slate-700 dark:text-white">
-                      {list.title}
-                    </Text>
-                    {list.isPinned && (
-                      <MaterialIcons
-                        name="push-pin"
-                        size={18}
-                        color={Colors.dark.cFuc6}
-                        style={{
-                          transform: [{ rotate: "45deg" }],
-                        }}
-                      />
-                    )}
-                  </TouchableOpacity>
-                </Swipeable>
-              ))}
-            </>
+            <FlatList
+              data={profile?.lists}
+              keyExtractor={(item, index) =>
+                item.id ? item.id.toString() : index.toString()
+              }
+              renderItem={renderItem}
+              scrollEnabled={false}
+              removeClippedSubviews={false}
+            />
           )}
         </View>
       )}
@@ -193,7 +195,7 @@ const ListsCard = ({ user = false }: { user?: boolean }) => {
       {!loading && id && !otherProfile.lists.length && (
         <InfoLabel status="Kullanıcıya ait bir liste yoktur" small />
       )}
-    </GestureHandlerRootView>
+    </View>
   );
 };
 

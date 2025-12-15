@@ -22,12 +22,14 @@ const TrailerCard: React.FC<TrailerCardProps> = ({
       className="w-40 h-24 mr-3 rounded-xl overflow-hidden"
     >
       <Image
-        source={thumbnailUrl}
-        className="flex-1 w-full"
-        contentFit="cover"
+        source={thumbnailUrl ? thumbnailUrl : undefined}
+        style={{
+          flex: 1,
+        }}
+        contentFit="contain"
+        placeholder="LKO2?U%2Tw=w]~RBVZRi};RPxuwH"
         transition={1000}
       />
-
       <View
         className={`absolute inset-0 justify-center items-center dark:bg-black/40 bg-white/40`}
       >

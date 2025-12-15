@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useFocusEffect } from "expo-router";
+import React, { useCallback, useRef, useState } from "react";
 import { FlatList, View } from "react-native";
 import ExploreSliderCard from "./ExploreSliderCard";
 
@@ -23,23 +24,29 @@ const Slider = ({ data }: SliderProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isInteracting, setIsInteracting] = useState(false);
 
-  useEffect(() => {
-    if (data && data.length === 0) return;
-    if (isInteracting) return;
+  useFocusEffect(
+    useCallback(() => {
+      if (!data || data.length === 0) return;
+      if (isInteracting) return;
 
-    const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => {
-        const nextIndex = data ? (prevIndex + 1) % data.length : null;
-        flatListRef.current?.scrollToIndex({
-          index: nextIndex,
-          animated: true,
+      const interval = setInterval(() => {
+        setCurrentIndex((prevIndex) => {
+          const nextIndex = (prevIndex + 1) % data.length;
+
+          flatListRef.current?.scrollToIndex({
+            index: nextIndex,
+            animated: true,
+          });
+
+          return nextIndex;
         });
-        return nextIndex;
-      });
-    }, 5000);
+      }, 5000);
 
-    return () => clearInterval(interval);
-  }, [data, isInteracting]);
+      return () => {
+        clearInterval(interval);
+      };
+    }, [data, isInteracting])
+  );
 
   return (
     <>
@@ -77,7 +84,7 @@ const Slider = ({ data }: SliderProps) => {
         {data?.map((_, index) => (
           <View
             key={index}
-            className={`w-2 h-2 z-auto  rounded-full ${
+            className={`w-2 h-2 rounded-full ${
               index === currentIndex ? "bg-white" : "bg-gray-400"
             }`}
           />

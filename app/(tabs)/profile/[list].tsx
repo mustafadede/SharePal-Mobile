@@ -5,7 +5,7 @@ import { RootState } from "@/store";
 import { scrollActions } from "@/store/scrollSlice";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useLocalSearchParams, useNavigation } from "expo-router";
-import React, { useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import {
   FlatList,
@@ -14,20 +14,17 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
-import Animated, { FadeIn, FadeOut, Layout } from "react-native-reanimated";
+import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 import { useDispatch, useSelector } from "react-redux";
 
-const ListCardItem = ({
-  item,
-  index,
-}: {
-  item: [string, any];
-  index: number;
-}) => {
-  const [key, movie] = item;
-  return <ListCard movie={movie} index={index} itemKey={key} />;
-};
+const ITEM_HEIGHT = 96 + 16;
+
+const ListCardItem = React.memo(
+  ({ item, index }: { item: [string, any]; index: number }) => {
+    const [key, movie] = item;
+    return <ListCard movie={movie} index={index} itemKey={key} />;
+  }
+);
 
 const list = () => {
   const { id, list } = useLocalSearchParams();
@@ -46,20 +43,45 @@ const list = () => {
     | { items: any[] }
     | undefined;
 
-  const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-    const scrollPosition = event.nativeEvent.contentOffset.y;
-    dispatch(scrollActions.updateScrollPosition(scrollPosition));
-  };
+  const handleScroll = useCallback(
+    (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+      const y = event.nativeEvent.contentOffset.y;
+      if (y > 16 && scrollPosition <= 16) {
+        dispatch(scrollActions.updateScrollPosition(20));
+      } else if (y <= 16 && scrollPosition > 16) {
+        dispatch(scrollActions.updateScrollPosition(0));
+      }
+    },
+    [dispatch, scrollPosition]
+  );
+
+  const selectedListEntries = React.useMemo(
+    () =>
+      selectedList?.list
+        ? (Object.entries(selectedList.list) as [string, any][])
+        : [],
+    [selectedList]
+  );
+
+  const renderItem = useCallback(
+    ({ item, index }) => <ListCardItem item={item} index={index} />,
+    []
+  );
 
   return (
-    <GestureHandlerRootView className="flex-1">
+    <View className="flex-1">
       {selectedList ? (
         <View className="flex-1 pt-4 bg-transparent w-full justify-center items-center dark:bg-cGradient2">
           <View className="px-4">
             <PrimaryInput placeholder={t("explore.search")} />
           </View>
           <FlatList
-            data={Object.entries(selectedList.list) as [string, any][]}
+            getItemLayout={(_, index) => ({
+              length: ITEM_HEIGHT,
+              offset: ITEM_HEIGHT * index,
+              index,
+            })}
+            data={selectedListEntries}
             keyExtractor={([key]) => key}
             className="flex-col flex-1 w-full h-full"
             ref={listRef}
@@ -68,9 +90,13 @@ const list = () => {
               justifyContent: "center",
             }}
             onScroll={handleScroll}
-            renderItem={({ item, index }) => (
-              <ListCardItem item={item} index={index} />
-            )}
+            scrollEventThrottle={16}
+            removeClippedSubviews
+            windowSize={5}
+            initialNumToRender={10}
+            maxToRenderPerBatch={10}
+            updateCellsBatchingPeriod={50}
+            renderItem={renderItem}
           />
         </View>
       ) : (
@@ -78,9 +104,8 @@ const list = () => {
       )}
       {scrollPosition > 16 && (
         <Animated.View
-          entering={FadeIn.delay(100).duration(200)}
+          entering={FadeIn.duration(150)}
           exiting={FadeOut.duration(100)}
-          layout={Layout.springify().damping(20).stiffness(90)}
           style={{ elevation: 5 }}
           pointerEvents="box-none"
           accessible={true}
@@ -109,7 +134,7 @@ const list = () => {
           </TouchableOpacity>
         </Animated.View>
       )}
-    </GestureHandlerRootView>
+    </View>
   );
 };
 

@@ -34,8 +34,6 @@ const TrailerSection: React.FC<TrailerSectionProps> = ({ id, mediaType }) => {
         : "en-US";
 
   useEffect(() => {
-    console.log(id);
-
     (async () => {
       try {
         const res = await getSelectedVideos(id, mediaType, tmdbLanguage);

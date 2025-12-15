@@ -22,7 +22,10 @@ const useGetSelectedVideos = async (
   );
   data = await response.json();
 
-  return data;
+  return {
+    id: data.id,
+    results: data.results,
+  };
 };
 
 export default useGetSelectedVideos;
