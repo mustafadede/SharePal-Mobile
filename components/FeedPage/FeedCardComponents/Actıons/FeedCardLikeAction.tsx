@@ -17,17 +17,17 @@ const FeedCardLikeAction = ({ data }) => {
   }, []);
   return (
     <TouchableOpacity
-      className={"flex flex-row flex-1 ml-4 items-center justify-center gap-2"}
+      className={"flex flex-row flex-1 items-center justify-center gap-2"}
       onPress={() => setIsLiked(!isLiked)}
     >
       {!isLiked && (
         <Entypo
           name={"heart-outlined"}
-          size={24}
+          size={23}
           color={colorScheme === "dark" ? Colors.dark.tColor1 : "black"}
         />
       )}
-      {isLiked && <Entypo name={"heart"} size={24} color={Colors.dark.cFuc6} />}
+      {isLiked && <Entypo name={"heart"} size={23} color={Colors.dark.cFuc6} />}
       <Text
         className={
           isLiked ? "text-fuchsia-600" : "text-black dark:text-slate-400"

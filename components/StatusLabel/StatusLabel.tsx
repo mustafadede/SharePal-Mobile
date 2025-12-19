@@ -1,7 +1,13 @@
 import React, { useRef } from "react";
 import { ActivityIndicator, Animated } from "react-native";
 
-const StatusLabel = () => {
+const StatusLabel = ({
+  color,
+  size,
+}: {
+  size?: number | "small" | "large";
+  color?: string;
+}) => {
   const opacity = useRef(new Animated.Value(0)).current;
   Animated.timing(opacity, {
     toValue: 1,
@@ -12,11 +18,14 @@ const StatusLabel = () => {
     <Animated.View
       style={{
         opacity,
-        marginTop: 7,
+        marginTop: size ? 0 : 7,
         width: "100%",
       }}
     >
-      <ActivityIndicator size="large" color="#c026d3" />
+      <ActivityIndicator
+        size={size ? size : "large"}
+        color={color ? color : "#c026d3"}
+      />
     </Animated.View>
   );
 };

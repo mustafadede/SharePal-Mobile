@@ -58,7 +58,7 @@ const ContentSwitcher = ({ activeTab, setActiveTab, onTabChange }: Props) => {
   );
 
   return (
-    <View className="flex-row gap-2">
+    <View className="flex-row gap-2 px-4">
       <TabButton
         label="Overview"
         active={activeTab === "overview"}

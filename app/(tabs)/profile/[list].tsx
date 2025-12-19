@@ -88,6 +88,7 @@ const list = () => {
             contentContainerStyle={{
               width: "100%",
               justifyContent: "center",
+              paddingBottom: 65,
             }}
             onScroll={handleScroll}
             scrollEventThrottle={16}

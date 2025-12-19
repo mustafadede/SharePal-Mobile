@@ -26,8 +26,8 @@ const Index = () => {
     () => ({
       flex: 1,
       backgroundColor:
-        colorScheme === "dark" ? Colors.dark.cGradient2 : "white",
-      paddingTop: Platform.OS === "android" ? RNStatusBar.currentHeight : 40,
+        colorScheme === "dark" ? Colors.dark.cGradient2 : "transparent",
+      paddingTop: Platform.OS === "android" ? RNStatusBar.currentHeight : 60,
     }),
     [colorScheme]
   );

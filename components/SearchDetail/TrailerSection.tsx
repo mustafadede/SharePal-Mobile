@@ -52,12 +52,12 @@ const TrailerSection: React.FC<TrailerSectionProps> = ({ id, mediaType }) => {
 
   return (
     <View className={"mt-4"}>
-      <Text className="text-2xl mb-4 text-black dark:text-slate-300 mt-1">
+      <Text className="text-2xl px-4 mb-4 text-black dark:text-slate-300 mt-1">
         {t("trailer.title")}
       </Text>
 
       {trailers.length === 0 ? (
-        <Text className="text-center text-slate-600 dark:text-slate-400">
+        <Text className="text-center px-4 text-slate-600 dark:text-slate-400">
           {t("trailer.notrailer")}
         </Text>
       ) : (

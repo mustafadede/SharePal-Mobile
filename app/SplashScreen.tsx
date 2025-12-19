@@ -1,6 +1,6 @@
 import { Colors } from "@/constants/Colors";
 import React, { useEffect } from "react";
-import { ActivityIndicator, View } from "react-native";
+import { ActivityIndicator, useColorScheme, View } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -9,6 +9,7 @@ import Animated, {
 
 const SplashScreen = () => {
   const textOpacity = useSharedValue(0);
+  const colorScheme = useColorScheme();
   useEffect(() => {
     textOpacity.value = withTiming(1, { duration: 800 });
   }, []);
@@ -16,7 +17,13 @@ const SplashScreen = () => {
     opacity: textOpacity.value,
   }));
   return (
-    <View className="flex-1 bg-transparent justify-center gap-6 items-center dark:bg-cGradient2">
+    <View
+      className={
+        colorScheme === "dark"
+          ? "flex-1 bg-transparent justify-center gap-6 items-center dark:bg-cGradient2"
+          : "flex-1 bg-transparent justify-center gap-6 items-center"
+      }
+    >
       <Animated.Text
         style={animatedTextStyle}
         className="mb-4 text-5xl z-20 font-bold text-fuchsia-600"

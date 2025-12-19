@@ -106,11 +106,11 @@ const SharePostComponent = ({ switchValue }: { switchValue: boolean }) => {
             />
           </ImageBackground>
         ) : null}
-        <View className="flex-1 px-6 pt-18 items-center">
+        <View className="flex-1 px-6 items-center" style={{ paddingTop: 24 }}>
           <View className="items-center">
             <Text
               className="font-semibold text-fuchsia-600"
-              style={{ fontSize: 48, opacity: 0.9 }}
+              style={{ fontSize: 48 }}
             >
               SharePal
             </Text>

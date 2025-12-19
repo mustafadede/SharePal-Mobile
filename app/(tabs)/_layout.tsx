@@ -88,7 +88,9 @@ export default function TabLayout() {
           headerShadowVisible: false,
           headerStyle: {
             backgroundColor:
-              colorScheme === "dark" ? Colors.dark.cBlack : Colors.dark.cWhite,
+              colorScheme === "dark"
+                ? Colors.dark.cGradient2
+                : Colors.dark.cWhite,
           },
           headerTintColor:
             colorScheme === "dark" ? Colors.dark.cWhite : "black",

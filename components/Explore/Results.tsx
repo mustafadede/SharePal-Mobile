@@ -1,9 +1,17 @@
 import InfoLabel from "@/common/InfoLabel";
 import { Movie } from "@/constants/Movie";
 import { Image } from "expo-image";
+import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import React, { useCallback } from "react";
-import { ImageBackground, Text, TouchableOpacity, View } from "react-native";
+import {
+  ImageBackground,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  useColorScheme,
+  View,
+} from "react-native";
 import Animated, { FadeIn } from "react-native-reanimated";
 import StatusLabel from "../StatusLabel/StatusLabel";
 
@@ -16,6 +24,9 @@ const Results = ({
   setLoading,
 }) => {
   const router = useRouter();
+  const selectedFilterLabel = selectedFilter === 0 ? "movie" : "tv";
+  const colorScheme = useColorScheme();
+
   const renderItem = useCallback(
     ({ item }: { item: Movie }) =>
       item?.poster_path &&
@@ -29,7 +40,7 @@ const Results = ({
                 title: item.title || item.name,
                 release_date: item.release_date || item.first_air_date,
                 poster_path: item.poster_path || item.backdrop_path,
-                mediaType: item.media_type,
+                mediaType: selectedFilterLabel,
                 id: item.id,
                 backdrop_path:
                   item.backdrop_path || item.poster_path || item.backdrop_path,
@@ -51,7 +62,19 @@ const Results = ({
               borderTopLeftRadius: 16,
               borderBottomRightRadius: 16,
             }}
-          ></ImageBackground>
+          >
+            {colorScheme === "light" && (
+              <LinearGradient
+                colors={["rgba(255,255,255,0.25)", "rgba(255,255,255,0.95)"]}
+                style={[
+                  StyleSheet.absoluteFill,
+                  {
+                    borderRadius: 15,
+                  },
+                ]}
+              />
+            )}
+          </ImageBackground>
           <Image
             source={`https://image.tmdb.org/t/p/original${item.poster_path}`}
             contentFit="cover"
@@ -65,13 +88,13 @@ const Results = ({
           />
           <View className="pl-4">
             <Text
-              className="overflow-visible text-white w-72"
+              className="overflow-visible text-xl dark:text-white w-80"
               ellipsizeMode="tail"
               numberOfLines={1}
             >
               {item.title || item.name}
             </Text>
-            <Text className="text-slate-200 dark:text-fuchsia-600">
+            <Text className="text-fuchsia-600">
               (
               {item.release_date?.slice(0, 4) ||
                 item.first_air_date?.slice(0, 4)}
@@ -80,7 +103,7 @@ const Results = ({
           </View>
         </TouchableOpacity>
       ),
-    []
+    [selectedFilter]
   );
   return (
     <View className="flex-col flex-1 mt-2">

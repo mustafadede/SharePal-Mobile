@@ -38,9 +38,10 @@ const SearchDetailPageShareWantToWatch = ({
       entering={FadeInUp.duration(300).delay(100)}
       className="items-center justify-center"
       style={{
-        height: 640,
+        height: 560,
         width: 360,
         borderRadius: 28,
+        marginTop: 32,
         overflow: "hidden",
       }}
     >
@@ -89,10 +90,10 @@ const SearchDetailPageShareWantToWatch = ({
       )}
 
       {/* Content */}
-      <View className="flex-1 px-6 pt-24 items-center">
+      <View className="flex-1 px-6 items-center" style={{ paddingTop: 24 }}>
         <Text
-          className="font-semibold text-fuchsia-500"
-          style={{ fontSize: 28, opacity: 0.9 }}
+          className="font-semibold text-fuchsia-600"
+          style={{ fontSize: 48 }}
         >
           SharePal
         </Text>
@@ -113,10 +114,12 @@ const SearchDetailPageShareWantToWatch = ({
               uri: `https://image.tmdb.org/t/p/original/${poster_path}`,
               cache: "force-cache",
             }}
-            className="w-44 h-72 rounded-3xl"
+            className="rounded-3xl"
             resizeMode="cover"
             fadeDuration={0}
             style={{
+              width: 176,
+              height: 288,
               shadowColor: "#000",
               shadowOpacity: colorScheme === "dark" ? 0.26 : 0.18,
               shadowRadius: 22,

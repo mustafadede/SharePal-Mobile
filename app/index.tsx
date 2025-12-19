@@ -11,12 +11,22 @@ import i18n from "@/i18n/i18n";
 import { signInWithEmailAction } from "@/services/firebaseActions";
 import { profileActions } from "@/store/profileSlice";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
+import {
+  BottomSheetBackdrop,
+  BottomSheetModal,
+  BottomSheetView,
+} from "@gorhom/bottom-sheet";
 import * as Haptics from "expo-haptics";
 import { router } from "expo-router";
 import { useCallback, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Platform, TouchableOpacity, useColorScheme, View } from "react-native";
+import {
+  Platform,
+  Text,
+  TouchableOpacity,
+  useColorScheme,
+  View,
+} from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useDispatch } from "react-redux";
 import { toast } from "sonner-native";
@@ -31,12 +41,14 @@ export default function Home() {
     process.env.EXPO_PUBLIC_PASSWORD || ""
   );
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-  const snapPoints = useMemo(() => ["15%", "25%", "55%"], []);
+  const snapPoints = useMemo(() => ["40%"], []);
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
 
   const handlePresentModalPress = useCallback(() => {
     bottomSheetModalRef.current?.present();
   }, []);
+
   const handleSheetChanges = useCallback((index: number) => {
     if (index === 1) Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
   }, []);
@@ -48,6 +60,7 @@ export default function Home() {
     email: string;
     password: string;
   }) => {
+    setLoading(true);
     signInWithEmailAction(email.trim(), password).then((user) => {
       if (String(user).includes("auth")) {
         if (user === "auth/user-not-found") {
@@ -81,8 +94,9 @@ export default function Home() {
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
       } else {
         setEmail(email);
+        setLoading(false);
         dispatch(profileActions.setUserId(user.user.uid));
-        router.push("(tabs)");
+        router.push("/(tabs)");
       }
     });
   };
@@ -104,7 +118,7 @@ export default function Home() {
       <View className="items-center justify-center flex-1 dark:bg-cGradient2">
         <TouchableOpacity
           onPress={handleChangeLanguage}
-          className="border border-slate-400"
+          className="border border-slate-400 flex-row gap-2 items-center"
           style={{
             position: "absolute",
             top: 45,
@@ -121,6 +135,9 @@ export default function Home() {
             size={24}
             color={colorScheme === "dark" ? "#fff" : "#000"}
           />
+          <Text className="text-black dark:text-slate-200">
+            {i18n.language === "tr" ? "Türkçe" : "English"}
+          </Text>
         </TouchableOpacity>
         <BackgroundImage />
         <View className="w-full h-full px-14 flex-1 justify-center items-center">
@@ -139,6 +156,7 @@ export default function Home() {
                 password,
               })
             }
+            loading={loading}
           />
           <View className="flex-col items-center gap-5">
             <UnderlineButton
@@ -157,6 +175,14 @@ export default function Home() {
         ref={bottomSheetModalRef}
         index={1}
         snapPoints={snapPoints}
+        backdropComponent={(props) => (
+          <BottomSheetBackdrop
+            {...props}
+            disappearsOnIndex={0}
+            appearsOnIndex={1}
+            opacity={0.8}
+          />
+        )}
         onChange={handleSheetChanges}
         keyboardBlurBehavior="none"
         handleIndicatorStyle={{ backgroundColor: "rgb(100 116 139)" }}
@@ -174,7 +200,7 @@ export default function Home() {
                 alignItems: "center",
               },
             ]}
-            className="bg-[#f2f2f2] dark:bg-black"
+            className="bg-[#f2f2f2] dark:bg-cGradient2"
           />
         )}
       >

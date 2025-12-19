@@ -7,7 +7,7 @@ const Overview = ({ overview }: { overview: string }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const { t } = useTranslation();
   return (
-    <View>
+    <View className="px-4">
       <Text className="text-2xl mt-1 text-start text-dark dark:text-slate-200">
         {t("searchdetail.overview")}
       </Text>

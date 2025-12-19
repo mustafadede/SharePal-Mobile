@@ -69,7 +69,7 @@ const PeopleRow = ({ title, icon }: Props) => {
 
   return (
     <View className="mt-6">
-      <View className="flex-row justify-start items-center gap-2 mb-3">
+      <View className="flex-row px-4 justify-start items-center gap-2 mb-3">
         {icon}
         <Text className="text-2xl text-black dark:text-slate-300 mt-1">
           {title}
@@ -80,7 +80,7 @@ const PeopleRow = ({ title, icon }: Props) => {
       {!loading && users && (
         <View className="flex-row gap-3">
           {users.length === 0 ? (
-            <Text className="text-md text-slate-500 dark:text-slate-400">
+            <Text className="text-md px-4 text-slate-500 dark:text-slate-400">
               No activity yet
             </Text>
           ) : (
@@ -90,7 +90,7 @@ const PeopleRow = ({ title, icon }: Props) => {
               horizontal
               showsHorizontalScrollIndicator={false}
               renderItem={({ item }) => (
-                <View className="items-center w-16 mr-3">
+                <View className="items-center w-16 ml-3">
                   <Avatar
                     uid={item.uid}
                     photoURL={item.photoURL}

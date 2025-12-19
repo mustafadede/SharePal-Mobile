@@ -5,7 +5,7 @@ import { Text, View } from "react-native";
 const Rating = ({ vote_average }: { vote_average: number }) => {
   const { t } = useTranslation();
   return (
-    <View className="flex-row justify-between mt-4">
+    <View className="flex-row justify-between mt-4 px-4">
       <Text className="text-2xl text-black dark:text-slate-300 mt-1">
         {t("searchdetail.rating")}
       </Text>

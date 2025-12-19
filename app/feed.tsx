@@ -195,8 +195,8 @@ const Feed = ({ handleModal }: { handleModal: () => void }) => {
         <FlatList
           ref={flatListRef}
           className="px-2"
-          contentContainerStyle={{ paddingTop: 65 }}
-          keyExtractor={(item, index) => item.postId}
+          contentContainerStyle={{ paddingTop: 64 }}
+          keyExtractor={(item) => item.postId}
           refreshControl={
             <RefreshControl
               colors={["#9F23B3"]}

@@ -22,7 +22,7 @@ const Providers = ({
             params: { id: id, mediaType: mediaType },
           });
         }}
-        className="mt-4 rounded-full flex-1 flex-row items-center py-2 justify-between"
+        className="mt-4 px-4 rounded-full flex-1 flex-row items-center py-2 justify-between"
       >
         <Text className="text-2xl text-black dark:text-slate-300 mt-1">
           {t("searchdetail.providers")}

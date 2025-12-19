@@ -19,7 +19,7 @@ const TrailerCard: React.FC<TrailerCardProps> = ({
   return (
     <TouchableOpacity
       onPress={onPress}
-      className="w-40 h-24 mr-3 rounded-xl overflow-hidden"
+      className="w-40 h-24 ml-3 rounded-xl overflow-hidden"
     >
       <Image
         source={thumbnailUrl ? thumbnailUrl : undefined}

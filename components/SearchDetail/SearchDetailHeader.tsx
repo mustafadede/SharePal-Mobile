@@ -59,7 +59,7 @@ const SearchDetailHeader = ({
             colors={
               colorScheme === "dark"
                 ? ["rgba(0, 0, 0, 0.4)", "rgb(14, 11, 19)"]
-                : ["rgba(255, 255, 255, 0.6)", "rgb(245, 245, 245)"]
+                : ["rgba(255, 255, 255, 0.8)", "rgb(245, 245, 245)"]
             }
             style={{ flex: 1 }}
           />

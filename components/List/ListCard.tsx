@@ -102,13 +102,13 @@ const ListCard = ({
           />
           <View className="pl-4">
             <Text
-              className="overflow-visible text-white w-72"
+              className="overflow-visible dark:text-white w-72"
               ellipsizeMode="tail"
               numberOfLines={1}
             >
               {index + 1 + ". " + movie.title}
             </Text>
-            <Text className="text-slate-200 dark:text-fuchsia-600">
+            <Text className="text-fuchsia-600">
               ({movie.releaseDate?.slice(0, 4)})
             </Text>
           </View>

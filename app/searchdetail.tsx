@@ -108,7 +108,10 @@ const searchdetail = () => {
     const backgroundColor = interpolateColor(
       scrollY.value,
       [0, 120],
-      ["rgba(0,0,0,0)", Colors.dark.cGradient2]
+      [
+        "rgba(0,0,0,0)",
+        colorScheme === "dark" ? Colors.dark.cGradient2 : Colors.dark.cWhite,
+      ]
     );
     return {
       backgroundColor,
@@ -206,6 +209,7 @@ const searchdetail = () => {
   const handlePresentModalClose = useCallback(() => {
     BottomSheetModalRef.current?.close();
   }, []);
+  console.log(mediaType);
 
   return (
     <View className="flex-1">
@@ -213,7 +217,7 @@ const searchdetail = () => {
         <Animated.ScrollView
           onScroll={scrollHandler}
           scrollEventThrottle={16}
-          className="flex-1 px-4 dark:bg-cGradient2"
+          className="flex-1 dark:bg-cGradient2"
           contentContainerStyle={{
             paddingBottom: 120,
           }}

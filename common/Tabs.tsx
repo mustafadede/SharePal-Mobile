@@ -15,7 +15,7 @@ const Tabs = ({
   return (
     <View className="w-full h-fit">
       <View
-        className="absolute z-10 flex-row mx-2 mt-4 rounded-2xl"
+        className="absolute z-10 flex-row mt-2 border border-1 border-slate-200 dark:border-transparent mx-2 rounded-2xl"
         style={{
           backgroundColor:
             colorScheme === "dark" ? Colors.dark.cGradient2 : "#64748b",
