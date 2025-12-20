@@ -22,12 +22,12 @@ import { useCallback, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Platform,
+  Pressable,
   Text,
   TouchableOpacity,
   useColorScheme,
   View,
 } from "react-native";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useDispatch } from "react-redux";
 import { toast } from "sonner-native";
 
@@ -41,12 +41,24 @@ export default function Home() {
     process.env.EXPO_PUBLIC_PASSWORD || ""
   );
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-  const snapPoints = useMemo(() => ["40%"], []);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
-
+  const [languageModalVisibility, setLanguageModalVisibility] = useState(false);
+  const snapPoints = useMemo(
+    () =>
+      languageModalVisibility
+        ? Platform.OS === "ios"
+          ? ["20%"]
+          : ["25%"]
+        : ["40%"],
+    [languageModalVisibility]
+  );
   const handlePresentModalPress = useCallback(() => {
     bottomSheetModalRef.current?.present();
+  }, []);
+
+  const handlePresentModalClose = useCallback(() => {
+    bottomSheetModalRef.current?.close();
   }, []);
 
   const handleSheetChanges = useCallback((index: number) => {
@@ -101,24 +113,25 @@ export default function Home() {
     });
   };
   const handleChangeLanguage = () => {
-    // Örnek olarak 'en' ve 'tr' arasında geçiş
     const newLang = i18n.language === "tr" ? "en" : "tr";
     i18n.changeLanguage(newLang);
   };
 
   return (
-    <GestureHandlerRootView
+    <View
       style={{
         flex: 1,
         backgroundColor:
           colorScheme === "dark" ? Colors.dark.cGradient2 : "transparent",
-        paddingTop: Platform.OS === "android" ? 0 : 0,
       }}
     >
       <View className="items-center justify-center flex-1 dark:bg-cGradient2">
         <TouchableOpacity
-          onPress={handleChangeLanguage}
-          className="border border-slate-400 flex-row gap-2 items-center"
+          className="border border-slate-400 w-14 h-14 justify-center flex-row gap-2 items-center"
+          onPress={() => {
+            setLanguageModalVisibility(true);
+            handlePresentModalPress();
+          }}
           style={{
             position: "absolute",
             top: 45,
@@ -132,12 +145,9 @@ export default function Home() {
         >
           <Ionicons
             name="language-outline"
-            size={24}
+            size={26}
             color={colorScheme === "dark" ? "#fff" : "#000"}
           />
-          <Text className="text-black dark:text-slate-200">
-            {i18n.language === "tr" ? "Türkçe" : "English"}
-          </Text>
         </TouchableOpacity>
         <BackgroundImage />
         <View className="w-full h-full px-14 flex-1 justify-center items-center">
@@ -162,7 +172,10 @@ export default function Home() {
             <UnderlineButton
               subtitle={"signup.subtitle"}
               title={"signup.title"}
-              onClickHandler={handlePresentModalPress}
+              onClickHandler={() => {
+                setLanguageModalVisibility(false);
+                handlePresentModalPress();
+              }}
             />
             <StandartButton
               title={"login.forgotPassword"}
@@ -174,6 +187,7 @@ export default function Home() {
       <BottomSheetModal
         ref={bottomSheetModalRef}
         index={1}
+        android_keyboardInputMode="adjustResize"
         snapPoints={snapPoints}
         backdropComponent={(props) => (
           <BottomSheetBackdrop
@@ -205,9 +219,60 @@ export default function Home() {
         )}
       >
         <BottomSheetView style={{ flex: 1, marginTop: 10 }}>
-          <SignUpContentComponent />
+          {languageModalVisibility ? (
+            <View className="items-center h-full flex-1 gap-4 px-8 justify-around">
+              <Pressable
+                className={`w-full justify-center h-fit flex-row items-center ${
+                  i18n.language === "tr" ? "" : "border border-slate-400"
+                }`}
+                onPress={() => {
+                  handleChangeLanguage();
+                  handlePresentModalClose();
+                }}
+                style={{
+                  padding: 12,
+                  backgroundColor:
+                    i18n.language === "tr"
+                      ? colorScheme === "dark"
+                        ? Colors.dark.cFuc6
+                        : "#e2e8f0"
+                      : "transparent",
+                  borderRadius: 50,
+                }}
+              >
+                <Text className="text-black text-lg dark:text-slate-200">
+                  🇹🇷 {i18n.language === "en" ? "Turkish" : "Türkçe"}
+                </Text>
+              </Pressable>
+              <Pressable
+                className={`w-full justify-center h-fit flex-row items-center ${
+                  i18n.language === "en" ? "" : "border border-slate-400"
+                }`}
+                onPress={() => {
+                  handleChangeLanguage();
+                  handlePresentModalClose();
+                }}
+                style={{
+                  padding: 12,
+                  backgroundColor:
+                    i18n.language === "en"
+                      ? colorScheme === "dark"
+                        ? Colors.dark.cFuc6
+                        : "#e2e8f0"
+                      : "transparent",
+                  borderRadius: 50,
+                }}
+              >
+                <Text className="text-black text-lg dark:text-slate-200">
+                  🇺🇸 {i18n.language === "tr" ? "İngilizce" : "English"}
+                </Text>
+              </Pressable>
+            </View>
+          ) : (
+            <SignUpContentComponent />
+          )}
         </BottomSheetView>
       </BottomSheetModal>
-    </GestureHandlerRootView>
+    </View>
   );
 }

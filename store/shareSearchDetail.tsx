@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-type ShareStatus = "loading" | "done";
+type ShareStatus = "loading" | "done" | "error";
 
 type ShareSearchDetailState = {
   shareStatus: ShareStatus;

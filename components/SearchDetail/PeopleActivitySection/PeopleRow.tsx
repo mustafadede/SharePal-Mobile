@@ -28,16 +28,16 @@ const PeopleRow = ({ title, icon }: Props) => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setUsers([]);
-    setLoading(true);
-
     if (!followingList || followingList.length === 0) {
+      setUsers([]);
       setLoading(false);
       return;
     }
 
-    const mediaId = Number(id);
+    setLoading(true);
+    setUsers([]);
 
+    const mediaId = Number(id);
     const fetcher =
       title === "Want to Watch"
         ? getSelectedUserWantToWatch
@@ -45,12 +45,12 @@ const PeopleRow = ({ title, icon }: Props) => {
           ? getSelectedUserWatched
           : getSelectedUserUnfinished;
 
+    let isMounted = true;
+
     Promise.all(
       followingList.map(async (following) => {
         const res = await fetcher(following.uid);
-
         const hasThisMedia = res.some((item) => item.id === mediaId);
-
         if (hasThisMedia) {
           return {
             uid: following.uid,
@@ -58,13 +58,18 @@ const PeopleRow = ({ title, icon }: Props) => {
             photoURL: res[0].photoURL,
           };
         }
-
         return null;
       })
     ).then((results) => {
-      setUsers(results.filter(isUserItem));
-      setLoading(false);
+      if (isMounted) {
+        setUsers(results.filter(isUserItem));
+        setLoading(false);
+      }
     });
+
+    return () => {
+      isMounted = false;
+    };
   }, [followingList, id, title]);
 
   return (

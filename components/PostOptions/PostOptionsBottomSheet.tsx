@@ -1,8 +1,13 @@
+import { deleteSelectedPost } from "@/services/firebaseActions";
+import { postsActions } from "@/store/postSlice";
+import { MaterialIcons } from "@expo/vector-icons";
 import Entypo from "@expo/vector-icons/Entypo";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Text, TouchableOpacity, View, useColorScheme } from "react-native";
+import { useDispatch } from "react-redux";
+import { toast } from "sonner-native";
 
 export type PostOptionsValues = {
   title: string;
@@ -17,14 +22,51 @@ export type PostOptionsValues = {
 
 type PostOptionsBottomSheetProps = {
   bottomSheetValues: PostOptionsValues;
+  handleClose: () => void;
 };
 
 const PostOptionsBottomSheet = React.memo(
-  ({ bottomSheetValues }: PostOptionsBottomSheetProps) => {
+  ({ bottomSheetValues, handleClose }: PostOptionsBottomSheetProps) => {
     const thisYear = new Date().getFullYear();
     const { t } = useTranslation();
     const colorScheme = useColorScheme();
+    const dispatch = useDispatch();
 
+    const handleDeletion = () => {
+      deleteSelectedPost(bottomSheetValues.id.toString()).then((res) => {
+        dispatch(postsActions.removePost(bottomSheetValues.id.toString()));
+        handleClose();
+
+        toast.warning(
+          res ? t("actions.deletedone") : t("actions.deleteunsuccessful"),
+          {
+            duration: 3000,
+            closeButton: true,
+            icon: res ? (
+              <MaterialIcons
+                name="done"
+                size={20}
+                color={colorScheme === "dark" ? "#f8fafc" : "black"}
+              />
+            ) : (
+              <MaterialIcons
+                name="clear"
+                size={20}
+                color={colorScheme === "dark" ? "#f8fafc" : "black"}
+              />
+            ),
+            style: {
+              backgroundColor: "transparent",
+              borderWidth: 1,
+              borderColor: "rgba(255,255,255,0.1)",
+              paddingVertical: 10,
+              paddingHorizontal: 14,
+              borderRadius: 14,
+            },
+          }
+        );
+      });
+    };
     return (
       <View className="px-5" style={{ gap: 24 }}>
         {/* Movie-specific */}
@@ -145,6 +187,7 @@ const PostOptionsBottomSheet = React.memo(
 
           {/* Delete Post */}
           <TouchableOpacity
+            onPress={() => handleDeletion()}
             className={`flex-row items-center justify-between rounded-xl px-4 py-3 border ${
               colorScheme === "dark"
                 ? "bg-red-600/20 border-red-600"

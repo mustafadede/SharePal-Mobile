@@ -15,11 +15,13 @@ const FeedCardHeader = ({
   postPage = false,
   setOptions,
   options,
+  setBottomSheetValues,
 }: {
   data: Post;
   postPage?: boolean;
   options: boolean;
   setOptions: (option: boolean) => void;
+  setBottomSheetValues: ({ id }: { id: string }) => void;
 }) => {
   const { t } = useTranslation();
   const colorScheme = useColorScheme();
@@ -39,6 +41,9 @@ const FeedCardHeader = ({
     }
   };
   const handleOptions = () => {
+    setBottomSheetValues({
+      id: data.postId,
+    });
     setOptions(!options);
   };
   return (

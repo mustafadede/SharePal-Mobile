@@ -10,11 +10,13 @@ const FeedCommentCard = ({
   postPage,
   handleModal,
   handleOptions,
+  setBottomSheetValues,
 }: {
   data: Post;
   index: number;
   handleModal: () => void;
   handleOptions: () => void;
+  setBottomSheetValues: () => void;
   postPage?: boolean;
 }) => {
   const [options, setOptions] = useState(false);
@@ -30,6 +32,7 @@ const FeedCommentCard = ({
           postPage={postPage}
           options={options}
           setOptions={handleOptions}
+          setBottomSheetValues={setBottomSheetValues}
         />
         <FeedCardContent data={data} />
         <FeedCardActions

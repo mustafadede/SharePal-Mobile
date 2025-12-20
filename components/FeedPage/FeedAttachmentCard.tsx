@@ -13,6 +13,7 @@ const FeedAttachmentCard = ({
   postPage,
   handleModal,
   handleOptions,
+  setBottomSheetValues,
 }: {
   data: Post;
   attachedData: PostAttachment;
@@ -20,6 +21,7 @@ const FeedAttachmentCard = ({
   postPage?: boolean;
   handleModal: () => void;
   handleOptions: () => void;
+  setBottomSheetValues: () => void;
 }) => {
   const [options, setOptions] = useState(false);
 
@@ -35,6 +37,7 @@ const FeedAttachmentCard = ({
           postPage={postPage}
           options={options}
           setOptions={handleOptions}
+          setBottomSheetValues={setBottomSheetValues}
         />
         <FeedCardContent data={data} haveSpoiler={false} />
         <FeedCardAttachment attachedData={attachedData} />

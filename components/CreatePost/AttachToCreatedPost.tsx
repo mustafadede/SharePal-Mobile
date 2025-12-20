@@ -15,7 +15,7 @@ const AttachToCreatedPost = () => {
   return (
     <TouchableOpacity
       onPress={handleAttachment}
-      className="flex-row items-center flex-1 py-3 px-5 mr-3 rounded-xl bg-fuchsia-600 dark:bg-slate-800"
+      className="flex-row items-center justify-center flex-1 py-3 px-5 mr-3 rounded-xl bg-fuchsia-600 dark:bg-slate-800"
       style={{
         shadowColor: "#000",
         shadowOpacity: 0.2,

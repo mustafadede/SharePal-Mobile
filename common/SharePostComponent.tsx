@@ -43,12 +43,15 @@ const SharePostComponent = ({ switchValue }: { switchValue: boolean }) => {
   const modal = useSelector(
     (state: RootState) => state.modal
   ) as ModalPropsType | null;
-  const contentLenght =
-    modal && modal.modalProps[0] && modal.modalProps[0].modalProps.content
-      ? String(modal.modalProps[0].modalProps.content).length
-      : 0;
 
   const newYear = DateFormatter(modal?.modalProps[0].modalProps.date, "modal");
+  const content =
+    modal && modal.modalProps[0]?.modalProps?.content
+      ? modal.modalProps[0].modalProps.content.trim()
+      : "";
+  const contentLines = content.split("\n").length;
+  const isLongContent = contentLines > 5;
+
   return (
     modal &&
     modal.modalProps[0] && (
@@ -106,7 +109,7 @@ const SharePostComponent = ({ switchValue }: { switchValue: boolean }) => {
             />
           </ImageBackground>
         ) : null}
-        <View className="flex-1 px-6 items-center" style={{ paddingTop: 24 }}>
+        <View className="flex-1 px-6 items-center" style={{ paddingTop: 7 }}>
           <View className="items-center">
             <Text
               className="font-semibold text-fuchsia-600"
@@ -126,23 +129,40 @@ const SharePostComponent = ({ switchValue }: { switchValue: boolean }) => {
               }}
             >
               {modal.modalProps[0]?.modalProps?.attachedFilm?.poster ? (
-                <Image
-                  source={{
-                    uri: `https://image.tmdb.org/t/p/original/${modal.modalProps[0].modalProps.attachedFilm.poster}`,
-                    cache: "force-cache",
-                  }}
-                  className="rounded-xl"
-                  resizeMode="cover"
-                  fadeDuration={0}
-                  style={{
-                    width: 160,
-                    height: 256,
-                    shadowColor: "#000",
-                    shadowOpacity: colorScheme === "dark" ? 0.26 : 0.18,
-                    shadowRadius: 48,
-                    shadowOffset: { width: 0, height: 12 },
-                  }}
-                />
+                <View>
+                  <Image
+                    source={{
+                      uri: `https://image.tmdb.org/t/p/original/${modal.modalProps[0].modalProps.attachedFilm.poster}`,
+                      cache: "force-cache",
+                    }}
+                    className="rounded-xl"
+                    resizeMode="cover"
+                    fadeDuration={0}
+                    style={{
+                      width: 160,
+                      height: 256,
+                      shadowColor: "#000",
+                      shadowOpacity: colorScheme === "dark" ? 0.26 : 0.18,
+                      shadowRadius: 48,
+                      shadowOffset: { width: 0, height: 12 },
+                    }}
+                  />
+                  {isLongContent && (
+                    <View
+                      style={{
+                        marginTop: 8,
+                        maxWidth: 160,
+                      }}
+                    >
+                      <Text
+                        className="text-white text-base italic"
+                        style={{ textAlign: "center" }}
+                      >
+                        "{content}"
+                      </Text>
+                    </View>
+                  )}
+                </View>
               ) : (
                 <View
                   className="rounded-xl bg-transparent"
@@ -162,59 +182,55 @@ const SharePostComponent = ({ switchValue }: { switchValue: boolean }) => {
             </Text>
           </View>
           <View className="absolute left-4 gap-2" style={{ bottom: 100 }}>
-            {modal && modal.modalProps[0]?.modalProps.spoiler && switchValue ? (
-              <View className="relative items-center justify-center">
-                <Text
-                  className={`text-slate-300 dark:text-white text-base italic ${
-                    modal.modalProps[0]?.modalProps.spoiler ? "px-2" : "px-0"
-                  }`}
-                >
-                  "
-                  {modal && modal.modalProps[0]?.modalProps.content
-                    ? modal.modalProps[0].modalProps.content.trim()
-                    : ""}
-                  "
-                </Text>
-                <Text
-                  className="absolute z-10 text-black dark:text-white w-full text-center"
-                  onPress={() => setLockChange(lockChange == 0 ? 1 : 0)}
-                >
-                  {lockChange == 0 && t("share.taptoreveal") + " "}
-                  <Ionicons
-                    name="lock-closed-outline"
-                    size={24}
-                    color={colorScheme === "dark" ? "white" : "black"}
-                  />
-                </Text>
-                <View style={[StyleSheet.absoluteFill]} pointerEvents="none">
-                  <BlurView
-                    intensity={Platform.OS === "android" ? 12 : 18}
-                    tint={colorScheme === "dark" ? "dark" : "light"}
-                    style={[
-                      StyleSheet.absoluteFill,
-                      {
-                        height: "120%",
-                        backgroundColor:
-                          colorScheme === "dark"
-                            ? "rgba(0,0,0,0.25)"
-                            : "rgba(255,255,255,0.35)",
-                      },
-                    ]}
-                    experimentalBlurMethod="dimezisBlurView"
-                  />
+            {!isLongContent ? (
+              modal &&
+              modal.modalProps[0]?.modalProps.spoiler &&
+              switchValue ? (
+                <View className="relative items-center justify-center">
+                  <Text
+                    className={`text-slate-300 dark:text-white text-base italic ${
+                      modal.modalProps[0]?.modalProps.spoiler ? "px-2" : "px-0"
+                    }`}
+                  >
+                    "{content}"
+                  </Text>
+                  <Text
+                    className="absolute z-10 text-black dark:text-white w-full text-center"
+                    onPress={() => setLockChange(lockChange == 0 ? 1 : 0)}
+                  >
+                    {lockChange == 0 && t("share.taptoreveal") + " "}
+                    <Ionicons
+                      name="lock-closed-outline"
+                      size={24}
+                      color={colorScheme === "dark" ? "white" : "black"}
+                    />
+                  </Text>
+                  <View style={[StyleSheet.absoluteFill]} pointerEvents="none">
+                    <BlurView
+                      intensity={Platform.OS === "android" ? 12 : 18}
+                      tint={colorScheme === "dark" ? "dark" : "light"}
+                      style={[
+                        StyleSheet.absoluteFill,
+                        {
+                          height: "120%",
+                          backgroundColor:
+                            colorScheme === "dark"
+                              ? "rgba(0,0,0,0.25)"
+                              : "rgba(255,255,255,0.35)",
+                        },
+                      ]}
+                      experimentalBlurMethod="dimezisBlurView"
+                    />
+                  </View>
                 </View>
-              </View>
-            ) : (
-              <Text
-                className={`text-slate-300 dark:text-white text-left text-base italic`}
-              >
-                "
-                {modal && modal.modalProps[0]?.modalProps.content
-                  ? modal.modalProps[0].modalProps.content.trim()
-                  : ""}
-                "
-              </Text>
-            )}
+              ) : (
+                <Text
+                  className={`text-slate-300 dark:text-white text-left text-base italic`}
+                >
+                  "{content}"
+                </Text>
+              )
+            ) : null}
           </View>
           <View
             className="flex-row items-center absolute"

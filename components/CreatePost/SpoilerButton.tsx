@@ -20,7 +20,7 @@ const SpoilerButton = () => {
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
         dispatch(createPostsActions.setSpoiler());
       }}
-      className={`flex-row items-center flex-1 py-3 px-5 rounded-xl ${
+      className={`flex-row items-center justify-center flex-1 py-3 px-5 rounded-xl ${
         createdPost.spoiler
           ? "bg-fuchsia-600 dark:bg-slate-600"
           : "bg-fuchsia-800 dark:bg-slate-800"

@@ -10,12 +10,14 @@ const FeedCard = ({
   postPage = false,
   handleModal,
   handleOptions,
+  setBottomSheetValues,
 }: {
   data: Post;
   index: number;
   postPage?: boolean;
   handleOptions: () => void;
   handleModal: () => void;
+  setBottomSheetValues: () => void;
 }) => {
   return !data.attachedFilm && !data.spoiler && !data.actionName ? (
     <FeedCommentCard
@@ -24,6 +26,7 @@ const FeedCard = ({
       postPage={postPage}
       handleOptions={handleOptions}
       handleModal={handleModal}
+      setBottomSheetValues={setBottomSheetValues}
     />
   ) : data.attachedFilm && !data.actionName && !data.spoiler ? (
     <FeedAttachmentCard
@@ -33,6 +36,7 @@ const FeedCard = ({
       postPage={postPage}
       handleOptions={handleOptions}
       handleModal={handleModal}
+      setBottomSheetValues={setBottomSheetValues}
     />
   ) : data.spoiler && !data.actionName ? (
     <FeedSpoilerCard
@@ -41,6 +45,7 @@ const FeedCard = ({
       postPage={postPage}
       handleOptions={handleOptions}
       handleModal={handleModal}
+      setBottomSheetValues={setBottomSheetValues}
     />
   ) : null;
 };

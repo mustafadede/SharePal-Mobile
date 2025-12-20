@@ -27,6 +27,7 @@ import React, {
   useRef,
   useState,
 } from "react";
+import { useTranslation } from "react-i18next";
 import {
   FlatList,
   Keyboard,
@@ -79,6 +80,7 @@ const index = () => {
   }, []);
   const handleSheetChanges = useCallback((index: number) => {}, []);
   const navigation = useNavigation();
+  const { t } = useTranslation();
   useEffect(() => {
     setLoading(true);
     getSpecificPost(String(id))
@@ -202,15 +204,7 @@ const index = () => {
 
                   {commentsLoading && (
                     <View style={{ paddingVertical: 20 }}>
-                      <Text
-                        style={{
-                          textAlign: "center",
-                          color: "#888",
-                          fontSize: 14,
-                        }}
-                      >
-                        Loading comments...
-                      </Text>
+                      <StatusLabel />
                     </View>
                   )}
 
@@ -223,7 +217,7 @@ const index = () => {
                           fontSize: 14,
                         }}
                       >
-                        No comments yet. Be the first to comment!
+                        {t("post.nocomment")}
                       </Text>
                     </View>
                   )}
@@ -256,7 +250,9 @@ const index = () => {
         )}
         onChange={handleSheetChanges}
         keyboardBlurBehavior="none"
-        handleIndicatorStyle={{ backgroundColor: "rgb(100 116 139)" }}
+        handleIndicatorStyle={{
+          backgroundColor: colorScheme === "dark" ? "#4b5563" : "#9ca3af",
+        }}
         keyboardBehavior="interactive"
         android_keyboardInputMode="adjustPan"
         backgroundComponent={({ style }) => (
@@ -264,7 +260,8 @@ const index = () => {
             style={[
               style,
               {
-                backgroundColor: Colors.dark.cGradient2,
+                backgroundColor:
+                  colorScheme === "dark" ? Colors.dark.cGradient2 : "#f9fafb",
                 borderTopLeftRadius: 20,
                 borderTopRightRadius: 20,
                 width: "100%",

@@ -2,11 +2,14 @@ import { Colors } from "@/constants/Colors";
 import { RootState } from "@/store";
 import Entypo from "@expo/vector-icons/Entypo";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { BlurView } from "expo-blur";
 import { Tabs } from "expo-router";
 import React, { useState } from "react";
 import {
   FlatList,
   Image,
+  Platform,
+  StyleSheet,
   TouchableOpacity,
   useColorScheme,
 } from "react-native";
@@ -24,6 +27,11 @@ export default function TabLayout() {
     }
   };
 
+  const platformBasedStyle =
+    Platform.OS === "ios"
+      ? { flex: 1 }
+      : [StyleSheet.absoluteFill, { flex: 1 }];
+
   return (
     <Tabs
       screenOptions={{
@@ -32,16 +40,22 @@ export default function TabLayout() {
         tabBarHideOnKeyboard: true,
         tabBarActiveTintColor: Colors.dark.cFuc6,
         tabBarStyle: {
-          borderColor:
-            colorScheme === "dark" ? Colors.dark.cDarkGray : Colors.dark.cWhite,
-          backgroundColor:
-            colorScheme === "dark"
-              ? Colors.dark.cGradient2
-              : Colors.dark.cWhite,
           borderTopWidth: 1,
           paddingTop: 10,
-          paddingBottom: 40,
+          borderColor:
+            colorScheme === "dark" ? Colors.dark.cDarkGray : Colors.dark.cWhite,
+          backgroundColor: "transparent",
+          position: "absolute",
         },
+        tabBarBackground: () => (
+          <BlurView
+            intensity={60}
+            tint={colorScheme === "dark" ? "dark" : "light"}
+            style={platformBasedStyle}
+            experimentalBlurMethod="dimezisBlurView"
+            renderToHardwareTextureAndroid
+          />
+        ),
       }}
     >
       <Tabs.Screen

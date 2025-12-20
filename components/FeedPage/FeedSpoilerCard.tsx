@@ -12,12 +12,14 @@ const FeedSpoilerCard = ({
   postPage,
   handleModal,
   handleOptions,
+  setBottomSheetValues,
 }: {
   data: Post;
   index: number;
   postPage?: boolean;
   handleModal: () => void;
   handleOptions: () => void;
+  setBottomSheetValues: (option: boolean) => void;
 }) => {
   const [options, setOptions] = useState(false);
   return (
@@ -31,6 +33,7 @@ const FeedSpoilerCard = ({
           data={data}
           postPage={postPage}
           options={options}
+          setBottomSheetValues={setBottomSheetValues}
           setOptions={handleOptions}
         />
         <FeedCardContent data={data} haveSpoiler={true} />

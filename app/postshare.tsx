@@ -96,7 +96,6 @@ const postshare = () => {
       <TouchableOpacity
         onPress={handleShare}
         style={{
-          marginTop: 7,
           paddingHorizontal: 32,
           paddingVertical: 12,
           borderRadius: 9999,

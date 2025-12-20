@@ -57,7 +57,7 @@ const Feed = ({ handleModal }: { handleModal: () => void }) => {
     watched: false,
     unfinished: false,
   };
-  const [bottomSheetValues] = useState<PostOptionsValues>(
+  const [bottomSheetValues, setBottomSheetValues] = useState<PostOptionsValues>(
     defaultBottomSheetValues
   );
   const colorScheme = useColorScheme();
@@ -65,7 +65,12 @@ const Feed = ({ handleModal }: { handleModal: () => void }) => {
   const handlePresentModalPress = useCallback(() => {
     bottomSheetModalRef.current?.present();
   }, []);
-  const handleSheetChanges = useCallback((index: number) => {}, []);
+
+  const handlePresentModalClose = useCallback(() => {
+    bottomSheetModalRef.current?.close();
+  }, []);
+
+  const handleSheetChanges = useCallback(() => {}, []);
   const onRefresh = () => {
     setIsRefreshing(true);
     dispatch(postsActions.setStatus("loading"));
@@ -165,7 +170,10 @@ const Feed = ({ handleModal }: { handleModal: () => void }) => {
         )}
       >
         <BottomSheetView style={{ flex: 1 }}>
-          <PostOptionsBottomSheet bottomSheetValues={bottomSheetValues} />
+          <PostOptionsBottomSheet
+            bottomSheetValues={bottomSheetValues}
+            handleClose={handlePresentModalClose}
+          />
         </BottomSheetView>
       </BottomSheetModal>
     ),
@@ -178,6 +186,7 @@ const Feed = ({ handleModal }: { handleModal: () => void }) => {
         data={item}
         index={index}
         handleModal={handleModal}
+        setBottomSheetValues={setBottomSheetValues}
         handleOptions={handlePresentModalPress}
       />
     ),
@@ -196,7 +205,9 @@ const Feed = ({ handleModal }: { handleModal: () => void }) => {
           ref={flatListRef}
           className="px-2"
           contentContainerStyle={{ paddingTop: 64 }}
-          keyExtractor={(item) => item.postId}
+          keyExtractor={(item, index) =>
+            item.postId?.toString() ?? `post-${index}`
+          }
           refreshControl={
             <RefreshControl
               colors={["#9F23B3"]}

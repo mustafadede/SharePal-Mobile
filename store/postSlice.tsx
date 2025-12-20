@@ -25,7 +25,9 @@ const postSlice = createSlice({
     },
     removePost(state, action) {
       const postId = action.payload;
-      state.posts = state.posts.filter((post) => post.postId !== postId);
+      state.posts = state.posts.filter(
+        (post: { postId: string }) => post.postId !== postId
+      );
     },
   },
 });

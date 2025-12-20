@@ -67,7 +67,7 @@ const Profile = () => {
               colorScheme === "dark"
                 ? Colors.dark.cDarkGray
                 : Colors.dark.cFuc6,
-            bottom: 10,
+            bottom: 90,
             right: 10,
             backgroundColor:
               colorScheme === "dark"
@@ -100,8 +100,8 @@ const Profile = () => {
   );
 
   return (
-    <View className="flex-1">
-      <ScrollView className="flex-1 pt-2 relative top-24 bg-[#f2f2f2] dark:bg-cGradient2 max-h-full px-4">
+    <View className="flex-1 pt-2 bg-[#f2f2f2] dark:bg-cGradient2">
+      <ScrollView className="flex-1 relative top-24 bg-[#f2f2f2] dark:bg-cGradient2 max-h-full px-4">
         <ProfileHeader />
         <FollowStats />
         <ProfileTabs tabs={tabs} setTabs={setTabs} />

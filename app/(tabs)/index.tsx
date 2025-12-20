@@ -41,7 +41,7 @@ const Index = () => {
           position: "absolute",
           borderColor:
             colorScheme === "dark" ? Colors.dark.cDarkGray : Colors.dark.cFuc6,
-          bottom: 10,
+          bottom: 90,
           right: 10,
           backgroundColor:
             colorScheme === "dark" ? Colors.dark.cGradient2 : Colors.dark.cFuc6,
