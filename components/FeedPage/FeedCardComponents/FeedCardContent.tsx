@@ -1,8 +1,8 @@
 import { Post } from "@/constants/Post";
+import { Feather } from "@expo/vector-icons";
 import { BlurView } from "expo-blur";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import {
-  Animated,
   Platform,
   StyleSheet,
   Text,
@@ -10,6 +10,12 @@ import {
   useColorScheme,
   View,
 } from "react-native";
+import Animated, {
+  Easing,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from "react-native-reanimated";
 
 const FeedCardContent = ({
   data,
@@ -21,22 +27,26 @@ const FeedCardContent = ({
   const colorScheme = useColorScheme();
   const [spoiler, setSpoiler] = useState(haveSpoiler);
   const [open, setOpen] = useState(false);
-  // Animated opacity for overlay/blur
-  const opacity = useRef(new Animated.Value(haveSpoiler ? 1 : 0)).current;
+  const revealProgress = useSharedValue(haveSpoiler ? 1 : 0);
 
   const handleReveal = () => {
     if (spoiler) {
-      Animated.timing(opacity, {
-        toValue: 0,
-        duration: 500, // fade speed
-        useNativeDriver: true,
-      }).start(() => {
-        setSpoiler(false);
+      revealProgress.value = withTiming(0, {
+        duration: 450,
+        easing: Easing.out(Easing.cubic),
       });
+      setTimeout(() => setSpoiler(false), 450);
     } else {
       setOpen((prev) => !prev);
     }
   };
+
+  const spoilerStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ scaleY: revealProgress.value }],
+      opacity: revealProgress.value,
+    };
+  });
 
   return (
     <View>
@@ -50,18 +60,55 @@ const FeedCardContent = ({
             {data.content}
           </Text>
 
-          {/* Spoiler overlay */}
           {spoiler && (
             <Animated.View
-              style={[StyleSheet.absoluteFill, { opacity }]}
               pointerEvents="none"
+              style={[
+                StyleSheet.absoluteFill,
+                Platform.OS === "android"
+                  ? [
+                      {
+                        backgroundColor:
+                          colorScheme === "dark" ? "#0f172a" : "#ffffff",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      },
+                      spoilerStyle,
+                    ]
+                  : spoilerStyle,
+              ]}
             >
-              <BlurView
-                intensity={Platform.OS === "android" ? 10 : 20}
-                tint={colorScheme === "dark" ? "dark" : "light"}
-                style={StyleSheet.absoluteFill}
-                experimentalBlurMethod="dimezisBlurView"
-              />
+              {Platform.OS === "ios" ? (
+                <BlurView
+                  intensity={20}
+                  tint={colorScheme === "dark" ? "dark" : "light"}
+                  style={StyleSheet.absoluteFill}
+                />
+              ) : (
+                <View
+                  style={{
+                    alignItems: "center",
+                    flexDirection: "row",
+                    justifyContent: "center",
+                    gap: 10,
+                  }}
+                >
+                  <Feather
+                    name="lock"
+                    size={16}
+                    color={colorScheme === "dark" ? "#6B7280" : "black"}
+                  />
+                  <Text
+                    style={{
+                      fontSize: 14,
+                      opacity: 0.9,
+                    }}
+                    className="text-slate-600 dark:text-white"
+                  >
+                    İçeriği görmek için dokun
+                  </Text>
+                </View>
+              )}
             </Animated.View>
           )}
         </View>

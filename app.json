@@ -13,9 +13,12 @@
       "infoPlist": {
         "CFBundleLocalizations": [
           "en",
+          "tr",
+          "en",
           "tr"
         ]
-      }
+      },
+      "bundleIdentifier": "com.anonymous.SharePal"
     },
     "android": {
       "adaptiveIcon": {
