@@ -67,7 +67,7 @@ const Profile = () => {
               colorScheme === "dark"
                 ? Colors.dark.cDarkGray
                 : Colors.dark.cFuc6,
-            bottom: 90,
+            bottom: 110,
             right: 10,
             backgroundColor:
               colorScheme === "dark"

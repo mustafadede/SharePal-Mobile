@@ -15,7 +15,7 @@ import { profileActions } from "@/store/profileSlice";
 import { userProfileActions } from "@/store/userProfileSlice";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useLayoutEffect } from "react";
 import {
   Platform,
   StatusBar as RNStatusBar,
@@ -41,7 +41,7 @@ const UserProfile = () => {
     });
   }, [id]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     dispatch(userProfileActions.setStatus("Loading"));
     getSelectedUser(String(id)).then((user) => {
       dispatch(userProfileActions.updateProfile(user));
@@ -75,7 +75,7 @@ const UserProfile = () => {
     >
       <ScrollView className="flex-1 bg-[#f2f2f2] dark:bg-cGradient2 px-4">
         <ProfileHeader user={true} />
-        <FollowStats />
+        <FollowStats user={true} />
         <UserProfileActions userId={String(id)} />
         <ProfileTabs tabs={tabs} setTabs={setTabs} />
         {tabs === 0 && <StatsCards user={true} />}

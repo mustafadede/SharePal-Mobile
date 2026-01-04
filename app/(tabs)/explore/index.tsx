@@ -277,6 +277,9 @@ const Explore = () => {
           updateCellsBatchingPeriod={50}
           windowSize={5}
           initialNumToRender={5}
+          contentContainerStyle={{
+            paddingBottom: 120,
+          }}
         />
       )}
       {memoBottomSheet}

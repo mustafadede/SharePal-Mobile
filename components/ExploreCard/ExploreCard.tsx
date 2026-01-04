@@ -121,7 +121,7 @@ const ExploreCard = React.memo(
                 setImageLoaded(true);
                 Animated.timing(opacityAnim, {
                   toValue: 1,
-                  duration: 500, // fade-in duration
+                  duration: 500,
                   useNativeDriver: true,
                 }).start();
               }}

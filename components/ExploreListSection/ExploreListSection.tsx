@@ -35,7 +35,7 @@ const ExploreListSection = ({
       {!data && (
         <FlatList
           key={"nowPlaying"}
-          className="flex-1 px-4 mb-2 h-72 gap-10"
+          className="flex-1 px-4 mb-2 h-72 px- gap-10"
           showsHorizontalScrollIndicator={false}
           data={[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
           horizontal

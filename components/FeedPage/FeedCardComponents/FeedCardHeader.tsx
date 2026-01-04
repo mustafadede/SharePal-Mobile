@@ -54,7 +54,7 @@ const FeedCardHeader = ({
           onPress={handleClick}
         >
           {data.photoURL && <ImageComponent url={`${data.photoURL}`} />}
-          {!data.photoURL && <DummyImage wide={12} />}
+          {!data.photoURL && <DummyImage wide={"100%"} />}
         </TouchableOpacity>
         <View>
           <TouchableOpacity onPress={handleClick}>

@@ -15,6 +15,7 @@ import {
   View,
 } from "react-native";
 import { useSelector } from "react-redux";
+import DummyImage from "./DummyImage";
 
 type ModalPropsType = {
   modalProps: {
@@ -177,7 +178,12 @@ const SharePostComponent = ({ switchValue }: { switchValue: boolean }) => {
                 />
               )}
             </View>
-            <Text className="text-white text-xl mt-2 text-center">
+            <Text
+              style={{
+                zIndex: 20,
+              }}
+              className="dark:text-white text-xl mt-2 text-center"
+            >
               {modal?.modalProps?.[0]?.modalProps?.attachedFilm?.title || ""}
             </Text>
           </View>
@@ -212,7 +218,7 @@ const SharePostComponent = ({ switchValue }: { switchValue: boolean }) => {
                       style={[
                         StyleSheet.absoluteFill,
                         {
-                          height: "120%",
+                          height: "100%",
                           backgroundColor:
                             colorScheme === "dark"
                               ? "rgba(0,0,0,0.25)"
@@ -236,20 +242,24 @@ const SharePostComponent = ({ switchValue }: { switchValue: boolean }) => {
             className="flex-row items-center absolute"
             style={{ bottom: 32, left: 12 }}
           >
-            <Image
-              className="rounded-full"
-              source={
-                modal
-                  ? { uri: `${modal.modalProps[0].modalProps.photoURL}` }
-                  : require("@/assets/images/react-logo.png")
-              }
-              style={{
-                width: 42,
-                height: 42,
-                borderWidth: 1,
-                borderColor: "rgba(255,255,255,0.2)",
-              }}
-            />
+            {modal.modalProps[0].modalProps.photoURL ? (
+              <Image
+                className="rounded-full"
+                source={
+                  modal
+                    ? { uri: `${modal.modalProps[0].modalProps.photoURL}` }
+                    : require("@/assets/images/react-logo.png")
+                }
+                style={{
+                  width: 42,
+                  height: 42,
+                  borderWidth: 1,
+                  borderColor: "rgba(255,255,255,0.2)",
+                }}
+              />
+            ) : (
+              <DummyImage wide={42} />
+            )}
             <View className="flex-col ml-2">
               <Text className="text-lg text-slate-300 dark:text-slate-200">
                 @

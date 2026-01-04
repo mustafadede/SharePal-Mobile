@@ -222,7 +222,11 @@ const Feed = ({ handleModal }: { handleModal: () => void }) => {
           showsVerticalScrollIndicator={true}
           refreshing={isRefreshing}
           onRefresh={onRefresh}
-          onScroll={handleScroll}
+          onScroll={(e) => {
+            dispatch(
+              scrollActions.updateScrollPosition(e.nativeEvent.contentOffset.y)
+            );
+          }}
           onMomentumScrollEnd={handleScrollEnd}
           scrollEventThrottle={16}
           renderItem={renderItem}

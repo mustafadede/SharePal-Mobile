@@ -30,7 +30,6 @@ const ProvidersList = ({ movieId, selectedCountry, mediaType }: Props) => {
       try {
         const data = await useWatchProvider(movieId, mediaType);
         const countryData = data?.results?.[selectedCountry];
-        console.log(mediaType);
 
         if (!countryData || Object.keys(countryData).length === 0) {
           setNoData(true);

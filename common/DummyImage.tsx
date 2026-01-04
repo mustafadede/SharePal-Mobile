@@ -1,8 +1,16 @@
-import { View, Text } from "react-native";
 import React from "react";
+import { View } from "react-native";
 
-const DummyImage = ({ wide }: { wide: number }) => {
-  return <View className={`h-${wide} w-${wide} rounded-full bg-fuchsia-600`}></View>;
+const DummyImage = ({ wide = "100" }: { wide: number | string }) => {
+  return (
+    <View
+      style={{
+        width: wide as number | string,
+        height: wide as number | string,
+      }}
+      className="rounded-full bg-fuchsia-600"
+    />
+  );
 };
 
 export default DummyImage;

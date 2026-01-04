@@ -5,9 +5,11 @@ import { Text, TouchableOpacity, View } from "react-native";
 import { useSelector } from "react-redux";
 import StatusLabel from "../StatusLabel/StatusLabel";
 
-const FollowStats = () => {
+const FollowStats = ({ user = false }: { user?: boolean }) => {
   const { t } = useTranslation();
   const profile = useSelector((state: RootState) => state.profile);
+  const userprofile = useSelector((state: RootState) => state.userProfile);
+
   return (
     <View className="py-2 flex flex-row justify-around my-2 bg-white dark:bg-slate-900 rounded-2xl h-20 border border-slate-200 dark:border-transparent">
       <TouchableOpacity className=" items-center h-full">
@@ -15,7 +17,13 @@ const FollowStats = () => {
           {t("profile.followers")}
         </Text>
         <Text className="text-lg text-slate-600 dark:text-slate-200">
-          {profile ? profile.followers : <StatusLabel />}
+          {user ? (
+            userprofile.followers
+          ) : profile ? (
+            profile.followers
+          ) : (
+            <StatusLabel />
+          )}
         </Text>
       </TouchableOpacity>
       <TouchableOpacity className="items-center h-full">
@@ -23,7 +31,13 @@ const FollowStats = () => {
           {t("profile.following")}
         </Text>
         <Text className="text-lg text-slate-600 dark:text-slate-200">
-          {profile ? profile.following : <StatusLabel />}
+          {user ? (
+            userprofile.followers
+          ) : profile ? (
+            profile.following
+          ) : (
+            <StatusLabel />
+          )}
         </Text>
       </TouchableOpacity>
     </View>

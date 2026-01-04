@@ -51,9 +51,9 @@ export default function TabLayout() {
           <BlurView
             intensity={60}
             tint={colorScheme === "dark" ? "dark" : "light"}
-            style={platformBasedStyle}
             experimentalBlurMethod="dimezisBlurView"
             renderToHardwareTextureAndroid
+            style={platformBasedStyle}
           />
         ),
       }}

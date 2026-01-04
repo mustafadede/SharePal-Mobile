@@ -10,6 +10,7 @@ import {
   useColorScheme,
   View,
 } from "react-native";
+import Animated, { FadeInDown, FadeOutDown } from "react-native-reanimated";
 import Feed from "../feed";
 
 const Index = () => {
@@ -34,26 +35,35 @@ const Index = () => {
 
   const floatingActionButton = useMemo(
     () => (
-      <TouchableOpacity
-        onPress={() => router.push("/createpost")}
-        activeOpacity={0.8}
-        style={{
-          position: "absolute",
-          borderColor:
-            colorScheme === "dark" ? Colors.dark.cDarkGray : Colors.dark.cFuc6,
-          bottom: 90,
-          right: 10,
-          backgroundColor:
-            colorScheme === "dark" ? Colors.dark.cGradient2 : Colors.dark.cFuc6,
-          borderRadius: 50,
-          padding: 14,
-          elevation: 1,
-          zIndex: 1,
-          borderWidth: 1,
-        }}
+      <Animated.View
+        entering={FadeInDown.springify()}
+        exiting={FadeOutDown.springify()}
       >
-        <Feather name="plus" size={32} color={Colors.dark.cWhite} />
-      </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => router.push("/createpost")}
+          activeOpacity={0.8}
+          style={{
+            position: "absolute",
+            borderColor:
+              colorScheme === "dark"
+                ? Colors.dark.cDarkGray
+                : Colors.dark.cFuc6,
+            bottom: 100,
+            right: 10,
+            backgroundColor:
+              colorScheme === "dark"
+                ? Colors.dark.cGradient2
+                : Colors.dark.cFuc6,
+            borderRadius: 50,
+            padding: 14,
+            elevation: 1,
+            zIndex: 1,
+            borderWidth: 1,
+          }}
+        >
+          <Feather name="plus" size={32} color={Colors.dark.cWhite} />
+        </TouchableOpacity>
+      </Animated.View>
     ),
     [colorScheme]
   );

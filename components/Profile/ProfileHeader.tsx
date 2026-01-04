@@ -17,7 +17,7 @@ const ProfileHeader = ({ user = false }: { user?: boolean }) => {
         source={{ uri: profile.banner }}
         imageStyle={{ borderRadius: 20, opacity: 0.6 }}
       >
-        <View className="flex-row items-center justify-start gap-4">
+        <View className="flex-row items-center justify-center gap-4">
           {profile.photoURL ? (
             <Image
               source={{ uri: `${profile.photoURL}` }}
@@ -29,7 +29,7 @@ const ProfileHeader = ({ user = false }: { user?: boolean }) => {
               contentFit="cover"
             />
           ) : (
-            <DummyImage wide={24} />
+            <DummyImage wide={96} />
           )}
 
           <View>

@@ -209,7 +209,6 @@ const searchdetail = () => {
   const handlePresentModalClose = useCallback(() => {
     BottomSheetModalRef.current?.close();
   }, []);
-  console.log(mediaType);
 
   return (
     <View className="flex-1">
