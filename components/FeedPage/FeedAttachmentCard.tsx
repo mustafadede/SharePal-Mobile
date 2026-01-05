@@ -40,7 +40,9 @@ const FeedAttachmentCard = ({
           setBottomSheetValues={setBottomSheetValues}
         />
         <FeedCardContent data={data} haveSpoiler={false} />
-        <FeedCardAttachment attachedData={attachedData} />
+        {data.attachedFilm === undefined ? null : (
+          <FeedCardAttachment attachedData={attachedData} />
+        )}
         <FeedCardActions
           data={data}
           postPage={postPage}

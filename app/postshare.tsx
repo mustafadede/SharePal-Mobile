@@ -6,6 +6,8 @@ import * as Sharing from "expo-sharing";
 import React, { useCallback, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
+  InteractionManager,
+  PixelRatio,
   Switch,
   Text,
   TouchableOpacity,
@@ -22,6 +24,7 @@ const captureShot = (
 ) => {
   return (
     <ViewShot
+      collapsable={false}
       ref={ref}
       options={{ format: "png", quality: 1 }}
       onCapture={handleShare}
@@ -30,6 +33,8 @@ const captureShot = (
     </ViewShot>
   );
 };
+
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const postshare = () => {
   const viewRef = useRef(null);
@@ -48,28 +53,37 @@ const postshare = () => {
     }, [])
   );
 
-  const handleShare = async () => {
-    try {
-      if (viewRef.current) {
-        const uri = await captureRef(viewRef, {
-          format: "png",
-          result: "tmpfile",
-        });
+  const handleShare = () => {
+    InteractionManager.Events.interactionComplete.(async () => {
+      try {
+        await delay(150);
 
-        const isAvailable = await Sharing.isAvailableAsync();
+        const targetPixelCount = 1080;
+        const pixelRatio = PixelRatio.get();
+        const pixels = targetPixelCount / pixelRatio;
 
-        if (isAvailable) {
-          await Sharing.shareAsync(uri, {
-            mimeType: "image/png",
-            dialogTitle: "Share your content",
+        if (viewRef.current) {
+          const uri = await captureRef(viewRef, {
+            width: pixels,
+            quality: 1,
+            format: "png",
+            result: "tmpfile",
           });
-        } else {
-          console.log("Sharing not available");
+
+          const isAvailable = await Sharing.isAvailableAsync();
+          if (isAvailable) {
+            await Sharing.shareAsync(uri, {
+              mimeType: "image/png",
+              dialogTitle: "Share your content",
+            });
+          } else {
+            console.log("Sharing not available");
+          }
         }
+      } catch (error) {
+        console.error(error);
       }
-    } catch (error) {
-      console.error(error);
-    }
+    });
   };
 
   return (

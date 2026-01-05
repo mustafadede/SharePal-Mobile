@@ -45,7 +45,8 @@ const SharePostComponent = ({ switchValue }: { switchValue: boolean }) => {
     (state: RootState) => state.modal
   ) as ModalPropsType | null;
 
-  const newYear = DateFormatter(modal?.modalProps[0].modalProps.date, "modal");
+  const newYear =
+    modal && DateFormatter(modal?.modalProps[0].modalProps.date, "modal");
   const content =
     modal && modal.modalProps[0]?.modalProps?.content
       ? modal.modalProps[0].modalProps.content.trim()
@@ -192,7 +193,10 @@ const SharePostComponent = ({ switchValue }: { switchValue: boolean }) => {
               modal &&
               modal.modalProps[0]?.modalProps.spoiler &&
               switchValue ? (
-                <View className="relative items-center justify-center">
+                <View
+                  style={{ top: 16 }}
+                  className="relative items-center justify-center"
+                >
                   <Text
                     className={`text-slate-300 dark:text-white text-base italic ${
                       modal.modalProps[0]?.modalProps.spoiler ? "px-2" : "px-0"
