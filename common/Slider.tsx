@@ -45,7 +45,7 @@ const Slider = ({ data }: SliderProps) => {
       return () => {
         clearInterval(interval);
       };
-    }, [data, isInteracting])
+    }, [data, isInteracting]),
   );
 
   return (

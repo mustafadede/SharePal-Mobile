@@ -63,7 +63,7 @@ const PostOptionsBottomSheet = React.memo(
               paddingHorizontal: 14,
               borderRadius: 14,
             },
-          }
+          },
         );
       });
     };
@@ -117,7 +117,6 @@ const PostOptionsBottomSheet = React.memo(
             </TouchableOpacity>
           )}
 
-        {/* Modern Minimal Buttons */}
         <View className="w-full flex flex-col gap-3">
           {/* Edit Post */}
           <TouchableOpacity
@@ -210,7 +209,7 @@ const PostOptionsBottomSheet = React.memo(
         </View>
       </View>
     );
-  }
+  },
 );
 
 export default PostOptionsBottomSheet;

@@ -342,8 +342,7 @@ const createPostAction = async (
     const newUserPostRef = push(
       ref(database, `userPostsList/${userId}/posts/`),
     );
-
-    set(newPostRef, {
+    const newPost = {
       userId: userId,
       postId: newPostRef.key,
       photoURL: getAuth().currentUser?.photoURL || null,
@@ -360,13 +359,15 @@ const createPostAction = async (
       repost: 0,
       repostList: [],
       date: Date.now(),
-    });
+    };
+
+    set(newPostRef, newPost);
 
     await update(newUserPostRef, {
       [newPostRef.key as string]: newPostRef.key,
     });
 
-    return true;
+    return newPost;
   } catch (error) {
     console.error(error);
   }

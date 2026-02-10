@@ -29,6 +29,26 @@ const collection = () => {
     console.log("handleSheetChanges", index);
   }, []);
 
+  const openBottomSheet = useCallback(
+    (values: {
+      title: string;
+      release_date: string;
+      poster_path: string;
+      mediaType: string;
+      id: number;
+      wanttowatch: boolean;
+      watched: boolean;
+      unfinished: boolean;
+    }) => {
+      setBottomSheetValues(values);
+
+      requestAnimationFrame(() => {
+        handlePresentModalPress();
+      });
+    },
+    [handlePresentModalPress],
+  );
+
   return (
     <GestureHandlerRootView className="flex-1">
       <View className="flex-1 pt-36 bg-transparent dark:bg-cGradient2">
@@ -56,7 +76,7 @@ const collection = () => {
                 data={Marvel["MCU Sagas"]["Infinity Saga"]}
                 sliderType="movie"
                 exploreTitle="Infinity Saga"
-                setBottomSheetVisible={handlePresentModalPress}
+                openBottomSheet={openBottomSheet}
                 setBottomSheetValues={setBottomSheetValues}
               />
             </View>
@@ -65,8 +85,7 @@ const collection = () => {
                 data={Marvel["MCU Sagas"]["Multiverse Saga"]}
                 sliderType="movie"
                 exploreTitle="Multiverse Saga"
-                setBottomSheetVisible={handlePresentModalPress}
-                setBottomSheetValues={setBottomSheetValues}
+                openBottomSheet={openBottomSheet}
               />
             </View>
           </ScrollView>

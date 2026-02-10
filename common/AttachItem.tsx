@@ -44,7 +44,7 @@ const AttachItem = ({
         title: title,
         mediaType: mediaType.toLocaleLowerCase(),
         releaseDate: release_date,
-      })
+      }),
     );
     router.back();
   };

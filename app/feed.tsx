@@ -1,4 +1,5 @@
 import InfoLabel from "@/common/InfoLabel";
+import ExploreBottomSheet from "@/components/ExploreBottomSheet/ExploreBottomSheet";
 import FeedCard from "@/components/FeedPage/FeedCard";
 import PostOptionsBottomSheet, {
   PostOptionsValues,
@@ -26,19 +27,12 @@ import React, {
   useRef,
   useState,
 } from "react";
-import {
-  FlatList,
-  NativeScrollEvent,
-  NativeSyntheticEvent,
-  RefreshControl,
-  useColorScheme,
-  View,
-} from "react-native";
+import { FlatList, RefreshControl, useColorScheme, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { flatListRef } from "./(tabs)/_layout";
 
 const Feed = ({ handleModal }: { handleModal: () => void }) => {
-  const profile = useSelector((state: RootState) => state.profile);
+  const { showModal } = useSelector((state: RootState) => state.createpost);
   const { userId } = useSelector((state: RootState) => state.profile);
   const { posts, status } = useSelector((state: RootState) => state.post);
   const [lastPostDate, setLastPostDate] = useState(null); // Son post tarihini tut
@@ -46,6 +40,7 @@ const Feed = ({ handleModal }: { handleModal: () => void }) => {
   const dispatch = useDispatch();
   const [isRefreshing, setIsRefreshing] = useState(false);
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+  const FilmbottomSheetModalRef = useRef<BottomSheetModal>(null);
   const snapPoints = useMemo(() => ["37%"], []);
   const defaultBottomSheetValues: PostOptionsValues = {
     title: "",
@@ -57,13 +52,29 @@ const Feed = ({ handleModal }: { handleModal: () => void }) => {
     watched: false,
     unfinished: false,
   };
+
   const [bottomSheetValues, setBottomSheetValues] = useState<PostOptionsValues>(
-    defaultBottomSheetValues
+    defaultBottomSheetValues,
   );
+
+  const [filmBottomSheetValues, setFilmBottomSheetValues] = useState<object>({
+    title: "",
+    release_date: "",
+    poster_path: "",
+    mediaType: "",
+    id: 0,
+    wanttowatch: false,
+    watched: false,
+    unfinished: false,
+  });
   const colorScheme = useColorScheme();
   const scrollY = useRef(0);
   const handlePresentModalPress = useCallback(() => {
     bottomSheetModalRef.current?.present();
+  }, []);
+
+  const handleFilmPresentModalPress = useCallback(() => {
+    FilmbottomSheetModalRef.current?.present();
   }, []);
 
   const handlePresentModalClose = useCallback(() => {
@@ -71,27 +82,26 @@ const Feed = ({ handleModal }: { handleModal: () => void }) => {
   }, []);
 
   const handleSheetChanges = useCallback(() => {}, []);
+
+  useEffect(() => {
+    if (showModal.show) {
+      setFilmBottomSheetValues(showModal.values);
+      handleFilmPresentModalPress();
+    }
+  }, [showModal, handleFilmPresentModalPress]);
+
   const onRefresh = () => {
     setIsRefreshing(true);
     dispatch(postsActions.setStatus("loading"));
     getAllPosts().then((res) => {
       dispatch(postsActions.fetchPosts(res));
-      setLastPostDate(res[res.length - 1].date); // Son post tarihini güncelle
+      setLastPostDate(res[res.length - 1].date);
       setIsRefreshing(false);
       dispatch(postsActions.setStatus("done"));
     });
   };
 
-  // useFocusEffect(
-  //   useCallback(() => {
-  //     dispatch(postsActions.setStatus("loading"));
-  //     getAllPosts().then((res) => {
-  //       setLastPostDate(res[res.length - 1].date);
-  //       dispatch(postsActions.fetchPosts(res));
-  //       dispatch(postsActions.setStatus("done"));
-  //     });
-  //   }, [dispatch])
-  // );
+  const handleFilmSheetChanges = useCallback((index: number) => {}, []);
 
   useEffect(() => {
     if (userId) {
@@ -108,10 +118,6 @@ const Feed = ({ handleModal }: { handleModal: () => void }) => {
       });
     }
   }, [userId, isRefreshing]);
-
-  const handleScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
-    scrollY.current = e.nativeEvent.contentOffset.y;
-  };
 
   const handleScrollEnd = () => {
     dispatch(scrollActions.updateScrollPosition(scrollY.current));
@@ -177,7 +183,7 @@ const Feed = ({ handleModal }: { handleModal: () => void }) => {
         </BottomSheetView>
       </BottomSheetModal>
     ),
-    [colorScheme, bottomSheetValues]
+    [colorScheme, bottomSheetValues],
   );
 
   const renderItem = useCallback(
@@ -190,7 +196,61 @@ const Feed = ({ handleModal }: { handleModal: () => void }) => {
         handleOptions={handlePresentModalPress}
       />
     ),
-    [handleModal, handlePresentModalPress]
+    [handleModal, handlePresentModalPress],
+  );
+
+  const memoAttachedFilmBottomSheet = useMemo(
+    () => (
+      <BottomSheetModal
+        ref={FilmbottomSheetModalRef}
+        index={1}
+        snapPoints={snapPoints}
+        backdropComponent={(props) => (
+          <BottomSheetBackdrop
+            {...props}
+            disappearsOnIndex={0}
+            appearsOnIndex={1}
+            opacity={0.5}
+          />
+        )}
+        detached={false}
+        onChange={handleFilmSheetChanges}
+        keyboardBlurBehavior="none"
+        handleIndicatorStyle={{ backgroundColor: "rgb(100 116 139)" }}
+        keyboardBehavior="interactive"
+        android_keyboardInputMode="adjustPan"
+        backgroundComponent={({ style }) => (
+          <View
+            style={[
+              style,
+              {
+                backgroundColor: Colors.dark.cGradient2,
+                maxHeight: 380,
+                borderTopLeftRadius: 20,
+                borderTopRightRadius: 20,
+                borderBottomLeftRadius: 20,
+                borderBottomRightRadius: 20,
+                borderColor: Colors.dark.cDarkGray,
+                borderWidth: 1,
+                width: "100%",
+                justifyContent: "center",
+                alignItems: "center",
+              },
+            ]}
+          />
+        )}
+      >
+        <BottomSheetView style={{ flex: 1, marginTop: 10 }}>
+          <ExploreBottomSheet
+            bottomSheetValues={filmBottomSheetValues}
+            setBottomSheetValues={setFilmBottomSheetValues}
+            feed={true}
+            handlePresentModalClose={handleFilmPresentModalPress}
+          />
+        </BottomSheetView>
+      </BottomSheetModal>
+    ),
+    [colorScheme, showModal, filmBottomSheetValues],
   );
 
   return (
@@ -224,7 +284,7 @@ const Feed = ({ handleModal }: { handleModal: () => void }) => {
           onRefresh={onRefresh}
           onScroll={(e) => {
             dispatch(
-              scrollActions.updateScrollPosition(e.nativeEvent.contentOffset.y)
+              scrollActions.updateScrollPosition(e.nativeEvent.contentOffset.y),
             );
           }}
           onMomentumScrollEnd={handleScrollEnd}
@@ -236,6 +296,7 @@ const Feed = ({ handleModal }: { handleModal: () => void }) => {
         />
       )}
       {memoBottomSheet}
+      {memoAttachedFilmBottomSheet}
     </View>
   );
 };

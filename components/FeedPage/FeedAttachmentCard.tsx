@@ -9,7 +9,6 @@ import FeedCardHeader from "./FeedCardComponents/FeedCardHeader";
 const FeedAttachmentCard = ({
   data,
   attachedData,
-  index,
   postPage,
   handleModal,
   handleOptions,
@@ -40,9 +39,7 @@ const FeedAttachmentCard = ({
           setBottomSheetValues={setBottomSheetValues}
         />
         <FeedCardContent data={data} haveSpoiler={false} />
-        {data.attachedFilm === undefined ? null : (
-          <FeedCardAttachment attachedData={attachedData} />
-        )}
+        <FeedCardAttachment attachedData={attachedData} />
         <FeedCardActions
           data={data}
           postPage={postPage}

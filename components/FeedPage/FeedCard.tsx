@@ -19,7 +19,10 @@ const FeedCard = ({
   handleModal: () => void;
   setBottomSheetValues: () => void;
 }) => {
-  return !data.attachedFilm && !data.spoiler && !data.actionName ? (
+  const hasAttachment =
+    data.attachedFilm && Object.keys(data.attachedFilm).length > 0;
+
+  return !hasAttachment && !data.spoiler && !data.actionName ? (
     <FeedCommentCard
       data={data}
       index={index}
@@ -28,7 +31,7 @@ const FeedCard = ({
       handleModal={handleModal}
       setBottomSheetValues={setBottomSheetValues}
     />
-  ) : data.attachedFilm && !data.actionName && !data.spoiler ? (
+  ) : hasAttachment && !data.actionName && !data.spoiler ? (
     <FeedAttachmentCard
       data={data}
       attachedData={data.attachedFilm as PostAttachment}

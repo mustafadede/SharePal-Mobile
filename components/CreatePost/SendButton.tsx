@@ -12,32 +12,44 @@ import { useDispatch, useSelector } from "react-redux";
 const SendButton = () => {
   const colorScheme = useColorScheme();
   const { createdPostLength, createdPost } = useSelector(
-    (state: RootState) => state.createpost
+    (state: RootState) => state.createpost,
   );
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const { userId, photoURL, nick } = useSelector(
-    (state: RootState) => state.profile
+    (state: RootState) => state.profile,
   );
 
   const handlePost = () => {
-    dispatch(
-      postsActions.addPost({
-        ...createdPost,
-        userId,
-        nick,
-        date: new Date().toISOString(),
-        photoURL,
-      })
-    );
-    dispatch(createPostsActions.createPostAttachment({}));
+    const hasAttachment =
+      createdPost.attachedFilm &&
+      Object.keys(createdPost.attachedFilm).length > 0;
+
     createPostAction(
       createdPost.content,
       createdPost.attachedFilm,
       createdPost.spoiler,
-      nick
-    );
+      nick,
+    ).then((post) => {
+      dispatch(postsActions.addPost(post));
+    });
+
+    dispatch(createPostsActions.resetCreatePost());
+
     navigation.goBack();
+    hasAttachment &&
+      dispatch(
+        createPostsActions.toggleModal({
+          title: createdPost.attachedFilm.title,
+          release_date: createdPost.attachedFilm.releaseDate,
+          poster_path: createdPost.attachedFilm.poster,
+          mediaType: createdPost.attachedFilm.mediaType,
+          id: createdPost.attachedFilm.id,
+          wanttowatch: false,
+          watched: false,
+          unfinished: false,
+        }),
+      );
   };
 
   return (

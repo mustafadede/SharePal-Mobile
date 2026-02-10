@@ -26,7 +26,7 @@ const ExploreListSection = ({
         openBottomSheet={openBottomSheet}
       />
     ),
-    [sliderType, openBottomSheet]
+    [sliderType, openBottomSheet],
   );
 
   return (

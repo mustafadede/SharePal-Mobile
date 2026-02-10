@@ -1,3 +1,4 @@
+import ImageComponent from "@/common/ImageComponent";
 import {
   getSelectedUserUnfinished,
   getSelectedUserWantToWatch,
@@ -15,7 +16,13 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import React, { Dispatch, SetStateAction, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { Text, TouchableOpacity, useColorScheme, View } from "react-native";
+import {
+  ImageBackground,
+  Text,
+  TouchableOpacity,
+  useColorScheme,
+  View,
+} from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner-native";
 import StatusLabel from "../StatusLabel/StatusLabel";
@@ -36,16 +43,18 @@ const ExploreBottomSheet = React.memo(
     bottomSheetValues,
     setBottomSheetValues,
     handlePresentModalClose,
+    feed,
   }: {
     bottomSheetValues: ExploreBottomSheetProps;
     setBottomSheetValues: Dispatch<SetStateAction<ExploreBottomSheetProps>>;
     handlePresentModalClose: () => void;
+    feed?: boolean;
   }) => {
     const thisYear = new Date().getFullYear();
     const { t } = useTranslation();
     const profile = useSelector((state: RootState) => state.profile);
     const shareSearchDetail = useSelector(
-      (state: RootState) => state.shareSearchDetail
+      (state: RootState) => state.shareSearchDetail,
     );
     const dispatch = useDispatch();
     const colorScheme = useColorScheme();
@@ -71,7 +80,7 @@ const ExploreBottomSheet = React.memo(
           watched: watchedList.some((item) => item.id.toString() === idString),
           wanttowatch: wantList.some((item) => item.id.toString() === idString),
           unfinished: unfinishedList.some(
-            (item) => item.id.toString() === idString
+            (item) => item.id.toString() === idString,
           ),
         }));
         dispatch(shareSearchDetailActions.setStatus("done"));
@@ -89,18 +98,46 @@ const ExploreBottomSheet = React.memo(
 
     return (
       <View className="px-5 pb-40" style={{ gap: 24 }}>
-        <View className="w-full">
-          <Text className="text-3xl font-bold dark:text-slate-100 leading-snug">
-            {bottomSheetValues.title + " "}
-            <Text className="font-medium text-xl text-slate-800 dark:text-slate-300">
-              {t("actions.title")}
+        {feed ? (
+          <View className="w-full h-24 border border-slate-400 rounded-2xl overflow-hidden">
+            <ImageBackground
+              source={{
+                uri: `https://image.tmdb.org/t/p/w500${bottomSheetValues.backdrop_path || bottomSheetValues.poster_path}`,
+              }}
+              resizeMode="cover"
+              className="flex-1 justify-end h-full"
+            >
+              <View className="bg-black/60 flex-row gap-4 px-4  h-full items-center">
+                <View
+                  className={"bg-slate-800"}
+                  style={{ width: 48, height: 48, borderRadius: "50%" }}
+                >
+                  <ImageComponent
+                    url={`https://image.tmdb.org/t/p/original${bottomSheetValues.poster_path}`}
+                  />
+                </View>
+                <View>
+                  <Text className="text-white text-2xl font-bold">
+                    {bottomSheetValues.title}
+                  </Text>
+                </View>
+              </View>
+            </ImageBackground>
+          </View>
+        ) : (
+          <View className="w-full">
+            <Text className="text-3xl font-bold dark:text-slate-100 leading-snug">
+              {bottomSheetValues.title + " "}
+              <Text className="font-medium text-xl text-slate-800 dark:text-slate-300">
+                {t("actions.title")}
+              </Text>
             </Text>
-          </Text>
-        </View>
+          </View>
+        )}
 
         {/* Movie-specific */}
         {bottomSheetValues.mediaType === "movie" &&
-          bottomSheetValues.release_date.slice(0, 4) ===
+          bottomSheetValues.release_date?.slice(0, 4) ===
             thisYear.toString() && (
             <TouchableOpacity className="flex-row items-center justify-between bg-slate-600 rounded-xl px-4 py-3">
               <Text className="text-slate-100 text-base">
@@ -110,9 +147,8 @@ const ExploreBottomSheet = React.memo(
             </TouchableOpacity>
           )}
 
-        {/* Series-specific */}
         {bottomSheetValues.mediaType === "tv" &&
-          bottomSheetValues.release_date.slice(0, 4) ===
+          bottomSheetValues.release_date?.slice(0, 4) ===
             thisYear.toString() && (
             <TouchableOpacity className="flex-row items-center justify-between bg-slate-600 rounded-xl px-4 py-3">
               <Text className="text-slate-100 text-base">
@@ -144,7 +180,7 @@ const ExploreBottomSheet = React.memo(
                       poster: bottomSheetValues.poster_path,
                       releaseDate: bottomSheetValues.release_date,
                       title: bottomSheetValues.title,
-                    })
+                    }),
                   );
 
                   toast.warning(
@@ -160,14 +196,14 @@ const ExploreBottomSheet = React.memo(
                         />
                       ),
                       style: {
-                        backgroundColor: "transparent", // bg-white/5
+                        backgroundColor: "transparent",
                         borderWidth: 1,
-                        borderColor: "rgba(255,255,255,0.1)", // border-black dark:border-white/10
+                        borderColor: "rgba(255,255,255,0.1)",
                         paddingVertical: 10,
                         paddingHorizontal: 14,
                         borderRadius: 14,
                       },
-                    }
+                    },
                   );
                 })
               }
@@ -207,7 +243,7 @@ const ExploreBottomSheet = React.memo(
                       poster: bottomSheetValues.poster_path,
                       releaseDate: bottomSheetValues.release_date,
                       title: bottomSheetValues.title,
-                    })
+                    }),
                   );
 
                   toast.warning(
@@ -223,14 +259,14 @@ const ExploreBottomSheet = React.memo(
                         />
                       ),
                       style: {
-                        backgroundColor: "transparent", // bg-white/5
+                        backgroundColor: "transparent",
                         borderWidth: 1,
-                        borderColor: "rgba(255,255,255,0.1)", // border-black dark:border-white/10
+                        borderColor: "rgba(255,255,255,0.1)",
                         paddingVertical: 10,
                         paddingHorizontal: 14,
                         borderRadius: 14,
                       },
-                    }
+                    },
                   );
                 })
               }
@@ -266,7 +302,7 @@ const ExploreBottomSheet = React.memo(
                       poster: bottomSheetValues.poster_path,
                       releaseDate: bottomSheetValues.release_date,
                       title: bottomSheetValues.title,
-                    })
+                    }),
                   );
 
                   toast.warning(
@@ -291,7 +327,7 @@ const ExploreBottomSheet = React.memo(
                         paddingHorizontal: 14,
                         borderRadius: 14,
                       },
-                    }
+                    },
                   );
                 })
               }
@@ -334,7 +370,7 @@ const ExploreBottomSheet = React.memo(
                       poster: bottomSheetValues.poster_path,
                       releaseDate: bottomSheetValues.release_date,
                       title: bottomSheetValues.title,
-                    })
+                    }),
                   );
 
                   toast.warning(
@@ -350,14 +386,14 @@ const ExploreBottomSheet = React.memo(
                         />
                       ),
                       style: {
-                        backgroundColor: "transparent", // bg-white/5
+                        backgroundColor: "transparent",
                         borderWidth: 1,
-                        borderColor: "rgba(255,255,255,0.1)", // border-black dark:border-white/10
+                        borderColor: "rgba(255,255,255,0.1)",
                         paddingVertical: 10,
                         paddingHorizontal: 14,
                         borderRadius: 14,
                       },
-                    }
+                    },
                   );
                 })
               }
@@ -380,7 +416,7 @@ const ExploreBottomSheet = React.memo(
         )}
       </View>
     );
-  }
+  },
 );
 
 export default ExploreBottomSheet;

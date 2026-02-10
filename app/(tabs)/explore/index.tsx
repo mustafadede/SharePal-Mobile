@@ -94,7 +94,7 @@ const Explore = () => {
         handlePresentModalPress();
       });
     },
-    [handlePresentModalPress]
+    [handlePresentModalPress],
   );
 
   useEffect(() => {
@@ -149,7 +149,7 @@ const Explore = () => {
         sliderType: "movie",
       },
     ],
-    [nowPlaying, upcoming]
+    [nowPlaying, upcoming],
   );
 
   const memoBottomSheet = useMemo(
@@ -197,7 +197,7 @@ const Explore = () => {
         </BottomSheetView>
       </BottomSheetModal>
     ),
-    [colorScheme, bottomSheetValues]
+    [colorScheme, bottomSheetValues],
   );
 
   const renderSection = useCallback(({ item }: { item: ExploreSection }) => {
