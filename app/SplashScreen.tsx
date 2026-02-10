@@ -1,6 +1,11 @@
 import { Colors } from "@/constants/Colors";
 import React, { useEffect } from "react";
-import { ActivityIndicator, useColorScheme, View } from "react-native";
+import {
+  ActivityIndicator,
+  StatusBar,
+  useColorScheme,
+  View,
+} from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -24,6 +29,7 @@ const SplashScreen = () => {
           : "flex-1 bg-transparent justify-center gap-6 items-center"
       }
     >
+      <StatusBar hidden />
       <Animated.Text
         style={animatedTextStyle}
         className="mb-4 text-5xl z-20 font-bold text-fuchsia-600"

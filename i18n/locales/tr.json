@@ -1,7 +1,7 @@
 {
   "headerbacktitle.title": "Geri dön",
   "toaster.usernotfound": "Böyle bir kullanıcı bulunamadı",
-  "toaster.wrongpassword": "Şifren yanlış kaptan",
+  "toaster.wrongpassword": "Girilen şifre hatalı",
   "toaster.wrongmail": "Böyle bir mail adresi mevcut değil",
   "taoster.erroroccured": "Bir hata oluştu",
   "login.title": "Giriş Yap",
@@ -140,16 +140,15 @@
       }
     }
   },
-    "feedCard.spoiler": "Spoiler",
-    "feedCard.edited": "Düzenlendi",
-    "feedCard.send": "Gönder",
-    "providers.flatrate": "Abonelik",
-    "providers.rent": "Kirala",
-    "providers.buy": "Satın Al",    
-    "providers.notfound": "Herhangi bir veri bulunamadı",
-    "providers.attribution": "İzleme bilgileri JustWatch tarafından sağlanmaktadır",
-    "trailer.title": "Fragmanlar",
-    "trailer.notrailer": "Fragman bulunamadı",
-    "bloopers.title": "Sahne arkası"
-
-  }
+  "feedCard.spoiler": "Spoiler",
+  "feedCard.edited": "Düzenlendi",
+  "feedCard.send": "Gönder",
+  "providers.flatrate": "Abonelik",
+  "providers.rent": "Kirala",
+  "providers.buy": "Satın Al",
+  "providers.notfound": "Herhangi bir veri bulunamadı",
+  "providers.attribution": "İzleme bilgileri JustWatch tarafından sağlanmaktadır",
+  "trailer.title": "Fragmanlar",
+  "trailer.notrailer": "Fragman bulunamadı",
+  "bloopers.title": "Sahne arkası"
+}

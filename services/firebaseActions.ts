@@ -15,8 +15,6 @@ import {
   update,
 } from "firebase/database";
 
-const dbRef = ref(getDatabase());
-
 const database = getDatabase(app);
 
 const signInWithEmailAction = async (email: string, password: string) => {
@@ -175,7 +173,7 @@ const getPreviousPosts = async (lastPostDate) => {
     postsRef,
     orderByChild("date"),
     endBefore(lastPostDate), // Bu, belirli bir tarihten önceki verileri getirir.
-    limitToLast(15) // Son 15 veriyi getiriyoruz (önceki sayfa)
+    limitToLast(15), // Son 15 veriyi getiriyoruz (önceki sayfa)
   );
 
   const snapshot = await get(sortedPostsRef);
@@ -336,13 +334,13 @@ const createPostAction = async (
   content: string,
   attachedFilm: any,
   spoiler: any,
-  nick: string
+  nick: string,
 ) => {
   try {
     const userId = getAuth().currentUser?.uid;
     const newPostRef = push(ref(database, `posts/`));
     const newUserPostRef = push(
-      ref(database, `userPostsList/${userId}/posts/`)
+      ref(database, `userPostsList/${userId}/posts/`),
     );
 
     set(newPostRef, {
@@ -591,7 +589,7 @@ const getSelectedUserSharedList = async (userId: string) => {
 
 const deleteSelectedSharedList = async (
   userId: string,
-  referenceId: string
+  referenceId: string,
 ) => {
   try {
     const sharedListRef = ref(database, `sharedList/${userId}`);

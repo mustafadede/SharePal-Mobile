@@ -23,6 +23,7 @@ import { useTranslation } from "react-i18next";
 import {
   Platform,
   Pressable,
+  StatusBar,
   Text,
   TouchableOpacity,
   useColorScheme,
@@ -35,10 +36,10 @@ export default function Home() {
   const { t } = useTranslation();
   const colorScheme = useColorScheme();
   const [email, setEmail] = useState<string>(
-    process.env.EXPO_PUBLIC_EMAIL || ""
+    process.env.EXPO_PUBLIC_EMAIL || "",
   );
   const [password, setPassword] = useState<string>(
-    process.env.EXPO_PUBLIC_PASSWORD || ""
+    process.env.EXPO_PUBLIC_PASSWORD || "",
   );
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const dispatch = useDispatch();
@@ -51,7 +52,7 @@ export default function Home() {
           ? ["20%"]
           : ["25%"]
         : ["40%"],
-    [languageModalVisibility]
+    [languageModalVisibility],
   );
   const handlePresentModalPress = useCallback(() => {
     bottomSheetModalRef.current?.present();
@@ -72,48 +73,42 @@ export default function Home() {
     email: string;
     password: string;
   }) => {
-    setLoading(true);
-    signInWithEmailAction(email.trim(), password).then((user) => {
-      if (String(user).includes("auth")) {
-        if (user === "auth/user-not-found") {
-          user = t("toaster.usernotfound");
-        } else if (user === "auth/wrong-password") {
-          user = t("toaster.wrongpassword");
-        } else if (user === "auth/invalid-email") {
-          user = t("toaster.wrongmail");
-        } else {
-          console.log(user);
+    try {
+      setLoading(true);
 
-          user = t("toaster.erroroccured");
-        }
-        toast.error(user, {
-          duration: 3000,
-          close: true,
-          style: {
-            backgroundColor: "rgba(255,255,255,0.05)",
-            borderWidth: 1,
-            borderColor: "rgba(255,255,255,0.1)",
-            paddingVertical: 10,
-            paddingHorizontal: 14,
-            borderRadius: 14,
-          },
-          textStyle: {
-            color: "#f8fafc",
-            fontSize: 15,
-            fontWeight: "500",
-          },
-        });
-        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
-      } else {
-        setEmail(email);
-        setLoading(false);
-        dispatch(profileActions.setUserId(user.user.uid));
-        router.push("/(tabs)");
+      const result = await signInWithEmailAction(email.trim(), password);
+
+      if (!result || typeof result === "string") {
+        throw { code: result };
       }
-    });
+
+      dispatch(profileActions.setUserId(result.user.uid));
+      router.push("/(tabs)");
+    } catch (error: any) {
+      let message = "";
+
+      switch (error.code) {
+        case "auth/user-not-found":
+          message = t("toaster.usernotfound");
+          break;
+        case "auth/wrong-password":
+          message = t("toaster.wrongpassword");
+          break;
+        case "auth/invalid-email":
+          message = t("toaster.wrongmail");
+          break;
+        default:
+          message = t("toaster.erroroccured");
+      }
+
+      toast.error(message);
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+    } finally {
+      setLoading(false);
+    }
   };
   const handleChangeLanguage = () => {
-    const newLang = i18n.language === "tr" ? "en" : "tr";
+    const newLang = i18n.language === "tr-TR" ? "en-EN" : "tr-TR";
     i18n.changeLanguage(newLang);
   };
 
@@ -125,6 +120,7 @@ export default function Home() {
           colorScheme === "dark" ? Colors.dark.cGradient2 : "transparent",
       }}
     >
+      <StatusBar hidden />
       <View className="items-center justify-center flex-1 dark:bg-cGradient2">
         <TouchableOpacity
           className="border border-slate-400 w-14 h-14 justify-center flex-row gap-2 items-center"
@@ -201,7 +197,6 @@ export default function Home() {
         keyboardBlurBehavior="none"
         handleIndicatorStyle={{ backgroundColor: "rgb(100 116 139)" }}
         keyboardBehavior="interactive"
-        android_keyboardInputMode="adjustPan"
         backgroundComponent={({ style }) => (
           <View
             style={[
@@ -223,7 +218,7 @@ export default function Home() {
             <View className="items-center h-full flex-1 gap-4 px-8 justify-around">
               <Pressable
                 className={`w-full justify-center h-fit flex-row items-center ${
-                  i18n.language === "tr" ? "" : "border border-slate-400"
+                  i18n.language === "tr-TR" ? "" : "border border-slate-400"
                 }`}
                 onPress={() => {
                   handleChangeLanguage();
@@ -232,7 +227,7 @@ export default function Home() {
                 style={{
                   padding: 12,
                   backgroundColor:
-                    i18n.language === "tr"
+                    i18n.language === "tr-TR"
                       ? colorScheme === "dark"
                         ? Colors.dark.cFuc6
                         : "#e2e8f0"
@@ -241,12 +236,12 @@ export default function Home() {
                 }}
               >
                 <Text className="text-black text-lg dark:text-slate-200">
-                  🇹🇷 {i18n.language === "en" ? "Turkish" : "Türkçe"}
+                  🇹🇷 {i18n.language === "en-EN" ? "Turkish" : "Türkçe"}
                 </Text>
               </Pressable>
               <Pressable
                 className={`w-full justify-center h-fit flex-row items-center ${
-                  i18n.language === "en" ? "" : "border border-slate-400"
+                  i18n.language === "en-EN" ? "" : "border border-slate-400"
                 }`}
                 onPress={() => {
                   handleChangeLanguage();
@@ -255,7 +250,7 @@ export default function Home() {
                 style={{
                   padding: 12,
                   backgroundColor:
-                    i18n.language === "en"
+                    i18n.language === "en-EN"
                       ? colorScheme === "dark"
                         ? Colors.dark.cFuc6
                         : "#e2e8f0"
@@ -264,7 +259,7 @@ export default function Home() {
                 }}
               >
                 <Text className="text-black text-lg dark:text-slate-200">
-                  🇺🇸 {i18n.language === "tr" ? "İngilizce" : "English"}
+                  🇺🇸 {i18n.language === "tr-TR" ? "İngilizce" : "English"}
                 </Text>
               </Pressable>
             </View>

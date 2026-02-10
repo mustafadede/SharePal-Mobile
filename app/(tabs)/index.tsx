@@ -7,6 +7,7 @@ import { useCallback, useMemo, useRef, useState } from "react";
 import {
   Platform,
   StatusBar as RNStatusBar,
+  StatusBar,
   useColorScheme,
   View,
 } from "react-native";
@@ -30,7 +31,7 @@ const Index = () => {
         colorScheme === "dark" ? Colors.dark.cGradient2 : "transparent",
       paddingTop: Platform.OS === "android" ? RNStatusBar.currentHeight : 60,
     }),
-    [colorScheme]
+    [colorScheme],
   );
 
   const floatingActionButton = useMemo(
@@ -65,11 +66,12 @@ const Index = () => {
         </TouchableOpacity>
       </Animated.View>
     ),
-    [colorScheme]
+    [colorScheme],
   );
 
   return (
     <View style={containerStyle}>
+      <StatusBar hidden={false} showHideTransition={"fade"} translucent />
       <Tabs tab={tab} setTab={setTab} />
       {tab === 0 && <Feed handleModal={handlePresentModalPress} />}
       {floatingActionButton}

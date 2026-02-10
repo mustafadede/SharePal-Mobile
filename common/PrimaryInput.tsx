@@ -16,7 +16,7 @@ const PrimaryInput = ({
 }: {
   placeholder: string;
   visibility?: boolean;
-  setInput: (text: string) => void;
+  setInput?: (text: string) => void;
 }) => {
   const colorScheme = useColorScheme();
   const { t } = useTranslation();
@@ -39,12 +39,12 @@ const PrimaryInput = ({
         selectionColor={Colors.dark.cFuc6}
         clearButtonMode="while-editing"
         secureTextEntry={visible}
-        onSubmitEditing={(text) => setInput(text)}
+        onChangeText={setInput}
         autoCapitalize="none"
       />
       {visibility && (
         <TouchableOpacity
-          className="absolute text-center mr-1 right-2 text-fuchsia-600"
+          className="absolute text-center mr-2 right-2 text-fuchsia-600"
           onPress={() => setVisible(!visible)}
         >
           {visible ? (

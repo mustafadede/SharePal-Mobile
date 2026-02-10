@@ -54,7 +54,7 @@ const postshare = () => {
   );
 
   const handleShare = () => {
-    InteractionManager.Events.interactionComplete.(async () => {
+    InteractionManager.runAfterInteractions(async () => {
       try {
         await delay(150);
 

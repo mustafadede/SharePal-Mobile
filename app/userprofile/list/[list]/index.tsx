@@ -44,7 +44,7 @@ const index = () => {
   }, [list]);
 
   const selectedList = profile.lists.find(
-    (list: { id: string }) => list?.id === id
+    (list: { id: string }) => list?.id === id,
   ) as { items: any[] } | undefined;
 
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
@@ -62,7 +62,7 @@ const index = () => {
           <FlatList
             data={Object.entries(selectedList?.items ?? {}) as [string, any][]}
             keyExtractor={([key]) => key}
-            className="flex-col flex-1 w-full h-full"
+            className="flex-col flex-1 w-full h-full pb-6"
             ref={listRef}
             contentContainerStyle={{
               width: "100%",
