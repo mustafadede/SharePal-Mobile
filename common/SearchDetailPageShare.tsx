@@ -31,17 +31,15 @@ const SearchDetailPageShareWantToWatch = ({
   const profile = useSelector((state: RootState) => state.profile);
   const { label } = useSelector((state: RootState) => state.shareSearchDetail);
   const colorScheme = useColorScheme();
-  console.log(poster_path);
-
+  console.log(label);
   return (
     <Animated.View
       entering={FadeInUp.duration(300).delay(100)}
       className="items-center justify-center"
       style={{
-        height: 560,
+        height: "100%",
         width: 360,
         borderRadius: 28,
-        marginTop: 32,
         overflow: "hidden",
       }}
     >

@@ -68,10 +68,9 @@ const Settings = () => {
 
   return (
     <ScrollView
-      className="flex-1 px-5  dark:bg-cGradient2 bg-gray-50 pt-24"
+      className="flex-1 px-5 dark:bg-cGradient2 bg-gray-50"
       contentContainerStyle={{
         paddingBottom: Platform.OS === "ios" ? 20 : 120,
-        paddingTop: 20,
       }}
     >
       {sections.map((section, idx) => (

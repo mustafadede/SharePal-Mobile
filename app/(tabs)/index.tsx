@@ -7,7 +7,6 @@ import { useCallback, useMemo, useRef, useState } from "react";
 import {
   Platform,
   StatusBar as RNStatusBar,
-  StatusBar,
   useColorScheme,
   View,
 } from "react-native";
@@ -49,7 +48,7 @@ const Index = () => {
               colorScheme === "dark"
                 ? Colors.dark.cDarkGray
                 : Colors.dark.cFuc6,
-            bottom: 100,
+            bottom: 15,
             right: 10,
             backgroundColor:
               colorScheme === "dark"
@@ -71,7 +70,6 @@ const Index = () => {
 
   return (
     <View style={containerStyle}>
-      <StatusBar hidden={false} showHideTransition={"fade"} translucent />
       <Tabs tab={tab} setTab={setTab} />
       {tab === 0 && <Feed handleModal={handlePresentModalPress} />}
       {floatingActionButton}

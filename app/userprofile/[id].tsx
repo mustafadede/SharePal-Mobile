@@ -53,7 +53,7 @@ const UserProfile = () => {
     getSelectedUserWatched(String(id)).then((watched) => {
       const filteredTVData = watched?.filter((item) => item.mediaType === "tv");
       const filteredMovieData = watched?.filter(
-        (item) => item.mediaType === "movie"
+        (item) => item.mediaType === "movie",
       );
       dispatch(userProfileActions.setTotalSeries(filteredTVData.length));
       dispatch(userProfileActions.setTotalFilms(filteredMovieData.length));
@@ -67,8 +67,8 @@ const UserProfile = () => {
         flex: 1,
         paddingTop:
           Platform.OS === "android"
-            ? (RNStatusBar.currentHeight ?? 0) + 40
-            : 90,
+            ? (RNStatusBar.currentHeight ?? 0) + 60
+            : 100,
         backgroundColor:
           colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
       }}

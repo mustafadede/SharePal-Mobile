@@ -9,7 +9,18 @@ export default function ProfileLayout() {
   const { t } = useTranslation();
   const { list } = useLocalSearchParams();
   return (
-    <Stack>
+    <Stack
+      screenOptions={{
+        contentStyle: {
+          backgroundColor:
+            colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
+        },
+        headerStyle: {
+          backgroundColor:
+            colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
+        },
+      }}
+    >
       <Stack.Screen
         name="[id]"
         options={{
@@ -17,7 +28,10 @@ export default function ProfileLayout() {
             backgroundColor:
               colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
           },
-          animation: "slide_from_right",
+          contentStyle: {
+            backgroundColor:
+              colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
+          },
           headerTintColor:
             colorScheme === "dark" ? Colors.dark.cWhite : "black",
           headerShown: true,
@@ -51,7 +65,10 @@ export default function ProfileLayout() {
             backgroundColor:
               colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
           },
-          animation: "slide_from_right",
+          contentStyle: {
+            backgroundColor:
+              colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
+          },
           headerTintColor:
             colorScheme === "dark" ? Colors.dark.cWhite : "black",
           headerBackTitle: t("headerbacktitle.title"),
@@ -60,8 +77,11 @@ export default function ProfileLayout() {
       <Stack.Screen
         name="list/[list]/index"
         options={{
-          animation: "slide_from_right",
           headerStyle: {
+            backgroundColor:
+              colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
+          },
+          contentStyle: {
             backgroundColor:
               colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
           },

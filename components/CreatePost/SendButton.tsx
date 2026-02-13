@@ -16,9 +16,7 @@ const SendButton = () => {
   );
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const { userId, photoURL, nick } = useSelector(
-    (state: RootState) => state.profile,
-  );
+  const { nick } = useSelector((state: RootState) => state.profile);
 
   const handlePost = () => {
     const hasAttachment =

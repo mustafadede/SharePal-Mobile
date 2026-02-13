@@ -34,7 +34,12 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { TouchableOpacity, useColorScheme, View } from "react-native";
+import {
+  StatusBar,
+  TouchableOpacity,
+  useColorScheme,
+  View,
+} from "react-native";
 import Animated, {
   FadeInDown,
   FadeOutDown,
@@ -58,7 +63,9 @@ const searchdetail = () => {
     useLocalSearchParams() as SearchDetailParams;
   const { nick } = useSelector((state: RootState) => state.profile);
   const dispatch = useDispatch();
-  const [activeTab, setActiveTab] = useState<"overview" | "social">("overview");
+  const [activeTab, setActiveTab] = useState<"overview" | "activities">(
+    "overview",
+  );
   const [socialFetched, setSocialFetched] = useState(false);
   const [bottomSheetValues, setBottomSheetValues] =
     useState<ExploreBottomSheetProps>({
@@ -95,7 +102,7 @@ const searchdetail = () => {
     type,
   } = useSelector((state: RootState) => state.searchDetail.searchDetail) || {};
   const { shareStatus } = useSelector(
-    (state: RootState) => state.shareSearchDetail
+    (state: RootState) => state.shareSearchDetail,
   );
 
   const handleTabChange = (tab: "overview" | "social") => {
@@ -111,7 +118,7 @@ const searchdetail = () => {
       [
         "rgba(0,0,0,0)",
         colorScheme === "dark" ? Colors.dark.cGradient2 : Colors.dark.cWhite,
-      ]
+      ],
     );
     return {
       backgroundColor,
@@ -212,6 +219,7 @@ const searchdetail = () => {
 
   return (
     <View className="flex-1">
+      <StatusBar hidden translucent />
       {!isShared && (
         <Animated.ScrollView
           onScroll={scrollHandler}
@@ -246,7 +254,7 @@ const searchdetail = () => {
             </View>
           )}
 
-          {activeTab === "social" && (
+          {activeTab === "activities" && (
             <>
               <PeopleActivitySection />
               {/* ileride */}

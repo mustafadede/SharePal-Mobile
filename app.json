@@ -11,12 +11,7 @@
     "ios": {
       "supportsTablet": true,
       "infoPlist": {
-        "CFBundleLocalizations": [
-          "en",
-          "tr",
-          "en",
-          "tr"
-        ]
+        "CFBundleLocalizations": ["en", "tr", "en", "tr"]
       },
       "bundleIdentifier": "com.anonymous.SharePal"
     },
@@ -25,7 +20,6 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true,
       "softwareKeyboardLayoutMode": "resize",
       "package": "com.anonymous.SharePal"
     },
@@ -49,20 +43,23 @@
         "expo-localization",
         {
           "supportedLocales": {
-            "ios": [
-              "en",
-              "tr"
-            ],
-            "android": [
-              "en",
-              "tr"
-            ]
+            "ios": ["en", "tr"],
+            "android": ["en", "tr"]
           }
         }
       ],
       "expo-secure-store",
       "expo-font",
-      "expo-web-browser"
+      "expo-web-browser",
+      [
+        "react-native-edge-to-edge",
+        {
+          "android": {
+            "parentTheme": "Default",
+            "enforceNavigationBarContrast": false
+          }
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true

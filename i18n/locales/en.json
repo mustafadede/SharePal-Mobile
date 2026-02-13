@@ -34,7 +34,7 @@
   "actions.unfinished": "Unfinished",
   "actions.updatecurrentlywatching": "Currently watching updated",
   "actions.notupdatecurrentlywatching": "Currently watching not updated",
-    "actions.updated": "Updated",
+  "actions.updated": "Updated",
   "actions.notupdated": "Not updated",
   "actions.bestseries": "Best Series of the Year",
   "actions.bestmovies": "Best Movies of the Year",
@@ -49,106 +49,108 @@
   "explore.prime": "Prime Collection",
   "explore.nowplaying": "Now Playing",
   "explore.upcoming": "Upcoming",
-   "explore.nextyear": "Next year",
-   "explore.topmovies": "Top 10 Movies",
-   "explore.topseries": "Top 10 Series",
-   "explore.search": "Search",
-   "explore.searchNotFound": "No results found. Try a different search term.",
-   "tabs.feed": "Feed",
-   "tabs.following": "Following",
-   "feed.loading": "Loading...",
-   "modal.writecomment": "Write a comment...",
-   "post.nocomment": "No comments yet. Be the first to comment!",
-   "modal.feedcardtitle": "Feed Card Share",
-   "modal.feedcardoptionstitle": "Feed Card Options",
-   "modal.attachtitle": "Search for a film or series",
-   "searchdetail.overview": "Overview",
-   "searchdetail.movie": "Movie",
-   "searchdetail.tv": "TV",
-   "searchdetail.rating": "Rating",
-   "searchdetail.providers": "Providers",
-   "searchdetail.readmore": "Read More",
-   "searchdetail.close": "Close",
-   "share.sharewithspoiler": "Share with spoiler",
-   "share.taptoreveal": "Tap to reveal spoiler",
-   "share.title": "Share Post",
-   "profile.follow": "Follow",
+  "explore.nextyear": "Next year",
+  "explore.topmovies": "Top 10 Movies",
+  "explore.topseries": "Top 10 Series",
+  "explore.search": "Search",
+  "explore.searchNotFound": "No results found. Try a different search term.",
+  "tabs.feed": "Feed",
+  "tabs.following": "Following",
+  "feed.loading": "Loading...",
+  "modal.writecomment": "Write a comment...",
+  "post.nocomment": "No comments yet. Be the first to comment!",
+  "modal.feedcardtitle": "Feed Card Share",
+  "modal.feedcardoptionstitle": "Feed Card Options",
+  "modal.attachtitle": "Search for a film or series",
+  "searchdetail.overview": "Overview",
+  "searchdetail.activities": "Activities",
+  "searchdetail.movie": "Movie",
+  "searchdetail.tv": "TV",
+  "searchdetail.rating": "Rating",
+  "searchdetail.providers": "Providers",
+  "searchdetail.readmore": "Read More",
+  "searchdetail.close": "Close",
+  "share.sharewithspoiler": "Share with spoiler",
+  "share.taptoreveal": "Tap to reveal spoiler",
+  "share.title": "Share Post",
+  "profile.follow": "Follow",
   "profile.unfollow": "Unfollow",
   "profile.suggest": "Suggest",
   "profile.createlistforuser": "Create a list for this user",
-   "profile.suggestusertitle": "Suggest to this user",
+  "profile.suggestusertitle": "Suggest to this user",
   "profile.editprofile": "Edit Profile",
   "profile.followers": "Followers",
   "profile.following": "Following",
-   "profile.stats": "Stats",
-   "profile.lists": "Lists",
-   "profile.posts": "Posts",
-   "profile.activities": "Activities",
-   "profile.currently": "Currently Watching",
-   "profile.noCurrently": "Currently not watching anything",
-   "profile.totalFilms": "Total Movies",
-   "profile.totalSeries": "Total Series",
+  "profile.stats": "Stats",
+  "profile.lists": "Lists",
+  "profile.posts": "Posts",
+  "profile.activities": "Activities",
+  "profile.currently": "Currently Watching",
+  "profile.noCurrently": "Currently not watching anything",
+  "profile.totalFilms": "Total Movies",
+  "profile.totalSeries": "Total Series",
   "profile.list": "List",
-   "profileSettings": {
-      "logout": "Logout",
-      "save": "Save Changes",
-      "title": "'s settings",
-      "defaultTitle": "Settings",
-      "langTitle": "Language",
-      "sections": {
-        "account": "Account",
-        "preferences": "Preferences",
-        "support": "Support"
+  "profileSettings": {
+    "logout": "Logout",
+    "save": "Save Changes",
+    "title": "'s settings",
+    "defaultTitle": "Settings",
+    "langTitle": "Language",
+    "sections": {
+      "account": "Account",
+      "preferences": "Preferences",
+      "support": "Support"
+    },
+    "items": {
+      "profile": {
+        "title": "Profile",
+        "socials": "socials",
+        "changephoto": "Change Photo",
+        "description": "Your profile info and socials"
       },
-      "items": {
-        "profile": {
-          "title": "Profile",
-          "socials": "socials",
-          "changephoto": "Change Photo",
-          "description": "Your profile info and socials"
-        },
-        "accountSecurity": {
-          "title": "Account Security",
+      "accountSecurity": {
+        "title": "Account Security",
         "currentPassword": "Current Password",
         "newPassword": "New Password",
         "confirmNewPassword": "New Password (Again)",
-          "description": "Password and security options"
-        },
-        "notifications": {
-          "title": "Notifications",
-          "description": "Customize notification preferences"
-        },
-        "privacy": {
-          "title": "Privacy",
-          "description": "Control your privacy settings"
-        },
-        "language": {
-          "title": "Language",
-          "description": "Change app language"
-        },
-        "appearance": {
-          "title": "Appearance",
-          "description": "Theme, font size, and layout"
-        },
-        "darkMode": {
-          "title": "Dark Mode",
-          "description": "Toggle between light and dark theme"
-        },
-        "helpSupport": {
-          "title": "Help & Support",
-          "description": "Get help or contact support"
-        }
+        "description": "Password and security options"
+      },
+      "notifications": {
+        "title": "Notifications",
+        "description": "Customize notification preferences"
+      },
+      "privacy": {
+        "title": "Privacy",
+        "description": "Control your privacy settings"
+      },
+      "language": {
+        "title": "Language",
+        "description": "Change app language"
+      },
+      "appearance": {
+        "title": "Appearance",
+        "description": "Theme, font size, and layout"
+      },
+      "darkMode": {
+        "title": "Dark Mode",
+        "description": "Toggle between light and dark theme"
+      },
+      "helpSupport": {
+        "title": "Help & Support",
+        "description": "Get help or contact support"
       }
-    },
-    "feedCard.spoiler": "Spoiler",
-    "feedCard.edited": "Edited",     
-    "feedCard.send": "Send",
-    "providers.flatrate": "Streaming",
-    "providers.rent": "Rent",
-    "providers.buy": "Buy",
-    "providers.notfound": "Nothing Found",
-    "providers.attribution": "Streaming availability powered by JustWatch",
-    "trailer.title": "Trailers",
-    "trailer.notrailer": "Not found",
-    "bloopers.title": "Bloppers"
+    }
+  },
+  "feedCard.spoiler": "Spoiler",
+  "feedCard.edited": "Edited",
+  "feedCard.send": "Send",
+  "feedCard.clicktosee": "Tap to reveal",
+  "providers.flatrate": "Streaming",
+  "providers.rent": "Rent",
+  "providers.buy": "Buy",
+  "providers.notfound": "Nothing Found",
+  "providers.attribution": "Streaming availability powered by JustWatch",
+  "trailer.title": "Trailers",
+  "trailer.notrailer": "Not found",
+  "bloopers.title": "Bloppers"
 }

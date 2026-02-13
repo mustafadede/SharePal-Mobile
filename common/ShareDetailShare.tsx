@@ -27,39 +27,6 @@ type ShareDetailShareProps = {
   setBlur: (blur: number) => void;
 };
 
-const captureShot = (
-  ref: React.RefObject<any>,
-  handleShare: () => void,
-  shareStatus: "done" | "loading" | string,
-  username: string,
-  title: string,
-  mediaType: string,
-  backdrop_path: string,
-  poster_path: string,
-  color: number
-) => {
-  return (
-    <ViewShot
-      ref={ref}
-      options={{ format: "png", quality: 1 }}
-      onCapture={handleShare}
-    >
-      {shareStatus === "done" ? (
-        <SearchDetailPageShareWantToWatch
-          backdrop_path={backdrop_path}
-          poster_path={poster_path}
-          title={title}
-          username={username}
-          mediaType={mediaType}
-          color={color}
-        />
-      ) : (
-        <StatusLabel />
-      )}
-    </ViewShot>
-  );
-};
-
 const ShareDetailShare = ({
   viewRef,
   nick,
@@ -70,8 +37,6 @@ const ShareDetailShare = ({
   poster_path,
   color,
   setColor,
-  blur,
-  setBlur,
 }: ShareDetailShareProps) => {
   const { t } = useTranslation();
   const colorScheme = useColorScheme();
@@ -104,6 +69,7 @@ const ShareDetailShare = ({
       className="flex-1 w-full items-center justify-center"
       style={{
         backgroundColor: colorScheme === "dark" ? "#0E0B13" : "#F8FAFC",
+        paddingTop: 20,
       }}
     >
       <ViewShot
@@ -136,8 +102,8 @@ const ShareDetailShare = ({
       {shareStatus === "done" && (
         <Animated.View
           entering={FadeInUp.duration(300).delay(200)}
+          className={"border border-slate-400"}
           style={{
-            marginTop: 20,
             paddingVertical: 10,
             paddingHorizontal: 16,
             borderRadius: 999,
@@ -146,7 +112,10 @@ const ShareDetailShare = ({
                 ? "rgba(30,27,34,0.85)"
                 : "rgba(241,245,249,0.9)",
             flexDirection: "row",
+            borderWidth: 0.5,
             gap: 12,
+            position: "relative",
+            top: -20,
           }}
         >
           <TouchableOpacity onPress={() => setColor(0)}>
@@ -210,10 +179,7 @@ const ShareDetailShare = ({
         </Animated.View>
       )}
 
-      <Animated.View
-        entering={FadeInUp.duration(300).delay(400)}
-        style={{ marginTop: 24 }}
-      >
+      <Animated.View entering={FadeInUp.duration(300).delay(400)}>
         <TouchableOpacity
           onPress={handleShare}
           style={{

@@ -1,16 +1,17 @@
 import React, { useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import { Pressable, Text, View } from "react-native";
 import Animated, {
   useAnimatedStyle,
   withTiming,
 } from "react-native-reanimated";
 
-type TabKey = "overview" | "social";
+type TabKey = "overview" | "activities";
 
 type Props = {
   activeTab: TabKey;
   setActiveTab: (tab: TabKey) => void;
-  onTabChange?: (tab: TabKey) => void; // 👈 lazy fetch hook
+  onTabChange?: (tab: TabKey) => void;
 };
 
 type TabButtonProps = {
@@ -22,6 +23,7 @@ type TabButtonProps = {
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 const TabButton = ({ label, active, onPress }: TabButtonProps) => {
+  const { t } = useTranslation();
   const animatedStyle = useAnimatedStyle(() => {
     return {
       backgroundColor: withTiming(active ? "#c026d3" : "rgba(0,0,0,0)", {
@@ -41,7 +43,7 @@ const TabButton = ({ label, active, onPress }: TabButtonProps) => {
           active ? "text-white" : "text-slate-400"
         }`}
       >
-        {label}
+        {t(label)}
       </Text>
     </AnimatedPressable>
   );
@@ -54,20 +56,20 @@ const ContentSwitcher = ({ activeTab, setActiveTab, onTabChange }: Props) => {
       setActiveTab(tab);
       onTabChange?.(tab);
     },
-    [activeTab, onTabChange, setActiveTab]
+    [activeTab, onTabChange, setActiveTab],
   );
 
   return (
     <View className="flex-row gap-2 px-4">
       <TabButton
-        label="Overview"
+        label="searchdetail.overview"
         active={activeTab === "overview"}
         onPress={() => handlePress("overview")}
       />
       <TabButton
-        label="Social"
-        active={activeTab === "social"}
-        onPress={() => handlePress("social")}
+        label="searchdetail.activities"
+        active={activeTab === "activities"}
+        onPress={() => handlePress("activities")}
       />
     </View>
   );

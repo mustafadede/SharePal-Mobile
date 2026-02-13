@@ -2,6 +2,7 @@ import { Post } from "@/constants/Post";
 import { Feather } from "@expo/vector-icons";
 import { BlurView } from "expo-blur";
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   Platform,
   StyleSheet,
@@ -28,6 +29,7 @@ const FeedCardContent = ({
   const [spoiler, setSpoiler] = useState(haveSpoiler);
   const [open, setOpen] = useState(false);
   const revealProgress = useSharedValue(haveSpoiler ? 1 : 0);
+  const { t } = useTranslation();
 
   const handleReveal = () => {
     if (spoiler) {
@@ -105,7 +107,7 @@ const FeedCardContent = ({
                     }}
                     className="text-slate-600 dark:text-white"
                   >
-                    İçeriği görmek için dokun
+                    {t("feedCard.clicktosee")}
                   </Text>
                 </View>
               )}

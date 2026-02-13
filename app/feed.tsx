@@ -12,6 +12,7 @@ import {
   getSelectedUser,
 } from "@/services/firebaseActions";
 import { RootState } from "@/store";
+import { createPostsActions } from "@/store/createpostSlice";
 import { postsActions } from "@/store/postSlice";
 import { profileActions } from "@/store/profileSlice";
 import { scrollActions } from "@/store/scrollSlice";
@@ -27,7 +28,13 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { FlatList, RefreshControl, useColorScheme, View } from "react-native";
+import {
+  FlatList,
+  Platform,
+  RefreshControl,
+  useColorScheme,
+  View,
+} from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { flatListRef } from "./(tabs)/_layout";
 
@@ -101,7 +108,14 @@ const Feed = ({ handleModal }: { handleModal: () => void }) => {
     });
   };
 
-  const handleFilmSheetChanges = useCallback((index: number) => {}, []);
+  const handleFilmSheetChanges = useCallback(
+    (index: number) => {
+      if (index === -1) {
+        dispatch(createPostsActions.showModal());
+      }
+    },
+    [showModal],
+  );
 
   useEffect(() => {
     if (userId) {
@@ -256,7 +270,7 @@ const Feed = ({ handleModal }: { handleModal: () => void }) => {
   return (
     <View className="flex-1">
       {status === "loading" && (
-        <View className={"pt-20"}>
+        <View className={"pt-20 flex-1 items-center justify-center"}>
           <InfoLabel status="feed.loading" />
         </View>
       )}
@@ -272,7 +286,7 @@ const Feed = ({ handleModal }: { handleModal: () => void }) => {
             <RefreshControl
               colors={["#9F23B3"]}
               refreshing={isRefreshing}
-              progressBackgroundColor={"#0E0B13"}
+              progressBackgroundColor={Platform.OS === "ios" ? "" : "#0E0B13"}
               onRefresh={onRefresh}
               progressViewOffset={60}
               tintColor={"#9F23B3"}

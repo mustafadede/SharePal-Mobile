@@ -18,12 +18,12 @@ const Language = () => {
 
   return (
     <SafeAreaView
-      className="flex-1 px-6 pt-20"
+      className="flex-1 px-6"
       style={{
         backgroundColor: colorScheme === "dark" ? "#0E0B13" : "#F9FAFB",
       }}
     >
-      <View className="gap-4">
+      <View className="gap-2">
         {languages.map((lang) => {
           const selected = i18n.language.includes(lang.code);
           return (
@@ -47,8 +47,8 @@ const Language = () => {
                   color: selected
                     ? "#fff"
                     : colorScheme === "dark"
-                    ? "#fff"
-                    : "#111827",
+                      ? "#fff"
+                      : "#111827",
                 }}
               >
                 {lang.label}

@@ -10,7 +10,18 @@ const _layout = () => {
   const { t } = useTranslation();
 
   return (
-    <Stack>
+    <Stack
+      screenOptions={{
+        contentStyle: {
+          backgroundColor:
+            colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
+        },
+        headerStyle: {
+          backgroundColor:
+            colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
+        },
+      }}
+    >
       <Stack.Screen
         name="[id]"
         options={{
@@ -18,7 +29,10 @@ const _layout = () => {
             backgroundColor:
               colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
           },
-          animation: "slide_from_right",
+          contentStyle: {
+            backgroundColor:
+              colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
+          },
           title: "",
           headerTintColor:
             colorScheme === "dark" ? Colors.dark.cWhite : "black",

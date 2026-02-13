@@ -11,7 +11,7 @@ const ProfileHeader = ({ user = false }: { user?: boolean }) => {
   const profile = user ? otherProfile : yourProfile;
 
   return (
-    <View className="flex-1 mt-4">
+    <View className="flex-1">
       <ImageBackground
         className="flex items-center justify-center px-4 mb-2 h-52 bg-slate-800 rounded-2xl"
         source={{ uri: profile.banner }}

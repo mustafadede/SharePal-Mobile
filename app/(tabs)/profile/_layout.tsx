@@ -16,15 +16,29 @@ export default function ProfileLayout() {
   return (
     <Stack
       screenOptions={{
+        animation: "fade",
         headerShadowVisible: false,
+        contentStyle: {
+          backgroundColor:
+            colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
+        },
+        headerStyle: {
+          backgroundColor:
+            colorScheme === "dark"
+              ? Colors.dark.cGradient2
+              : Colors.dark.cWhite,
+        },
       }}
     >
       <Stack.Screen
         options={{
           title: profile ? profile.nick : "",
-          headerShown: true,
           headerTransparent: true,
           headerStyle: {
+            backgroundColor:
+              colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
+          },
+          contentStyle: {
             backgroundColor:
               colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
           },
@@ -68,12 +82,18 @@ export default function ProfileLayout() {
       <Stack.Screen
         name="settings"
         options={{
-          animation: "slide_from_right",
           headerBackTitle: t("headerbacktitle.title"),
           title: profile
             ? `${profile.nick}${t("profileSettings.title")}`
             : t("profileSettings.defaultTitle"),
-          headerTransparent: true,
+          contentStyle: {
+            backgroundColor:
+              colorScheme === "dark" ? Colors.dark.cFuc6 : "#f9fafb",
+          },
+          headerStyle: {
+            backgroundColor:
+              colorScheme === "dark" ? Colors.dark.cGradient2 : "#f9fafb",
+          },
           headerTintColor:
             colorScheme === "dark" ? Colors.dark.cWhite : "black",
         }}
@@ -81,10 +101,16 @@ export default function ProfileLayout() {
       <Stack.Screen
         name="language"
         options={{
-          animation: "slide_from_right",
           title: t("profileSettings.langTitle"),
           headerBackTitle: t("headerbacktitle.title"),
-          headerTransparent: true,
+          contentStyle: {
+            backgroundColor:
+              colorScheme === "dark" ? Colors.dark.cGradient2 : "#f9fafb",
+          },
+          headerStyle: {
+            backgroundColor:
+              colorScheme === "dark" ? Colors.dark.cGradient2 : "#f9fafb",
+          },
           headerTintColor:
             colorScheme === "dark" ? Colors.dark.cWhite : "black",
         }}
@@ -92,10 +118,16 @@ export default function ProfileLayout() {
       <Stack.Screen
         name="appearance"
         options={{
-          animation: "slide_from_right",
           title: t("profileSettings.items.appearance.title"),
-          headerTransparent: true,
           headerBackTitle: t("headerbacktitle.title"),
+          contentStyle: {
+            backgroundColor:
+              colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
+          },
+          headerStyle: {
+            backgroundColor:
+              colorScheme === "dark" ? Colors.dark.cGradient2 : "#f9fafb",
+          },
           headerTintColor:
             colorScheme === "dark" ? Colors.dark.cWhite : "black",
         }}
@@ -103,12 +135,15 @@ export default function ProfileLayout() {
       <Stack.Screen
         name="profileedit"
         options={{
-          animation: "slide_from_right",
           headerStyle: {
             backgroundColor:
               colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
           },
           title: t("profileSettings.items.profile.title"),
+          contentStyle: {
+            backgroundColor:
+              colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
+          },
           headerBackTitle: t("headerbacktitle.title"),
           headerTintColor:
             colorScheme === "dark" ? Colors.dark.cWhite : "black",
@@ -117,12 +152,15 @@ export default function ProfileLayout() {
       <Stack.Screen
         name="accountsecurity"
         options={{
-          animation: "slide_from_right",
           headerStyle: {
             backgroundColor:
               colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
           },
           title: t("profileSettings.items.accountSecurity.title"),
+          contentStyle: {
+            backgroundColor:
+              colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
+          },
           headerBackTitle: t("headerbacktitle.title"),
           headerTintColor:
             colorScheme === "dark" ? Colors.dark.cWhite : "black",
@@ -131,12 +169,15 @@ export default function ProfileLayout() {
       <Stack.Screen
         name="[list]"
         options={{
-          animation: "slide_from_right",
           headerStyle: {
             backgroundColor:
               colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
           },
           title: list ? list.toString() : t("profile.list"),
+          contentStyle: {
+            backgroundColor:
+              colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
+          },
           headerBackTitle: t("headerbacktitle.title"),
           headerTintColor:
             colorScheme === "dark" ? Colors.dark.cWhite : "black",

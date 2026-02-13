@@ -15,7 +15,7 @@ const appearance = () => {
   const { t } = useTranslation();
   const colorScheme = useColorScheme();
   return (
-    <SafeAreaView className={"dark:bg-cGradient2 bg-gray-50 flex-1 pt-16 px-5"}>
+    <SafeAreaView className={"dark:bg-cGradient2 bg-gray-50 flex-1 px-5"}>
       <TouchableOpacity
         key={"switcher"}
         className="p-4 rounded-2xl border mb-3 dark:bg-slate-900 bg-white border-gray-200 dark:border-slate-900"
@@ -32,7 +32,7 @@ const appearance = () => {
           </View>
           <Switch
             value={colorScheme === "dark"}
-            onValueChange={() => {
+            onValueChange={async () => {
               const newTheme = colorScheme === "dark" ? "light" : "dark";
               Appearance.setColorScheme(newTheme);
             }}

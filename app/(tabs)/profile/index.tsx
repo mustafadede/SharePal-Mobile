@@ -11,10 +11,20 @@ import {
 import { RootState } from "@/store";
 import { profileActions } from "@/store/profileSlice";
 import { Feather } from "@expo/vector-icons";
+import { StatusBar } from "expo-status-bar";
 
 import React, { useEffect, useMemo } from "react";
-import { TouchableOpacity, useColorScheme, View } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
+import {
+  Platform,
+  StatusBar as RNStatusBar,
+  TouchableOpacity,
+  useColorScheme,
+  View,
+} from "react-native";
+import {
+  GestureHandlerRootView,
+  ScrollView,
+} from "react-native-gesture-handler";
 import Animated, {
   FadeInDown,
   FadeOutDown,
@@ -39,7 +49,7 @@ const Profile = () => {
     getSelectedUserWatched(profile.userId).then((watched) => {
       const filteredTVData = watched?.filter((item) => item.mediaType === "tv");
       const filteredMovieData = watched?.filter(
-        (item) => item.mediaType === "movie"
+        (item) => item.mediaType === "movie",
       );
       dispatch(profileActions.setTotalSeries(filteredTVData.length));
       dispatch(profileActions.setTotalFilms(filteredMovieData.length));
@@ -67,7 +77,7 @@ const Profile = () => {
               colorScheme === "dark"
                 ? Colors.dark.cDarkGray
                 : Colors.dark.cFuc6,
-            bottom: 110,
+            bottom: 15,
             right: 10,
             backgroundColor:
               colorScheme === "dark"
@@ -96,20 +106,31 @@ const Profile = () => {
         </TouchableOpacity>
       </Animated.View>
     ),
-    [colorScheme]
+    [colorScheme],
   );
 
   return (
-    <View className="flex-1 pt-2 bg-[#f2f2f2] dark:bg-cGradient2">
-      <ScrollView className="flex-1 relative top-24 bg-[#f2f2f2] dark:bg-cGradient2 max-h-full px-4">
-        <ProfileHeader />
-        <FollowStats />
-        <ProfileTabs tabs={tabs} setTabs={setTabs} />
-        {tabs === 0 && <StatsCards />}
-        {tabs === 1 && <ListsCard />}
-      </ScrollView>
-      {tabs === 1 && floatingActionButton}
-    </View>
+    <GestureHandlerRootView
+      style={{
+        flex: 1,
+        paddingTop:
+          Platform.OS === "android" ? (RNStatusBar.currentHeight ?? 0) : 40,
+        backgroundColor:
+          colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
+      }}
+    >
+      <StatusBar style={"auto"} animated />
+      <View className="flex-1 pt-2 mt-16">
+        <ScrollView className="flex-1 max-h-full px-4">
+          <ProfileHeader />
+          <FollowStats />
+          <ProfileTabs tabs={tabs} setTabs={setTabs} />
+          {tabs === 0 && <StatsCards />}
+          {tabs === 1 && <ListsCard />}
+        </ScrollView>
+        {tabs === 1 && floatingActionButton}
+      </View>
+    </GestureHandlerRootView>
   );
 };
 

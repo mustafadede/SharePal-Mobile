@@ -46,6 +46,9 @@ const createPostSlice = createSlice({
   name: "post",
   initialState,
   reducers: {
+    showModal: (state) => {
+      state.showModal.show = !state.showModal.show;
+    },
     toggleModal: (state, action) => {
       state.showModal.values = action.payload;
       state.showModal.show = !state.showModal.show;
