@@ -20,11 +20,7 @@ const FeedCardActions = ({
   return (
     <View className={"flex-row items-center justify-evenly mt-4"}>
       <FeedCardLikeAction data={data} />
-      <FeedCardCommentAction
-        data={data}
-        postPage={postPage}
-        handleModal={handleModal}
-      />
+      <FeedCardCommentAction data={data} postPage={postPage} />
       <TouchableOpacity
         className={"flex flex-row flex-1 items-center justify-center gap-2"}
       >
@@ -36,7 +32,7 @@ const FeedCardActions = ({
         />
         <Text className={"text-black dark:text-slate-400"}>{data?.repost}</Text>
       </TouchableOpacity>
-      <FeedCardShareAction data={data} handleModal={handleModal} />
+      <FeedCardShareAction data={data} />
     </View>
   );
 };

@@ -33,10 +33,9 @@ export default function RootLayout() {
             <AppLayout />
           </BottomSheetModalProvider>
           <Toaster
-            swipeToDismissDirection="left"
+            swipeToDismissDirection="up"
             style={{
               marginTop: 10,
-              backdropFilter: "blur(20px)",
             }}
           />
         </SafeAreaProvider>

@@ -1,90 +1,63 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Text, TouchableOpacity, View } from "react-native";
+import { ScrollView, Text, TouchableOpacity } from "react-native";
+
+const pages = [
+  { id: 0, title: "profile.stats" },
+  { id: 1, title: "profile.lists" },
+  { id: 2, title: "profile.posts" },
+  { id: 3, title: "profile.activities" },
+];
 
 const ProfileTabs = ({
   tabs,
   setTabs,
 }: {
-  tabs: Number;
+  tabs: number;
   setTabs: (tab: number) => void;
 }) => {
   const { t } = useTranslation();
+
   return (
-    <View className="flex-row justify-center gap-2 pb-2 my-1 rounded-2xl">
-      <TouchableOpacity
-        className={
-          tabs === 0
-            ? "px-1 flex-1 justify-center bg-fuchsia-600 rounded-xl"
-            : "px-1 justify-center flex-1 py-2 bg-transparent"
-        }
-        onPress={() => setTabs(0)}
-      >
-        <Text
+    <ScrollView
+      contentContainerStyle={{
+        paddingBottom: 4,
+        justifyContent: "space-between",
+        gap: 14,
+        paddingHorizontal: 16,
+      }}
+      horizontal
+      scrollEnabled
+      decelerationRate="fast"
+      showsHorizontalScrollIndicator={false}
+      scrollToOverflowEnabled
+      contentInsetAdjustmentBehavior="automatic"
+      className="flex-row gap-2 h-fit pb-2 mt-2"
+    >
+      {pages.map((tab) => (
+        <TouchableOpacity
+          key={tab.id}
           className={
-            tabs === 0
-              ? "text-slate-50 dark:text-slate-950 text-center"
-              : "dark:text-white text-center"
+            tabs === tab.id
+              ? "px-4 flex-1 justify-center border border-slate-400 rounded-xl"
+              : "px-4 justify-center flex-1 py-2 rounded-xl border border-transparent"
           }
+          onPress={() => {
+            setTabs(tab.id);
+          }}
         >
-          {t("profile.stats")}
-        </Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        className={
-          tabs === 1
-            ? "px-1 flex-1 justify-center bg-fuchsia-600 rounded-xl"
-            : "px-1 justify-center flex-1 py-2 bg-transparent"
-        }
-        onPress={() => setTabs(1)}
-      >
-        <Text
-          className={
-            tabs === 1
-              ? "text-slate-50 dark:text-slate-950 text-center"
-              : "dark:text-white text-center"
-          }
-        >
-          {t("profile.lists")}
-        </Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        className={
-          tabs === 2
-            ? "px-1 flex-1 justify-center bg-fuchsia-600 rounded-xl"
-            : "px-1 justify-center flex-1 py-2 bg-transparent"
-        }
-        onPress={() => setTabs(2)}
-      >
-        <Text
-          className={
-            tabs === 2
-              ? "text-slate-50 dark:text-slate-950 text-center"
-              : "dark:text-white text-center"
-          }
-        >
-          {t("profile.posts")}
-        </Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        className={
-          tabs === 3
-            ? "px-1 flex-1 justify-center bg-fuchsia-600 rounded-xl"
-            : "px-1 justify-center flex-1 py-2 bg-transparent"
-        }
-        onPress={() => setTabs(3)}
-      >
-        <Text
-          className={
-            tabs === 3
-              ? "text-slate-50 dark:text-slate-950 text-center"
-              : "dark:text-white text-center"
-          }
-        >
-          {t("profile.activities")}
-        </Text>
-      </TouchableOpacity>
-    </View>
+          <Text
+            className={
+              tabs === tab.id
+                ? "text-slate-400 text-center"
+                : "text-slate-600 dark:text-slate-200 text-center"
+            }
+          >
+            {t(tab.title)}
+          </Text>
+        </TouchableOpacity>
+      ))}
+    </ScrollView>
   );
 };
 

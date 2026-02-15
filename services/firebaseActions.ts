@@ -133,6 +133,21 @@ const getSelectedUserFollowing = async (userId: string) => {
   return selectedUserFollowing;
 };
 
+const getSelectedUserFollowers = async (userId: string) => {
+  const followersRef = ref(database, `followers/${userId}`);
+  const snapshot = await get(followersRef);
+  const selectedUserFollowers: Array<{ uid: string; date: number }> = [];
+  if (snapshot.exists()) {
+    snapshot.forEach((childSnapshot) => {
+      selectedUserFollowers.push({
+        uid: childSnapshot.val().uid,
+        date: childSnapshot.val().date,
+      });
+    });
+  }
+  return selectedUserFollowers;
+};
+
 const getAllPosts = async () => {
   const postsRef = ref(database, "posts");
   const sortedPostsRef = query(postsRef, orderByChild("date"), limitToLast(20));
@@ -373,6 +388,44 @@ const createPostAction = async (
   }
 };
 
+const updateSelectedPost = async (
+  postId: string,
+  data: Partial<{
+    content: string;
+    spoiler: boolean;
+    attachedFilm: any;
+    edited: boolean;
+    likes: number;
+    likesList: { id: string; nick: string }[];
+  }>,
+) => {
+  try {
+    if (!postId) {
+      console.error("Invalid postId");
+      return null;
+    }
+
+    const postRef = ref(database, `posts/${postId}`);
+    const snapshot = await get(postRef);
+
+    if (!snapshot.exists()) {
+      console.log("No data available");
+      return null;
+    }
+
+    const updates = {
+      ...data,
+    };
+
+    await update(postRef, updates);
+
+    return true;
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+};
+
 const deleteSelectedPost = async (postId: string) => {
   if (!postId) {
     console.error("Invalid postId");
@@ -388,6 +441,27 @@ const deleteSelectedPost = async (postId: string) => {
       console.log("No data available");
       return null;
     }
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
+
+const createSelectedUserPostLikeLists = async ({
+  userId,
+  data,
+}: {
+  userId: string;
+  data: {
+    id: string;
+    date: string;
+    postId: string;
+  };
+}) => {
+  try {
+    const postsRef = push(ref(database, `likesList/${userId}/`));
+    await update(postsRef, data);
+    return true;
   } catch (error) {
     console.error(error);
     return null;
@@ -452,6 +526,84 @@ const updateCurrentUserData = async (userId: string, data: any) => {
     }
   } catch (error) {
     console.error(error);
+    return null;
+  }
+};
+
+const createNotification = async (
+  uid: string,
+  data: {
+    from: {
+      comment?: string | null;
+      uid: string;
+      nick: string;
+      photo: string | null;
+      postId?: string | null;
+      attached?: any;
+    };
+    date: string;
+    type: string;
+  },
+) => {
+  try {
+    if (!uid) return null;
+
+    const newNotificationRef = push(ref(database, `notifications/${uid}`));
+
+    await set(newNotificationRef, {
+      from: {
+        comment: data.from.comment ?? null,
+        uid: data.from.uid,
+        nick: data.from.nick,
+        photo: data.from.photo ?? null,
+        postId: data.from.postId ?? null,
+        attached: data.from.attached ?? null,
+      },
+      date: data.date,
+      type: data.type,
+      isRead: false,
+      isDone: false,
+    });
+
+    return true;
+  } catch (error) {
+    console.error("Create notification error:", error);
+    return false;
+  }
+};
+
+const removeSelectedUserPostLikeLists = async ({
+  postId,
+  userId,
+}: {
+  postId: string;
+  userId: string;
+}) => {
+  try {
+    const likesRef = ref(database, `likesList/${userId}`);
+    const snapshot = await get(likesRef);
+
+    if (!snapshot.exists()) return true;
+
+    const promises: Promise<void>[] = [];
+
+    snapshot.forEach((childSnapshot) => {
+      const value = childSnapshot.val();
+
+      if (value.postId === postId) {
+        const likeKey = childSnapshot.key;
+        if (likeKey) {
+          promises.push(
+            remove(ref(database, `likesList/${userId}/${likeKey}`)),
+          );
+        }
+      }
+    });
+
+    await Promise.all(promises);
+    return true;
+  } catch (error) {
+    console.error("Remove like error:", error);
     return null;
   }
 };
@@ -609,18 +761,57 @@ const deleteSelectedSharedList = async (
   }
 };
 
+const getAllSelectedUserPostLikeLists = async (userId: string) => {
+  try {
+    if (!userId) return [];
+
+    const likesRef = ref(database, `likesList/${userId}`);
+    const likesQuery = query(likesRef, orderByChild("date"));
+    const snapshot = await get(likesQuery);
+
+    const allPosts: Array<{
+      date: string;
+      id: string;
+      postId: string;
+      isComment: boolean;
+      relatedPostId: string | null;
+    }> = [];
+
+    if (snapshot.exists()) {
+      snapshot.forEach((childSnapshot) => {
+        const value = childSnapshot.val();
+        allPosts.push({
+          date: value.date,
+          id: value.id,
+          postId: value.postId,
+          isComment: value.isComment ?? false,
+          relatedPostId: value.relatedPostId ?? null,
+        });
+      });
+    }
+
+    return allPosts;
+  } catch (error) {
+    console.error("Get likes list error:", error);
+    return [];
+  }
+};
 export {
+  createNotification,
   createPostAction,
+  createSelectedUserPostLikeLists,
   deleteSelectedPost,
   deleteSelectedSharedList,
   deleteUnfinished,
   deleteWantToWatch,
   deleteWatched,
   getAllPosts,
+  getAllSelectedUserPostLikeLists,
   getNotifications,
   getPreviousPosts,
   getSelectedCommentsList,
   getSelectedUser,
+  getSelectedUserFollowers,
   getSelectedUserFollowing,
   getSelectedUserLists,
   getSelectedUserPosts,
@@ -630,8 +821,10 @@ export {
   getSelectedUserWantToWatch,
   getSelectedUserWatched,
   getSpecificPost,
+  removeSelectedUserPostLikeLists,
   signInWithEmailAction,
   updateCurrentUserData,
+  updateSelectedPost,
   updateUnfinished,
   updateWantToWatch,
   updateWatched,

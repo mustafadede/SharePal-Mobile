@@ -16,7 +16,7 @@ const StatsCards = ({ user = false }: { user?: boolean }) => {
   const handleCurrentlyWatching = () => {
     useSearchWithYear(
       profile.currentlyWatching.title,
-      profile.currentlyWatching.releaseDate?.slice(0, 4)
+      profile.currentlyWatching.releaseDate?.slice(0, 4),
     ).then((item) => {
       router.push({
         pathname: "/searchdetail",
@@ -33,7 +33,7 @@ const StatsCards = ({ user = false }: { user?: boolean }) => {
     });
   };
   return (
-    <View className="items-center flex-1 pb-4">
+    <View className="items-center flex-1 px-4 pb-4">
       {/* currently Watching */}
       <View className="items-start justify-center w-full px-4 py-2 mb-4 h-fit border border-slate-200 dark:border-0 bg-white dark:bg-slate-900 rounded-2xl">
         <Text className="mb-3 py-2 text-2xl font-bold text-slate-700 dark:text-white">

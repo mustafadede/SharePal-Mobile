@@ -73,7 +73,7 @@ const index = () => {
     unfinished: false,
   };
   const [bottomSheetValues] = useState<PostOptionsValues>(
-    defaultBottomSheetValues
+    defaultBottomSheetValues,
   );
   const handlePresentModalPress = useCallback(() => {
     bottomSheetModalRef.current?.present();
@@ -145,11 +145,11 @@ const index = () => {
       Platform.OS === "ios" ? "keyboardWillHide" : "keyboardDidHide";
     const showSubscription = Keyboard.addListener(
       platformSpecificShowHandlerName,
-      handleKeyboardShow
+      handleKeyboardShow,
     );
     const hideSubscription = Keyboard.addListener(
       platformSpecificHideHandlerName,
-      handleKeyboardHide
+      handleKeyboardHide,
     );
 
     return () => {

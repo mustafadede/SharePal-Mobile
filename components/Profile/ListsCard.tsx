@@ -32,8 +32,8 @@ const ListsCard = ({ user = false }: { user?: boolean }) => {
   const profile = user ? otherProfile : yourProfile;
   const dispatch = useDispatch();
   const { id } = useLocalSearchParams();
-  const colorScheme = useColorScheme();
   const { t } = useTranslation();
+  const colorScheme = useColorScheme();
 
   useEffect(() => {
     const fetch = async () => {
@@ -41,25 +41,28 @@ const ListsCard = ({ user = false }: { user?: boolean }) => {
         dispatch(profileActions.setStatus("idle"));
         dispatch(userProfileActions.resetLists());
         dispatch(profileActions.resetLists());
-        const list = await getSelectedUserLists(
-          user ? String(id) : profile.userId
-        );
+        const selectedUserId = user ? String(id) : profile.userId;
+        const list = await getSelectedUserLists(selectedUserId);
 
         if (!list || list instanceof Error) {
           dispatch(profileActions.initilizeLists([]));
+          dispatch(userProfileActions.initilizeLists([]));
         } else {
-          if (id) {
+          if (user) {
             dispatch(userProfileActions.initilizeLists(list));
+            dispatch(userProfileActions.setStatus("done"));
           } else {
             dispatch(profileActions.initilizeLists(list));
+            dispatch(profileActions.setStatus("done"));
           }
         }
         setLoading(false);
-        dispatch(profileActions.setStatus("done"));
       } catch (error) {
         console.log("List fetch error:", error);
         dispatch(profileActions.initilizeLists([]));
+        dispatch(userProfileActions.initilizeLists([]));
         dispatch(profileActions.setStatus("done"));
+        dispatch(userProfileActions.setStatus("done"));
       }
     };
 
@@ -115,7 +118,7 @@ const ListsCard = ({ user = false }: { user?: boolean }) => {
               params: { list: item.title, id: item.id },
             })
           }
-          className="py-2 border bg-white dark:bg-slate-900 flex-row justify-between border-slate-200 dark:border-slate-200/10 rounded-xl my-1 px-4 pt-4 pb-4"
+          className="py-2 mx-4 px-4 border bg-white dark:bg-slate-900 flex-row justify-between border-slate-200 dark:border-slate-200/10 rounded-xl my-1 pt-4 pb-4"
         >
           <Text className="text-slate-700 dark:text-white">{item.title}</Text>
           {item.isPinned && (
@@ -123,7 +126,6 @@ const ListsCard = ({ user = false }: { user?: boolean }) => {
               name="push-pin"
               size={18}
               color={Colors.dark.cFuc6}
-              style={{ transform: [{ rotate: "45deg" }] }}
             />
           )}
         </TouchableOpacity>
@@ -136,10 +138,16 @@ const ListsCard = ({ user = false }: { user?: boolean }) => {
       {user && (
         <TouchableOpacity
           activeOpacity={1}
-          className="py-2 bg-fuchsia-600 items-center flex-row justify-between rounded-xl my-1 px-4 pt-4 pb-4"
+          className="rounded-xl px-5 py-4 flex flex-row mb-2 justify-between"
         >
-          <Text className="text-white">{t("profile.createlistforuser")}</Text>
-          <Feather name="chevron-right" size={18} color={"white"} />
+          <Text className="text-slate-600 dark:text-slate-200">
+            {t("profile.createlistforuser")}
+          </Text>
+          <Feather
+            name="chevron-right"
+            size={18}
+            color={colorScheme === "dark" ? "#e2e8f0" : "#475569"}
+          />
         </TouchableOpacity>
       )}
       {!user && (
@@ -176,7 +184,7 @@ const ListsCard = ({ user = false }: { user?: boolean }) => {
                 params: { list: list.title, id: list.id },
               })
             }
-            className="py-2 border bg-white dark:bg-slate-900 flex-row justify-between border-slate-200 dark:border-slate-200/10 rounded-xl my-1 px-4 pt-4 pb-4"
+            className="py-2 mx-4 border bg-white dark:bg-slate-900 flex-row justify-between border-slate-200 dark:border-slate-200/10 rounded-xl my-1 px-4 pt-4 pb-4"
           >
             <Text className="text-slate-700 dark:text-white">{list.title}</Text>
             {list.isPinned && (
@@ -193,7 +201,9 @@ const ListsCard = ({ user = false }: { user?: boolean }) => {
         ))
       )}
       {!loading && id && !otherProfile.lists.length && (
-        <InfoLabel status="Kullanıcıya ait bir liste yoktur" small />
+        <View className="mt-2">
+          <InfoLabel status="Kullanıcıya ait bir liste yoktur" small />
+        </View>
       )}
     </View>
   );

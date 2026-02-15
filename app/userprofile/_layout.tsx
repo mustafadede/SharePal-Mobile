@@ -69,6 +69,7 @@ export default function ProfileLayout() {
             backgroundColor:
               colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
           },
+          headerShadowVisible: false,
           headerTintColor:
             colorScheme === "dark" ? Colors.dark.cWhite : "black",
           headerBackTitle: t("headerbacktitle.title"),

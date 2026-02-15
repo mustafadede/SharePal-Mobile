@@ -238,7 +238,10 @@ const Feed = ({ handleModal }: { handleModal: () => void }) => {
             style={[
               style,
               {
-                backgroundColor: Colors.dark.cGradient2,
+                backgroundColor:
+                  colorScheme === "dark"
+                    ? Colors.dark.cGradient2
+                    : Colors.dark.cWhite,
                 maxHeight: 380,
                 borderTopLeftRadius: 20,
                 borderTopRightRadius: 20,
@@ -286,10 +289,20 @@ const Feed = ({ handleModal }: { handleModal: () => void }) => {
             <RefreshControl
               colors={["#9F23B3"]}
               refreshing={isRefreshing}
-              progressBackgroundColor={Platform.OS === "ios" ? "" : "#0E0B13"}
+              progressBackgroundColor={
+                Platform.OS === "ios"
+                  ? undefined
+                  : colorScheme === "dark"
+                    ? Colors.dark.cGradient2
+                    : Colors.dark.cWhite
+              }
               onRefresh={onRefresh}
               progressViewOffset={60}
-              tintColor={"#9F23B3"}
+              tintColor={
+                colorScheme === "dark"
+                  ? Colors.dark.cGradient2
+                  : Colors.dark.cWhite
+              }
             />
           }
           data={posts}

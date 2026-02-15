@@ -9,12 +9,13 @@ const ProfileHeader = ({ user = false }: { user?: boolean }) => {
   const otherProfile = useSelector((state: RootState) => state.userProfile);
   const yourProfile = useSelector((state: RootState) => state.profile);
   const profile = user ? otherProfile : yourProfile;
+  const hasBanner = !!profile.banner;
 
   return (
-    <View className="flex-1">
+    <View className="flex-1 max-h-52 mb-2 px-4">
       <ImageBackground
         className="flex items-center justify-center px-4 mb-2 h-52 bg-slate-800 rounded-2xl"
-        source={{ uri: profile.banner }}
+        source={hasBanner ? { uri: profile.banner } : undefined}
         imageStyle={{ borderRadius: 20, opacity: 0.6 }}
       >
         <View className="flex-row items-center justify-center gap-4">

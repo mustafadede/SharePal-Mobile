@@ -18,6 +18,13 @@ const postSlice = createSlice({
     addPost: (state, action) => {
       state.posts.unshift(action.payload);
     },
+    updateLike: (state, action) => {
+      const index = state.posts.findIndex(
+        (post) => post.postId === action.payload.postId,
+      );
+      state.posts[index].likes = action.payload.likes;
+      state.posts[index].likesList = action.payload.likesList;
+    },
     setStatus: (state, action) => {
       state.status = action.payload;
     },

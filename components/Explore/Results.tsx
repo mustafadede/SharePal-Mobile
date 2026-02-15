@@ -103,7 +103,7 @@ const Results = ({
           </View>
         </TouchableOpacity>
       ),
-    [selectedFilter]
+    [selectedFilter],
   );
   return (
     <View className="flex-col flex-1 mt-2">
@@ -117,12 +117,12 @@ const Results = ({
             onPress={() => setSelectedFilter(filter.id)}
             className={
               selectedFilter === filter.id
-                ? "items-center justify-center flex-1 py-1 mx-1 rounded-lg bg-fuchsia-600 dark:bg-transparent border-fuchsia-600"
-                : "items-center justify-center flex-1 py-1 mx-1 rounded-lg bg-slate-900"
+                ? "items-center justify-center flex-1 py-1 mx-1 bg-fuchsia-600 border-fuchsia-600"
+                : "items-center justify-center flex-1 py-1 mx-1 bg-slate-900"
             }
-            style={{ borderWidth: 0.5 }}
+            style={{ borderWidth: 0.5, borderRadius: 48 }}
           >
-            <Text className="text-center text-md text-slate-200">
+            <Text className="text-center text-lg text-slate-200">
               {filter.label}
             </Text>
           </TouchableOpacity>

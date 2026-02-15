@@ -1,3 +1,4 @@
+import ActivitiesSection from "@/components/Profile/ActivitiesSection";
 import FollowStats from "@/components/Profile/FollowStats";
 import ListsCard from "@/components/Profile/ListsCard";
 import ProfileHeader from "@/components/Profile/ProfileHeader";
@@ -11,24 +12,30 @@ import {
 import { RootState } from "@/store";
 import { profileActions } from "@/store/profileSlice";
 import { Feather } from "@expo/vector-icons";
-import { StatusBar } from "expo-status-bar";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import { Image } from "expo-image";
+import { useNavigation } from "expo-router";
 
-import React, { useEffect, useMemo } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import {
-  Platform,
-  StatusBar as RNStatusBar,
+  SectionList,
+  Text,
   TouchableOpacity,
   useColorScheme,
   View,
 } from "react-native";
-import {
-  GestureHandlerRootView,
-  ScrollView,
-} from "react-native-gesture-handler";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Animated, {
+  FadeIn,
   FadeInDown,
+  FadeOut,
   FadeOutDown,
-  useAnimatedStyle,
   useSharedValue,
   withSpring,
 } from "react-native-reanimated";
@@ -39,6 +46,16 @@ const Profile = () => {
   const profile = useSelector((state: RootState) => state.profile);
   const [tabs, setTabs] = React.useState(0);
   const dispatch = useDispatch();
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+  const handlePresentModalPress = useCallback(() => {
+    requestAnimationFrame(() => {
+      bottomSheetModalRef.current?.present();
+    });
+  }, []);
+
+  const navigation = useNavigation();
+  const [showCompactHeader, setShowCompactHeader] = useState(false);
+
   useEffect(() => {
     dispatch(profileActions.setStatus("Loading"));
     if (profile?.userId === "") {
@@ -58,12 +75,6 @@ const Profile = () => {
   }, []);
 
   const fabScale = useSharedValue(1);
-
-  const fabAnimatedStyle = useAnimatedStyle(() => {
-    return {
-      transform: [{ scale: fabScale.value }],
-    };
-  });
 
   const floatingActionButton = useMemo(
     () => (
@@ -89,7 +100,6 @@ const Profile = () => {
             zIndex: 10,
             borderWidth: 1,
           },
-          fabAnimatedStyle,
         ]}
       >
         <TouchableOpacity
@@ -109,27 +119,117 @@ const Profile = () => {
     [colorScheme],
   );
 
+  useEffect(() => {
+    navigation.setOptions({
+      headerTitle: showCompactHeader
+        ? () => (
+            <Animated.View
+              entering={FadeIn.duration(400)}
+              exiting={FadeOut.duration(400)}
+              style={{ flexDirection: "row", alignItems: "center" }}
+            >
+              <Image
+                source={{ uri: profile.photoURL }}
+                style={{
+                  width: 32,
+                  height: 32,
+                  borderRadius: 16,
+                  marginRight: 8,
+                }}
+              />
+              <Text
+                style={{
+                  fontWeight: "600",
+                  fontSize: 16,
+                  color: colorScheme === "dark" ? Colors.dark.cWhite : "black",
+                }}
+              >
+                {profile.nick}
+              </Text>
+            </Animated.View>
+          )
+        : null,
+    });
+  }, [showCompactHeader]);
+
   return (
     <GestureHandlerRootView
       style={{
         flex: 1,
-        paddingTop:
-          Platform.OS === "android" ? (RNStatusBar.currentHeight ?? 0) : 40,
         backgroundColor:
           colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
       }}
     >
-      <StatusBar style={"auto"} animated />
-      <View className="flex-1 pt-2 mt-16">
-        <ScrollView className="flex-1 max-h-full px-4">
-          <ProfileHeader />
-          <FollowStats />
-          <ProfileTabs tabs={tabs} setTabs={setTabs} />
-          {tabs === 0 && <StatsCards />}
-          {tabs === 1 && <ListsCard />}
-        </ScrollView>
-        {tabs === 1 && floatingActionButton}
-      </View>
+      <Animated.View className="flex-1 max-h-full">
+        <SectionList
+          onScroll={(event) => {
+            const offsetY = event.nativeEvent.contentOffset.y;
+
+            if (offsetY > 260 && !showCompactHeader) {
+              setShowCompactHeader(true);
+            }
+
+            if (offsetY <= 260 && showCompactHeader) {
+              setShowCompactHeader(false);
+            }
+          }}
+          scrollEventThrottle={16}
+          sections={[
+            {
+              title: "content",
+              data:
+                tabs === 0
+                  ? ["stats"]
+                  : tabs === 1
+                    ? ["lists"]
+                    : tabs === 3
+                      ? ["activities"]
+                      : [],
+            },
+          ]}
+          keyExtractor={(item, index) => item + index}
+          ListHeaderComponent={
+            <View
+              style={{
+                minHeight: 270,
+              }}
+            >
+              <ProfileHeader />
+              <FollowStats />
+            </View>
+          }
+          renderSectionHeader={() => (
+            <View
+              style={{
+                backgroundColor:
+                  colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
+              }}
+            >
+              <ProfileTabs tabs={tabs} setTabs={setTabs} />
+            </View>
+          )}
+          renderItem={({ item }) => {
+            if (item === "stats") {
+              return <StatsCards />;
+            }
+
+            if (item === "lists") {
+              return <ListsCard />;
+            }
+
+            if (item === "activities") {
+              return (
+                <ActivitiesSection handleModal={handlePresentModalPress} />
+              );
+            }
+
+            return null;
+          }}
+          stickySectionHeadersEnabled={true}
+          contentContainerStyle={{ paddingBottom: 100 }}
+        />
+      </Animated.View>
+      {tabs === 1 && floatingActionButton}
     </GestureHandlerRootView>
   );
 };

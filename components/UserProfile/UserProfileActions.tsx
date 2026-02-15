@@ -10,14 +10,14 @@ const UserProfileActions = ({ userId }: { userId: string }) => {
   const profile = useSelector((state: RootState) => state.profile);
   const [hasFollow, setHasFollow] = useState(false);
   useEffect(() => {
-    profile.followingList.forEach((item: { date: string; uid: string }) => {
+    profile.followingList.forEach((item) => {
       if (item.uid === userId) {
         setHasFollow(true);
       }
     });
   }, []);
   return (
-    <View className="flex-row w-full gap-2 my-2">
+    <View className="flex-row px-4 w-full gap-2 my-2">
       <TouchableOpacity
         onPress={() => {}}
         className={

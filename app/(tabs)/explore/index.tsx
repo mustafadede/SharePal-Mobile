@@ -63,7 +63,7 @@ const Explore = () => {
   });
   const [search, setSearch] = useState("");
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-  const snapPoints = useMemo(() => ["20%", "25%", "45%"], []);
+  const snapPoints = useMemo(() => ["35%"], []);
   const [selectedFilter, setSelectedFilter] = useState(0);
   const [loading, setLoading] = useState(false);
 

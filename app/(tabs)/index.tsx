@@ -2,6 +2,7 @@ import Tabs from "@/common/Tabs";
 import { Colors } from "@/constants/Colors";
 import Feather from "@expo/vector-icons/Feather";
 import { BottomSheetModal, TouchableOpacity } from "@gorhom/bottom-sheet";
+import * as Haptics from "expo-haptics";
 import { router } from "expo-router";
 import { useCallback, useMemo, useRef, useState } from "react";
 import {
@@ -40,7 +41,10 @@ const Index = () => {
         exiting={FadeOutDown.springify()}
       >
         <TouchableOpacity
-          onPress={() => router.push("/createpost")}
+          onPress={() => {
+            router.push("/createpost");
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+          }}
           activeOpacity={0.8}
           style={{
             position: "absolute",
@@ -72,6 +76,7 @@ const Index = () => {
     <View style={containerStyle}>
       <Tabs tab={tab} setTab={setTab} />
       {tab === 0 && <Feed handleModal={handlePresentModalPress} />}
+      {tab === 1 && <View className="flex-1"></View>}
       {floatingActionButton}
     </View>
   );

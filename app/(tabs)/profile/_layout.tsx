@@ -33,7 +33,6 @@ export default function ProfileLayout() {
       <Stack.Screen
         options={{
           title: profile ? profile.nick : "",
-          headerTransparent: true,
           headerStyle: {
             backgroundColor:
               colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",

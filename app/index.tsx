@@ -8,7 +8,10 @@ import SignUpContentComponent from "@/components/SignUp/SignUpContentComponent";
 import { Colors } from "@/constants/Colors";
 import "@/global.css";
 import i18n from "@/i18n/i18n";
-import { signInWithEmailAction } from "@/services/firebaseActions";
+import {
+  getSelectedUserFollowing,
+  signInWithEmailAction,
+} from "@/services/firebaseActions";
 import { profileActions } from "@/store/profileSlice";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import {
@@ -23,7 +26,6 @@ import { useTranslation } from "react-i18next";
 import {
   Platform,
   Pressable,
-  StatusBar,
   Text,
   TouchableOpacity,
   useColorScheme,
@@ -84,7 +86,10 @@ export default function Home() {
       }
 
       dispatch(profileActions.setUserId(result.user.uid));
-      router.push("/(tabs)");
+      getSelectedUserFollowing(result.user.uid).then((followings) => {
+        dispatch(profileActions.initilizeFollowingList(followings));
+        router.push("/(tabs)");
+      });
     } catch (error: any) {
       let message = "";
 
@@ -122,7 +127,6 @@ export default function Home() {
             colorScheme === "dark" ? Colors.dark.cGradient2 : "transparent",
         }}
       >
-        <StatusBar hidden translucent />
         <View className="items-center justify-center flex-1 dark:bg-cGradient2">
           <TouchableOpacity
             className="border border-slate-400 w-14 h-14 justify-center flex-row gap-2 items-center"

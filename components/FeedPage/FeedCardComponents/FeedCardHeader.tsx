@@ -29,7 +29,7 @@ const FeedCardHeader = ({
   const { userId } = useSelector((state: RootState) => state.profile);
   const handleClick = () => {
     if (data.userId === userId) {
-      router.push("/profile");
+      router.navigate("/profile");
     } else {
       router.push({
         pathname: "/userprofile/[id]",
@@ -53,8 +53,12 @@ const FeedCardHeader = ({
           className={"w-12 h-12 rounded-full dark:bg-slate-800"}
           onPress={handleClick}
         >
-          {data.photoURL && <ImageComponent url={`${data.photoURL}`} />}
-          {!data.photoURL && <DummyImage wide={"100%"} />}
+          {data.photoURL && data.photoURL.trim() !== "" && (
+            <ImageComponent url={data.photoURL} />
+          )}
+          {(!data.photoURL || data.photoURL.trim() === "") && (
+            <DummyImage wide={"100%"} />
+          )}
         </TouchableOpacity>
         <View>
           <TouchableOpacity onPress={handleClick}>

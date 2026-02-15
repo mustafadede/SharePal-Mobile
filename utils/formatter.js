@@ -20,5 +20,7 @@ export function JustYearFormatter(data) {
 }
 
 export function TextShorter(data, sliceData = 47) {
-  return data.length > sliceData ? (data = data.slice(0, sliceData) + "...") : data;
+  return data.length > sliceData
+    ? (data = data.slice(0, sliceData) + "...")
+    : data;
 }

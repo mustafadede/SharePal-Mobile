@@ -1,3 +1,9 @@
+export type Like = {
+  id: string;
+  date: string;
+  postId: string;
+};
+
 export type Post = {
   photoURL: string | null;
   postId: string;
@@ -5,7 +11,7 @@ export type Post = {
   content: string;
   spoiler: boolean;
   attachedFilm: object;
-  likesList: object[] | 0;
+  likesList: Like[] | 0;
   displayName?: string;
   likes: number;
   comments: number;

@@ -16,7 +16,6 @@ import {
   SearchDetailParams,
 } from "@/constants/SearchDetail";
 import useSearchWithYear from "@/hooks/useSearchWithYear";
-import i18n from "@/i18n/i18n";
 import { RootState } from "@/store";
 import { searchDetailActions } from "@/store/searchDetailSlice";
 import { shareSearchDetailActions } from "@/store/shareSearchDetail";
@@ -34,12 +33,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import {
-  StatusBar,
-  TouchableOpacity,
-  useColorScheme,
-  View,
-} from "react-native";
+import { TouchableOpacity, useColorScheme, View } from "react-native";
 import Animated, {
   FadeInDown,
   FadeOutDown,
@@ -138,13 +132,8 @@ const searchdetail = () => {
     dispatch(searchDetailActions.setStatus("loading"));
 
     dispatch(shareSearchDetailActions.setStatus("loading"));
-    const tmdbLanguage =
-      i18n.language === "tr"
-        ? "tr-TR"
-        : i18n.language === "en"
-          ? "en-US"
-          : "en-US";
-    useSearchWithYear(title, release_date, tmdbLanguage).then((res) => {
+
+    useSearchWithYear(title, release_date).then((res) => {
       dispatch(searchDetailActions.updateSearchDetail(res));
       dispatch(searchDetailActions.setStatus("done"));
 
@@ -219,7 +208,6 @@ const searchdetail = () => {
 
   return (
     <View className="flex-1">
-      <StatusBar hidden translucent />
       {!isShared && (
         <Animated.ScrollView
           onScroll={scrollHandler}

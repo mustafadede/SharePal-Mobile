@@ -94,15 +94,13 @@ export default function TabLayout() {
           title: "Notifications",
           headerShown: true,
           headerShadowVisible: false,
-          headerBackgroundContainerStyle: {
+          headerStyle: {
             backgroundColor:
               colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
           },
-          headerStyle: {
+          headerBackgroundContainerStyle: {
             backgroundColor:
-              colorScheme === "dark"
-                ? Colors.dark.cGradient2
-                : Colors.dark.cWhite,
+              colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
           },
           headerTintColor:
             colorScheme === "dark" ? Colors.dark.cWhite : "black",
@@ -123,18 +121,21 @@ export default function TabLayout() {
             backgroundColor:
               colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
           },
-          tabBarIcon: ({ color }) => (
-            <Image
-              source={{ uri: `${profile.photoURL}` }}
-              style={{
-                width: 30,
-                height: 30,
-                borderColor: color,
-                borderWidth: color ? 2 : 0,
-              }}
-              className={`rounded-full`}
-            />
-          ),
+          tabBarIcon: ({ color }) =>
+            profile.photoURL && profile.photoURL.trim() !== "" ? (
+              <Image
+                source={{ uri: profile.photoURL }}
+                style={{
+                  width: 30,
+                  height: 30,
+                  borderColor: color,
+                  borderWidth: color ? 2 : 0,
+                }}
+                className="rounded-full"
+              />
+            ) : (
+              <Ionicons name="person-circle" size={30} color={color} />
+            ),
         }}
       />
     </Tabs>

@@ -183,28 +183,25 @@ const ExploreBottomSheet = React.memo(
                     }),
                   );
 
-                  toast.warning(
-                    res ? t("actions.updated") : t("actions.notupdated"),
-                    {
-                      duration: 3000,
-                      closeButton: true,
-                      icon: (
-                        <FontAwesome
-                          name="eye"
-                          size={20}
-                          color={colorScheme === "dark" ? "#f8fafc" : "black"}
-                        />
-                      ),
-                      style: {
-                        backgroundColor: "transparent",
-                        borderWidth: 1,
-                        borderColor: "rgba(255,255,255,0.1)",
-                        paddingVertical: 10,
-                        paddingHorizontal: 14,
-                        borderRadius: 14,
-                      },
+                  toast(res ? t("actions.updated") : t("actions.notupdated"), {
+                    duration: 3000,
+                    closeButton: true,
+                    icon: (
+                      <FontAwesome
+                        name="eye"
+                        size={20}
+                        color={colorScheme === "dark" ? "#f8fafc" : "black"}
+                      />
+                    ),
+                    style: {
+                      backgroundColor: "transparent",
+                      borderWidth: 1,
+                      borderColor: "rgba(255,255,255,0.1)",
+                      paddingVertical: 10,
+                      paddingHorizontal: 14,
+                      borderRadius: 14,
                     },
-                  );
+                  });
                 })
               }
               className={
@@ -246,28 +243,25 @@ const ExploreBottomSheet = React.memo(
                     }),
                   );
 
-                  toast.warning(
-                    res ? t("actions.updated") : t("actions.notupdated"),
-                    {
-                      duration: 3000,
-                      closeButton: true,
-                      icon: (
-                        <FontAwesome
-                          name="eye"
-                          size={20}
-                          color={colorScheme === "dark" ? "#f8fafc" : "black"}
-                        />
-                      ),
-                      style: {
-                        backgroundColor: "transparent",
-                        borderWidth: 1,
-                        borderColor: "rgba(255,255,255,0.1)",
-                        paddingVertical: 10,
-                        paddingHorizontal: 14,
-                        borderRadius: 14,
-                      },
+                  toast(res ? t("actions.updated") : t("actions.notupdated"), {
+                    duration: 3000,
+                    closeButton: true,
+                    icon: (
+                      <FontAwesome
+                        name="eye"
+                        size={20}
+                        color={colorScheme === "dark" ? "#f8fafc" : "black"}
+                      />
+                    ),
+                    style: {
+                      backgroundColor: "transparent",
+                      borderWidth: 1,
+                      borderColor: "rgba(255,255,255,0.1)",
+                      paddingVertical: 10,
+                      paddingHorizontal: 14,
+                      borderRadius: 14,
                     },
-                  );
+                  });
                 })
               }
               className={
@@ -305,7 +299,7 @@ const ExploreBottomSheet = React.memo(
                     }),
                   );
 
-                  toast.warning(
+                  toast(
                     res
                       ? t("actions.updatecurrentlywatching")
                       : t("actions.notupdatecurrentlywatching"),
@@ -373,28 +367,25 @@ const ExploreBottomSheet = React.memo(
                     }),
                   );
 
-                  toast.warning(
-                    res ? t("actions.updated") : t("actions.notupdated"),
-                    {
-                      duration: 3000,
-                      closeButton: true,
-                      icon: (
-                        <FontAwesome
-                          name="eye"
-                          size={20}
-                          color={colorScheme === "dark" ? "#f8fafc" : "black"}
-                        />
-                      ),
-                      style: {
-                        backgroundColor: "transparent",
-                        borderWidth: 1,
-                        borderColor: "rgba(255,255,255,0.1)",
-                        paddingVertical: 10,
-                        paddingHorizontal: 14,
-                        borderRadius: 14,
-                      },
+                  toast(res ? t("actions.updated") : t("actions.notupdated"), {
+                    duration: 3000,
+                    closeButton: true,
+                    icon: (
+                      <FontAwesome
+                        name="eye"
+                        size={20}
+                        color={colorScheme === "dark" ? "#f8fafc" : "black"}
+                      />
+                    ),
+                    style: {
+                      backgroundColor: "transparent",
+                      borderWidth: 1,
+                      borderColor: "rgba(255,255,255,0.1)",
+                      paddingVertical: 10,
+                      paddingHorizontal: 14,
+                      borderRadius: 14,
                     },
-                  );
+                  });
                 })
               }
               className={

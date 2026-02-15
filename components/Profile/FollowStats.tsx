@@ -11,7 +11,7 @@ const FollowStats = ({ user = false }: { user?: boolean }) => {
   const userprofile = useSelector((state: RootState) => state.userProfile);
 
   return (
-    <View className="py-2 flex flex-row justify-around my-2 bg-white dark:bg-slate-900 rounded-2xl h-20 border border-slate-200 dark:border-transparent">
+    <View className="py-2 mx-4 flex  flex-row justify-around my-2 bg-white dark:bg-slate-900 rounded-2xl h-fit border border-slate-200 dark:border-transparent">
       <TouchableOpacity className=" items-center h-full">
         <Text className="text-xl font-bold text-slate-700 dark:text-white">
           {t("profile.followers")}
