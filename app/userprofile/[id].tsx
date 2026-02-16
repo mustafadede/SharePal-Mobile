@@ -41,7 +41,7 @@ const UserProfile = () => {
   const navigation = useNavigation();
   const colorScheme = useColorScheme();
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-  const profile = useSelector((state: RootState) => state.profile);
+  const profile = useSelector((state: RootState) => state.userProfile);
   const handlePresentModalPress = useCallback(() => {
     requestAnimationFrame(() => {
       bottomSheetModalRef.current?.present();

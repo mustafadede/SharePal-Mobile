@@ -1,39 +1,70 @@
-import AttachModal from "@/components/CreatePost/AttachModal";
+import MyListModal from "@/components/Profile/MyListModal";
 import { Colors } from "@/constants/Colors";
 import { RootState } from "@/store";
-import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
-import React, { useMemo } from "react";
-import { useTranslation } from "react-i18next";
-import { Text, TouchableOpacity, useColorScheme, View } from "react-native";
+import {
+  BottomSheetBackdrop,
+  BottomSheetModal,
+  BottomSheetView,
+} from "@gorhom/bottom-sheet";
+import { useFocusEffect, useNavigation } from "expo-router";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { Keyboard, useColorScheme, View } from "react-native";
 import { useSelector } from "react-redux";
-import InfoLabel from "./InfoLabel";
 
 const CustomBottomSheet = ({
   handleSheetChanges,
   bottomSheetModalRef,
-  snaps = ["25%", "40%", "55%"],
+  snaps = ["50%", "85%"],
 }: {
   handleSheetChanges: (index: number) => void;
-  bottomSheetModalRef: React.RefObject<BottomSheetModal>;
-  snaps: string[];
+  bottomSheetModalRef: React.RefObject<BottomSheetModal | null>;
+  snaps?: string[];
 }) => {
   const colorScheme = useColorScheme();
-  const { modalStatus, modalType, modalProps } = useSelector(
-    (state: RootState) => state.modal
-  );
-  const snapPoints = useMemo(() => ["25%"], []);
-  const { t } = useTranslation();
+  const { modalType } = useSelector((state: RootState) => state.modal);
+  const snapPoints = useMemo(() => snaps, [snaps]);
+  const navigation = useNavigation();
+  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
 
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      "keyboardDidShow",
+      () => setKeyboardVisible(true),
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      "keyboardDidHide",
+      () => setKeyboardVisible(false),
+    );
+
+    return () => {
+      keyboardDidHideListener.remove();
+      keyboardDidShowListener.remove();
+    };
+  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      return () => {
+        bottomSheetModalRef.current?.dismiss();
+      };
+    }, []),
+  );
   return (
     <BottomSheetModal
       ref={bottomSheetModalRef}
-      index={1}
+      index={isKeyboardVisible ? 2 : 1}
       snapPoints={snapPoints}
       onChange={handleSheetChanges}
-      detached={true}
-      bottomInset={46}
+      backdropComponent={(props) => (
+        <BottomSheetBackdrop
+          {...props}
+          disappearsOnIndex={0}
+          appearsOnIndex={1}
+          opacity={0.5}
+        />
+      )}
       keyboardBlurBehavior="none"
-      handleIndicatorStyle={{ backgroundColor: "rgb(100 116 139)" }}
+      handleIndicatorStyle={{ backgroundColor: "gray" }}
       keyboardBehavior="interactive"
       android_keyboardInputMode="adjustResize"
       backgroundComponent={({ style }) => (
@@ -42,12 +73,12 @@ const CustomBottomSheet = ({
             style,
             {
               backgroundColor:
-                colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
-              borderTopLeftRadius: 20,
-              borderTopRightRadius: 20,
+                colorScheme === "dark"
+                  ? Colors.dark.cGradient2
+                  : Colors.dark.cWhite,
+              borderRadius: 30,
               width: "100%",
               justifyContent: "center",
-              marginHorizontal: 24,
               alignItems: "center",
             },
           ]}
@@ -55,7 +86,7 @@ const CustomBottomSheet = ({
       )}
     >
       <BottomSheetView style={{ flex: 1 }}>
-        {modalType === "feedcardshare" && (
+        {/* {modalType === "feedcardshare" && (
           <InfoLabel status={t("modal.feedcardtitle")} />
         )}
         {modalType === "feedcardoptions" && (
@@ -65,7 +96,8 @@ const CustomBottomSheet = ({
             </TouchableOpacity>
           </View>
         )}
-        {modalType === "attach" && <AttachModal />}
+        {modalType === "attach" && <AttachModal />} */}
+        {modalType === "create_list" && <MyListModal />}
       </BottomSheetView>
     </BottomSheetModal>
   );

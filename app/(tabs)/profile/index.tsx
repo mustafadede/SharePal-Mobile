@@ -1,3 +1,4 @@
+import CustomBottomSheet from "@/common/CustomBottomSheet";
 import ActivitiesSection from "@/components/Profile/ActivitiesSection";
 import FollowStats from "@/components/Profile/FollowStats";
 import ListsCard from "@/components/Profile/ListsCard";
@@ -10,6 +11,7 @@ import {
   getSelectedUserWatched,
 } from "@/services/firebaseActions";
 import { RootState } from "@/store";
+import { modalActions } from "@/store/modalSlice";
 import { profileActions } from "@/store/profileSlice";
 import { Feather } from "@expo/vector-icons";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
@@ -52,10 +54,9 @@ const Profile = () => {
       bottomSheetModalRef.current?.present();
     });
   }, []);
-
+  const handleSheetChanges = useCallback((index: number) => {}, []);
   const navigation = useNavigation();
   const [showCompactHeader, setShowCompactHeader] = useState(false);
-
   useEffect(() => {
     dispatch(profileActions.setStatus("Loading"));
     if (profile?.userId === "") {
@@ -110,7 +111,10 @@ const Profile = () => {
           onPressOut={() => {
             fabScale.value = withSpring(1);
           }}
-          onPress={() => {}}
+          onPress={() => {
+            dispatch(modalActions.updateModalType("create_list"));
+            handlePresentModalPress();
+          }}
         >
           <Feather name="plus" size={32} color={Colors.dark.cWhite} />
         </TouchableOpacity>
@@ -230,6 +234,12 @@ const Profile = () => {
         />
       </Animated.View>
       {tabs === 1 && floatingActionButton}
+      {tabs === 1 && (
+        <CustomBottomSheet
+          bottomSheetModalRef={bottomSheetModalRef}
+          handleSheetChanges={handleSheetChanges}
+        />
+      )}
     </GestureHandlerRootView>
   );
 };

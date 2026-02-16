@@ -23,7 +23,7 @@ import Swipeable from "react-native-gesture-handler/ReanimatedSwipeable";
 import { useDispatch, useSelector } from "react-redux";
 import StatusLabel from "../StatusLabel/StatusLabel";
 
-type ListItem = { title: string; [key: string]: any };
+export type ListItem = { title: string; [key: string]: any };
 
 const ListsCard = ({ user = false }: { user?: boolean }) => {
   const otherProfile = useSelector((state: RootState) => state.userProfile);

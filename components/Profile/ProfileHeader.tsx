@@ -28,6 +28,7 @@ const ProfileHeader = ({ user = false }: { user?: boolean }) => {
                 borderRadius: 100,
               }}
               contentFit="cover"
+              cachePolicy={"none"}
             />
           ) : (
             <DummyImage wide={96} />
