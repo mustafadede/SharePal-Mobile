@@ -1,3 +1,4 @@
+import { Notification } from "@/constants/Notifications";
 import { app, auth } from "@/firebaseConfig";
 import { FirebaseError } from "firebase/app";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
@@ -329,7 +330,7 @@ const getSpecificPost = async (postId: string) => {
 const getNotifications = async (userId: string) => {
   const notificationsRef = ref(database, `notifications/${userId}`);
   const snapshot = await get(notificationsRef);
-  const notifications: any[] = [];
+  const notifications: Notification[] = [];
   if (snapshot.exists()) {
     snapshot.forEach((childSnapshot) => {
       notifications.push({
@@ -343,6 +344,26 @@ const getNotifications = async (userId: string) => {
     });
   }
   return notifications;
+};
+
+const deleteSelectedNotification = async (notificationId: string) => {
+  try {
+    const userId = getAuth().currentUser?.uid;
+    const notificationRef = ref(
+      database,
+      `notifications/${userId}/${notificationId}`,
+    );
+    const snapshot = await get(notificationRef);
+
+    if (snapshot.exists()) {
+      await remove(notificationRef);
+      return true;
+    } else {
+      return null;
+    }
+  } catch (error) {
+    return error;
+  }
 };
 
 const createPostAction = async (
@@ -800,6 +821,7 @@ export {
   createNotification,
   createPostAction,
   createSelectedUserPostLikeLists,
+  deleteSelectedNotification,
   deleteSelectedPost,
   deleteSelectedSharedList,
   deleteUnfinished,

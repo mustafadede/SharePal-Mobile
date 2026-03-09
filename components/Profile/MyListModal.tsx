@@ -103,7 +103,7 @@ const MyListModal = () => {
     <BottomSheetView className="flex-1">
       <View className="flex flex-row gap-4 px-4 items-center">
         <BottomSheetTextInput
-          placeholder={"Yeni liste ismi"}
+          placeholder={t("mylist.placeholder")}
           value={search}
           onChangeText={handleSearch}
           onSubmitEditing={() => {}}
@@ -124,7 +124,7 @@ const MyListModal = () => {
         />
         <Pressable>
           <Text className="text-black dark:text-cWhite px-4 py-2 rounded-2xl">
-            Oluştur
+            {t("mylist.create")}
           </Text>
         </Pressable>
       </View>

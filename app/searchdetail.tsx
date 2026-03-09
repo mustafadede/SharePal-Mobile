@@ -2,7 +2,6 @@ import ShareDetailShare from "@/common/ShareDetailShare";
 import ExploreBottomSheet from "@/components/ExploreBottomSheet/ExploreBottomSheet";
 import BlooperSection from "@/components/SearchDetail/BloopersSection";
 import ContentSwitcher from "@/components/SearchDetail/ContentSwitcher";
-import GenreBadges from "@/components/SearchDetail/GenreBadges";
 import Overview from "@/components/SearchDetail/Overview";
 import PeopleActivitySection from "@/components/SearchDetail/PeopleActivitySection/PeopleActivitySection";
 import Providers from "@/components/SearchDetail/Providers";
@@ -226,7 +225,7 @@ const searchdetail = () => {
             mediaType={mediaType}
             sharedValue={scrollY}
           />
-          <GenreBadges genre_ids={genre_ids} mediaType={mediaType} />
+          {/* <GenreBadges genre_ids={genre_ids} mediaType={mediaType} /> */}
           <ContentSwitcher
             activeTab={activeTab}
             setActiveTab={setActiveTab}

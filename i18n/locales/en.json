@@ -153,5 +153,13 @@
   "providers.attribution": "Streaming availability powered by JustWatch",
   "trailer.title": "Trailers",
   "trailer.notrailer": "Not found",
-  "bloopers.title": "Bloppers"
+  "bloopers.title": "Bloppers",
+  "mylist.placeholder": "New list name",
+  "mylist.create": "Create",
+  "notification.follow": "Follows",
+  "notification.like": "Likes",
+  "notification.comments": "Comments",
+  "notification.list": "Lists",
+  "notification.suggest": "Suggestions",
+  "notification.deleted": "Notification deleted"
 }

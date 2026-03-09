@@ -17,7 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 const FeedCardLikeAction = ({ data }) => {
   const colorScheme = useColorScheme();
   const [isLiked, setIsLiked] = useState(false);
-  const { userId, displayName, photoURL } = useSelector(
+  const { userId, nick, photoURL } = useSelector(
     (state: RootState) => state.profile,
   );
   const dispatch = useDispatch();
@@ -33,16 +33,16 @@ const FeedCardLikeAction = ({ data }) => {
       updateSelectedPost(data.postId, {
         likes: data.likes + 1,
         likesList: data.likesList
-          ? [...data.likesList, { id: userId, nick: displayName }]
-          : [{ id: userId, nick: displayName }],
+          ? [...data.likesList, { id: userId, nick: nick }]
+          : [{ id: userId, nick: nick }],
       }).then(() => {
         dispatch(
           postsActions.updateLike({
             postId: data.postId,
             likes: data.likes + 1,
             likesList: data.likesList
-              ? [...data.likesList, { id: userId, nick: displayName }]
-              : [{ id: userId, nick: displayName }],
+              ? [...data.likesList, { id: userId, nick: nick }]
+              : [{ id: userId, nick: nick }],
           }),
         );
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
@@ -54,16 +54,18 @@ const FeedCardLikeAction = ({ data }) => {
             postId: data.postId,
           },
         }).then(() => {
-          createNotification(data.userId, {
-            from: {
-              uid: userId,
-              nick: displayName,
-              photo: photoURL,
-              postId: data.postId,
-            },
-            date: new Date().toISOString(),
-            type: "like",
-          });
+          if (data.postId !== userId) {
+            createNotification(data.userId, {
+              from: {
+                uid: userId,
+                nick: nick,
+                photo: photoURL,
+                postId: data.postId,
+              },
+              date: new Date().toISOString(),
+              type: "like",
+            });
+          }
         });
       });
     } else {

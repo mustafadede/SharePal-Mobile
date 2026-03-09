@@ -153,5 +153,13 @@
   "providers.attribution": "İzleme bilgileri JustWatch tarafından sağlanmaktadır",
   "trailer.title": "Fragmanlar",
   "trailer.notrailer": "Fragman bulunamadı",
-  "bloopers.title": "Sahne arkası"
+  "bloopers.title": "Sahne arkası",
+  "mylist.placeholder": "Yeni liste ismi",
+  "mylist.create": "Oluştur",
+  "notification.follow": "Takipler",
+  "notification.like": "Beğeniler",
+  "notification.comments": "Yorumlar",
+  "notification.list": "Listeler",
+  "notification.suggest": "Öneriler",
+  "notification.deleted": "Bildirim silindi"
 }

@@ -175,13 +175,6 @@ const ExploreBottomSheet = React.memo(
                     wanttowatch: !prev.wanttowatch,
                   }));
                   handlePresentModalClose();
-                  dispatch(
-                    profileActions.updateCurrentlyWatching({
-                      poster: bottomSheetValues.poster_path,
-                      releaseDate: bottomSheetValues.release_date,
-                      title: bottomSheetValues.title,
-                    }),
-                  );
 
                   toast(res ? t("actions.updated") : t("actions.notupdated"), {
                     duration: 3000,
@@ -235,13 +228,6 @@ const ExploreBottomSheet = React.memo(
                     watched: !prev.watched,
                   }));
                   handlePresentModalClose();
-                  dispatch(
-                    profileActions.updateCurrentlyWatching({
-                      poster: bottomSheetValues.poster_path,
-                      releaseDate: bottomSheetValues.release_date,
-                      title: bottomSheetValues.title,
-                    }),
-                  );
 
                   toast(res ? t("actions.updated") : t("actions.notupdated"), {
                     duration: 3000,
@@ -279,7 +265,6 @@ const ExploreBottomSheet = React.memo(
                 color={colorScheme === "dark" ? "#f8fafc" : "black"}
               />
             </TouchableOpacity>
-
             {/* Currently Watching */}
             <TouchableOpacity
               onPress={() =>
@@ -359,13 +344,6 @@ const ExploreBottomSheet = React.memo(
                     unfinished: !prev.unfinished,
                   }));
                   handlePresentModalClose();
-                  dispatch(
-                    profileActions.updateCurrentlyWatching({
-                      poster: bottomSheetValues.poster_path,
-                      releaseDate: bottomSheetValues.release_date,
-                      title: bottomSheetValues.title,
-                    }),
-                  );
 
                   toast(res ? t("actions.updated") : t("actions.notupdated"), {
                     duration: 3000,

@@ -22,22 +22,30 @@ import { useDispatch } from "react-redux";
 import { toast } from "sonner-native";
 import DummyImage from "./DummyImage";
 
-const NotificationLikeCard = ({
+const NotificationCommentCard = ({
   from,
   notificationId,
   date,
 }: NotificationCardProps) => {
-  const newDate = DateFormatter(date);
   const colorScheme = useColorScheme();
-  const { t } = useTranslation();
+  const newDate = DateFormatter(date);
   const dispatch = useDispatch();
-  const handleNavigation = async () => {
+  const { t } = useTranslation();
+
+  const handleNavigation = () => {
     router.push({
       pathname: "/userprofile/[id]",
       params: {
         id: from.uid.trim(),
         username: from.nick,
       },
+    });
+  };
+
+  const handleDeletion = async () => {
+    deleteSelectedNotification(notificationId).then((res) => {
+      dispatch(notificationActions.deleteSelectedNotification(notificationId));
+      res ? toast.success(t("notification.deleted")) : null;
     });
   };
 
@@ -52,14 +60,6 @@ const NotificationLikeCard = ({
       },
     });
   };
-
-  const handleDeletion = async () => {
-    deleteSelectedNotification(notificationId).then((res) => {
-      dispatch(notificationActions.deleteSelectedNotification(notificationId));
-      res ? toast.success(t("notification.deleted")) : null;
-    });
-  };
-
   return (
     <Swipeable
       onSwipeableWillOpen={() => {
@@ -104,7 +104,7 @@ const NotificationLikeCard = ({
           </TouchableOpacity>
           <View className="ml-4">
             <Text className="text-slate-700 dark:text-white">
-              {from.nick} gönderinizi beğendi
+              {from.nick} gönderinize yorum yaptı
             </Text>
             <Text className="text-slate-600 dark:text-slate-200">
               {newDate}
@@ -123,4 +123,4 @@ const NotificationLikeCard = ({
   );
 };
 
-export default NotificationLikeCard;
+export default NotificationCommentCard;

@@ -1,11 +1,16 @@
 import { Colors } from "@/constants/Colors";
+import { NotificationCardProps } from "@/constants/Notifications";
+import { deleteSelectedNotification } from "@/services/firebaseActions";
+import { notificationActions } from "@/store/notificationSlice";
+import { DateFormatter } from "@/utils/formatter";
 import Feather from "@expo/vector-icons/Feather";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import Octicons from "@expo/vector-icons/Octicons";
 import * as Haptics from "expo-haptics";
+import { Image } from "expo-image";
+import { router } from "expo-router";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import {
-  Image,
   Pressable,
   Text,
   TouchableOpacity,
@@ -13,9 +18,36 @@ import {
   View,
 } from "react-native";
 import Swipeable from "react-native-gesture-handler/ReanimatedSwipeable";
+import { useDispatch } from "react-redux";
+import { toast } from "sonner-native";
+import DummyImage from "./DummyImage";
 
-const NotificationFollowCard = () => {
+const NotificationFollowCard = ({
+  from,
+  notificationId,
+  date,
+}: NotificationCardProps) => {
   const colorScheme = useColorScheme();
+  const newDate = DateFormatter(date);
+  const dispatch = useDispatch();
+  const { t } = useTranslation();
+
+  const handleNavigation = async () => {
+    router.push({
+      pathname: "/userprofile/[id]",
+      params: {
+        id: from.uid.trim(),
+        username: from.nick,
+      },
+    });
+  };
+
+  const handleDeletion = async () => {
+    deleteSelectedNotification(notificationId).then((res) => {
+      dispatch(notificationActions.deleteSelectedNotification(notificationId));
+      res ? toast.success(t("notification.deleted")) : null;
+    });
+  };
   return (
     <Swipeable
       onSwipeableWillOpen={() => {
@@ -24,7 +56,7 @@ const NotificationFollowCard = () => {
       renderRightActions={() => (
         <>
           <TouchableOpacity
-            onPress={() => {}}
+            onPress={handleDeletion}
             className="justify-center px-6 items-center rounded-xl"
           >
             <MaterialIcons name="delete" size={23} color="#b91c1c" />
@@ -36,30 +68,38 @@ const NotificationFollowCard = () => {
     >
       <Pressable
         className="h-24 flex-row rounded-2xl mx-4 items-center border justify-between px-4 max-w-full bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-200/10 mb-4"
-        onPress={() => {
-          console.log("pressed");
-        }}
+        onPress={handleNavigation}
         style={({ pressed }) => ({
           opacity: pressed ? 0.5 : 1,
         })}
       >
         <View className="flex-row justify-center items-center">
-          <TouchableOpacity>
-            <Image
-              src="https://avatars.githubusercontent.com/u/95627279?v=4"
-              className="w-16 h-16 rounded-full bg-cGradient2"
-            />
+          <TouchableOpacity onPress={handleNavigation}>
+            {from.photo ? (
+              <Image
+                source={{ uri: from.photo }}
+                style={{
+                  width: 64,
+                  height: 64,
+                  borderRadius: 100,
+                }}
+                contentFit="cover"
+                cachePolicy={"memory"}
+              />
+            ) : (
+              <DummyImage wide={64} />
+            )}
           </TouchableOpacity>
-          <Text className="text-slate-700 dark:text-white ml-4">
-            Mustafa sizi takip etmeye başladı
-          </Text>
+          <View className="ml-4">
+            <Text className="text-slate-700 dark:text-white">
+              {from.nick} takip etmeye başladı
+            </Text>
+            <Text className="text-slate-600 dark:text-slate-200">
+              {newDate}
+            </Text>
+          </View>
         </View>
         <View className="flex-row justify-center items-center">
-          <Octicons
-            name="person"
-            size={18}
-            color={colorScheme === "dark" ? Colors.dark.tColor1 : "black"}
-          />
           <Feather
             name="chevron-right"
             size={24}

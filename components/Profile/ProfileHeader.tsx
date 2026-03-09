@@ -19,7 +19,7 @@ const ProfileHeader = ({ user = false }: { user?: boolean }) => {
         imageStyle={{ borderRadius: 20, opacity: 0.6 }}
       >
         <View className="flex-row items-center justify-center gap-4">
-          {profile.photoURL ? (
+          {profile.photoURL.length > 0 ? (
             <Image
               source={{ uri: `${profile.photoURL}` }}
               style={{

@@ -92,8 +92,7 @@ export default function TabLayout() {
         }}
         options={{
           title: "Notifications",
-          headerShown: true,
-          headerShadowVisible: false,
+          headerShown: false,
           headerStyle: {
             backgroundColor:
               colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",

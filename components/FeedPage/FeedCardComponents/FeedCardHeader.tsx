@@ -34,7 +34,7 @@ const FeedCardHeader = ({
       router.push({
         pathname: "/userprofile/[id]",
         params: {
-          id: data.userId,
+          id: data.userId.trim(),
           username: data.nick,
         },
       });

@@ -34,7 +34,7 @@ const SearchDetailHeader = ({
       sharedValue.value,
       [0, 180],
       [344, 120],
-      Extrapolation.CLAMP
+      Extrapolation.CLAMP,
     );
     return { height };
   });
@@ -42,7 +42,7 @@ const SearchDetailHeader = ({
 
   return (
     <View
-      className={`"w-full h-96 dark:bg-cGradient2 gap-14 ${title.length > 32 ? "mb-12" : "mb-6"}`}
+      className={`"w-full h-[390px] dark:bg-cGradient2 ${title.length > 32 ? "mb-12" : "mb-6"}`}
     >
       <Animated.View
         className="w-full absolute z-0 overflow-hidden"
@@ -52,7 +52,7 @@ const SearchDetailHeader = ({
           source={{
             uri: `https://image.tmdb.org/t/p/original/${backdrop_path}`,
           }}
-          className="w-full h-full bg-cover"
+          className="w-full h-full max-h-96 bg-cover"
           blurRadius={8}
         >
           <LinearGradient
@@ -67,7 +67,7 @@ const SearchDetailHeader = ({
       </Animated.View>
 
       {/* POSTER */}
-      <Animated.View className="flex-1 relative justify-center items-center mt-64 z-10">
+      <Animated.View className="flex-1 relative justify-center items-center mt-24 z-10">
         <Image
           source={{
             uri: `https://image.tmdb.org/t/p/original/${poster_path}`,
@@ -87,7 +87,7 @@ const SearchDetailHeader = ({
       </Animated.View>
 
       {/* TITLE + DATE + MEDIATYPE */}
-      <Animated.View className="pt-28 items-center">
+      <Animated.View className="pt-4 items-center">
         <Text className="text-2xl w-96 font-semibold text-center text-slate-800 dark:text-fuchsia-400 mb-1">
           {title}
         </Text>

@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 
 import createPost from "./createpostSlice";
 import modalSlice from "./modalSlice";
+import notificationSlice from "./notificationSlice";
 import postSlice from "./postSlice";
 import profileSlice from "./profileSlice";
 import scrollSlice from "./scrollSlice";
@@ -21,6 +22,7 @@ export const store = configureStore({
     theme: themeReducer,
     createpost: createPost,
     userProfile: userProfileSlice,
+    notification: notificationSlice,
   },
 });
 
