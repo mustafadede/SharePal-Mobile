@@ -109,7 +109,7 @@ const NotificationSuggestionCard = ({
             <Text className="text-black dark:text-white">
               {from.nick}{" "}
               <Text
-                className="text-fuchsia-600 font-semibold"
+                className="text-cFuchsia600 font-semibold"
                 style={{ flex: 1 }}
               >
                 {from.attached?.title.slice(0, 16) + "..."}

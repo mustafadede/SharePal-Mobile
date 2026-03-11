@@ -88,7 +88,7 @@ const SearchDetailHeader = ({
 
       {/* TITLE + DATE + MEDIATYPE */}
       <Animated.View className="pt-4 items-center">
-        <Text className="text-2xl w-96 font-semibold text-center text-slate-800 dark:text-fuchsia-400 mb-1">
+        <Text className="text-2xl w-96 font-semibold text-center text-slate-800 dark:text-cFuchsia400 mb-1">
           {title}
         </Text>
 

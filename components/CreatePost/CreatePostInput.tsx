@@ -69,12 +69,12 @@ const CreatePostInput = () => {
       createPostsActions.createPost({
         ...createdPost,
         content: text,
-      })
+      }),
     );
   };
 
   const progress = Math.min((length / MAX_LENGTH) * 100, 100);
-  const progressColor = colorScheme === "dark" ? "#C026D3" : "#a855f7";
+  const progressColor = colorScheme === "dark" ? Colors.dark.cFuc6 : "#a855f7";
 
   return (
     <View>
@@ -98,7 +98,7 @@ const CreatePostInput = () => {
           maxLength={MAX_LENGTH}
           textAlignVertical="top"
           clearButtonMode="while-editing"
-          selectionColor="#C026D3"
+          selectionColor={Colors.dark.cFuc6}
           placeholder={t("createpost.whats")}
           placeholderTextColor={
             colorScheme === "dark" ? "#ffffff" : Colors.dark.tColor1

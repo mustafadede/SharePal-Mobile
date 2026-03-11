@@ -1,3 +1,4 @@
+import { Colors } from "@/constants/Colors";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
@@ -63,7 +64,7 @@ export default function Onboarding() {
                   scrollX.value,
                   [(index - 1) * width, index * width, (index + 1) * width],
                   [0, 1, 0],
-                  Extrapolate.CLAMP
+                  Extrapolate.CLAMP,
                 ),
                 transform: [
                   {
@@ -71,7 +72,7 @@ export default function Onboarding() {
                       scrollX.value,
                       [(index - 1) * width, index * width, (index + 1) * width],
                       [50, 0, 50],
-                      Extrapolate.CLAMP
+                      Extrapolate.CLAMP,
                     ),
                   },
                 ],
@@ -89,7 +90,7 @@ export default function Onboarding() {
               {index === SCREENS.length - 1 && (
                 <Text
                   onPress={handleDone}
-                  className="mt-10 text-fuchsia-600 text-xl font-semibold"
+                  className="mt-10 text-cFuchsia600 text-xl font-semibold"
                 >
                   Get Started →
                 </Text>
@@ -106,7 +107,7 @@ export default function Onboarding() {
             scrollX.value,
             [(i - 1) * width, i * width, (i + 1) * width],
             [6, 12, 6],
-            Extrapolate.CLAMP
+            Extrapolate.CLAMP,
           );
 
           return (
@@ -115,7 +116,7 @@ export default function Onboarding() {
               style={{
                 width: animatedDot,
                 height: animatedDot,
-                backgroundColor: "rgb(192 38 211)", // fuchsia-600
+                backgroundColor: Colors.dark.cFuc6, // fuchsia-600
                 borderRadius: 10,
               }}
             />

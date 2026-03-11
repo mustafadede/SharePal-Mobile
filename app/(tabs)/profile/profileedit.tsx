@@ -17,12 +17,12 @@ const ProfileEdit = () => {
           {profile?.photoURL ? (
             <Image
               source={{ uri: profile ? profile.photoURL : undefined }}
-              className="w-28 h-28 rounded-full border-4 bg-fuchsia-600 border-fuchsia-600"
+              className="w-28 h-28 rounded-full border-4 bg-cFuchsia600 border-cFuchsia600"
             />
           ) : (
-            <View className="w-28 h-28 rounded-full border-4 bg-fuchsia-600 border-fuchsia-600 items-center justify-center"></View>
+            <View className="w-28 h-28 rounded-full border-4 bg-cFuchsia600 border-cFuchsia600 items-center justify-center"></View>
           )}
-          <TouchableOpacity className="mt-3 px-4 py-2 rounded-full bg-fuchsia-600">
+          <TouchableOpacity className="mt-3 px-4 py-2 rounded-full bg-cFuchsia600">
             <Text className="text-white font-medium">
               {t("profileSettings.items.profile.changephoto")}
             </Text>

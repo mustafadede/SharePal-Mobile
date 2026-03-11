@@ -23,7 +23,7 @@ const ListCardItem = React.memo(
   ({ item, index }: { item: [string, any]; index: number }) => {
     const [key, movie] = item;
     return <ListCard movie={movie} index={index} itemKey={key} />;
-  }
+  },
 );
 
 const list = () => {
@@ -52,7 +52,7 @@ const list = () => {
         dispatch(scrollActions.updateScrollPosition(0));
       }
     },
-    [dispatch, scrollPosition]
+    [dispatch, scrollPosition],
   );
 
   const selectedListEntries = React.useMemo(
@@ -60,12 +60,12 @@ const list = () => {
       selectedList?.list
         ? (Object.entries(selectedList.list) as [string, any][])
         : [],
-    [selectedList]
+    [selectedList],
   );
 
   const renderItem = useCallback(
     ({ item, index }) => <ListCardItem item={item} index={index} />,
-    []
+    [],
   );
 
   return (
@@ -117,7 +117,7 @@ const list = () => {
           importantForAccessibility="yes"
           testID="scroll-to-top-button"
           hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-          className="shadow-lg absolute bottom-8 right-4 rounded-2xl mx-auto z-50 bg-fuchsia-600"
+          className="shadow-lg absolute bottom-8 right-4 rounded-2xl mx-auto z-50 bg-cFuchsia600"
           onStartShouldSetResponder={() => true}
         >
           <TouchableOpacity

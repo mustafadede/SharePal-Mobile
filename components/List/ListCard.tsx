@@ -35,7 +35,7 @@ const ListCard = ({
         </TouchableOpacity>
       </View>
     ),
-    []
+    [],
   );
 
   const onPress = useCallback(
@@ -51,7 +51,7 @@ const ListCard = ({
           backdrop_path: movie.backdrop,
         },
       }),
-    [movie, itemKey]
+    [movie, itemKey],
   );
   return (
     <Swipeable
@@ -108,7 +108,7 @@ const ListCard = ({
             >
               {index + 1 + ". " + movie.title}
             </Text>
-            <Text className="text-fuchsia-600">
+            <Text className="text-cFuchsia600">
               ({movie.releaseDate?.slice(0, 4)})
             </Text>
           </View>

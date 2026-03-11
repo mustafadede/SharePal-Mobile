@@ -26,7 +26,7 @@ const SplashScreen = () => {
     >
       <Animated.Text
         style={animatedTextStyle}
-        className="mb-4 text-5xl z-20 font-bold text-fuchsia-600"
+        className="mb-4 text-5xl z-20 font-bold text-cFuchsia600"
       >
         SharePal
       </Animated.Text>

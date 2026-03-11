@@ -15,8 +15,8 @@ const PrimaryTitle = ({
     <Text
       className={
         additionalClassnames
-          ? `mb-4 text-xl font-bold text-fuchsia-600 ${additionalClassnames}`
-          : `mb-6 text-xl font-bold text-fuchsia-600`
+          ? `mb-4 text-xl font-bold text-cFuchsia600 ${additionalClassnames}`
+          : `mb-6 text-xl font-bold text-cFuchsia600`
       }
     >
       {t(title)}

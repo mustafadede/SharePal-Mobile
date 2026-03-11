@@ -199,7 +199,7 @@ const ExploreBottomSheet = React.memo(
               }
               className={
                 bottomSheetValues.wanttowatch
-                  ? "flex-row items-center justify-between rounded-xl border px-4 py-3  border-fuchsia-600 bg-fuchsia-600/20"
+                  ? "flex-row items-center justify-between rounded-xl border px-4 py-3  border-cFuchsia600 bg-cFuchsia600/20"
                   : "flex-row items-center justify-between rounded-xl border px-4 py-3  border-black dark:border-white/10 bg-white dark:bg-white/5"
               }
             >
@@ -252,7 +252,7 @@ const ExploreBottomSheet = React.memo(
               }
               className={
                 bottomSheetValues.watched
-                  ? "flex-row items-center justify-between rounded-xl border px-4 py-3  border-fuchsia-600 bg-fuchsia-600/20"
+                  ? "flex-row items-center justify-between rounded-xl border px-4 py-3  border-cFuchsia600 bg-cFuchsia600/20"
                   : "flex-row items-center justify-between rounded-xl border px-4 py-3  border-black dark:border-white/10 bg-white dark:bg-white/5"
               }
             >
@@ -315,7 +315,7 @@ const ExploreBottomSheet = React.memo(
                 profile.currentlyWatching.title === bottomSheetValues.title &&
                 profile.currentlyWatching.releaseDate ===
                   bottomSheetValues.release_date
-                  ? "flex-row items-center justify-between rounded-xl border px-4 py-3 border-fuchsia-600 bg-fuchsia-600/20"
+                  ? "flex-row items-center justify-between rounded-xl border px-4 py-3 border-cFuchsia600 bg-cFuchsia600/20"
                   : "flex-row items-center justify-between rounded-xl border px-4 py-3 border-black dark:border-white/10 bg-white dark:bg-white/5"
               }
             >
@@ -368,7 +368,7 @@ const ExploreBottomSheet = React.memo(
               }
               className={
                 bottomSheetValues.unfinished
-                  ? "flex-row items-center justify-between rounded-xl border px-4 py-3  border-fuchsia-600 bg-fuchsia-600/20"
+                  ? "flex-row items-center justify-between rounded-xl border px-4 py-3  border-cFuchsia600 bg-cFuchsia600/20"
                   : "flex-row items-center justify-between rounded-xl border px-4 py-3  border-black dark:border-white/10 bg-white dark:bg-white/5"
               }
             >

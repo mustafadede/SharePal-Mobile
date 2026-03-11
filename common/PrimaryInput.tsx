@@ -44,7 +44,7 @@ const PrimaryInput = ({
       />
       {visibility && (
         <TouchableOpacity
-          className="absolute text-center mr-2 right-2 text-fuchsia-600"
+          className="absolute text-center mr-2 right-2 text-cFuchsia600"
           onPress={() => setVisible(!visible)}
         >
           {visible ? (

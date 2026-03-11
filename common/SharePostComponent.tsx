@@ -42,7 +42,7 @@ const SharePostComponent = ({ switchValue }: { switchValue: boolean }) => {
   const colorScheme = useColorScheme();
   const { t } = useTranslation();
   const modal = useSelector(
-    (state: RootState) => state.modal
+    (state: RootState) => state.modal,
   ) as ModalPropsType | null;
 
   const newYear =
@@ -114,7 +114,7 @@ const SharePostComponent = ({ switchValue }: { switchValue: boolean }) => {
         <View className="flex-1 px-6 items-center" style={{ paddingTop: 7 }}>
           <View className="items-center">
             <Text
-              className="font-semibold text-fuchsia-600"
+              className="font-semibold text-cFuchsia600"
               style={{ fontSize: 48 }}
             >
               SharePal

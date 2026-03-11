@@ -1,3 +1,4 @@
+import { Colors } from "@/constants/Colors";
 import React, { useRef } from "react";
 import { ActivityIndicator, Animated } from "react-native";
 
@@ -24,7 +25,7 @@ const StatusLabel = ({
     >
       <ActivityIndicator
         size={size ? size : "large"}
-        color={color ? color : "#c026d3"}
+        color={color ? color : Colors.dark.cFuc6}
       />
     </Animated.View>
   );

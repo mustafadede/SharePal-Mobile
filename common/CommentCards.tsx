@@ -58,7 +58,7 @@ const CommentCards = ({ item, index }) => {
             </TouchableOpacity>
             <View className="ml-2 gap-1">
               <TouchableOpacity>
-                <Text className="mr-1 text-fuchsia-600">@{item.nick}</Text>
+                <Text className="mr-1 text-cFuchsia600">@{item.nick}</Text>
               </TouchableOpacity>
               <Text className="text-xs text-black dark:text-white">
                 {newDate}

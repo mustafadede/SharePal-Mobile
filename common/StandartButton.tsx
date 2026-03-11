@@ -12,7 +12,7 @@ const StandartButton = ({
   const { t } = useTranslation();
   return (
     <TouchableOpacity onPress={onClickHandler}>
-      <Text className="text-fuchsia-600 font-medium">{t(title)}</Text>
+      <Text className="text-cFuchsia600 font-medium">{t(title)}</Text>
     </TouchableOpacity>
   );
 };

@@ -36,6 +36,7 @@ export const Colors = {
     cDarkGray: "#353535",
     cDarkerPurple: "#3A1479",
     cFuc6: "rgb(192 38 211)",
+    cOrange6: "#ea580c",
     cWhite: "#FFF",
     cGolden: "#EFD05B",
     cGradient1: "#18043A",

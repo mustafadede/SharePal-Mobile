@@ -1,3 +1,4 @@
+import { Colors } from "@/constants/Colors";
 import React, { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, Text, View } from "react-native";
@@ -26,9 +27,12 @@ const TabButton = ({ label, active, onPress }: TabButtonProps) => {
   const { t } = useTranslation();
   const animatedStyle = useAnimatedStyle(() => {
     return {
-      backgroundColor: withTiming(active ? "#c026d3" : "rgba(0,0,0,0)", {
-        duration: 180,
-      }),
+      backgroundColor: withTiming(
+        active ? Colors.dark.cFuc6 : "rgba(0,0,0,0)",
+        {
+          duration: 180,
+        },
+      ),
     };
   }, [active]);
 

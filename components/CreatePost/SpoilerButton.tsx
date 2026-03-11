@@ -22,8 +22,8 @@ const SpoilerButton = () => {
       }}
       className={`flex-row items-center justify-center flex-1 py-3 px-5 rounded-xl ${
         createdPost.spoiler
-          ? "bg-fuchsia-600 dark:bg-slate-600"
-          : "bg-fuchsia-800 dark:bg-slate-800"
+          ? "bg-cFuchsia600 dark:bg-slate-600"
+          : "bg-cFuchsia600 dark:bg-slate-800"
       }`}
       style={{
         shadowColor: "#000",

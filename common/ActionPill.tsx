@@ -18,7 +18,7 @@ const ActionPill = ({
     <TouchableOpacity
       className={
         status
-          ? `flex flex-row items-center justify-center px-4 py-2 mt-2 border rounded-md bg-black/30 w-96  border-fuchsia-600 ${additionalClasses}`
+          ? `flex flex-row items-center justify-center px-4 py-2 mt-2 border rounded-md bg-black/30 w-96  border-cFuchsia600 ${additionalClasses}`
           : `flex flex-row items-center justify-center px-4 py-2 mt-2 border rounded-md bg-black/30  border-slate-500 w-96 ${additionalClasses}`
       }
     >
@@ -26,7 +26,7 @@ const ActionPill = ({
       <Text
         className={
           status
-            ? "text-sm text-fuchsia-600 ml-2"
+            ? "text-sm text-cFuchsia600 ml-2"
             : "text-sm text-slate-300 ml-2"
         }
       >

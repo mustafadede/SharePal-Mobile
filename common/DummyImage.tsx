@@ -13,7 +13,7 @@ const DummyImage = ({
         width: wide as number,
         height: wide as number,
       }}
-      className="rounded-full bg-fuchsia-600"
+      className="rounded-full bg-cFuchsia600"
     />
   );
 };

@@ -92,7 +92,7 @@ const index = () => {
           importantForAccessibility="yes"
           testID="scroll-to-top-button"
           hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-          className="shadow-lg absolute bottom-8 right-4 rounded-2xl mx-auto z-50 bg-fuchsia-600"
+          className="shadow-lg absolute bottom-8 right-4 rounded-2xl mx-auto z-50 bg-cFuchsia600"
           onStartShouldSetResponder={() => true}
         >
           <TouchableOpacity

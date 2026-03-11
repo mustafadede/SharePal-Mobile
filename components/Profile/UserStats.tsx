@@ -18,7 +18,7 @@ const UserStats = () => {
       </View>
       <View className="border-l-2 border-slate-700"></View>
       <View className="items-center flex-1 mr-4">
-        <Text className="text-lg text-fuchsia-600">#1</Text>
+        <Text className="text-lg text-cFuchsia600">#1</Text>
         <Text className="text-lg text-white">{profile.topOne}</Text>
       </View>
     </View>

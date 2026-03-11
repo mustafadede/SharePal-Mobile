@@ -7,13 +7,15 @@ module.exports = {
     "./app/**/*.{js,jsx,ts,tsx}",
     "./components/**/*.{js,jsx,ts,tsx}",
   ],
- theme: {
+  theme: {
     extend: {
       colors: {
         cBlack: "#000",
         cDarkGray: "#353535",
         cDarkerPurple: "#3A1479",
+        cFuchsia400: "#e879f9",
         cFuchsia600: "#C026D3",
+        cOrange600: "#ea580c",
         cWhite: "#FFF",
         cGolden: "#EFD05B",
         cGradient1: "#18043A",

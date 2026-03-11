@@ -101,7 +101,7 @@ const FeedCardLikeAction = ({ data }) => {
       {isLiked && <Entypo name={"heart"} size={23} color={Colors.dark.cFuc6} />}
       <Text
         className={
-          isLiked ? "text-fuchsia-600" : "text-black dark:text-slate-400"
+          isLiked ? "text-cFuchsia600" : "text-black dark:text-slate-400"
         }
       >
         {data?.likes}

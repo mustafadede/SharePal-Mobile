@@ -94,7 +94,7 @@ const Results = ({
             >
               {item.title || item.name}
             </Text>
-            <Text className="text-fuchsia-600">
+            <Text className="text-cFuchsia600">
               (
               {item.release_date?.slice(0, 4) ||
                 item.first_air_date?.slice(0, 4)}
@@ -117,7 +117,7 @@ const Results = ({
             onPress={() => setSelectedFilter(filter.id)}
             className={
               selectedFilter === filter.id
-                ? "items-center justify-center flex-1 py-1 mx-1 bg-fuchsia-600 border-fuchsia-600"
+                ? "items-center justify-center flex-1 py-1 mx-1 bg-cFuchsia600 border-cFuchsia600"
                 : "items-center justify-center flex-1 py-1 mx-1 bg-slate-900"
             }
             style={{ borderWidth: 0.5, borderRadius: 48 }}

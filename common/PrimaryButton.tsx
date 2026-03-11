@@ -19,7 +19,7 @@ const PrimaryButton = ({
   return (
     <TouchableOpacity
       onPress={onClickHandler}
-      className={`flex items-center justify-center w-full h-12 mb-4 rounded-2xl bg-fuchsia-600 ${className}`}
+      className={`flex items-center justify-center w-full h-12 mb-4 rounded-2xl bg-cFuchsia600 ${className}`}
     >
       {loading && <StatusLabel size={"small"} color="white" />}
       {!loading && <Text className={"text-white text-lg"}>{t(title)}</Text>}

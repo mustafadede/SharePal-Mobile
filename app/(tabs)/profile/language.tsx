@@ -32,7 +32,7 @@ const Language = () => {
               onPress={() => changeLanguage(lang.code)}
               className={`p-5 rounded-2xl shadow-md flex-row items-center justify-between ${
                 selected
-                  ? "bg-fuchsia-600 shadow-fuchsia-400"
+                  ? "bg-cFuchsia600 shadow-cFuchsia600"
                   : "bg-white dark:bg-cGradient2"
               }`}
               style={{

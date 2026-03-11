@@ -65,7 +65,7 @@ const usersuggest = () => {
               onPress={() => setSelectedFilter(filter.id)}
               className={
                 selectedFilter === filter.id
-                  ? "items-center justify-center flex-1 py-1 mx-1 rounded-lg bg-fuchsia-600 dark:bg-transparent border-fuchsia-600"
+                  ? "items-center justify-center flex-1 py-1 mx-1 rounded-lg bg-cFuchsia600 dark:bg-transparent border-cFuchsia600"
                   : "items-center justify-center flex-1 py-1 mx-1 rounded-lg bg-slate-900"
               }
               style={{ borderWidth: 0.5 }}

@@ -62,7 +62,7 @@ const FeedCardHeader = ({
         </TouchableOpacity>
         <View>
           <TouchableOpacity onPress={handleClick}>
-            <Text className={"text-fuchsia-600"}>
+            <Text className={"text-cFuchsia600"}>
               @{data.nick || data.displayName}
             </Text>
           </TouchableOpacity>

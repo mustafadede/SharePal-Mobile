@@ -90,7 +90,7 @@ const SearchDetailPageShareWantToWatch = ({
       {/* Content */}
       <View className="flex-1 px-6 items-center" style={{ paddingTop: 24 }}>
         <Text
-          className="font-semibold text-fuchsia-600"
+          className="font-semibold text-cFuchsia600"
           style={{ fontSize: 48 }}
         >
           SharePal
@@ -134,7 +134,7 @@ const SearchDetailPageShareWantToWatch = ({
               </Text>
               <Text className="text-center text-base font-normal text-slate-300 dark:text-slate-300">
                 {username}{" "}
-                <Text className="text-fuchsia-600">
+                <Text className="text-cFuchsia600">
                   {mediaType === "movie" ? "filmi" : "diziyi"}
                 </Text>{" "}
                 {label === "watched" && "izledi"}

@@ -30,7 +30,7 @@ const UnderlineButton = ({
         </Text>
       )}
       <Text
-        className="text-fuchsia-600"
+        className="text-cFuchsia600"
         style={{
           fontSize: 16,
           marginBottom: 6,

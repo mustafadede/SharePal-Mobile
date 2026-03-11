@@ -23,7 +23,7 @@ const UserProfileActions = ({ userId }: { userId: string }) => {
         className={
           hasFollow
             ? "bg-slate-900 flex-1 py-2 rounded-2xl"
-            : "bg-fuchsia-600 flex-1 py-2 rounded-2xl"
+            : "bg-cFuchsia600 flex-1 py-2 rounded-2xl"
         }
       >
         <Text className="text-lg text-white text-center">

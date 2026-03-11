@@ -10,7 +10,7 @@ const Rating = ({ vote_average }: { vote_average: number }) => {
         {t("searchdetail.rating")}
       </Text>
 
-      <Text className="text-3xl text-fuchsia-400">
+      <Text className="text-3xl text-cFuchsia400">
         {`${vote_average}`[0]}
         <Text className="text-lg text-black dark:text-slate-300">/10</Text>
       </Text>
