@@ -643,7 +643,7 @@ const updateWantToWatch = async (data: any) => {
   }
 };
 
-const deleteWantToWatch = async (id: string) => {
+const deleteWantToWatch = async (id: number) => {
   try {
     const userId = getAuth().currentUser?.uid;
     if (!userId) return null;
@@ -680,7 +680,7 @@ const updateWatched = async (data: any) => {
   }
 };
 
-const deleteWatched = async (id: string) => {
+const deleteWatched = async (id: number) => {
   try {
     const userId = getAuth().currentUser?.uid;
     if (!userId) return null;
@@ -723,7 +723,7 @@ const updateUnfinished = async (data: {
   }
 };
 
-const deleteUnfinished = async (data: any) => {
+const deleteUnfinished = async (id: number) => {
   try {
     const userId = getAuth().currentUser?.uid;
     if (!userId) return null;
@@ -733,7 +733,7 @@ const deleteUnfinished = async (data: any) => {
 
     if (snapshot.exists()) {
       snapshot.forEach((childSnapshot) => {
-        if (childSnapshot.val().id === data.id) {
+        if (childSnapshot.val().id === id) {
           remove(ref(database, `unfinished/${userId}/${childSnapshot.key}`));
         }
       });

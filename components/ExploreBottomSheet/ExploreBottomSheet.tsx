@@ -1,5 +1,6 @@
 import ImageComponent from "@/common/ImageComponent";
 import {
+  deleteUnfinished,
   deleteWantToWatch,
   deleteWatched,
   getSelectedUserUnfinished,
@@ -237,6 +238,70 @@ const ExploreBottomSheet = React.memo(
       }
     };
 
+    const updateUnfinishedStatus = () => {
+      if (!bottomSheetValues.unfinished) {
+        updateUnfinished({
+          additionDate: Date.now(),
+          id: bottomSheetValues.id,
+          mediaType: bottomSheetValues.mediaType,
+          name: profile.nick,
+          photoURL: profile.photoURL,
+        }).then((res) => {
+          setBottomSheetValues((prev) => ({
+            ...prev,
+            unfinished: !prev.unfinished,
+          }));
+          handlePresentModalClose();
+
+          toast(res ? t("actions.updated") : t("actions.notupdated"), {
+            duration: 3000,
+            closeButton: true,
+            icon: (
+              <FontAwesome
+                name="eye"
+                size={20}
+                color={colorScheme === "dark" ? "#f8fafc" : "black"}
+              />
+            ),
+            style: {
+              backgroundColor: "transparent",
+              borderWidth: 1,
+              borderColor: "rgba(255,255,255,0.1)",
+              paddingVertical: 10,
+              paddingHorizontal: 14,
+              borderRadius: 14,
+            },
+          });
+        });
+      } else {
+        deleteUnfinished(bottomSheetValues.id).then((res) => {
+          setBottomSheetValues((prev) => ({
+            ...prev,
+            unfinished: !prev.unfinished,
+          }));
+          toast(res ? t("actions.updated") : t("actions.notupdated"), {
+            duration: 3000,
+            closeButton: true,
+            icon: (
+              <FontAwesome
+                name="eye-slash"
+                size={20}
+                color={colorScheme === "dark" ? "#f8fafc" : "black"}
+              />
+            ),
+            style: {
+              backgroundColor: "transparent",
+              borderWidth: 1,
+              borderColor: "rgba(255,255,255,0.1)",
+              paddingVertical: 10,
+              paddingHorizontal: 14,
+              borderRadius: 14,
+            },
+          });
+          handlePresentModalClose();
+        });
+      }
+    };
     return (
       <View className="px-5 pb-40" style={{ gap: 24 }}>
         {feed ? (
@@ -404,41 +469,7 @@ const ExploreBottomSheet = React.memo(
 
             {/* Unfinished */}
             <TouchableOpacity
-              onPress={() =>
-                updateUnfinished({
-                  additionDate: Date.now(),
-                  id: bottomSheetValues.id,
-                  mediaType: bottomSheetValues.mediaType,
-                  name: profile.nick,
-                  photoURL: profile.photoURL,
-                }).then((res) => {
-                  setBottomSheetValues((prev) => ({
-                    ...prev,
-                    unfinished: !prev.unfinished,
-                  }));
-                  handlePresentModalClose();
-
-                  toast(res ? t("actions.updated") : t("actions.notupdated"), {
-                    duration: 3000,
-                    closeButton: true,
-                    icon: (
-                      <FontAwesome
-                        name="eye"
-                        size={20}
-                        color={colorScheme === "dark" ? "#f8fafc" : "black"}
-                      />
-                    ),
-                    style: {
-                      backgroundColor: "transparent",
-                      borderWidth: 1,
-                      borderColor: "rgba(255,255,255,0.1)",
-                      paddingVertical: 10,
-                      paddingHorizontal: 14,
-                      borderRadius: 14,
-                    },
-                  });
-                })
-              }
+              onPress={() => updateUnfinishedStatus()}
               className={
                 bottomSheetValues.unfinished
                   ? "flex-row items-center justify-between rounded-xl border px-4 py-3  border-cFuchsia600 bg-cFuchsia600/20"
