@@ -10,7 +10,7 @@ import {
   useColorScheme,
   View,
 } from "react-native";
-import Animated, { FadeInDown } from "react-native-reanimated";
+import Animated, { FadeInDown, FadeOutDown } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const countryCodes = [
@@ -138,6 +138,7 @@ const ProvidersPage = () => {
                   <Animated.View
                     key={selectedCountry}
                     entering={FadeInDown.springify().delay(60)}
+                    exiting={FadeOutDown.springify().delay(20)}
                     style={{
                       marginTop: 0,
                       marginHorizontal: 0,
