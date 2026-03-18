@@ -35,15 +35,16 @@ const StatsCards = ({ user = false }: { user?: boolean }) => {
   return (
     <View className="items-center flex-1 px-4 pb-4">
       {/* currently Watching */}
-      <View className="items-start justify-center w-full px-4 py-2 mb-4 h-fit border border-slate-200 dark:border-0 bg-white dark:bg-slate-900 rounded-2xl">
+      <TouchableOpacity
+        className="items-start justify-center w-full px-4 py-2 mb-4 h-fit border border-slate-200 dark:border-0 bg-white dark:bg-slate-900 rounded-2xl"
+        onPress={() => handleCurrentlyWatching()}
+        activeOpacity={0.7}
+      >
         <Text className="mb-3 py-2 text-2xl font-bold text-slate-700 dark:text-white">
           {t("profile.currently")}
         </Text>
         {profile.status === "done" && profile.currentlyWatching.title && (
-          <TouchableOpacity
-            className="flex-row items-center gap-4"
-            onPress={() => handleCurrentlyWatching()}
-          >
+          <View className="flex-row items-center gap-4">
             <Image
               style={{ width: 122, height: 156, borderRadius: 16 }}
               contentFit="cover"
@@ -61,7 +62,7 @@ const StatsCards = ({ user = false }: { user?: boolean }) => {
                 ({profile.currentlyWatching.releaseDate?.slice(0, 4)})
               </Text>
             </View>
-          </TouchableOpacity>
+          </View>
         )}
         {profile.status === "done" && !profile.currentlyWatching.title && (
           <Text className="dark:text-slate-300 mb-4 mt-2 text-black">
@@ -69,7 +70,7 @@ const StatsCards = ({ user = false }: { user?: boolean }) => {
           </Text>
         )}
         {profile.status !== "done" && <StatusLabel />}
-      </View>
+      </TouchableOpacity>
       {/* total series/films */}
       <View className="flex-row gap-4 my-1">
         <View className="flex-1 px-4 pb-4 rounded-2xl border border-slate-200 bg-white dark:border-0 dark:bg-slate-900 h-fit">

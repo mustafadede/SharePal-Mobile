@@ -33,6 +33,7 @@ export default function ProfileLayout() {
       <Stack.Screen
         options={{
           title: profile ? profile.nick : "",
+          headerBackTitle: t("headerbacktitle.title"),
           headerStyle: {
             backgroundColor:
               colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
@@ -88,23 +89,6 @@ export default function ProfileLayout() {
           contentStyle: {
             backgroundColor:
               colorScheme === "dark" ? Colors.dark.cFuc6 : "#f9fafb",
-          },
-          headerStyle: {
-            backgroundColor:
-              colorScheme === "dark" ? Colors.dark.cGradient2 : "#f9fafb",
-          },
-          headerTintColor:
-            colorScheme === "dark" ? Colors.dark.cWhite : "black",
-        }}
-      />
-      <Stack.Screen
-        name="language"
-        options={{
-          title: t("profileSettings.langTitle"),
-          headerBackTitle: t("headerbacktitle.title"),
-          contentStyle: {
-            backgroundColor:
-              colorScheme === "dark" ? Colors.dark.cGradient2 : "#f9fafb",
           },
           headerStyle: {
             backgroundColor:

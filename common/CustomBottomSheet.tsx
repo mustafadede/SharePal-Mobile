@@ -49,6 +49,7 @@ const CustomBottomSheet = ({
       };
     }, []),
   );
+
   return (
     <BottomSheetModal
       ref={bottomSheetModalRef}
@@ -97,7 +98,9 @@ const CustomBottomSheet = ({
           </View>
         )}
         {modalType === "attach" && <AttachModal />} */}
-        {modalType === "create_list" && <MyListModal />}
+        {modalType === "create_list" && (
+          <MyListModal bottomSheetModalRef={bottomSheetModalRef} />
+        )}
       </BottomSheetView>
     </BottomSheetModal>
   );

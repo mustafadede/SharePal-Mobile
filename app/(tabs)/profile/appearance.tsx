@@ -9,13 +9,12 @@ import {
   useColorScheme,
   View,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 const appearance = () => {
   const { t } = useTranslation();
   const colorScheme = useColorScheme();
   return (
-    <SafeAreaView className={"dark:bg-cGradient2 bg-gray-50 flex-1 px-5"}>
+    <View className={"dark:bg-cGradient2 bg-gray-50 mt-4 flex-1 px-5"}>
       <TouchableOpacity
         key={"switcher"}
         className="p-4 rounded-2xl border mb-3 dark:bg-slate-900 bg-white border-gray-200 dark:border-slate-900"
@@ -45,7 +44,7 @@ const appearance = () => {
           />
         </View>
       </TouchableOpacity>
-    </SafeAreaView>
+    </View>
   );
 };
 

@@ -1,23 +1,30 @@
 import { Colors } from "@/constants/Colors";
+import { RootState } from "@/store";
 import { DateFormatter } from "@/utils/formatter";
 import Entypo from "@expo/vector-icons/Entypo";
-import { useNavigation } from "expo-router";
+import { useRouter } from "expo-router";
 import React from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
+import { useSelector } from "react-redux";
 
 const CommentCards = ({ item, index }) => {
   const newDate = DateFormatter(item?.date || 0);
-  const navigate = useNavigation();
-
+  const { userId } = useSelector((state: RootState) => state.profile);
+  const router = useRouter();
   const handleClick = () => {
-    if (data.userId === userId) {
-      router.push("/profile");
+    if (item.userId === userId) {
+      router.navigate({
+        pathname: "/profile",
+        params: {
+          lockTabs: "true",
+        },
+      });
     } else {
       router.push({
         pathname: "/userprofile/[id]",
         params: {
-          id: data.userId,
-          username: data.nick,
+          id: item.userId.trim(),
+          username: item.nick,
         },
       });
     }
@@ -39,7 +46,7 @@ const CommentCards = ({ item, index }) => {
       <View style={{ gap: 6 }}>
         <View className="flex-row items-center justify-between">
           <View className="flex-row items-center">
-            <TouchableOpacity onPress={() => {}}>
+            <TouchableOpacity onPress={handleClick}>
               {item?.photoURL ? (
                 <Image
                   source={{ uri: item.photoURL }}
@@ -51,13 +58,13 @@ const CommentCards = ({ item, index }) => {
                     width: 40,
                     height: 40,
                     borderRadius: 20,
-                    backgroundColor: "#ccc",
+                    backgroundColor: Colors.dark.cFuc6,
                   }}
                 />
               )}
             </TouchableOpacity>
             <View className="ml-2 gap-1">
-              <TouchableOpacity>
+              <TouchableOpacity onPress={handleClick}>
                 <Text className="mr-1 text-cFuchsia600">@{item.nick}</Text>
               </TouchableOpacity>
               <Text className="text-xs text-black dark:text-white">

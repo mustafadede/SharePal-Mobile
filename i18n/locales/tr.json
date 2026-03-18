@@ -156,6 +156,13 @@
   "bloopers.title": "Sahne arkası",
   "mylist.placeholder": "Yeni liste ismi",
   "mylist.create": "Oluştur",
+  "mylist.save": "Düzenlemeyi kaydet",
+  "mylist.editmodal": {
+    "title": "Liste ismini Düzenle",
+    "placeholder": "Yeni liste ismini girin",
+    "cancel": "İptal",
+    "save": "Kaydet"
+  },
   "notification.follow": "Takipler",
   "notification.like": "Beğeniler",
   "notification.comments": "Yorumlar",

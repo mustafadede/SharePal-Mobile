@@ -115,7 +115,7 @@ const SharePostComponent = ({ switchValue }: { switchValue: boolean }) => {
           <View className="items-center">
             <Text
               className="font-semibold text-cFuchsia600"
-              style={{ fontSize: 48 }}
+              style={{ fontSize: 48, position: "relative", top: 12 }}
             >
               SharePal
             </Text>

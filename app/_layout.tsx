@@ -29,9 +29,7 @@ export default function RootLayout() {
         }}
       >
         <SafeAreaProvider>
-          <BottomSheetModalProvider>
-            <AppLayout />
-          </BottomSheetModalProvider>
+          <AppLayout />
           <Toaster
             swipeToDismissDirection="up"
             style={{
@@ -75,6 +73,7 @@ function AppLayout() {
     <SplashScreen />
   ) : (
     <ThemeProvider value={colorScheme === "dark" ? MyDarkTheme : MyLightTheme}>
+      <BottomSheetModalProvider>
       <Stack
         screenOptions={{
           headerShown: false,
@@ -160,7 +159,7 @@ function AppLayout() {
             headerTitle: t("createpost.title"),
             headerShadowVisible: false,
             headerShown: true,
-            headerBackTitle: "Ana sayfa",
+            headerBackTitle: t("headerbacktitle.title"),
           }}
         />
         <Stack.Screen
@@ -297,6 +296,7 @@ function AppLayout() {
         />
         <Stack.Screen name="ResetToRoot" />
       </Stack>
+      </BottomSheetModalProvider>
     </ThemeProvider>
   );
 }

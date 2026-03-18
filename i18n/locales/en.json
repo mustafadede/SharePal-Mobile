@@ -156,6 +156,13 @@
   "bloopers.title": "Bloppers",
   "mylist.placeholder": "New list name",
   "mylist.create": "Create",
+  "mylist.edit": "Edit",
+  "mylist.editmodal": {
+    "title": "Edit List Name",
+    "placeholder": "Enter new list name",
+    "cancel": "Cancel",
+    "save": "Save"
+  },
   "notification.follow": "Follows",
   "notification.like": "Likes",
   "notification.comments": "Comments",

@@ -13,10 +13,11 @@ import {
 import { RootState } from "@/store";
 import { modalActions } from "@/store/modalSlice";
 import { profileActions } from "@/store/profileSlice";
-import { Feather } from "@expo/vector-icons";
+import { Feather, Ionicons } from "@expo/vector-icons";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import { HeaderBackButtonProps } from "@react-navigation/elements";
 import { Image } from "expo-image";
-import { useNavigation } from "expo-router";
+import { router, useLocalSearchParams, useNavigation } from "expo-router";
 
 import React, {
   useCallback,
@@ -25,6 +26,7 @@ import React, {
   useRef,
   useState,
 } from "react";
+import { useTranslation } from "react-i18next";
 import {
   SectionList,
   Text,
@@ -48,14 +50,17 @@ const Profile = () => {
   const profile = useSelector((state: RootState) => state.profile);
   const [tabs, setTabs] = React.useState(0);
   const dispatch = useDispatch();
+  const { lockTabs } = useLocalSearchParams();
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const handlePresentModalPress = useCallback(() => {
     requestAnimationFrame(() => {
       bottomSheetModalRef.current?.present();
     });
   }, []);
+
   const handleSheetChanges = useCallback((index: number) => {}, []);
   const navigation = useNavigation();
+  const { t } = useTranslation();
   const [showCompactHeader, setShowCompactHeader] = useState(false);
   useEffect(() => {
     dispatch(profileActions.setStatus("Loading"));
@@ -75,6 +80,24 @@ const Profile = () => {
     });
   }, []);
 
+  useEffect(() => {
+    console.log(lockTabs);
+    if (lockTabs) {
+      navigation.getParent()?.setOptions({
+        tabBarStyle: {
+          display: "none",
+        },
+      });
+      return () => {
+        navigation.getParent()?.setOptions({
+          tabBarStyle: {
+            display: "flex",
+          },
+        });
+      };
+    }
+  }, [lockTabs]);
+
   const fabScale = useSharedValue(1);
 
   const floatingActionButton = useMemo(
@@ -89,7 +112,7 @@ const Profile = () => {
               colorScheme === "dark"
                 ? Colors.dark.cDarkGray
                 : Colors.dark.cFuc6,
-            bottom: 15,
+            bottom: lockTabs ? 45 : 15,
             right: 10,
             backgroundColor:
               colorScheme === "dark"
@@ -120,11 +143,15 @@ const Profile = () => {
         </TouchableOpacity>
       </Animated.View>
     ),
-    [colorScheme],
+    [colorScheme, lockTabs],
   );
 
   useEffect(() => {
+    const lockTabsBool = lockTabs ? true : false;
+
     navigation.setOptions({
+      headerBackVisible: lockTabsBool,
+      headerBackTitle: t("headerbacktitle.title"),
       headerTitle: showCompactHeader
         ? () => (
             <Animated.View
@@ -153,8 +180,26 @@ const Profile = () => {
             </Animated.View>
           )
         : null,
+      headerLeft: lockTabsBool
+        ? ({ tintColor }: HeaderBackButtonProps) => (
+            <TouchableOpacity
+              onPress={() => router.back()}
+              style={{ marginLeft: 12 }}
+            >
+              <Ionicons name="chevron-back" size={28} color={tintColor} />
+            </TouchableOpacity>
+          )
+        : null,
     });
-  }, [showCompactHeader]);
+
+    return () => {
+      navigation.setOptions({
+        tabBarStyle: {
+          headerLeft: ({ tintColor }: HeaderBackButtonProps) => null,
+        },
+      });
+    };
+  }, [showCompactHeader, lockTabs]);
 
   return (
     <GestureHandlerRootView
@@ -218,7 +263,9 @@ const Profile = () => {
             }
 
             if (item === "lists") {
-              return <ListsCard />;
+              return (
+                <ListsCard handlePresentModalPress={handlePresentModalPress} />
+              );
             }
 
             if (item === "activities") {
@@ -233,8 +280,8 @@ const Profile = () => {
           contentContainerStyle={{ paddingBottom: 100 }}
         />
       </Animated.View>
-      {tabs === 1 && floatingActionButton}
-      {tabs === 1 && (
+      {tabs !== 3 && floatingActionButton}
+      {tabs !== 3 && (
         <CustomBottomSheet
           bottomSheetModalRef={bottomSheetModalRef}
           handleSheetChanges={handleSheetChanges}

@@ -1,10 +1,10 @@
+import LanguageBottomSheet from "@/common/LanguageBottomSheet";
 import PrimaryButton from "@/common/PrimaryButton";
 import PrimaryInput from "@/common/PrimaryInput";
 import StandartButton from "@/common/StandartButton";
 import UnderlineButton from "@/common/UnderlineButton";
 import BackgroundImage from "@/components/LogIn/BackgroundImage";
 import AppTitle from "@/components/Registration/AppTitle";
-import SignUpContentComponent from "@/components/SignUp/SignUpContentComponent";
 import { Colors } from "@/constants/Colors";
 import "@/global.css";
 import i18n from "@/i18n/i18n";
@@ -14,23 +14,12 @@ import {
 } from "@/services/firebaseActions";
 import { profileActions } from "@/store/profileSlice";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import {
-  BottomSheetBackdrop,
-  BottomSheetModal,
-  BottomSheetView,
-} from "@gorhom/bottom-sheet";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import * as Haptics from "expo-haptics";
 import { router } from "expo-router";
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import {
-  Platform,
-  Pressable,
-  Text,
-  TouchableOpacity,
-  useColorScheme,
-  View,
-} from "react-native";
+import { TouchableOpacity, useColorScheme, View } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { useDispatch } from "react-redux";
 import { toast } from "sonner-native";
@@ -48,15 +37,7 @@ export default function Home() {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [languageModalVisibility, setLanguageModalVisibility] = useState(false);
-  const snapPoints = useMemo(
-    () =>
-      languageModalVisibility
-        ? Platform.OS === "ios"
-          ? ["20%"]
-          : ["25%"]
-        : ["40%"],
-    [languageModalVisibility],
-  );
+
   const handlePresentModalPress = useCallback(() => {
     bottomSheetModalRef.current?.present();
   }, []);
@@ -186,94 +167,13 @@ export default function Home() {
             </View>
           </View>
         </View>
-        <BottomSheetModal
-          ref={bottomSheetModalRef}
-          index={1}
-          android_keyboardInputMode="adjustResize"
-          snapPoints={snapPoints}
-          backdropComponent={(props) => (
-            <BottomSheetBackdrop
-              {...props}
-              disappearsOnIndex={0}
-              appearsOnIndex={1}
-              opacity={0.8}
-            />
-          )}
-          onChange={handleSheetChanges}
-          keyboardBlurBehavior="none"
-          handleIndicatorStyle={{ backgroundColor: "rgb(100 116 139)" }}
-          keyboardBehavior="interactive"
-          backgroundComponent={({ style }) => (
-            <View
-              style={[
-                style,
-                {
-                  borderTopLeftRadius: 20,
-                  borderTopRightRadius: 20,
-                  width: "100%",
-                  justifyContent: "center",
-                  alignItems: "center",
-                },
-              ]}
-              className="bg-[#f2f2f2] dark:bg-cGradient2"
-            />
-          )}
-        >
-          <BottomSheetView style={{ flex: 1, marginTop: 10 }}>
-            {languageModalVisibility ? (
-              <View className="items-center h-full flex-1 gap-4 px-8 justify-around">
-                <Pressable
-                  className={`w-full justify-center h-fit flex-row items-center ${
-                    i18n.language === "tr-TR" ? "" : "border border-slate-400"
-                  }`}
-                  onPress={() => {
-                    handleChangeLanguage();
-                    handlePresentModalClose();
-                  }}
-                  style={{
-                    padding: 12,
-                    backgroundColor:
-                      i18n.language === "tr-TR"
-                        ? colorScheme === "dark"
-                          ? Colors.dark.cFuc6
-                          : "#e2e8f0"
-                        : "transparent",
-                    borderRadius: 50,
-                  }}
-                >
-                  <Text className="text-black text-lg dark:text-slate-200">
-                    🇹🇷 {i18n.language === "en-EN" ? "Turkish" : "Türkçe"}
-                  </Text>
-                </Pressable>
-                <Pressable
-                  className={`w-full justify-center h-fit flex-row items-center ${
-                    i18n.language === "en-EN" ? "" : "border border-slate-400"
-                  }`}
-                  onPress={() => {
-                    handleChangeLanguage();
-                    handlePresentModalClose();
-                  }}
-                  style={{
-                    padding: 12,
-                    backgroundColor:
-                      i18n.language === "en-EN"
-                        ? colorScheme === "dark"
-                          ? Colors.dark.cFuc6
-                          : "#e2e8f0"
-                        : "transparent",
-                    borderRadius: 50,
-                  }}
-                >
-                  <Text className="text-black text-lg dark:text-slate-200">
-                    🇺🇸 {i18n.language === "tr-TR" ? "İngilizce" : "English"}
-                  </Text>
-                </Pressable>
-              </View>
-            ) : (
-              <SignUpContentComponent />
-            )}
-          </BottomSheetView>
-        </BottomSheetModal>
+        <LanguageBottomSheet
+          handleSheetChanges={handleSheetChanges}
+          bottomSheetModalRef={bottomSheetModalRef}
+          languageModalVisibility={languageModalVisibility}
+          handlePresentModalClose={handlePresentModalClose}
+          handleChangeLanguage={handleChangeLanguage}
+        />
       </View>
     </SafeAreaProvider>
   );

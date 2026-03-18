@@ -1,14 +1,25 @@
 import { Colors } from "@/constants/Colors";
 import { RootState } from "@/store";
-import { Feather, Ionicons, MaterialIcons } from "@expo/vector-icons";
-import { BottomSheetTextInput, BottomSheetView } from "@gorhom/bottom-sheet";
+import {
+  AntDesign,
+  Feather,
+  Ionicons,
+  MaterialIcons,
+} from "@expo/vector-icons";
+import {
+  BottomSheetModal,
+  BottomSheetTextInput,
+  BottomSheetView,
+} from "@gorhom/bottom-sheet";
 import * as Haptics from "expo-haptics";
 import { useRouter } from "expo-router";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
+  Modal,
   Pressable,
   Text,
+  TextInput,
   TouchableOpacity,
   useColorScheme,
   View,
@@ -18,15 +29,31 @@ import Swipeable from "react-native-gesture-handler/ReanimatedSwipeable";
 import { useDispatch, useSelector } from "react-redux";
 import { ListItem } from "../Profile/ListsCard";
 
-const MyListModal = () => {
+const MyListModal = ({
+  bottomSheetModalRef,
+}: {
+  bottomSheetModalRef: React.RefObject<BottomSheetModal | null>;
+}) => {
   const colorScheme = useColorScheme();
   const { t } = useTranslation();
   const [search, setSearch] = useState("");
   const dispatch = useDispatch();
+  const [editModalVisible, setEditModalVisible] = useState(false);
+  const [editItem, setEditItem] = useState<ListItem | null>(null);
+  const [editTitle, setEditTitle] = useState("");
   const profile = useSelector((state: RootState) => state.profile);
   const handleSearch = (text: string) => {
     setSearch(text);
   };
+
+  const handleModalOpen = useCallback(() => {
+    bottomSheetModalRef.current?.snapToIndex(1);
+  }, []);
+
+  const handleModalClose = useCallback(() => {
+    bottomSheetModalRef.current?.snapToIndex(0);
+  }, []);
+
   const router = useRouter();
 
   const renderItem = useCallback(({ item }: { item: ListItem }) => {
@@ -47,7 +74,9 @@ const MyListModal = () => {
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
-                // Handle edit action here
+                setEditItem(item);
+                setEditTitle(item.title);
+                setEditModalVisible(true);
               }}
               className="ml-4 justify-center px-6 items-center rounded-xl"
             >
@@ -99,8 +128,152 @@ const MyListModal = () => {
     );
   }, []);
 
+  useEffect(() => {
+    if (editModalVisible) {
+      handleModalClose();
+    } else {
+      handleModalOpen();
+    }
+  }, [editModalVisible]);
+
   return (
     <BottomSheetView className="flex-1">
+      <Modal
+        visible={editModalVisible}
+        animationType="fade"
+        transparent
+        statusBarTranslucent
+        backdropColor={
+          colorScheme === "dark" ? Colors.dark.cGradient2 : Colors.dark.cWhite
+        }
+        onRequestClose={() => setEditModalVisible(false)}
+      >
+        <View
+          style={{
+            flex: 1,
+            backgroundColor:
+              colorScheme === "dark" ? "rgba(0,0,0,0.6)" : "rgba(0,0,0,0.4)",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <View
+            style={{
+              width: "92%",
+              backgroundColor:
+                colorScheme === "dark"
+                  ? Colors.dark.cGradient2
+                  : Colors.dark.cWhite,
+              borderRadius: 18,
+              padding: 24,
+              shadowColor: colorScheme === "dark" ? "#000" : "#334155",
+              shadowOffset: { width: 0, height: 6 },
+              shadowOpacity: 0.15,
+              shadowRadius: 12,
+              elevation: 6,
+            }}
+          >
+            <View className="flex flex-row gap-4">
+              <AntDesign
+                name="info-circle"
+                size={24}
+                color={
+                  colorScheme === "dark"
+                    ? Colors.dark.cWhite
+                    : Colors.light.cDarkGray
+                }
+              />
+              <Text
+                style={{
+                  fontSize: 20,
+                  fontWeight: "700",
+                  marginBottom: 16,
+                  color:
+                    colorScheme === "dark"
+                      ? Colors.dark.cWhite
+                      : Colors.light.cDarkGray,
+                }}
+              >
+                {t("mylist.editmodal.title")}
+              </Text>
+            </View>
+            <TextInput
+              value={editTitle}
+              onChangeText={setEditTitle}
+              placeholder={t("mylist.editmodal.placeholder")}
+              placeholderTextColor={
+                colorScheme === "dark" ? "#64748b" : "#94a3b8"
+              }
+              style={{
+                borderWidth: 1,
+                borderRadius: 14,
+                padding: 12,
+                borderColor: "transparent",
+                marginBottom: 20,
+                fontSize: 15,
+                color:
+                  colorScheme === "dark"
+                    ? Colors.dark.cWhite
+                    : Colors.light.cDarkGray,
+              }}
+            />
+            <View
+              style={{ flexDirection: "row", justifyContent: "space-between" }}
+            >
+              <TouchableOpacity
+                onPress={() => setEditModalVisible(false)}
+                style={{
+                  flex: 1,
+                  marginRight: 8,
+                  borderRadius: 14,
+                  paddingVertical: 10,
+                  alignItems: "center",
+                }}
+              >
+                <Text
+                  style={{
+                    color:
+                      colorScheme === "dark"
+                        ? Colors.dark.cWhite
+                        : Colors.light.cDarkGray,
+                    fontWeight: "600",
+                    fontSize: 15,
+                  }}
+                >
+                  {t("mylist.editmodal.cancel")}
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  // Save edit logic here
+                  // Example: dispatch update action
+                  if (editItem) {
+                    // dispatch(profileActions.updateList({ ...editItem, title: editTitle }));
+                  }
+                  setEditModalVisible(false);
+                }}
+                style={{
+                  flex: 1,
+                  marginLeft: 8,
+                  borderRadius: 14,
+                  paddingVertical: 10,
+                  alignItems: "center",
+                }}
+              >
+                <Text
+                  style={{
+                    color: Colors.dark.cFuc6,
+                    fontWeight: "700",
+                    fontSize: 15,
+                  }}
+                >
+                  {t("mylist.editmodal.save")}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
       <View className="flex flex-row gap-4 px-4 items-center">
         <BottomSheetTextInput
           placeholder={t("mylist.placeholder")}

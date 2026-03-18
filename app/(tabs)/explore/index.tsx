@@ -17,6 +17,7 @@ import {
   BottomSheetModal,
   BottomSheetView,
 } from "@gorhom/bottom-sheet";
+import { useNavigation } from "expo-router";
 import React, {
   useCallback,
   useEffect,
@@ -26,7 +27,6 @@ import React, {
 } from "react";
 import { useTranslation } from "react-i18next";
 import {
-  FlatList,
   Platform,
   StatusBar as RNStatusBar,
   TextInput,
@@ -34,6 +34,7 @@ import {
   useColorScheme,
   View,
 } from "react-native";
+import Animated from "react-native-reanimated";
 
 const filters = [
   { label: "Movie", id: 0 },
@@ -66,7 +67,7 @@ const Explore = () => {
   const snapPoints = useMemo(() => ["35%"], []);
   const [selectedFilter, setSelectedFilter] = useState(0);
   const [loading, setLoading] = useState(false);
-
+  const navigation = useNavigation();
   const handlePresentModalPress = useCallback(() => {
     bottomSheetModalRef.current?.present();
   }, []);
@@ -267,7 +268,7 @@ const Explore = () => {
           setLoading={setLoading}
         />
       ) : (
-        <FlatList
+        <Animated.FlatList
           data={sections}
           renderItem={renderSection}
           keyExtractor={(_, index) => index.toString()}

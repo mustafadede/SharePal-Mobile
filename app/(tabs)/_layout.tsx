@@ -2,20 +2,15 @@ import { Colors } from "@/constants/Colors";
 import { RootState } from "@/store";
 import Entypo from "@expo/vector-icons/Entypo";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import * as Haptics from "expo-haptics";
 import { Tabs } from "expo-router";
 import React, { useState } from "react";
-import {
-  FlatList,
-  Image,
-  TouchableOpacity,
-  useColorScheme,
-} from "react-native";
+import { FlatList, Image, useColorScheme } from "react-native";
 import { useSelector } from "react-redux";
 export const flatListRef = React.createRef<FlatList<any>>();
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
-  const { scrollPosition } = useSelector((state: RootState) => state.scroll);
   const [currentTab, setCurrentTab] = useState("index");
   const profile = useSelector((state: RootState) => state.profile);
   const handleScroll = () => {
@@ -29,9 +24,10 @@ export default function TabLayout() {
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
+        lazy: true,
         tabBarHideOnKeyboard: true,
         tabBarActiveTintColor: Colors.dark.cFuc6,
-        animation: "shift",
+        animation: "none",
         sceneStyle: {
           backgroundColor:
             colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
@@ -47,7 +43,14 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         listeners={{
-          tabPress: () => setCurrentTab("index"),
+          tabPress: () => {
+            if (currentTab === "index") {
+              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
+              handleScroll();
+            } else {
+              setCurrentTab("index");
+            }
+          },
         }}
         options={{
           title: "Feed",
@@ -57,15 +60,7 @@ export default function TabLayout() {
               colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
           },
           tabBarIcon: ({ color }) => {
-            if (scrollPosition > 10 && currentTab === "index") {
-              return (
-                <TouchableOpacity onPress={handleScroll}>
-                  <Entypo name="home" size={26} color={color} />
-                </TouchableOpacity>
-              );
-            } else {
-              return <Entypo name="home" size={26} color={color} />;
-            }
+            return <Entypo name="home" size={26} color={color} />;
           },
         }}
       />
@@ -115,7 +110,6 @@ export default function TabLayout() {
           tabPress: () => setCurrentTab("profile/index"),
         }}
         options={{
-          headerShown: false,
           headerBackgroundContainerStyle: {
             backgroundColor:
               colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",

@@ -1,6 +1,9 @@
+import LanguageBottomSheet from "@/common/LanguageBottomSheet";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import * as Haptics from "expo-haptics";
 import { router } from "expo-router";
-import React from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Platform,
@@ -42,7 +45,7 @@ const sections = [
       {
         title: "profileSettings.items.language.title",
         description: "profileSettings.items.language.description",
-        to: "(tabs)/profile/language",
+        to: "",
       },
       {
         title: "profileSettings.items.appearance.title",
@@ -64,7 +67,26 @@ const sections = [
 ];
 
 const Settings = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+  const [languageModalVisibility, setLanguageModalVisibility] = useState(false);
+
+  const handlePresentModalPress = useCallback(() => {
+    bottomSheetModalRef.current?.present();
+  }, []);
+
+  const handlePresentModalClose = useCallback(() => {
+    bottomSheetModalRef.current?.close();
+  }, []);
+
+  const handleSheetChanges = useCallback((index: number) => {
+    if (index === 1) Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
+  }, []);
+
+  const handleChangeLanguage = () => {
+    const newLang = i18n.language === "tr-TR" ? "en-EN" : "tr-TR";
+    i18n.changeLanguage(newLang);
+  };
 
   return (
     <ScrollView
@@ -84,7 +106,12 @@ const Settings = () => {
               className="p-4 rounded-2xl border mb-3 dark:bg-slate-900 bg-white border-gray-200 dark:border-slate-900"
               activeOpacity={item.type === "switch" ? 1 : 0.7}
               onPress={() => {
-                router.push(item?.to);
+                if (item.title === "profileSettings.items.language.title") {
+                  handlePresentModalPress();
+                  setLanguageModalVisibility(true);
+                } else {
+                  router.push(item?.to);
+                }
               }}
             >
               <View className="flex-row justify-between items-center">
@@ -113,6 +140,13 @@ const Settings = () => {
           </Text>
         </View>
       </TouchableOpacity>
+      <LanguageBottomSheet
+        handleSheetChanges={handleSheetChanges}
+        bottomSheetModalRef={bottomSheetModalRef}
+        languageModalVisibility={languageModalVisibility}
+        handlePresentModalClose={handlePresentModalClose}
+        handleChangeLanguage={handleChangeLanguage}
+      />
     </ScrollView>
   );
 };
