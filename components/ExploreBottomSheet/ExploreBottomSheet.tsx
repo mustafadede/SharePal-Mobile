@@ -1,5 +1,7 @@
 import ImageComponent from "@/common/ImageComponent";
 import {
+  deleteWantToWatch,
+  deleteWatched,
   getSelectedUserUnfinished,
   getSelectedUserWantToWatch,
   getSelectedUserWatched,
@@ -96,6 +98,145 @@ const ExploreBottomSheet = React.memo(
       fetchSheetData();
     }, [bottomSheetValues.id]);
 
+    const updateWantToWatchStatus = () => {
+      if (!bottomSheetValues.wanttowatch) {
+        updateWantToWatch({
+          additionDate: Date.now(),
+          id: bottomSheetValues.id,
+          mediaType: bottomSheetValues.mediaType,
+          name: profile.nick,
+          photoURL: profile.photoURL,
+        }).then((res) => {
+          setBottomSheetValues((prev) => ({
+            ...prev,
+            wanttowatch: !prev.wanttowatch,
+          }));
+          handlePresentModalClose();
+
+          toast(res ? t("actions.updated") : t("actions.notupdated"), {
+            duration: 3000,
+            closeButton: true,
+            icon: (
+              <FontAwesome
+                name="eye"
+                size={20}
+                color={colorScheme === "dark" ? "#f8fafc" : "black"}
+              />
+            ),
+            style: {
+              backgroundColor: "transparent",
+              borderWidth: 1,
+              borderColor: "rgba(255,255,255,0.1)",
+              paddingVertical: 10,
+              paddingHorizontal: 14,
+              borderRadius: 14,
+            },
+          });
+        });
+      } else {
+        deleteWantToWatch(bottomSheetValues.id).then((res) => {
+          setBottomSheetValues((prev) => ({
+            ...prev,
+            wanttowatch: !prev.wanttowatch,
+          }));
+          toast(res ? t("actions.updated") : t("actions.notupdated"), {
+            duration: 3000,
+            closeButton: true,
+            icon: (
+              <FontAwesome
+                name="eye-slash"
+                size={20}
+                color={colorScheme === "dark" ? "#f8fafc" : "black"}
+              />
+            ),
+            style: {
+              backgroundColor: "transparent",
+              borderWidth: 1,
+              borderColor: "rgba(255,255,255,0.1)",
+              paddingVertical: 10,
+              paddingHorizontal: 14,
+              borderRadius: 14,
+            },
+          });
+          handlePresentModalClose();
+        });
+      }
+    };
+
+    const updateWatchedStatus = async () => {
+      if (!bottomSheetValues.watched) {
+        updateWatched({
+          additionDate: Date.now(),
+          id: bottomSheetValues.id,
+          mediaType: bottomSheetValues.mediaType,
+          name: profile.nick,
+          photoURL: profile.photoURL,
+        }).then((res) => {
+          setBottomSheetValues((prev) => ({
+            ...prev,
+            watched: !prev.watched,
+          }));
+          handlePresentModalClose();
+          if (bottomSheetValues.mediaType === "movie") {
+            dispatch(profileActions.incrementTotalFilms());
+          } else {
+            dispatch(profileActions.incrementTotalSeries());
+          }
+          toast(res ? t("actions.updated") : t("actions.notupdated"), {
+            duration: 3000,
+            closeButton: true,
+            icon: (
+              <FontAwesome
+                name="eye"
+                size={20}
+                color={colorScheme === "dark" ? "#f8fafc" : "black"}
+              />
+            ),
+            style: {
+              backgroundColor: "transparent",
+              borderWidth: 1,
+              borderColor: "rgba(255,255,255,0.1)",
+              paddingVertical: 10,
+              paddingHorizontal: 14,
+              borderRadius: 14,
+            },
+          });
+        });
+      } else {
+        deleteWatched(bottomSheetValues.id).then((res) => {
+          setBottomSheetValues((prev) => ({
+            ...prev,
+            watched: !prev.watched,
+          }));
+          if (bottomSheetValues.mediaType === "movie") {
+            dispatch(profileActions.decrementTotalFilms());
+          } else {
+            dispatch(profileActions.decrementTotalSeries());
+          }
+          toast(res ? t("actions.updated") : t("actions.notupdated"), {
+            duration: 3000,
+            closeButton: true,
+            icon: (
+              <FontAwesome
+                name="eye-slash"
+                size={20}
+                color={colorScheme === "dark" ? "#f8fafc" : "black"}
+              />
+            ),
+            style: {
+              backgroundColor: "transparent",
+              borderWidth: 1,
+              borderColor: "rgba(255,255,255,0.1)",
+              paddingVertical: 10,
+              paddingHorizontal: 14,
+              borderRadius: 14,
+            },
+          });
+          handlePresentModalClose();
+        });
+      }
+    };
+
     return (
       <View className="px-5 pb-40" style={{ gap: 24 }}>
         {feed ? (
@@ -162,41 +303,7 @@ const ExploreBottomSheet = React.memo(
           <View className="w-full flex flex-col gap-3">
             {/* Want to Watch */}
             <TouchableOpacity
-              onPress={() =>
-                updateWantToWatch({
-                  additionDate: Date.now(),
-                  id: bottomSheetValues.id,
-                  mediaType: bottomSheetValues.mediaType,
-                  name: profile.nick,
-                  photoURL: profile.photoURL,
-                }).then((res) => {
-                  setBottomSheetValues((prev) => ({
-                    ...prev,
-                    wanttowatch: !prev.wanttowatch,
-                  }));
-                  handlePresentModalClose();
-
-                  toast(res ? t("actions.updated") : t("actions.notupdated"), {
-                    duration: 3000,
-                    closeButton: true,
-                    icon: (
-                      <FontAwesome
-                        name="eye"
-                        size={20}
-                        color={colorScheme === "dark" ? "#f8fafc" : "black"}
-                      />
-                    ),
-                    style: {
-                      backgroundColor: "transparent",
-                      borderWidth: 1,
-                      borderColor: "rgba(255,255,255,0.1)",
-                      paddingVertical: 10,
-                      paddingHorizontal: 14,
-                      borderRadius: 14,
-                    },
-                  });
-                })
-              }
+              onPress={() => updateWantToWatchStatus()}
               className={
                 bottomSheetValues.wanttowatch
                   ? "flex-row items-center justify-between rounded-xl border px-4 py-3  border-cFuchsia600 bg-cFuchsia600/20"
@@ -215,41 +322,7 @@ const ExploreBottomSheet = React.memo(
 
             {/* Watched */}
             <TouchableOpacity
-              onPress={() =>
-                updateWatched({
-                  additionDate: Date.now(),
-                  id: bottomSheetValues.id,
-                  mediaType: bottomSheetValues.mediaType,
-                  name: profile.nick,
-                  photoURL: profile.photoURL,
-                }).then((res) => {
-                  setBottomSheetValues((prev) => ({
-                    ...prev,
-                    watched: !prev.watched,
-                  }));
-                  handlePresentModalClose();
-
-                  toast(res ? t("actions.updated") : t("actions.notupdated"), {
-                    duration: 3000,
-                    closeButton: true,
-                    icon: (
-                      <FontAwesome
-                        name="eye"
-                        size={20}
-                        color={colorScheme === "dark" ? "#f8fafc" : "black"}
-                      />
-                    ),
-                    style: {
-                      backgroundColor: "transparent",
-                      borderWidth: 1,
-                      borderColor: "rgba(255,255,255,0.1)",
-                      paddingVertical: 10,
-                      paddingHorizontal: 14,
-                      borderRadius: 14,
-                    },
-                  });
-                })
-              }
+              onPress={() => updateWatchedStatus()}
               className={
                 bottomSheetValues.watched
                   ? "flex-row items-center justify-between rounded-xl border px-4 py-3  border-cFuchsia600 bg-cFuchsia600/20"

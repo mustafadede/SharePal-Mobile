@@ -1,3 +1,4 @@
+import { Colors } from "@/constants/Colors";
 import useWatchProvider from "@/hooks/useWatchProvider";
 import { Image } from "expo-image";
 import { useEffect, useState } from "react";
@@ -45,7 +46,7 @@ const ProvidersList = ({ movieId, selectedCountry, mediaType }: Props) => {
           (p: any) => ({
             ...p,
             type: "flatrate",
-          })
+          }),
         );
         const rent: Provider[] = (countryData.rent || []).map((p: any) => ({
           ...p,
@@ -70,13 +71,24 @@ const ProvidersList = ({ movieId, selectedCountry, mediaType }: Props) => {
   if (noData) {
     return (
       <View
-        style={{ padding: 16, alignItems: "center", justifyContent: "center" }}
+        style={{
+          padding: 24,
+          alignItems: "center",
+          justifyContent: "center",
+          borderRadius: 24,
+          backgroundColor:
+            colorScheme === "dark"
+              ? "rgba(36,33,60,0.75)"
+              : "rgba(255,255,255,0.85)",
+        }}
       >
         <Text
           style={{
-            fontSize: 16,
-            fontWeight: "600",
+            fontSize: 18,
+            fontWeight: "700",
             color: colorScheme === "dark" ? "#fff" : "#1f2937",
+            letterSpacing: 0.2,
+            textAlign: "center",
           }}
         >
           {t("providers.notfound")}
@@ -94,34 +106,44 @@ const ProvidersList = ({ movieId, selectedCountry, mediaType }: Props) => {
 
   const renderProviderItem = ({ item }: { item: Provider }) => (
     <View
-      className={`w-full flex-row items-center mb-6 rounded-xl px-6 py-3 ${
-        colorScheme === "dark" ? "bg-black/70" : "bg-white/70"
-      } shadow-md`}
       style={{
-        gap: 32,
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.15,
-        shadowRadius: 10,
-        elevation: 6,
-        backdropFilter: "blur(12px)",
+        width: 110,
+        alignItems: "center",
+        justifyContent: "flex-start",
+        marginRight: 12,
+        borderRadius: 22,
+        backgroundColor:
+          colorScheme === "dark"
+            ? "rgba(36,33,60,0.75)"
+            : "rgba(255,255,255,0.85)",
+        paddingVertical: 18,
+        paddingHorizontal: 8,
+        borderWidth: 1.5,
+        borderColor:
+          colorScheme === "dark"
+            ? "rgba(124,58,237,0.18)"
+            : "rgba(124,58,237,0.08)",
+        marginBottom: 2,
       }}
     >
       <Image
         source={`https://image.tmdb.org/t/p/original${item.logo_path}`}
         contentFit="contain"
         style={{
-          width: "100%",
-          height: 120,
-          borderRadius: 12,
+          width: 60,
+          height: 60,
+          borderRadius: 16,
+          marginBottom: 10,
+          backgroundColor: colorScheme === "dark" ? "#232136" : "#f3f0ff",
         }}
       />
       <Text
         style={{
-          fontSize: 13,
-          fontWeight: "600",
+          fontSize: 13.5,
+          fontWeight: "700",
           color: colorScheme === "dark" ? "#fff" : "#1f2937",
           textAlign: "center",
+          marginTop: 2,
         }}
         numberOfLines={2}
       >
@@ -133,14 +155,15 @@ const ProvidersList = ({ movieId, selectedCountry, mediaType }: Props) => {
   const renderCategory = (title: string, providers: Provider[]) => {
     if (providers.length === 0) return null;
     return (
-      <View style={{ marginBottom: 24 }}>
+      <View style={{ marginBottom: 28 }}>
         <Text
           style={{
-            fontSize: 16,
-            fontWeight: "700",
-            color: colorScheme === "dark" ? "#fff" : "#1f2937",
-            marginBottom: 12,
-            marginLeft: 16,
+            fontSize: 16.5,
+            fontWeight: "800",
+            color: Colors.dark.cFuc6,
+            marginBottom: 10,
+            marginLeft: 18,
+            letterSpacing: 0.2,
           }}
         >
           {title}
@@ -148,9 +171,10 @@ const ProvidersList = ({ movieId, selectedCountry, mediaType }: Props) => {
         <FlatList
           data={providers}
           keyExtractor={(item) => `${item.type}-${item.provider_id}`}
+          horizontal
           showsHorizontalScrollIndicator={false}
-          contentContainerStyle={{ paddingHorizontal: 16 }}
-          ItemSeparatorComponent={() => <View style={{ width: 12 }} />}
+          contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 2 }}
+          ItemSeparatorComponent={() => <View style={{ width: 8 }} />}
           renderItem={renderProviderItem}
         />
       </View>
@@ -158,12 +182,27 @@ const ProvidersList = ({ movieId, selectedCountry, mediaType }: Props) => {
   };
 
   return (
-    <View>
+    <View style={{ flex: 1 }}>
       {renderCategory(t("providers.flatrate"), flatrateProviders)}
       {renderCategory(t("providers.rent"), rentProviders)}
       {renderCategory(t("providers.buy"), buyProviders)}
-      <View className="px-4 mt-2">
-        <Text className="text-xs text-slate-500 dark:text-slate-400 text-center">
+      <View
+        style={{
+          paddingHorizontal: 16,
+          position: "relative",
+          bottom: 4,
+        }}
+      >
+        <Text
+          style={{
+            fontSize: 11.5,
+            color: Colors.dark.cDarkGray,
+            textAlign: "center",
+            fontWeight: "500",
+            letterSpacing: 0.1,
+            opacity: 0.7,
+          }}
+        >
           {t("providers.attribution")}
         </Text>
       </View>

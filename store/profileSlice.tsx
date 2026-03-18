@@ -54,11 +54,21 @@ const profileSlice = createSlice({
     setTotalFilms: (state, action) => {
       state.totalFilms = action.payload;
     },
-    incrementTotalFilms: (state, action) => {
-      state.totalFilms == action.payload;
+    incrementTotalFilms: (state) => {
+      state.totalFilms++;
     },
-    incrementTotalSeries: (state, action) => {
-      state.totalSeries = action.payload;
+    incrementTotalSeries: (state) => {
+      state.totalSeries++;
+    },
+    decrementTotalFilms: (state) => {
+      if (state.totalFilms > 0) {
+        state.totalFilms--;
+      }
+    },
+    decrementTotalSeries: (state) => {
+      if (state.totalSeries > 0) {
+        state.totalSeries--;
+      }
     },
     setStatus: (state, action) => {
       state.status = action.payload;

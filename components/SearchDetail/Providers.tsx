@@ -14,7 +14,7 @@ const Providers = ({
   const colorScheme = useColorScheme();
   const { t } = useTranslation();
   return (
-    <View>
+    <View className="flex-1">
       <TouchableOpacity
         onPress={() => {
           router.push({

@@ -24,6 +24,7 @@ export const Colors = {
     cGradient2: "#0E0B13",
     tColor1: "rgb(148 163 184)",
     slate600: "#6B7280",
+    cBackgroundLight: "#f2f2f2",
   },
   dark: {
     text: "#ECEDEE",
@@ -43,5 +44,6 @@ export const Colors = {
     cGradient2: "#0E0B13",
     tColor1: "rgb(148 163 184)",
     slate600: "#6B7280",
+    cBackgroundLight: "#f2f2f2",
   },
 };

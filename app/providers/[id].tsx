@@ -3,12 +3,14 @@ import { Colors } from "@/constants/Colors";
 import { useLocalSearchParams } from "expo-router";
 import React, { useState } from "react";
 import {
-  FlatList,
+  Platform,
+  SectionList,
   Text,
   TouchableOpacity,
   useColorScheme,
   View,
 } from "react-native";
+import Animated, { FadeInDown } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const countryCodes = [
@@ -42,58 +44,76 @@ const ProvidersPage = () => {
 
   const renderCountrySelector = () => (
     <View
-      className="bg-white dark:bg-cGradient2"
       style={{
         flexDirection: "row",
-        flexWrap: "wrap",
-        justifyContent: "center",
-        backdropFilter: "blur(10px)",
-        paddingVertical: 6,
-        marginBottom: 24,
-        borderRadius: 16,
+        alignItems: "center",
+        paddingVertical: 10,
+        paddingHorizontal: 0,
+        borderRadius: 20,
+        backgroundColor:
+          colorScheme === "dark" ? Colors.dark.cGradient2 : Colors.dark.cWhite,
+        overflow: "hidden",
+        marginHorizontal: 16,
+        marginTop: 18,
+        marginBottom: 8,
       }}
     >
-      {countryCodes.map((code) => {
-        const isSelected = selectedCountry === code;
-        return (
-          <TouchableOpacity
-            key={code}
-            onPress={() => setSelectedCountry(code)}
-            style={{
-              margin: 4,
-              paddingVertical: 6,
-              paddingHorizontal: 12,
-              borderRadius: 12,
-              backgroundColor: isSelected
-                ? colorScheme === "dark"
-                  ? "#bb86fc"
-                  : "#7c3aed"
-                : colorScheme === "dark"
-                  ? "rgba(255,255,255,0.1)"
-                  : "rgba(0,0,0,0.05)",
-              shadowColor: "#000",
-              shadowOffset: { width: 0, height: 1 },
-              shadowOpacity: isSelected ? 0.4 : 0.15,
-              shadowRadius: isSelected ? 4 : 2,
-              elevation: isSelected ? 5 : 1,
-            }}
-          >
-            <Text
+      <SectionList
+        sections={[{ title: "", data: countryCodes }]}
+        horizontal
+        keyExtractor={(item) => item}
+        showsHorizontalScrollIndicator={false}
+        renderSectionHeader={() => null}
+        renderItem={({ item: code }) => {
+          const isSelected = selectedCountry === code;
+          return (
+            <TouchableOpacity
+              key={code}
+              onPress={() => setSelectedCountry(code)}
+              activeOpacity={0.85}
               style={{
-                color: isSelected
-                  ? "#fff"
+                marginRight: 8,
+                marginLeft: 0,
+                marginVertical: 2,
+                paddingVertical: 8,
+                paddingHorizontal: 20,
+                borderRadius: 18,
+                backgroundColor: isSelected
+                  ? colorScheme === "dark"
+                    ? Colors.dark.cGradient2
+                    : Colors.dark.cWhite
                   : colorScheme === "dark"
-                    ? "#ddd"
-                    : "#333",
-                fontWeight: "600",
-                fontSize: 14,
+                    ? "rgba(255,255,255,0.10)"
+                    : "rgba(124,58,237,0.10)",
+                borderWidth: isSelected ? 2 : 2,
+                borderColor: isSelected ? Colors.dark.cFuc6 : "transparent",
+                minWidth: 44,
+                alignItems: "center",
+                justifyContent: "center",
               }}
             >
-              {code}
-            </Text>
-          </TouchableOpacity>
-        );
-      })}
+              <Text
+                style={{
+                  color: isSelected
+                    ? colorScheme === "dark"
+                      ? Colors.dark.cWhite
+                      : Colors.dark.cFuc6
+                    : colorScheme === "dark"
+                      ? Colors.dark.cWhite
+                      : Colors.dark.cDarkGray,
+                  fontWeight: isSelected ? "700" : "500",
+                  fontSize: 15,
+                  letterSpacing: 0.5,
+                }}
+              >
+                {code}
+              </Text>
+            </TouchableOpacity>
+          );
+        }}
+        style={{ flex: 1 }}
+        contentContainerStyle={{ paddingHorizontal: 12 }}
+      />
     </View>
   );
 
@@ -102,27 +122,65 @@ const ProvidersPage = () => {
       style={{
         flex: 1,
         backgroundColor:
-          colorScheme === "dark" ? Colors.dark.cGradient2 : "white",
+          colorScheme === "dark"
+            ? Colors.dark.cGradient2
+            : Colors.dark.cBackgroundLight,
       }}
     >
-      <FlatList
-        style={{
-          backgroundColor:
-            colorScheme === "dark" ? Colors.dark.cGradient2 : "white",
-        }}
-        className={`flex-1 p-4 dark:bg-cGradient2 pt-16`}
-        data={[{ key: "providersList" }]}
+      <SectionList
+        sections={[
+          {
+            title: "",
+            data: [
+              {
+                key: "providersList",
+                render: () => (
+                  <Animated.View
+                    key={selectedCountry}
+                    entering={FadeInDown.springify().delay(60)}
+                    style={{
+                      marginTop: 0,
+                      marginHorizontal: 0,
+                      borderRadius: 28,
+                      paddingVertical: 16,
+                      paddingHorizontal: 8,
+                      minHeight: 180,
+                      marginBottom: 16,
+                      borderWidth: 0,
+                    }}
+                  >
+                    <ProvidersList
+                      movieId={movieId?.toString()}
+                      mediaType={String(mediaType)}
+                      selectedCountry={selectedCountry}
+                    />
+                  </Animated.View>
+                ),
+              },
+            ],
+          },
+        ]}
         keyExtractor={(item) => item.key}
-        ListHeaderComponent={renderCountrySelector}
-        renderItem={() => (
-          <ProvidersList
-            movieId={movieId?.toString()}
-            mediaType={String(mediaType)}
-            selectedCountry={selectedCountry}
-          />
+        renderSectionHeader={() => (
+          <View
+            style={{
+              backgroundColor:
+                colorScheme === "dark"
+                  ? Colors.dark.cGradient2
+                  : Colors.dark.cBackgroundLight,
+              zIndex: 10,
+              paddingTop: Platform.OS === "ios" ? 26 : 40,
+              paddingBottom: 0,
+            }}
+          >
+            {renderCountrySelector()}
+          </View>
         )}
+        renderItem={({ item }) => item.render()}
+        stickySectionHeadersEnabled
         contentContainerStyle={{
           paddingBottom: 60,
+          paddingHorizontal: 0,
         }}
         showsVerticalScrollIndicator={false}
       />

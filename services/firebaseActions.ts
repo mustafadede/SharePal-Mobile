@@ -643,7 +643,7 @@ const updateWantToWatch = async (data: any) => {
   }
 };
 
-const deleteWantToWatch = async (data: any) => {
+const deleteWantToWatch = async (id: string) => {
   try {
     const userId = getAuth().currentUser?.uid;
     if (!userId) return null;
@@ -653,7 +653,7 @@ const deleteWantToWatch = async (data: any) => {
 
     if (snapshot.exists()) {
       snapshot.forEach((childSnapshot) => {
-        if (childSnapshot.val().id === data.id) {
+        if (childSnapshot.val().id === id) {
           remove(ref(database, `wanttowatch/${userId}/${childSnapshot.key}`));
         }
       });
@@ -680,7 +680,7 @@ const updateWatched = async (data: any) => {
   }
 };
 
-const deleteWatched = async (data: any) => {
+const deleteWatched = async (id: string) => {
   try {
     const userId = getAuth().currentUser?.uid;
     if (!userId) return null;
@@ -690,7 +690,7 @@ const deleteWatched = async (data: any) => {
 
     if (snapshot.exists()) {
       snapshot.forEach((childSnapshot) => {
-        if (childSnapshot.val().id === data.id) {
+        if (childSnapshot.val().id === id) {
           remove(ref(database, `watched/${userId}/${childSnapshot.key}`));
         }
       });
