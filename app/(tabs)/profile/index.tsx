@@ -195,7 +195,7 @@ const Profile = () => {
     return () => {
       navigation.setOptions({
         tabBarStyle: {
-          headerLeft: ({ tintColor }: HeaderBackButtonProps) => null,
+          headerLeft: ({}: HeaderBackButtonProps) => null,
         },
       });
     };

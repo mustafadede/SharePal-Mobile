@@ -1,5 +1,8 @@
 import { Colors } from "@/constants/Colors";
+import { getSelectedUserLists } from "@/services/firebaseActions";
 import { RootState } from "@/store";
+import { profileActions } from "@/store/profileSlice";
+import { userProfileActions } from "@/store/userProfileSlice";
 import {
   AntDesign,
   Feather,
@@ -28,6 +31,7 @@ import { FlatList } from "react-native-gesture-handler";
 import Swipeable from "react-native-gesture-handler/ReanimatedSwipeable";
 import { useDispatch, useSelector } from "react-redux";
 import { ListItem } from "../Profile/ListsCard";
+import StatusLabel from "../StatusLabel/StatusLabel";
 
 const MyListModal = ({
   bottomSheetModalRef,
@@ -42,6 +46,7 @@ const MyListModal = ({
   const [editItem, setEditItem] = useState<ListItem | null>(null);
   const [editTitle, setEditTitle] = useState("");
   const profile = useSelector((state: RootState) => state.profile);
+  const [loading, setLoading] = useState(true);
   const handleSearch = (text: string) => {
     setSearch(text);
   };
@@ -135,6 +140,22 @@ const MyListModal = ({
       handleModalOpen();
     }
   }, [editModalVisible]);
+
+  useEffect(() => {
+    const fetch = async () => {
+      dispatch(profileActions.setStatus("idle"));
+      dispatch(userProfileActions.resetLists());
+      dispatch(profileActions.resetLists());
+      const selectedUserId = profile.userId;
+      const list = await getSelectedUserLists(selectedUserId);
+
+      dispatch(profileActions.initilizeLists(list));
+      dispatch(profileActions.setStatus("done"));
+      setLoading(false);
+    };
+
+    fetch();
+  }, []);
 
   return (
     <BottomSheetView className="flex-1">
@@ -302,15 +323,22 @@ const MyListModal = ({
         </Pressable>
       </View>
       <View className="h-full flex-1 mt-4">
-        <FlatList
-          data={profile?.lists}
-          keyExtractor={(item, index) =>
-            item.id ? item.id.toString() : index.toString()
-          }
-          renderItem={renderItem}
-          scrollEnabled={false}
-          removeClippedSubviews={false}
-        />
+        {loading && (
+          <View className="align-middle">
+            <StatusLabel />
+          </View>
+        )}
+        {!loading && (
+          <FlatList
+            data={profile?.lists}
+            keyExtractor={(item, index) =>
+              item.id ? item.id.toString() : index.toString()
+            }
+            renderItem={renderItem}
+            scrollEnabled={false}
+            removeClippedSubviews={false}
+          />
+        )}
       </View>
     </BottomSheetView>
   );
