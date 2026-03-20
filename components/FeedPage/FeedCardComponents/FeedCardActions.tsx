@@ -9,11 +9,9 @@ import FeedCardShareAction from "./Actıons/FeedCardShareAction";
 
 const FeedCardActions = ({
   data,
-  handleModal,
   postPage,
 }: {
   data: Post;
-  handleModal: () => void;
   postPage?: boolean;
 }) => {
   const colorScheme = useColorScheme();

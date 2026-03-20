@@ -18,6 +18,14 @@ const postSlice = createSlice({
     addPost: (state, action) => {
       state.posts.unshift(action.payload);
     },
+    editPost: (state, action) => {
+      const index = state.posts.findIndex(
+        (post) => post.postId === action.payload.postId,
+      );
+      state.posts[index].content = action.payload.content;
+      state.posts[index].spoiler = action.payload.spoiler;
+      state.posts[index].edited = action.payload.edited;
+    },
     updateLike: (state, action) => {
       const index = state.posts.findIndex(
         (post) => post.postId === action.payload.postId,

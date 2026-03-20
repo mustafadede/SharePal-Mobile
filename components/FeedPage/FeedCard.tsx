@@ -1,5 +1,6 @@
 import { Post, PostAttachment } from "@/constants/Post";
 import React from "react";
+import { PostOptionsValues } from "../PostOptions/PostOptionsBottomSheet";
 import FeedAttachmentCard from "./FeedAttachmentCard";
 import FeedCommentCard from "./FeedCommentCard";
 import FeedSpoilerCard from "./FeedSpoilerCard";
@@ -8,7 +9,6 @@ const FeedCard = ({
   data,
   index,
   postPage = false,
-  handleModal,
   handleOptions,
   setBottomSheetValues,
 }: {
@@ -16,8 +16,7 @@ const FeedCard = ({
   index: number;
   postPage?: boolean;
   handleOptions: () => void;
-  handleModal: () => void;
-  setBottomSheetValues: () => void;
+  setBottomSheetValues: React.Dispatch<React.SetStateAction<PostOptionsValues>>;
 }) => {
   const hasAttachment =
     data.attachedFilm && Object.keys(data.attachedFilm).length > 0;
@@ -28,7 +27,6 @@ const FeedCard = ({
       index={index}
       postPage={postPage}
       handleOptions={handleOptions}
-      handleModal={handleModal}
       setBottomSheetValues={setBottomSheetValues}
     />
   ) : hasAttachment && !data.actionName && !data.spoiler ? (
@@ -38,7 +36,6 @@ const FeedCard = ({
       index={index}
       postPage={postPage}
       handleOptions={handleOptions}
-      handleModal={handleModal}
       setBottomSheetValues={setBottomSheetValues}
     />
   ) : data.spoiler && !data.actionName ? (
@@ -47,7 +44,6 @@ const FeedCard = ({
       index={index}
       postPage={postPage}
       handleOptions={handleOptions}
-      handleModal={handleModal}
       setBottomSheetValues={setBottomSheetValues}
     />
   ) : null;

@@ -1,4 +1,5 @@
 import { Notification } from "@/constants/Notifications";
+import { AttachedFilm, Post } from "@/constants/Post";
 import { app, auth } from "@/firebaseConfig";
 import { FirebaseError } from "firebase/app";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
@@ -154,7 +155,7 @@ const getAllPosts = async () => {
   const sortedPostsRef = query(postsRef, orderByChild("date"), limitToLast(20));
   const snapshot = await get(sortedPostsRef);
 
-  const allPosts = [];
+  const allPosts = [] as Post[];
   if (snapshot.exists()) {
     snapshot.forEach((childSnapshot) => {
       const posts = childSnapshot.val();
@@ -182,7 +183,7 @@ const getAllPosts = async () => {
   return allPosts.sort((a, b) => b.date - a.date);
 };
 
-const getPreviousPosts = async (lastPostDate) => {
+const getPreviousPosts = async (lastPostDate: string) => {
   const postsRef = ref(database, "posts");
   // lastPostDate'den önceki verileri getirmek için endBefore kullanıyoruz.
   const sortedPostsRef = query(
@@ -193,7 +194,7 @@ const getPreviousPosts = async (lastPostDate) => {
   );
 
   const snapshot = await get(sortedPostsRef);
-  const allPosts = [];
+  const allPosts = [] as Post[];
   if (snapshot.exists()) {
     snapshot.forEach((childSnapshot) => {
       const posts = childSnapshot.val();
@@ -204,7 +205,7 @@ const getPreviousPosts = async (lastPostDate) => {
         nick: posts.nick,
         content: posts.content,
         spoiler: posts.spoiler,
-        attachedFilm: posts.attachedFilm,
+        attachedFilm: posts.attachedFilm as AttachedFilm,
         likesList: posts.likesList || null,
         likes: posts.likes,
         comments: posts.comments,
@@ -368,8 +369,8 @@ const deleteSelectedNotification = async (notificationId: string) => {
 
 const createPostAction = async (
   content: string,
-  attachedFilm: any,
-  spoiler: any,
+  attachedFilm: AttachedFilm | null,
+  spoiler: boolean,
   nick: string,
 ) => {
   try {
@@ -414,7 +415,6 @@ const updateSelectedPost = async (
   data: Partial<{
     content: string;
     spoiler: boolean;
-    attachedFilm: any;
     edited: boolean;
     likes: number;
     likesList: { id: string; nick: string }[];
@@ -436,9 +436,10 @@ const updateSelectedPost = async (
 
     const updates = {
       ...data,
+      edited: true,
     };
 
-    await update(postRef, updates);
+    await update(ref(database, `posts/${postId}`), updates);
 
     return true;
   } catch (error) {

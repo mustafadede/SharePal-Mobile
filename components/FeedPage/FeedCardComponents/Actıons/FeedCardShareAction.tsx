@@ -1,4 +1,5 @@
 import { Colors } from "@/constants/Colors";
+import { Post } from "@/constants/Post";
 import { modalActions } from "@/store/modalSlice";
 import Octicons from "@expo/vector-icons/Octicons";
 import { router } from "expo-router";
@@ -6,7 +7,7 @@ import React from "react";
 import { TouchableOpacity, useColorScheme } from "react-native";
 import { useDispatch } from "react-redux";
 
-const FeedCardShareAction = ({ data }) => {
+const FeedCardShareAction = ({ data }: { data: Post }) => {
   const dispatch = useDispatch();
   const colorScheme = useColorScheme();
   const handlePress = () => {

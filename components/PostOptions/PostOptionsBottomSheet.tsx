@@ -1,29 +1,15 @@
+import { PostOptionsBottomSheetProps } from "@/constants/Post";
 import { deleteSelectedPost } from "@/services/firebaseActions";
 import { postsActions } from "@/store/postSlice";
 import { MaterialIcons } from "@expo/vector-icons";
 import Entypo from "@expo/vector-icons/Entypo";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { useRouter } from "expo-router";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Text, TouchableOpacity, View, useColorScheme } from "react-native";
 import { useDispatch } from "react-redux";
 import { toast } from "sonner-native";
-
-export type PostOptionsValues = {
-  title: string;
-  release_date: string;
-  poster_path: string;
-  mediaType: string;
-  id: number;
-  wanttowatch: boolean;
-  watched: boolean;
-  unfinished: boolean;
-};
-
-type PostOptionsBottomSheetProps = {
-  bottomSheetValues: PostOptionsValues;
-  handleClose: () => void;
-};
 
 const PostOptionsBottomSheet = React.memo(
   ({ bottomSheetValues, handleClose }: PostOptionsBottomSheetProps) => {
@@ -31,10 +17,10 @@ const PostOptionsBottomSheet = React.memo(
     const { t } = useTranslation();
     const colorScheme = useColorScheme();
     const dispatch = useDispatch();
-
+    const router = useRouter();
     const handleDeletion = () => {
-      deleteSelectedPost(bottomSheetValues.id.toString()).then((res) => {
-        dispatch(postsActions.removePost(bottomSheetValues.id.toString()));
+      deleteSelectedPost(bottomSheetValues.postId.toString()).then((res) => {
+        dispatch(postsActions.removePost(bottomSheetValues.postId.toString()));
         handleClose();
 
         toast.warning(
@@ -120,6 +106,23 @@ const PostOptionsBottomSheet = React.memo(
         <View className="w-full flex flex-col gap-3">
           {/* Edit Post */}
           <TouchableOpacity
+            onPress={() => {
+              router.push({
+                pathname: "/editpost",
+                params: {
+                  spoiler: bottomSheetValues.spoiler?.toString() || "false",
+                  postId: bottomSheetValues.postId.toString(),
+                  mediaType: String(bottomSheetValues.mediaType),
+                  release_date: String(bottomSheetValues.release_date),
+                  id: bottomSheetValues.id.toString(),
+                  title: String(bottomSheetValues.title),
+                  content: String(bottomSheetValues.content),
+                  backdrop: String(bottomSheetValues.backdrop),
+                  posterPath: String(bottomSheetValues.posterPath),
+                },
+              });
+              handleClose();
+            }}
             className={`flex-row items-center justify-between rounded-xl px-4 py-3 border ${
               colorScheme === "dark"
                 ? "border-white/10 bg-white/5"
@@ -135,28 +138,6 @@ const PostOptionsBottomSheet = React.memo(
             </Text>
             <Ionicons
               name="create-outline"
-              size={22}
-              color={colorScheme === "dark" ? "#f8fafc" : "#0f172a"}
-            />
-          </TouchableOpacity>
-
-          {/* Share */}
-          <TouchableOpacity
-            className={`flex-row items-center justify-between rounded-xl px-4 py-3 border ${
-              colorScheme === "dark"
-                ? "border-white/10 bg-white/5"
-                : "border-black/10 bg-black/5"
-            }`}
-          >
-            <Text
-              className={`text-base ${
-                colorScheme === "dark" ? "text-slate-100" : "text-slate-800"
-              }`}
-            >
-              {t("actions.share")}
-            </Text>
-            <Ionicons
-              name="share-social-outline"
               size={22}
               color={colorScheme === "dark" ? "#f8fafc" : "#0f172a"}
             />

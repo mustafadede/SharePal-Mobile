@@ -1,10 +1,10 @@
 import Tabs from "@/common/Tabs";
 import { Colors } from "@/constants/Colors";
-import Feather from "@expo/vector-icons/Feather";
-import { BottomSheetModal, TouchableOpacity } from "@gorhom/bottom-sheet";
+import { Ionicons } from "@expo/vector-icons";
+import { TouchableOpacity } from "@gorhom/bottom-sheet";
 import * as Haptics from "expo-haptics";
 import { router } from "expo-router";
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useMemo, useState } from "react";
 import {
   Platform,
   StatusBar as RNStatusBar,
@@ -17,12 +17,6 @@ import Feed from "../feed";
 const Index = () => {
   const colorScheme = useColorScheme();
   const [tab, setTab] = useState(0);
-  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-  const handlePresentModalPress = useCallback(() => {
-    requestAnimationFrame(() => {
-      bottomSheetModalRef.current?.present();
-    });
-  }, []);
 
   const containerStyle = useMemo(
     () => ({
@@ -37,7 +31,7 @@ const Index = () => {
   const floatingActionButton = useMemo(
     () => (
       <Animated.View
-        entering={FadeInDown.springify()}
+        entering={FadeInDown.springify().delay(300)}
         exiting={FadeOutDown.springify()}
       >
         <TouchableOpacity
@@ -59,13 +53,18 @@ const Index = () => {
                 ? Colors.dark.cGradient2
                 : Colors.dark.cFuc6,
             borderRadius: 50,
-            padding: 14,
+            padding: 16,
             elevation: 1,
             zIndex: 1,
             borderWidth: 1,
           }}
         >
-          <Feather name="plus" size={32} color={Colors.dark.cWhite} />
+          <Ionicons
+            name="create-outline"
+            size={26}
+            style={{ transform: [{ translateX: 2 }] }}
+            color={Colors.dark.cWhite}
+          />
         </TouchableOpacity>
       </Animated.View>
     ),
@@ -75,7 +74,7 @@ const Index = () => {
   return (
     <View style={containerStyle}>
       <Tabs tab={tab} setTab={setTab} />
-      {tab === 0 && <Feed handleModal={handlePresentModalPress} />}
+      {tab === 0 && <Feed />}
       {tab === 1 && <View className="flex-1"></View>}
       {floatingActionButton}
     </View>

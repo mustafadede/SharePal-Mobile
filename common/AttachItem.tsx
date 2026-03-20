@@ -22,7 +22,7 @@ const AttachItem = ({
   attached = false,
   hasUser = false,
 }: {
-  id: number;
+  id: number | string;
   backdrop?: string;
   poster?: string;
   title?: string;

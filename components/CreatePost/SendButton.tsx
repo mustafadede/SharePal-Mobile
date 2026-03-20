@@ -1,19 +1,35 @@
 import { Colors } from "@/constants/Colors";
-import { createPostAction } from "@/services/firebaseActions";
+import {
+  createPostAction,
+  updateSelectedPost,
+} from "@/services/firebaseActions";
 import { RootState } from "@/store";
 import { createPostsActions } from "@/store/createpostSlice";
 import { postsActions } from "@/store/postSlice";
-import { Feather } from "@expo/vector-icons";
+import { Feather, FontAwesome } from "@expo/vector-icons";
 import { useNavigation } from "expo-router";
 import React from "react";
-import { TouchableOpacity, useColorScheme } from "react-native";
+import { useTranslation } from "react-i18next";
+import { Pressable, useColorScheme } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "sonner-native";
 
-const SendButton = () => {
+const SendButton = ({
+  edit,
+  text,
+  spoiler,
+  postId,
+}: {
+  edit: boolean;
+  text?: string;
+  spoiler?: boolean;
+  postId?: string;
+}) => {
   const colorScheme = useColorScheme();
   const { createdPostLength, createdPost } = useSelector(
     (state: RootState) => state.createpost,
   );
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const { nick } = useSelector((state: RootState) => state.profile);
@@ -50,10 +66,56 @@ const SendButton = () => {
       );
   };
 
+  const editPost = () => {
+    dispatch(createPostsActions.setStatus("loading"));
+    if (!postId) return;
+    updateSelectedPost(postId, {
+      content: text,
+      spoiler: spoiler,
+    })
+      .then(() => {
+        dispatch(
+          postsActions.editPost({
+            postId: postId,
+            content: text,
+            spoiler: spoiler,
+            edited: true,
+          }),
+        );
+        navigation.goBack();
+        dispatch(createPostsActions.setStatus("done"));
+      })
+      .catch((err) => {
+        toast(t("actions.notupdated"), {
+          duration: 3000,
+          closeButton: true,
+          icon: (
+            <FontAwesome
+              name="eye-slash"
+              size={20}
+              color={colorScheme === "dark" ? "#f8fafc" : "black"}
+            />
+          ),
+          style: {
+            backgroundColor: "transparent",
+            borderWidth: 1,
+            borderColor: "rgba(255,255,255,0.1)",
+            paddingVertical: 10,
+            paddingHorizontal: 14,
+            borderRadius: 14,
+          },
+        });
+      });
+  };
+
   return (
-    <TouchableOpacity
-      onPress={handlePost}
-      disabled={createdPostLength === 0 || createdPostLength > 280}
+    <Pressable
+      onPress={() => {
+        edit ? editPost() : handlePost();
+      }}
+      disabled={
+        edit ? false : createdPostLength === 0 || createdPostLength > 280
+      }
     >
       <Feather
         name="send"
@@ -66,7 +128,7 @@ const SendButton = () => {
               : Colors.dark.cGradient2
         }
       />
-    </TouchableOpacity>
+    </Pressable>
   );
 };
 

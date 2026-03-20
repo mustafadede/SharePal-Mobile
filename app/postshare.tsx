@@ -20,11 +20,10 @@ import { useDispatch, useSelector } from "react-redux";
 const captureShot = (
   ref: React.RefObject<any>,
   handleShare: () => void,
-  switchValue: boolean
+  switchValue: boolean,
 ) => {
   return (
     <ViewShot
-      collapsable={false}
       ref={ref}
       options={{ format: "png", quality: 1 }}
       onCapture={handleShare}
@@ -50,7 +49,7 @@ const postshare = () => {
       return () => {
         dispatch(modalActions.closeModal());
       };
-    }, [])
+    }, []),
   );
 
   const handleShare = () => {

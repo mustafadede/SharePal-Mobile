@@ -13,7 +13,7 @@ const CreatePost = () => {
 
   useEffect(() => {
     navigation.setOptions({
-      headerRight: () => <SendButton />,
+      headerRight: () => <SendButton edit={false} />,
     });
   }, []);
 

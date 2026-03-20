@@ -1,11 +1,9 @@
 import InfoLabel from "@/common/InfoLabel";
 import ExploreBottomSheet from "@/components/ExploreBottomSheet/ExploreBottomSheet";
 import FeedCard from "@/components/FeedPage/FeedCard";
-import PostOptionsBottomSheet, {
-  PostOptionsValues,
-} from "@/components/PostOptions/PostOptionsBottomSheet";
+import PostOptionsBottomSheet from "@/components/PostOptions/PostOptionsBottomSheet";
 import { Colors } from "@/constants/Colors";
-import { Post } from "@/constants/Post";
+import { Post, PostOptionsValues } from "@/constants/Post";
 import {
   getAllPosts,
   getPreviousPosts,
@@ -38,26 +36,28 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { flatListRef } from "./(tabs)/_layout";
 
-const Feed = ({ handleModal }: { handleModal: () => void }) => {
+const Feed = () => {
   const { showModal } = useSelector((state: RootState) => state.createpost);
   const { userId } = useSelector((state: RootState) => state.profile);
   const { posts, status } = useSelector((state: RootState) => state.post);
-  const [lastPostDate, setLastPostDate] = useState(null); // Son post tarihini tut
+  const [lastPostDate, setLastPostDate] = useState<string | null>(null); // Son post tarihini tut
   const [loadingMore, setLoadingMore] = useState(false); // Ek yükleme durumunu takip et
   const dispatch = useDispatch();
   const [isRefreshing, setIsRefreshing] = useState(false);
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const FilmbottomSheetModalRef = useRef<BottomSheetModal>(null);
-  const snapPoints = useMemo(() => ["37%"], []);
+  const snapPoints = useMemo(() => ["30%"], []);
   const defaultBottomSheetValues: PostOptionsValues = {
-    title: "",
-    release_date: "",
-    poster_path: "",
+    postId: "",
     mediaType: "",
-    id: 0,
-    wanttowatch: false,
-    watched: false,
-    unfinished: false,
+    release_date: "",
+    id: 0 as string | number,
+    title: "",
+    content: "",
+    poster: "",
+    posterPath: "",
+    backdrop: "",
+    spoiler: false,
   };
 
   const [bottomSheetValues, setBottomSheetValues] = useState<PostOptionsValues>(
@@ -131,7 +131,7 @@ const Feed = ({ handleModal }: { handleModal: () => void }) => {
         }
       });
     }
-  }, [userId, isRefreshing]);
+  }, [isRefreshing]);
 
   const handleScrollEnd = () => {
     dispatch(scrollActions.updateScrollPosition(scrollY.current));
@@ -205,12 +205,11 @@ const Feed = ({ handleModal }: { handleModal: () => void }) => {
       <FeedCard
         data={item}
         index={index}
-        handleModal={handleModal}
         setBottomSheetValues={setBottomSheetValues}
         handleOptions={handlePresentModalPress}
       />
     ),
-    [handleModal, handlePresentModalPress],
+    [handlePresentModalPress],
   );
 
   const memoAttachedFilmBottomSheet = useMemo(
@@ -280,7 +279,7 @@ const Feed = ({ handleModal }: { handleModal: () => void }) => {
       {status === "done" && (
         <FlatList
           ref={flatListRef}
-          className="px-2"
+          className="px-2 flex-1"
           contentContainerStyle={{ paddingTop: 64 }}
           keyExtractor={(item, index) =>
             item.postId?.toString() ?? `post-${index}`
@@ -306,6 +305,7 @@ const Feed = ({ handleModal }: { handleModal: () => void }) => {
             />
           }
           data={posts}
+          extraData={posts}
           showsVerticalScrollIndicator={true}
           refreshing={isRefreshing}
           onRefresh={onRefresh}

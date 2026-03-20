@@ -1,3 +1,4 @@
+import PostEditBottomSheet from "@/components/PostOptions/PostEditBottomSheet";
 import MyListModal from "@/components/Profile/MyListModal";
 import { Colors } from "@/constants/Colors";
 import { RootState } from "@/store";
@@ -101,6 +102,7 @@ const CustomBottomSheet = ({
         {modalType === "create_list" && (
           <MyListModal bottomSheetModalRef={bottomSheetModalRef} />
         )}
+        {modalType === "edit_post" && <PostEditBottomSheet />}
       </BottomSheetView>
     </BottomSheetModal>
   );

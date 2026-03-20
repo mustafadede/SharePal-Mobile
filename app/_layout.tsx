@@ -163,6 +163,25 @@ function AppLayout() {
             }}
           />
           <Stack.Screen
+            name="editpost"
+            options={{
+              headerStyle: {
+                backgroundColor:
+                  colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
+              },
+              contentStyle: {
+                backgroundColor:
+                  colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
+              },
+              headerTintColor:
+                colorScheme === "dark" ? Colors.dark.cWhite : "black",
+              headerTitle: t("editpost.title"),
+              headerShadowVisible: false,
+              headerShown: true,
+              headerBackTitle: t("headerbacktitle.title"),
+            }}
+          />
+          <Stack.Screen
             name="searchdetail"
             options={{
               headerShown: true,

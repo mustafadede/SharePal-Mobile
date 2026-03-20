@@ -10,14 +10,12 @@ const FeedSpoilerCard = ({
   data,
   index,
   postPage,
-  handleModal,
   handleOptions,
   setBottomSheetValues,
 }: {
   data: Post;
   index: number;
   postPage?: boolean;
-  handleModal: () => void;
   handleOptions: () => void;
   setBottomSheetValues: (option: boolean) => void;
 }) => {
@@ -40,11 +38,7 @@ const FeedSpoilerCard = ({
         {data?.attachedFilm && (
           <FeedCardAttachment attachedData={data?.attachedFilm} />
         )}
-        <FeedCardActions
-          data={data}
-          postPage={postPage}
-          handleModal={handleModal}
-        />
+        <FeedCardActions data={data} postPage={postPage} />
       </View>
     </>
   );

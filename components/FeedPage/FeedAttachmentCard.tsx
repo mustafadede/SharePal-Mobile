@@ -1,4 +1,4 @@
-import { Post, PostAttachment } from "@/constants/Post";
+import { Post, PostAttachment, PostOptionsValues } from "@/constants/Post";
 import { useState } from "react";
 import { View } from "react-native";
 import FeedCardActions from "./FeedCardComponents/FeedCardActions";
@@ -10,7 +10,6 @@ const FeedAttachmentCard = ({
   data,
   attachedData,
   postPage,
-  handleModal,
   handleOptions,
   setBottomSheetValues,
 }: {
@@ -18,9 +17,8 @@ const FeedAttachmentCard = ({
   attachedData: PostAttachment;
   index: number;
   postPage?: boolean;
-  handleModal: () => void;
   handleOptions: () => void;
-  setBottomSheetValues: () => void;
+  setBottomSheetValues: React.Dispatch<React.SetStateAction<PostOptionsValues>>;
 }) => {
   const [options, setOptions] = useState(false);
 
@@ -40,11 +38,7 @@ const FeedAttachmentCard = ({
         />
         <FeedCardContent data={data} haveSpoiler={false} />
         <FeedCardAttachment attachedData={attachedData} />
-        <FeedCardActions
-          data={data}
-          postPage={postPage}
-          handleModal={handleModal}
-        />
+        <FeedCardActions data={data} postPage={postPage} />
       </View>
     </>
   );

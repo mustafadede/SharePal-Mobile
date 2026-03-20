@@ -63,9 +63,12 @@ const LanguageBottomSheet = ({
               width: "100%",
               justifyContent: "center",
               alignItems: "center",
+              backgroundColor:
+                colorScheme === "dark"
+                  ? Colors.dark.cGradient2
+                  : Colors.dark.cBackgroundLight,
             },
           ]}
-          className="bg-[#f2f2f2] dark:bg-cGradient2"
         />
       )}
     >

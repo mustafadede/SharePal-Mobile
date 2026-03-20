@@ -1,6 +1,6 @@
 import DummyImage from "@/common/DummyImage";
 import ImageComponent from "@/common/ImageComponent";
-import { Post } from "@/constants/Post";
+import { Post, PostOptionsValues } from "@/constants/Post";
 import { RootState } from "@/store";
 import { DateFormatter } from "@/utils/formatter";
 import Feather from "@expo/vector-icons/Feather";
@@ -21,7 +21,7 @@ const FeedCardHeader = ({
   postPage?: boolean;
   options: boolean;
   setOptions: (option: boolean) => void;
-  setBottomSheetValues: ({ id }: { id: string }) => void;
+  setBottomSheetValues: React.Dispatch<React.SetStateAction<PostOptionsValues>>;
 }) => {
   const { t } = useTranslation();
   const colorScheme = useColorScheme();
@@ -42,9 +42,19 @@ const FeedCardHeader = ({
   };
   const handleOptions = () => {
     setBottomSheetValues({
-      id: data.postId,
+      postId: data.postId.toString(),
+      id: data.attachedFilm?.id.toString() || "",
+      title: data.attachedFilm?.title || "",
+      release_date: data.attachedFilm?.releaseDate || "",
+      content: data.content || "",
+      spoiler: data.spoiler,
+      posterPath:
+        data.attachedFilm?.poster_path || data.attachedFilm?.poster || "",
+      backdrop: data.attachedFilm?.backdrop || "",
+      mediaType: data.attachedFilm?.mediaType || "",
     });
     setOptions(!options);
+    setOptions(false);
   };
   return (
     <View className={"flex-row justify-between items-center"}>
