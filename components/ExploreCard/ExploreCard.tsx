@@ -1,9 +1,11 @@
+import { Colors } from "@/constants/Colors";
 import { Movie } from "@/constants/Movie";
+import { Feather } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import React, { useEffect, useRef, useState } from "react";
-import { Animated, Text, TouchableOpacity } from "react-native";
+import { Animated, TouchableOpacity } from "react-native";
 
 type ExploreBottomSheetProps = {
   title: string;
@@ -23,12 +25,14 @@ const ExploreCard = React.memo(
     sliderType,
     openBottomSheet,
     explore,
+    feed,
   }: {
     item: Movie;
     loading?: boolean;
     sliderType: string;
     openBottomSheet: (values: ExploreBottomSheetProps) => void;
     explore?: boolean;
+    feed?: boolean;
   }) => {
     const router = useRouter();
     const shimmerAnim = useRef(new Animated.Value(0)).current;
@@ -50,7 +54,7 @@ const ExploreCard = React.memo(
             duration: 1000,
             useNativeDriver: false,
           }),
-        ])
+        ]),
       );
 
       loop.start();
@@ -61,11 +65,14 @@ const ExploreCard = React.memo(
     return (
       <TouchableOpacity
         className={
-          explore
-            ? "relative w-full rounded-2xl mr-4"
-            : "relative w-48 rounded-2xl mr-4"
+          feed
+            ? "relative w-32 rounded-2xl mr-4"
+            : explore
+              ? "relative w-full rounded-2xl mr-4"
+              : "relative w-48 rounded-2xl mr-4"
         }
         onLongPress={() => {
+          if (feed) return;
           openBottomSheet({
             title: item.title || item.name,
             release_date: item.release_date || item.first_air_date,
@@ -98,7 +105,7 @@ const ExploreCard = React.memo(
             style={{
               position: "absolute",
               width: "100%",
-              height: "100%",
+              height: feed ? "50%" : "100%",
               borderRadius: 16,
               backgroundColor: shimmerAnim.interpolate({
                 inputRange: [0, 1],
@@ -110,7 +117,11 @@ const ExploreCard = React.memo(
               source={{
                 uri: `https://image.tmdb.org/t/p/original${item.poster_path || item.backdrop_path}`,
               }}
-              className="absolute w-full h-full rounded-2xl"
+              className={
+                feed
+                  ? "absolute w-full h-48 rounded-2xl"
+                  : "absolute w-full h-full rounded-2xl"
+              }
               style={{
                 borderTopLeftRadius: 16,
                 borderTopRightRadius: 16,
@@ -138,12 +149,14 @@ const ExploreCard = React.memo(
             borderTopRightRadius: 16,
           }}
         />
-        <TouchableOpacity className="absolute top-0 right-0 pr-1 mr-1 rounded-full">
-          <Text className="text-3xl text-slate-100">+</Text>
-        </TouchableOpacity>
+        {!feed && (
+          <TouchableOpacity className="absolute top-2 right-0 pr-1 mr-1 rounded-full">
+            <Feather name="plus" size={24} color={Colors.dark.cWhite} />
+          </TouchableOpacity>
+        )}
       </TouchableOpacity>
     );
-  }
+  },
 );
 
 export default ExploreCard;

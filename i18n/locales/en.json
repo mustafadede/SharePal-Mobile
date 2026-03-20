@@ -58,6 +58,8 @@
   "tabs.feed": "Feed",
   "tabs.following": "Following",
   "feed.loading": "Loading...",
+  "feed.suggestions": "Suggestions",
+  "feed.seeAll": "See All",
   "modal.writecomment": "Write a comment...",
   "post.nocomment": "No comments yet. Be the first to comment!",
   "modal.feedcardtitle": "Feed Card Share",

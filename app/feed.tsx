@@ -4,6 +4,12 @@ import FeedCard from "@/components/FeedPage/FeedCard";
 import PostOptionsBottomSheet from "@/components/PostOptions/PostOptionsBottomSheet";
 import { Colors } from "@/constants/Colors";
 import { Post, PostOptionsValues } from "@/constants/Post";
+
+type FeedItem =
+  | { type: "post"; data: Post }
+  | { type: "suggestion"; data: any };
+
+import Recommendation from "@/common/Recommendation";
 import {
   getAllPosts,
   getPreviousPosts,
@@ -26,6 +32,7 @@ import React, {
   useRef,
   useState,
 } from "react";
+import { useTranslation } from "react-i18next";
 import {
   FlatList,
   Platform,
@@ -47,6 +54,7 @@ const Feed = () => {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const FilmbottomSheetModalRef = useRef<BottomSheetModal>(null);
   const snapPoints = useMemo(() => ["30%"], []);
+  const { t } = useTranslation();
   const defaultBottomSheetValues: PostOptionsValues = {
     postId: "",
     mediaType: "",
@@ -201,14 +209,25 @@ const Feed = () => {
   );
 
   const renderItem = useCallback(
-    ({ item, index }: { item: Post; index: number }) => (
-      <FeedCard
-        data={item}
-        index={index}
-        setBottomSheetValues={setBottomSheetValues}
-        handleOptions={handlePresentModalPress}
-      />
-    ),
+    ({ item, index }: { item: FeedItem; index: number }) => {
+      switch (item.type) {
+        case "post":
+          return (
+            <FeedCard
+              data={item.data}
+              index={index}
+              setBottomSheetValues={setBottomSheetValues}
+              handleOptions={handlePresentModalPress}
+            />
+          );
+        case "suggestion":
+          return (
+            <Recommendation title="Trending" mediaType="movie" feed={true} />
+          );
+        default:
+          return null;
+      }
+    },
     [handlePresentModalPress],
   );
 
@@ -269,6 +288,25 @@ const Feed = () => {
     [colorScheme, showModal, filmBottomSheetValues],
   );
 
+  const buildFeed = (posts: Post[]): FeedItem[] => {
+    const result: FeedItem[] = [];
+
+    posts.forEach((post, index) => {
+      result.push({ type: "post", data: post });
+
+      if ((index + 1) % 6 === 0) {
+        result.push({
+          type: "suggestion",
+          data: { id: `suggestion-${index}` },
+        });
+      }
+    });
+
+    return result;
+  };
+
+  const feedData = useMemo(() => buildFeed(posts), [posts]);
+
   return (
     <View className="flex-1">
       {status === "loading" && (
@@ -281,9 +319,12 @@ const Feed = () => {
           ref={flatListRef}
           className="px-2 flex-1"
           contentContainerStyle={{ paddingTop: 64 }}
-          keyExtractor={(item, index) =>
-            item.postId?.toString() ?? `post-${index}`
-          }
+          keyExtractor={(item, index) => {
+            if (item.type === "post") {
+              return item.data.postId?.toString() ?? `post-${index}`;
+            }
+            return `${item.type}-${index}`;
+          }}
           refreshControl={
             <RefreshControl
               colors={["#9F23B3"]}
@@ -304,8 +345,7 @@ const Feed = () => {
               }
             />
           }
-          data={posts}
-          extraData={posts}
+          data={feedData}
           showsVerticalScrollIndicator={true}
           refreshing={isRefreshing}
           onRefresh={onRefresh}
