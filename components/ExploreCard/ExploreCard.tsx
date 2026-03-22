@@ -105,7 +105,7 @@ const ExploreCard = React.memo(
             style={{
               position: "absolute",
               width: "100%",
-              height: feed ? "50%" : "100%",
+              height: feed ? "91%" : "100%",
               borderRadius: 16,
               backgroundColor: shimmerAnim.interpolate({
                 inputRange: [0, 1],

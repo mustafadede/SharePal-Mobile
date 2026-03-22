@@ -7,7 +7,11 @@ import { Post, PostOptionsValues } from "@/constants/Post";
 
 type FeedItem =
   | { type: "post"; data: Post }
-  | { type: "suggestion"; data: any };
+  | { type: "trending"; data: any }
+  | { type: "upcoming"; data: any }
+  | { type: "top-series"; data: any }
+  | { type: "top-movies"; data: any }
+  | { type: "unfinished"; data: any };
 
 import Recommendation from "@/common/Recommendation";
 import {
@@ -55,6 +59,7 @@ const Feed = () => {
   const FilmbottomSheetModalRef = useRef<BottomSheetModal>(null);
   const snapPoints = useMemo(() => ["30%"], []);
   const { t } = useTranslation();
+  const [mediaType, setMediaType] = useState<string>("movie");
   const defaultBottomSheetValues: PostOptionsValues = {
     postId: "",
     mediaType: "",
@@ -220,9 +225,22 @@ const Feed = () => {
               handleOptions={handlePresentModalPress}
             />
           );
-        case "suggestion":
+        case "trending":
           return (
-            <Recommendation title="Trending" mediaType="movie" feed={true} />
+            <Recommendation title="trending" mediaType="movie" feed={true} />
+          );
+        case "upcoming":
+          return (
+            <Recommendation title="upcoming" mediaType="movie" feed={true} />
+          );
+        case "unfinished":
+          return (
+            <Recommendation
+              title="unfinished"
+              mediaType={mediaType}
+              setMediaType={setMediaType}
+              feed={true}
+            />
           );
         default:
           return null;
@@ -290,15 +308,36 @@ const Feed = () => {
 
   const buildFeed = (posts: Post[]): FeedItem[] => {
     const result: FeedItem[] = [];
+    let trendingCounter = 0;
+    let upcomingCounter = 0;
+    let unfinishedCounter = 0;
 
     posts.forEach((post, index) => {
       result.push({ type: "post", data: post });
 
-      if ((index + 1) % 6 === 0) {
+      if ((index + 1) % 7 === 0 && trendingCounter < 3) {
         result.push({
-          type: "suggestion",
-          data: { id: `suggestion-${index}` },
+          type: "trending",
+          data: { id: `trending-${index}` },
         });
+
+        trendingCounter++;
+      }
+
+      if ((index + 1) % 11 === 0 && upcomingCounter < 3) {
+        result.push({
+          type: "upcoming",
+          data: { id: `upcoming-${index}` },
+        });
+        upcomingCounter++;
+      }
+
+      if ((index + 1) % 29 === 0 && unfinishedCounter < 3) {
+        result.push({
+          type: "unfinished",
+          data: { id: `unfinished-${index}` },
+        });
+        unfinishedCounter++;
       }
     });
 
@@ -323,7 +362,7 @@ const Feed = () => {
             if (item.type === "post") {
               return item.data.postId?.toString() ?? `post-${index}`;
             }
-            return `${item.type}-${index}`;
+            return `${item.type}-${item.data.postId}-${index}`;
           }}
           refreshControl={
             <RefreshControl

@@ -1,5 +1,9 @@
 import ExploreCard from "@/components/ExploreCard/ExploreCard";
 import { Colors } from "@/constants/Colors";
+import useSearchWithId from "@/hooks/useSearchWithId";
+import useUpcoming from "@/hooks/useUpcoming";
+import { getSelectedUserUnfinished } from "@/services/firebaseActions";
+import { RootState } from "@/store";
 import { Feather } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
@@ -11,24 +15,28 @@ import {
   useColorScheme,
   View,
 } from "react-native";
+import { useSelector } from "react-redux";
 
 const Recommendation = ({
   title,
   mediaType,
+  setMediaType,
   feed,
 }: {
   title: string;
   mediaType: string;
   feed?: boolean;
+  setMediaType?: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   const { t } = useTranslation();
   const colorScheme = useColorScheme();
   const [data, setData] = useState<any[]>([]);
   const router = useRouter();
+  const profile = useSelector((state: RootState) => state.profile);
+  const unFinishedFlag = title === "unfinished" ? true : false;
   useEffect(() => {
-    if (!title.toLowerCase().includes("trending")) return;
-
     const fetchData = async () => {
+      const resultNumber = feed ? 5 : 10;
       try {
         const url = `https://api.themoviedb.org/3/trending/${mediaType}/day`;
         const response = await fetch(url, {
@@ -38,28 +46,53 @@ const Recommendation = ({
           },
         });
         const json = await response.json();
-        setData(json.results.slice(0, 10));
+        setData(json.results.slice(0, resultNumber));
       } catch (error) {
         console.error("usePopular error:", error);
       }
     };
 
-    fetchData();
+    const fetchUnfinished = async () => {
+      getSelectedUserUnfinished(profile.userId).then((res) => {
+        res.forEach((item) => {
+          useSearchWithId(item.id, item.mediaType).then((data) => {
+            setData((prevData) => [
+              ...prevData,
+              {
+                ...data,
+                media_type: item.mediaType,
+              },
+            ]);
+          });
+        });
+      });
+    };
+
+    const fetchUpcoming = async () => {
+      useUpcoming(setData);
+    };
+    title === "upcoming" && fetchUpcoming();
+    title === "trending" && fetchData();
+    title === "unfinished" && fetchUnfinished();
   }, [mediaType, title]);
 
   return (
     <View className="py-2 h-max">
-      {!feed && (
-        <Text
-          className="mb-2 ml-2 text-xl"
-          style={{
-            fontWeight: 500,
-            color: colorScheme === "dark" ? "#e2e8f0" : "black",
-          }}
-        >
-          {title}
-        </Text>
-      )}
+      <Text
+        className="mb-4 text-xl"
+        style={{
+          fontWeight: 600,
+          color: colorScheme === "dark" ? "#e2e8f0" : "black",
+        }}
+      >
+        {title === "trending"
+          ? t("explore.trend")
+          : title === "upcoming"
+            ? t("explore.upcoming")
+            : title === "unfinished"
+              ? t("feed.unfinished")
+              : title}
+      </Text>
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
@@ -88,7 +121,7 @@ const Recommendation = ({
             />
           ));
         }, [data, mediaType])}
-        {feed && (
+        {feed && !unFinishedFlag && (
           <Pressable
             onPress={() => {
               router.push("/explore");

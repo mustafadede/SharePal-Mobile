@@ -33,8 +33,7 @@ const CreatePost = () => {
 
       {/* Recommendations */}
       <View className="mt-6">
-        <Recommendation title="Trending" mediaType="movie" />
-        <Recommendation title="Search History" mediaType="" />
+        <Recommendation title="trending" mediaType="movie" />
       </View>
     </ScrollView>
   );
