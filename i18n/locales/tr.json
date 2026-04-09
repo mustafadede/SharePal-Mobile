@@ -112,6 +112,8 @@
         "title": "Profil",
         "socials": "Sosyal Medya Bağlantıları",
         "changephoto": "Fotoğrafı değiştir",
+        "permisson": "İzin gereklidir",
+        "permissionRequired": "Medya kitaplığına erişim izni gereklidir",
         "description": "Profil bilgileri, Sosyal medya bağlantıları"
       },
       "accountSecurity": {

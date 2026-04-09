@@ -324,7 +324,7 @@ const Feed = () => {
         trendingCounter++;
       }
 
-      if ((index + 1) % 11 === 0 && upcomingCounter < 3) {
+      if ((index + 1) % 29 === 0 && upcomingCounter < 3) {
         result.push({
           type: "upcoming",
           data: { id: `upcoming-${index}` },
@@ -332,7 +332,7 @@ const Feed = () => {
         upcomingCounter++;
       }
 
-      if ((index + 1) % 29 === 0 && unfinishedCounter < 3) {
+      if ((index + 1) % 11 === 0 && unfinishedCounter < 3) {
         result.push({
           type: "unfinished",
           data: { id: `unfinished-${index}` },

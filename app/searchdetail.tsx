@@ -104,8 +104,6 @@ const searchdetail = () => {
     }
   };
 
-  console.log(mediaType, id, release_date);
-
   const headerBgAnimatedStyle = useAnimatedStyle(() => {
     const backgroundColor = interpolateColor(
       scrollY.value,

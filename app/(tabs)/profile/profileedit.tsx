@@ -1,9 +1,10 @@
 import PrimaryButton from "@/common/PrimaryButton";
 import PrimaryInput from "@/common/PrimaryInput";
+import AvatarPicker from "@/components/Settings/AvatarPicker";
 import { RootState } from "@/store";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import { useSelector } from "react-redux";
 
 const ProfileEdit = () => {
@@ -13,21 +14,7 @@ const ProfileEdit = () => {
     <ScrollView className="flex-1 bg-transparent dark:bg-cGradient2">
       <View className="px-6 relative">
         {/* Avatar */}
-        <View className="items-center mb-6">
-          {profile?.photoURL ? (
-            <Image
-              source={{ uri: profile ? profile.photoURL : undefined }}
-              className="w-28 h-28 rounded-full border-4 bg-cFuchsia600 border-cFuchsia600"
-            />
-          ) : (
-            <View className="w-28 h-28 rounded-full border-4 bg-cFuchsia600 border-cFuchsia600 items-center justify-center"></View>
-          )}
-          <TouchableOpacity className="mt-3 px-4 py-2 rounded-full bg-cFuchsia600">
-            <Text className="text-white font-medium">
-              {t("profileSettings.items.profile.changephoto")}
-            </Text>
-          </TouchableOpacity>
-        </View>
+        <AvatarPicker />
         <Text className="text-xs font-semibold uppercase mb-2 dark:text-slate-400 text-gray-700">
           {t("profileSettings.items.profile.title")}
         </Text>

@@ -1,10 +1,8 @@
 import ExploreCard from "@/components/ExploreCard/ExploreCard";
-import { Colors } from "@/constants/Colors";
 import useSearchWithId from "@/hooks/useSearchWithId";
 import useUpcoming from "@/hooks/useUpcoming";
 import { getSelectedUserUnfinished } from "@/services/firebaseActions";
 import { RootState } from "@/store";
-import { Feather } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -78,21 +76,35 @@ const Recommendation = ({
 
   return (
     <View className="py-2 h-max">
-      <Text
-        className="mb-4 text-xl"
-        style={{
-          fontWeight: 600,
-          color: colorScheme === "dark" ? "#e2e8f0" : "black",
-        }}
-      >
-        {title === "trending"
-          ? t("explore.trend")
-          : title === "upcoming"
-            ? t("explore.upcoming")
-            : title === "unfinished"
-              ? t("feed.unfinished")
-              : title}
-      </Text>
+      <View className="flex-1 flex-row justify-between mb-4 ">
+        <Text
+          className="text-xl"
+          style={{
+            fontWeight: 600,
+            color: colorScheme === "dark" ? "#e2e8f0" : "black",
+          }}
+        >
+          {title === "trending"
+            ? t("explore.trend")
+            : title === "upcoming"
+              ? t("explore.upcoming")
+              : title === "unfinished"
+                ? t("feed.unfinished")
+                : title}
+        </Text>
+        {feed && !unFinishedFlag && (
+          <Pressable
+            onPress={() => {
+              router.push("/explore");
+            }}
+            className="w-fit rounded-full bg-slate-700 flex flex-row items-center text-center px-4"
+          >
+            <Text className="text-slate-200 rounded-full">
+              {t("feed.seeAll")}
+            </Text>
+          </Pressable>
+        )}
+      </View>
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
@@ -121,23 +133,6 @@ const Recommendation = ({
             />
           ));
         }, [data, mediaType])}
-        {feed && !unFinishedFlag && (
-          <Pressable
-            onPress={() => {
-              router.push("/explore");
-            }}
-            className="w-fit h-full rounded-full bg-slate-700 flex flex-row items-center text-center justify-around px-4"
-          >
-            <Text className="text-slate-400 text-lg rounded-full h-32 w-fit">
-              {t("feed.seeAll")}
-            </Text>
-            <Feather
-              name="chevron-right"
-              size={20}
-              color={colorScheme === "dark" ? Colors.dark.tColor1 : "black"}
-            />
-          </Pressable>
-        )}
       </ScrollView>
     </View>
   );

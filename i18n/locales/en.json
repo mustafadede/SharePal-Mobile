@@ -112,6 +112,8 @@
         "title": "Profile",
         "socials": "socials",
         "changephoto": "Change Photo",
+        "permisson": "Permission required",
+        "permissionRequired": "Permission to access media library is required",
         "description": "Your profile info and socials"
       },
       "accountSecurity": {
