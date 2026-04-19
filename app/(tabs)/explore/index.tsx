@@ -1,3 +1,4 @@
+import CustomBottomSheet from "@/common/CustomBottomSheet";
 import ExploreBanner from "@/common/ExploreBanner";
 import Results from "@/components/Explore/Results";
 import ExploreBottomSheet from "@/components/ExploreBottomSheet/ExploreBottomSheet";
@@ -137,6 +138,14 @@ const Explore = () => {
     }, 400);
   };
 
+  const listbottomSheetModalRef = useRef<BottomSheetModal>(null);
+
+  const handleListPresentModalPress = useCallback(() => {
+    requestAnimationFrame(() => {
+      listbottomSheetModalRef.current?.present();
+    });
+  }, []);
+
   useEffect(() => {
     if (!search) return;
     setResults([]);
@@ -204,6 +213,7 @@ const Explore = () => {
             bottomSheetValues={bottomSheetValues}
             setBottomSheetValues={setBottomSheetValues}
             handlePresentModalClose={handlePresentModalClose}
+            handleListPresentModalPress={handleListPresentModalPress}
           />
         </BottomSheetView>
       </BottomSheetModal>
@@ -298,6 +308,10 @@ const Explore = () => {
         />
       )}
       {memoBottomSheet}
+      <CustomBottomSheet
+        bottomSheetModalRef={listbottomSheetModalRef}
+        handleSheetChanges={handleSheetChanges}
+      />
     </View>
   );
 };

@@ -56,7 +56,7 @@ const ExploreBottomSheet = React.memo(
     bottomSheetValues: ExploreBottomSheetProps;
     setBottomSheetValues: Dispatch<SetStateAction<ExploreBottomSheetProps>>;
     handlePresentModalClose: () => void;
-    handleListPresentModalPress: () => void;
+    handleListPresentModalPress?: () => void;
     feed?: boolean;
   }) => {
     const thisYear = new Date().getFullYear();
@@ -322,7 +322,7 @@ const ExploreBottomSheet = React.memo(
     const handleListAction = () => {
       dispatch(modalActions.updateModalType("create_list"));
       handlePresentModalClose();
-      handleListPresentModalPress();
+      handleListPresentModalPress?.();
     };
 
     return (
