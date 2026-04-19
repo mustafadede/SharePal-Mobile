@@ -48,6 +48,7 @@ const Explore = () => {
   const colorScheme = useColorScheme();
   const [nowPlaying, setNowPlaying] = useState<Movie[]>([]);
   const [upcoming, setUpcoming] = useState<Movie[]>([]);
+  const [isSearchActive, setIsSearchActive] = useState(false);
   const [nextYear, setNextYear] = useState<Movie[]>([]);
   const [top10Movies, setTop10Movies] = useState<Movie[]>([]);
   const [top10Series, setTop10Series] = useState<Movie[]>([]);
@@ -116,7 +117,15 @@ const Explore = () => {
 
   const handleSearch = (search: string) => {
     setSearch(search);
+
+    if (!search.trim()) {
+      setIsSearchActive(false);
+      setResults([]);
+      return;
+    }
+
     setLoading(true);
+    setIsSearchActive(true);
 
     if (debounceRef.current) {
       clearTimeout(debounceRef.current);
@@ -129,6 +138,7 @@ const Explore = () => {
   };
 
   useEffect(() => {
+    if (!search) return;
     setResults([]);
     handleSearch(search);
   }, [selectedFilter]);
@@ -236,18 +246,21 @@ const Explore = () => {
       <View className="flex-row">
         <TextInput
           placeholder={t("explore.search")}
-          className="flex-1 px-4 mt-2 mb-2 ml-2 h-12 mr-2 text-lg bg-white dark:bg-slate-800 dark:text-slate-400 rounded-2xl"
+          className="flex-1 mt-2 mb-2 ml-2 h-12 mr-2 text-lg bg-white dark:bg-slate-800 dark:text-slate-400 rounded-2xl"
           placeholderTextColor={Colors.dark.slate600}
           value={search}
           style={{
             borderWidth: colorScheme === "dark" ? 0.5 : 0,
-            textAlign: "center",
+            paddingHorizontal: 16,
           }}
           onChange={(e) => handleSearch(e.nativeEvent.text)}
         />
-        {search.length > 0 && (
+        {isSearchActive && (
           <TouchableOpacity
-            onPress={() => setSearch("")}
+            onPress={() => {
+              setIsSearchActive(false);
+              setSearch("");
+            }}
             className="items-center justify-center mx-2"
           >
             <EvilIcons
@@ -258,7 +271,7 @@ const Explore = () => {
           </TouchableOpacity>
         )}
       </View>
-      {search.length > 0 ? (
+      {isSearchActive ? (
         <Results
           results={results}
           filters={filters}
@@ -269,6 +282,7 @@ const Explore = () => {
         />
       ) : (
         <Animated.FlatList
+          scrollEventThrottle={16}
           data={sections}
           renderItem={renderSection}
           keyExtractor={(_, index) => index.toString()}

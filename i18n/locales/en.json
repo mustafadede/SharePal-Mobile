@@ -163,6 +163,8 @@
   "bloopers.title": "Bloppers",
   "mylist.placeholder": "New list name",
   "mylist.create": "Create",
+  "myList.addtolist": "Add to list",
+  "mylist.removelist": "Remove from list",
   "mylist.edit": "Edit",
   "mylist.editmodal": {
     "title": "Edit List Name",

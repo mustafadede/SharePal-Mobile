@@ -56,9 +56,10 @@ const ListCard = ({
   return (
     <Swipeable
       key={index}
-      enabled={false}
+      enabled={true}
       friction={2}
       rightThreshold={28}
+      onSwipeableOpenStartDrag={() => {}}
       onSwipeableWillOpen={() => {
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
       }}
@@ -66,7 +67,6 @@ const ListCard = ({
     >
       <View className="px-4">
         <TouchableOpacity
-          onLongPress={() => setSwipeEnabled(true)}
           activeOpacity={1}
           className="relative flex-row items-center flex-grow h-24 mt-4 w-full rounded-2xl"
           onPress={onPress}

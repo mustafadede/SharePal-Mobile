@@ -2,7 +2,6 @@ import { PostOptionsBottomSheetProps } from "@/constants/Post";
 import { deleteSelectedPost } from "@/services/firebaseActions";
 import { postsActions } from "@/store/postSlice";
 import { MaterialIcons } from "@expo/vector-icons";
-import Entypo from "@expo/vector-icons/Entypo";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useRouter } from "expo-router";
 import React from "react";
@@ -55,54 +54,6 @@ const PostOptionsBottomSheet = React.memo(
     };
     return (
       <View className="px-5" style={{ gap: 24 }}>
-        {/* Movie-specific */}
-        {bottomSheetValues.mediaType === "movie" &&
-          bottomSheetValues.release_date.slice(0, 4) ===
-            thisYear.toString() && (
-            <TouchableOpacity
-              className={`flex-row items-center justify-between rounded-xl px-4 py-3 ${
-                colorScheme === "dark" ? "bg-slate-600" : "bg-slate-200"
-              }`}
-            >
-              <Text
-                className={`text-base ${
-                  colorScheme === "dark" ? "text-slate-100" : "text-slate-800"
-                }`}
-              >
-                {t("actions.bestmovies")}
-              </Text>
-              <Entypo
-                name="star"
-                size={22}
-                color={colorScheme === "dark" ? "yellow" : "#facc15"}
-              />
-            </TouchableOpacity>
-          )}
-
-        {/* Series-specific */}
-        {bottomSheetValues.mediaType === "tv" &&
-          bottomSheetValues.release_date.slice(0, 4) ===
-            thisYear.toString() && (
-            <TouchableOpacity
-              className={`flex-row items-center justify-between rounded-xl px-4 py-3 ${
-                colorScheme === "dark" ? "bg-slate-600" : "bg-slate-200"
-              }`}
-            >
-              <Text
-                className={`text-base ${
-                  colorScheme === "dark" ? "text-slate-100" : "text-slate-800"
-                }`}
-              >
-                {t("actions.bestseries")}
-              </Text>
-              <Entypo
-                name="star"
-                size={22}
-                color={colorScheme === "dark" ? "yellow" : "#facc15"}
-              />
-            </TouchableOpacity>
-          )}
-
         <View className="w-full flex flex-col gap-3">
           {/* Edit Post */}
           <TouchableOpacity

@@ -1,3 +1,4 @@
+import CustomBottomSheet from "@/common/CustomBottomSheet";
 import ShareDetailShare from "@/common/ShareDetailShare";
 import ExploreBottomSheet from "@/components/ExploreBottomSheet/ExploreBottomSheet";
 import BlooperSection from "@/components/SearchDetail/BloopersSection";
@@ -60,6 +61,7 @@ const searchdetail = () => {
     "overview",
   );
   const [socialFetched, setSocialFetched] = useState(false);
+  const listbottomSheetModalRef = useRef<BottomSheetModal>(null);
   const [bottomSheetValues, setBottomSheetValues] =
     useState<ExploreBottomSheetProps>({
       title: title,
@@ -197,6 +199,12 @@ const searchdetail = () => {
   const SnapPoints = useMemo(() => ["25%", "45%"], []);
   const handlePresentModalPress = useCallback(() => {
     BottomSheetModalRef.current?.present();
+  }, []);
+
+  const handleListPresentModalPress = useCallback(() => {
+    requestAnimationFrame(() => {
+      listbottomSheetModalRef.current?.present();
+    });
   }, []);
 
   const handleSheetChanges = useCallback((index: number) => {}, []);
@@ -340,9 +348,14 @@ const searchdetail = () => {
             bottomSheetValues={bottomSheetValues}
             setBottomSheetValues={setBottomSheetValues}
             handlePresentModalClose={handlePresentModalClose}
+            handleListPresentModalPress={handleListPresentModalPress}
           />
         </BottomSheetView>
       </BottomSheetModal>
+      <CustomBottomSheet
+        bottomSheetModalRef={listbottomSheetModalRef}
+        handleSheetChanges={handleSheetChanges}
+      />
     </View>
   );
 };

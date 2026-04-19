@@ -12,11 +12,15 @@ import {
   updateWatched,
 } from "@/services/firebaseActions";
 import { RootState } from "@/store";
+import { createPostsActions } from "@/store/createpostSlice";
+import { modalActions } from "@/store/modalSlice";
 import { profileActions } from "@/store/profileSlice";
 import { shareSearchDetailActions } from "@/store/shareSearchDetail";
+import { Feather } from "@expo/vector-icons";
 import Entypo from "@expo/vector-icons/Entypo";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { router } from "expo-router";
 import React, { Dispatch, SetStateAction, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -46,11 +50,13 @@ const ExploreBottomSheet = React.memo(
     bottomSheetValues,
     setBottomSheetValues,
     handlePresentModalClose,
+    handleListPresentModalPress,
     feed,
   }: {
     bottomSheetValues: ExploreBottomSheetProps;
     setBottomSheetValues: Dispatch<SetStateAction<ExploreBottomSheetProps>>;
     handlePresentModalClose: () => void;
+    handleListPresentModalPress: () => void;
     feed?: boolean;
   }) => {
     const thisYear = new Date().getFullYear();
@@ -112,8 +118,6 @@ const ExploreBottomSheet = React.memo(
             ...prev,
             wanttowatch: !prev.wanttowatch,
           }));
-          handlePresentModalClose();
-
           toast(res ? t("actions.updated") : t("actions.notupdated"), {
             duration: 3000,
             closeButton: true,
@@ -177,7 +181,6 @@ const ExploreBottomSheet = React.memo(
             ...prev,
             watched: !prev.watched,
           }));
-          handlePresentModalClose();
           if (bottomSheetValues.mediaType === "movie") {
             dispatch(profileActions.incrementTotalFilms());
           } else {
@@ -251,8 +254,6 @@ const ExploreBottomSheet = React.memo(
             ...prev,
             unfinished: !prev.unfinished,
           }));
-          handlePresentModalClose();
-
           toast(res ? t("actions.updated") : t("actions.notupdated"), {
             duration: 3000,
             closeButton: true,
@@ -302,8 +303,30 @@ const ExploreBottomSheet = React.memo(
         });
       }
     };
+
+    const handleCreatePostAction = () => {
+      dispatch(
+        createPostsActions.createPostAttachment({
+          id: bottomSheetValues.id,
+          backdrop: bottomSheetValues.poster_path,
+          poster: bottomSheetValues.poster_path,
+          title: bottomSheetValues.title,
+          mediaType: bottomSheetValues.mediaType.toLocaleLowerCase(),
+          releaseDate: bottomSheetValues.release_date,
+        }),
+      );
+      handlePresentModalClose();
+      router.push("/createpost");
+    };
+
+    const handleListAction = () => {
+      dispatch(modalActions.updateModalType("create_list"));
+      handlePresentModalClose();
+      handleListPresentModalPress();
+    };
+
     return (
-      <View className="px-5 pb-40" style={{ gap: 24 }}>
+      <View className="px-5 pb-40" style={{ gap: 20 }}>
         {feed ? (
           <View className="w-full h-24 border border-slate-400 rounded-2xl overflow-hidden">
             <ImageBackground
@@ -340,9 +363,9 @@ const ExploreBottomSheet = React.memo(
             </Text>
           </View>
         )}
-
         {/* Movie-specific */}
-        {bottomSheetValues.mediaType === "movie" &&
+        {!feed &&
+          bottomSheetValues.mediaType === "movie" &&
           bottomSheetValues.release_date?.slice(0, 4) ===
             thisYear.toString() && (
             <TouchableOpacity className="flex-row items-center justify-between bg-slate-600 rounded-xl px-4 py-3">
@@ -353,7 +376,8 @@ const ExploreBottomSheet = React.memo(
             </TouchableOpacity>
           )}
 
-        {bottomSheetValues.mediaType === "tv" &&
+        {!feed &&
+          bottomSheetValues.mediaType === "tv" &&
           bottomSheetValues.release_date?.slice(0, 4) ===
             thisYear.toString() && (
             <TouchableOpacity className="flex-row items-center justify-between bg-slate-600 rounded-xl px-4 py-3">
@@ -366,6 +390,38 @@ const ExploreBottomSheet = React.memo(
         {shareSearchDetail.shareStatus === "loading" && <StatusLabel />}
         {shareSearchDetail.shareStatus === "done" && (
           <View className="w-full flex flex-col gap-3">
+            {!feed && (
+              <View className="h-20 flex-1 flex-row gap-4">
+                <TouchableOpacity
+                  onPress={handleCreatePostAction}
+                  className="border border-black rounded-2xl flex-1 items-center justify-center dark:border-white/10 bg-white dark:bg-white/5"
+                >
+                  <Ionicons
+                    name="create-outline"
+                    size={30}
+                    style={{ transform: [{ translateX: 2 }] }}
+                    color={colorScheme === "dark" ? "#f8fafc" : "black"}
+                  />
+                  <Text className="text-md dark:text-slate-100 mt-1">
+                    {t("createpost.title")}
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={handleListAction}
+                  className="border border-black rounded-2xl flex-1 items-center justify-center dark:border-white/10 bg-white dark:bg-white/5"
+                >
+                  <Feather
+                    name="plus"
+                    size={32}
+                    color={colorScheme === "dark" ? "#f8fafc" : "black"}
+                  />
+
+                  <Text className="text-md dark:text-slate-100 mt-1">
+                    {t("myList.addtolist")}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            )}
             {/* Want to Watch */}
             <TouchableOpacity
               onPress={() => updateWantToWatchStatus()}
@@ -413,7 +469,6 @@ const ExploreBottomSheet = React.memo(
                     title: bottomSheetValues.title,
                   },
                 }).then((res) => {
-                  handlePresentModalClose();
                   dispatch(
                     profileActions.updateCurrentlyWatching({
                       poster: bottomSheetValues.poster_path,

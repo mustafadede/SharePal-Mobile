@@ -57,25 +57,6 @@ export default function ProfileLayout() {
         }}
       />
       <Stack.Screen
-        name="usersuggest"
-        options={{
-          title: t("profile.suggestusertitle"),
-          sheetElevation: 0,
-          headerStyle: {
-            backgroundColor:
-              colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
-          },
-          contentStyle: {
-            backgroundColor:
-              colorScheme === "dark" ? Colors.dark.cGradient2 : "#f2f2f2",
-          },
-          headerShadowVisible: false,
-          headerTintColor:
-            colorScheme === "dark" ? Colors.dark.cWhite : "black",
-          headerBackTitle: t("headerbacktitle.title"),
-        }}
-      />
-      <Stack.Screen
         name="list/[list]/index"
         options={{
           headerStyle: {
