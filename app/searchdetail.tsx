@@ -355,6 +355,7 @@ const searchdetail = () => {
       <CustomBottomSheet
         bottomSheetModalRef={listbottomSheetModalRef}
         handleSheetChanges={handleSheetChanges}
+        updateListCheckbox={true}
       />
     </View>
   );

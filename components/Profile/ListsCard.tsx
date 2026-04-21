@@ -6,7 +6,6 @@ import { profileActions } from "@/store/profileSlice";
 import { userProfileActions } from "@/store/userProfileSlice";
 import { AntDesign } from "@expo/vector-icons";
 import Feather from "@expo/vector-icons/Feather";
-import Ionicons from "@expo/vector-icons/Ionicons";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import * as Haptics from "expo-haptics";
 import { router } from "expo-router";
@@ -106,18 +105,6 @@ const ListsCard = ({
               className="ml-4 justify-center px-6 items-center rounded-xl"
             >
               <Feather name="edit-3" size={21} color={Colors.dark.cFuc6} />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                router.navigate("/explore");
-              }}
-              className="ml-4 justify-center px-6 items-center rounded-xl"
-            >
-              <Ionicons
-                name="add-outline"
-                size={28}
-                color={Colors.dark.cFuc6}
-              />
             </TouchableOpacity>
           </>
         )}

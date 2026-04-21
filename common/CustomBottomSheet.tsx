@@ -16,10 +16,12 @@ const CustomBottomSheet = ({
   handleSheetChanges,
   bottomSheetModalRef,
   snaps = ["50%", "85%"],
+  updateListCheckbox,
 }: {
   handleSheetChanges: (index: number) => void;
   bottomSheetModalRef: React.RefObject<BottomSheetModal | null>;
   snaps?: string[];
+  updateListCheckbox?: boolean;
 }) => {
   const colorScheme = useColorScheme();
   const { modalType } = useSelector((state: RootState) => state.modal);
@@ -57,6 +59,7 @@ const CustomBottomSheet = ({
       index={isKeyboardVisible ? 2 : 1}
       snapPoints={snapPoints}
       onChange={handleSheetChanges}
+      enablePanDownToClose={true}
       backdropComponent={(props) => (
         <BottomSheetBackdrop
           {...props}
@@ -100,7 +103,10 @@ const CustomBottomSheet = ({
         )}
         {modalType === "attach" && <AttachModal />} */}
         {modalType === "create_list" && (
-          <MyListModal bottomSheetModalRef={bottomSheetModalRef} />
+          <MyListModal
+            bottomSheetModalRef={bottomSheetModalRef}
+            updateListCheckbox={updateListCheckbox}
+          />
         )}
         {modalType === "edit_post" && <PostEditBottomSheet />}
       </BottomSheetView>

@@ -320,8 +320,8 @@ const ExploreBottomSheet = React.memo(
     };
 
     const handleListAction = () => {
-      dispatch(modalActions.updateModalType("create_list"));
       handlePresentModalClose();
+      dispatch(modalActions.updateModalType("create_list"));
       handleListPresentModalPress?.();
     };
 

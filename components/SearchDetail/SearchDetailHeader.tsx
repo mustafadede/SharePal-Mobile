@@ -42,7 +42,7 @@ const SearchDetailHeader = ({
 
   return (
     <View
-      className={`"w-full h-[390px] dark:bg-cGradient2 ${title.length > 32 ? "mb-12" : "mb-6"}`}
+      className={`"w-full h-[390px] dark:bg-cGradient2 ${title.length > 32 ? "mb-10" : "mb-6"}`}
     >
       <Animated.View
         className="w-full absolute z-0 overflow-hidden"
@@ -87,12 +87,12 @@ const SearchDetailHeader = ({
       </Animated.View>
 
       {/* TITLE + DATE + MEDIATYPE */}
-      <Animated.View className="pt-4 items-center">
+      <Animated.View className="relative top-7 items-center">
         <Text className="text-2xl w-96 font-semibold text-center text-slate-800 dark:text-cFuchsia400 mb-1">
           {title}
         </Text>
 
-        <View className="flex-row justify-center items-center gap-2">
+        <View className="flex-row relative top-2 justify-center items-center gap-2">
           <Text className="text-base text-slate-600 dark:text-slate-300">
             {newDate}
           </Text>

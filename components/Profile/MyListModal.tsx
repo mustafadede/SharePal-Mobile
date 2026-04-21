@@ -6,7 +6,7 @@ import { userProfileActions } from "@/store/userProfileSlice";
 import {
   AntDesign,
   Feather,
-  Ionicons,
+  FontAwesome,
   MaterialIcons,
 } from "@expo/vector-icons";
 import {
@@ -14,6 +14,7 @@ import {
   BottomSheetTextInput,
   BottomSheetView,
 } from "@gorhom/bottom-sheet";
+import { Checkbox } from "expo-checkbox";
 import * as Haptics from "expo-haptics";
 import { useRouter } from "expo-router";
 import React, { useCallback, useEffect, useState } from "react";
@@ -30,13 +31,16 @@ import {
 import { FlatList } from "react-native-gesture-handler";
 import Swipeable from "react-native-gesture-handler/ReanimatedSwipeable";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "sonner-native";
 import { ListItem } from "../Profile/ListsCard";
 import StatusLabel from "../StatusLabel/StatusLabel";
 
 const MyListModal = ({
   bottomSheetModalRef,
+  updateListCheckbox = false,
 }: {
   bottomSheetModalRef: React.RefObject<BottomSheetModal | null>;
+  updateListCheckbox?: boolean;
 }) => {
   const colorScheme = useColorScheme();
   const { t } = useTranslation();
@@ -47,6 +51,8 @@ const MyListModal = ({
   const [editTitle, setEditTitle] = useState("");
   const profile = useSelector((state: RootState) => state.profile);
   const [loading, setLoading] = useState(true);
+  const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>({});
+
   const handleSearch = (text: string) => {
     setSearch(text);
   };
@@ -61,77 +67,139 @@ const MyListModal = ({
 
   const router = useRouter();
 
-  const renderItem = useCallback(({ item }: { item: ListItem }) => {
-    return (
-      <Swipeable
-        onSwipeableWillOpen={() => {
-          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
-        }}
-        renderRightActions={() => (
-          <>
-            <TouchableOpacity
-              onPress={() => {
-                // Handle delete action here
-              }}
-              className="ml-4 justify-center px-6 items-center rounded-xl"
+  const renderItem = useCallback(
+    ({ item }: { item: ListItem }) => {
+      return (
+        <Swipeable
+          onSwipeableWillOpen={() => {
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
+          }}
+          renderRightActions={() => (
+            <>
+              <TouchableOpacity
+                onPress={() => {
+                  // Handle delete action here
+                }}
+                className="ml-4 justify-center px-6 items-center rounded-xl"
+              >
+                <MaterialIcons name="delete" size={23} color="#b91c1c" />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  setEditItem(item);
+                  setEditTitle(item.title);
+                  setEditModalVisible(true);
+                }}
+                className="ml-4 justify-center px-6 items-center rounded-xl"
+              >
+                <Feather name="edit-3" size={21} color={Colors.dark.cFuc6} />
+              </TouchableOpacity>
+            </>
+          )}
+          friction={2}
+          rightThreshold={40}
+        >
+          <TouchableOpacity
+            activeOpacity={1}
+            onPress={() => {
+              if (!updateListCheckbox) {
+                router.navigate({
+                  pathname: "/profile/[list]",
+                  params: { list: item.title, id: item.id },
+                });
+              } else {
+                Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
+                setCheckedItems((prev) => ({
+                  ...prev,
+                  [item.title]: !prev[item.title],
+                }));
+                !checkedItems[item.title] &&
+                  toast(t("myList.added"), {
+                    duration: 3000,
+                    icon: (
+                      <FontAwesome
+                        name="bookmark"
+                        size={20}
+                        color={colorScheme === "dark" ? "#f8fafc" : "black"}
+                      />
+                    ),
+                    style: {
+                      backgroundColor: "transparent",
+                      borderWidth: 1,
+                      borderColor: "rgba(255,255,255,0.1)",
+                      paddingVertical: 10,
+                      paddingHorizontal: 14,
+                      borderRadius: 14,
+                    },
+                  });
+              }
+            }}
+            className="py-2 mx-4 px-4 border bg-white dark:bg-slate-950 flex-row justify-between border-slate-200 dark:border-slate-200/10 rounded-xl my-1 pt-4 pb-4"
+          >
+            <Text
+              className={`text-base ${
+                colorScheme === "dark" ? "text-slate-100" : "text-slate-800"
+              }`}
             >
-              <MaterialIcons name="delete" size={23} color="#b91c1c" />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                setEditItem(item);
-                setEditTitle(item.title);
-                setEditModalVisible(true);
-              }}
-              className="ml-4 justify-center px-6 items-center rounded-xl"
-            >
-              <Feather name="edit-3" size={21} color={Colors.dark.cFuc6} />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                router.navigate("/explore");
-              }}
-              className="ml-4 justify-center px-6 items-center rounded-xl"
-            >
-              <Ionicons
-                name="add-outline"
-                size={28}
+              {item.title}
+            </Text>
+            {item.isPinned && !updateListCheckbox && (
+              <MaterialIcons
+                name="push-pin"
+                size={18}
                 color={Colors.dark.cFuc6}
               />
-            </TouchableOpacity>
-          </>
-        )}
-        friction={2}
-        rightThreshold={40}
-      >
-        <TouchableOpacity
-          activeOpacity={1}
-          onPress={() =>
-            router.push({
-              pathname: "/profile/[list]",
-              params: { list: item.title, id: item.id },
-            })
-          }
-          className="py-2 mx-4 px-4 border bg-white dark:bg-slate-950 flex-row justify-between border-slate-200 dark:border-slate-200/10 rounded-xl my-1 pt-4 pb-4"
-        >
-          <Text
-            className={`text-base ${
-              colorScheme === "dark" ? "text-slate-100" : "text-slate-800"
-            }`}
-          >
-            {item.title}
-          </Text>
-          {item.isPinned && (
-            <MaterialIcons
-              name="push-pin"
-              size={18}
-              color={Colors.dark.cFuc6}
-            />
-          )}
-        </TouchableOpacity>
-      </Swipeable>
-    );
-  }, []);
+            )}
+            {updateListCheckbox && (
+              <View className="flex-row items-center">
+                <Checkbox
+                  value={checkedItems[item.title]}
+                  className="border-fuchsia-600 p-2"
+                  color={
+                    checkedItems[item.title] ? Colors.dark.cFuc6 : undefined
+                  }
+                  style={{
+                    borderRadius: 50,
+                    backgroundColor: checkedItems[item.title]
+                      ? Colors.dark.cFuc6
+                      : "transparent",
+                    borderColor: Colors.dark.cFuc6,
+                  }}
+                  onValueChange={(value) => {
+                    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
+                    setCheckedItems((prev) => ({
+                      ...prev,
+                      [item.title]: value,
+                    }));
+                    !checkedItems[item.title] &&
+                      toast(t("myList.added"), {
+                        duration: 3000,
+                        icon: (
+                          <FontAwesome
+                            name="bookmark"
+                            size={20}
+                            color={colorScheme === "dark" ? "#f8fafc" : "black"}
+                          />
+                        ),
+                        style: {
+                          backgroundColor: "transparent",
+                          borderWidth: 1,
+                          borderColor: "rgba(255,255,255,0.1)",
+                          paddingVertical: 10,
+                          paddingHorizontal: 14,
+                          borderRadius: 14,
+                        },
+                      });
+                  }}
+                />
+              </View>
+            )}
+          </TouchableOpacity>
+        </Swipeable>
+      );
+    },
+    [checkedItems, updateListCheckbox],
+  );
 
   useEffect(() => {
     if (editModalVisible) {
@@ -151,6 +219,13 @@ const MyListModal = ({
 
       dispatch(profileActions.initilizeLists(list));
       dispatch(profileActions.setStatus("done"));
+      setCheckedItems((prev) => {
+        const newCheckedItems: Record<string, boolean> = {};
+        profile?.lists.forEach((item) => {
+          newCheckedItems[item.title] = prev[item.title] || false;
+        });
+        return newCheckedItems;
+      });
       setLoading(false);
     };
 
@@ -295,7 +370,7 @@ const MyListModal = ({
           </View>
         </View>
       </Modal>
-      <View className="flex flex-row gap-4 px-4 items-center">
+      <View className="flex flex-row gap-4 px-5 items-center">
         <BottomSheetTextInput
           placeholder={t("mylist.placeholder")}
           value={search}
@@ -309,7 +384,7 @@ const MyListModal = ({
             borderRadius: 12,
             height: 48,
             width: "80%",
-            padding: 12,
+            paddingHorizontal: 12,
             color: Colors.dark.cWhite,
           }}
           placeholderTextColor={Colors.dark.icon}

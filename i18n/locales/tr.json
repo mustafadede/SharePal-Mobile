@@ -164,6 +164,7 @@
   "mylist.placeholder": "Yeni liste ismi",
   "mylist.create": "Oluştur",
   "myList.addtolist": "Listeye ekle",
+  "myList.added": "Seçilen listeye eklendi",
   "mylist.removelist": "Listeden çıkar",
   "mylist.save": "Düzenlemeyi kaydet",
   "mylist.editmodal": {
